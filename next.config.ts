@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: '/mcp/demo',
+  /* config options here */
 };
 
 export default nextConfig;
