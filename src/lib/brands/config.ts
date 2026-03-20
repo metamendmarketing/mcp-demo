@@ -36,8 +36,8 @@ export const BRANDS: Record<BrandId, BrandConfig> = {
       primary: '#1a365d', // Deep blue
       secondary: '#2d3748',
       accent: '#3182ce',
-      logoUrl: '/brands/marquis/logo.svg',
-      heroImage: '/brands/marquis/hero.jpg',
+      logoUrl: '/mcp/demo/brands/marquis/logo.svg',
+      heroImage: '/mcp/demo/brands/marquis/hero.jpg',
     },
     copy: {
       heroTitle: 'The Ultimate Hot Tub Experience',
@@ -59,8 +59,8 @@ export const BRANDS: Record<BrandId, BrandConfig> = {
       primary: '#2c5282',
       secondary: '#2b6cb0',
       accent: '#4299e1',
-      logoUrl: '/brands/artesian/logo.svg',
-      heroImage: '/brands/artesian/hero.jpg',
+      logoUrl: '/mcp/demo/brands/artesian/logo.svg',
+      heroImage: '/mcp/demo/brands/artesian/hero.jpg',
     },
     copy: {
       heroTitle: 'Experience the Artesian Difference',
@@ -82,8 +82,8 @@ export const BRANDS: Record<BrandId, BrandConfig> = {
       primary: '#2d3748',
       secondary: '#4a5568',
       accent: '#718096',
-      logoUrl: '/brands/nordic/logo.svg',
-      heroImage: '/brands/nordic/hero.jpg',
+      logoUrl: '/mcp/demo/brands/nordic/logo.svg',
+      heroImage: '/mcp/demo/brands/nordic/hero.jpg',
     },
     copy: {
       heroTitle: 'Simple, Reliable, Effective',
@@ -105,8 +105,8 @@ export const BRANDS: Record<BrandId, BrandConfig> = {
       primary: '#2b6cb0',
       secondary: '#2c5282',
       accent: '#3182ce',
-      logoUrl: '/brands/tropic-seas/logo.svg',
-      heroImage: '/brands/tropic-seas/hero.jpg',
+      logoUrl: '/mcp/demo/brands/tropic-seas/logo.svg',
+      heroImage: '/mcp/demo/brands/tropic-seas/hero.jpg',
     },
     copy: {
       heroTitle: 'Paradise in Your Backyard',
