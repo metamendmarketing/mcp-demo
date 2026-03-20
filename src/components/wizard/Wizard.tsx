@@ -38,7 +38,7 @@ export default function Wizard() {
     const activeSeating = overrideSeating || seating;
     setLoading(true);
     try {
-      const res = await fetch('/api/recommend', {
+      const res = await fetch('/mcp/demo/api/recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -66,8 +66,8 @@ export default function Wizard() {
   };
 
   const getHeroImage = (modelCode: string) => {
-    if (modelCode.includes('V150')) return '/assets/v150_hero.png';
-    if (modelCode.includes('V174')) return '/assets/v174_hero.png';
+    if (modelCode.includes('V150')) return '/mcp/demo/assets/v150_hero.png';
+    if (modelCode.includes('V174')) return '/mcp/demo/assets/v174_hero.png';
     return null;
   };
 
@@ -83,7 +83,7 @@ export default function Wizard() {
 
   if (step === 'intro') {
     return (
-      <div className="flex flex-col h-full bg-[url('/assets/intro_bg.png')] bg-cover bg-center relative overflow-hidden animate-slick-reveal">
+      <div className="flex flex-col h-full bg-[url('/mcp/demo/assets/intro_bg.png')] bg-cover bg-center relative overflow-hidden animate-slick-reveal">
          <div className="absolute inset-0 bg-slate-900/50" />
          <div className="p-8 pb-16 md:p-16 flex flex-col items-center justify-center text-center relative z-10 flex-grow min-h-[500px]">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase text-white mb-6 leading-[1.1] drop-shadow-xl max-w-2xl">
@@ -126,9 +126,9 @@ export default function Wizard() {
         <div className="p-6 md:p-10 flex-grow">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              { id: 'therapy', title: 'THERAPY & HEALING', desc: 'Meticulous hydrotherapy and orthopedic recovery powered by V-O-L-T™ flow management.', icon: <Heart className="w-6 h-6" />, img: '/assets/therapy_premium.png' },
-              { id: 'recreational', title: 'QUALITY TIME', desc: 'Extraordinary social environments designed for family connection and refined leisure.', icon: <Users className="w-6 h-6" />, img: '/assets/recreation_premium.png' },
-              { id: 'fitness', title: 'RELAXATION', desc: 'Create your ultimate oasis for stress relief and world-class quietude.', icon: <Sparkles className="w-6 h-6" />, img: '/assets/fitness_premium.png' }
+              { id: 'therapy', title: 'THERAPY & HEALING', desc: 'Meticulous hydrotherapy and orthopedic recovery powered by V-O-L-T™ flow management.', icon: <Heart className="w-6 h-6" />, img: '/mcp/demo/assets/therapy_premium.png' },
+              { id: 'recreational', title: 'QUALITY TIME', desc: 'Extraordinary social environments designed for family connection and refined leisure.', icon: <Users className="w-6 h-6" />, img: '/mcp/demo/assets/recreation_premium.png' },
+              { id: 'fitness', title: 'RELAXATION', desc: 'Create your ultimate oasis for stress relief and world-class quietude.', icon: <Sparkles className="w-6 h-6" />, img: '/mcp/demo/assets/fitness_premium.png' }
             ].map((item, i) => (
               <button
                 key={i}
@@ -170,9 +170,9 @@ export default function Wizard() {
 
   if (step === 'seating') {
     const capacities = [
-       { id: '2+', title: 'Intimate Retreat', desc: '2-3 Adults', img: '/assets/therapy_premium.png' },
-       { id: '4+', title: 'Family Focus', desc: '4-5 Adults', img: '/assets/recreation_premium.png' },
-       { id: '6+', title: 'Ultimate Entertainment', desc: '6+ Adults', img: '/assets/fitness_premium.png' }
+       { id: '2+', title: 'Intimate Retreat', desc: '2-3 Adults', img: '/mcp/demo/assets/therapy_premium.png' },
+       { id: '4+', title: 'Family Focus', desc: '4-5 Adults', img: '/mcp/demo/assets/recreation_premium.png' },
+       { id: '6+', title: 'Ultimate Entertainment', desc: '6+ Adults', img: '/mcp/demo/assets/fitness_premium.png' }
     ];
 
     return (
