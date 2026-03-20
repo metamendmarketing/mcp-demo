@@ -6,7 +6,7 @@ async function main() {
     const products = await prisma.product.findMany();
     console.log(`Success! Found ${products.length} products.`);
     if (products.length > 0) {
-      console.log('First product name:', products[0].name);
+      console.log('First product name:', products[0].modelName);
     }
   } catch (error: any) {
     console.error('Prisma query failed:', error);
