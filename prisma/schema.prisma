@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Brand {
+  id          String            @id @default(cuid())
+  name        String
+  domain      String            @unique
+  logoUrl     String?
+  themeConfig Json
+  active      Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  dealers     Dealer[]
+  glossary    FeatureGlossary[]
+  leads       Lead[]
+  products    Product[]
+  series      Series[]
+}
+
+model Series {
+  id              String    @id @default(cuid())
+  brandId         String
+  name            String
+  category        String
+  positioningTier String?
+  description     String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  products        Product[]
+  brand           Brand     @relation(fields: [brandId], references: [id])
+}
+
+model Product {
+  id                String    @id @default(cuid())
+  brandId           String
+  seriesId          String
+  modelName         String
+  slug              String    @unique
+  status            String    @default("active")
+  heroImageUrl      String?
+  seatsMin          Int?
+  seatsMax          Int?
+  loungeCount       Int       @default(0)
+  jetCount          Int?
+  capacityGallons   Int?
+  dryWeightLbs      Int?
+  lengthIn          Float?
+  widthIn           Float?
+  depthIn           Float?
+  voltageOptions    Json?
+  amperage          String?
+  heaterKw          String?
+  pumpConfig        Json?
+  filtration        Json?
+  insulationType    String?
+  warranty          Json?
+  standardFeatures  Json      @default("[]")
+  optionalFeatures  Json      @default("[]")
+  shellColors       Json      @default("[]")
+  cabinetColors     Json      @default("[]")
+  marketingSummary  String?
+  therapySummary    String?
+  usageTags         Json      @default("[]")
+  sourceUrl         String?
+  sourceLastSeenAt  DateTime?
+  completenessScore Float     @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  series            Series    @relation(fields: [seriesId], references: [id])
+  brand             Brand     @relation(fields: [brandId], references: [id])
+}
+
+model FeatureGlossary {
+  id                  String   @id @default(cuid())
+  brandId             String?
+  term                String
+  consumerExplanation String
+  approvedClaims      Json?    @default("[]")
+  prohibitedClaims    Json?    @default("[]")
+  relatedFeatures     Json?    @default("[]")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  brand               Brand?   @relation(fields: [brandId], references: [id])
+
+  @@unique([brandId, term])
+}
+
+model Dealer {
+  id            String   @id @default(cuid())
+  brandId       String
+  dealerName    String
+  address       String
+  city          String
+  stateProvince String
+  postalCode    String
+  country       String
+  lat           Float?
+  lng           Float?
+  phone         String?
+  email         String?
+  website       String?
+  source        String?
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  brand         Brand    @relation(fields: [brandId], references: [id])
+  leads         Lead[]
+}
+
+model Lead {
+  id                 String   @id @default(cuid())
+  brandId            String
+  dealerId           String?
+  sessionId          String   @unique
+  answers            Json
+  rankedProducts     Json
+  selectedProductIds Json
+  transcriptSummary  String?
+  userContact        Json
+  consent            Json
+  createdAt          DateTime @default(now())
+  dealer             Dealer?  @relation(fields: [dealerId], references: [id])
+  brand              Brand    @relation(fields: [brandId], references: [id])
+}
+
+model ConversationEvent {
+  id              String   @id @default(cuid())
+  sessionId       String
+  role            String
+  message         String
+  groundedSources Json?
+  promptVersion   String?
+  modelVersion    String?
+  createdAt       DateTime @default(now())
+
+  @@index([sessionId])
+}

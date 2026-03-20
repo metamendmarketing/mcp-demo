@@ -1,65 +1,84 @@
-import Image from "next/image";
+import Wizard from "@/components/wizard/Wizard";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-[#f5f7fa] text-[#1e293b] font-sans">
+      {/* Official Marquis Header */}
+      <header className="w-full bg-[#181818] py-4 border-b border-white/5 sticky top-0 z-[100]">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+          <div className="flex items-center gap-8 group cursor-pointer">
+             <img src="/assets/marquis_logo.png" alt="Marquis" className="h-10 md:h-12 w-auto object-contain hover:scale-105 transition-transform duration-500" />
+             <div className="hidden lg:flex flex-col text-[9px] uppercase font-black tracking-[0.2em] text-white/50 border-l border-white/20 pl-8 h-10 justify-center leading-tight">
+               <span>The Ultimate</span>
+               <span>Hot Tub</span>
+               <span>Experience®</span>
+             </div>
+          </div>
+          
+          <nav className="hidden xl:flex items-center gap-12 text-[11px] uppercase font-black tracking-[0.1em] text-white">
+            <span className="hover:text-marquis-green cursor-pointer transition-colors leading-tight text-center">Hot<br/>Tubs</span>
+            <span className="hover:text-marquis-green cursor-pointer transition-colors leading-tight text-center">Swim<br/>Spas</span>
+            <span className="hover:text-marquis-green cursor-pointer transition-colors leading-tight text-center">Options &<br/>Accessories</span>
+            <span className="hover:text-marquis-green cursor-pointer transition-colors tracking-[0.2em] ml-8">Dealers</span>
+            <span className="hover:text-marquis-green cursor-pointer transition-colors flex items-center gap-2">Menu <span className="text-lg leading-none">☰</span></span>
+          </nav>
+
+          <div className="flex gap-4">
+            <button className="bg-[#88a65e] px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white hover:brightness-110 active:scale-95 transition-all leading-tight text-center">
+              Find<br/>Dealer
+            </button>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      {/* Subheader / Breadcrumbs */}
+      <div className="w-full bg-white/80 backdrop-blur-sm border-b border-slate-200 py-6">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex gap-3 overflow-x-auto whitespace-nowrap italic">
+          <span className="hover:text-marquis-blue cursor-pointer">Home</span> <span className="text-slate-300">/</span>
+          <span className="hover:text-marquis-blue cursor-pointer">Products</span> <span className="text-slate-300">/</span>
+          <span className="text-marquis-blue">Buying Assistant</span>
         </div>
-      </main>
-    </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10">
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 relative">
+           {/* Primary Content Area */}
+           <Wizard />
+        </div>
+      </div>
+
+      {/* Corporate Footer */}
+      <footer className="w-full bg-[#0a0a0a] py-12 mt-10 border-t border-white/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-12 grid grid-cols-1 md:grid-cols-4 gap-20 relative z-10">
+          <div className="col-span-2">
+            <img src="/assets/marquis_logo.png" alt="Marquis" className="h-10 mb-8 opacity-80" />
+            <p className="text-zinc-500 text-xs font-medium leading-relaxed max-w-sm italic">
+              Marquis® is an employee-owned company that manufactures extraordinary hot tubs and swim spas in Nevada, USA. 
+              Meticulous refinement and obsessive attention to detail for the ultimate hydration experience.
+            </p>
+          </div>
+          <div>
+             <h4 className="text-white font-black text-[10px] uppercase tracking-[0.3em] mb-10 italic">Digital Connection</h4>
+             <div className="flex flex-col gap-6 text-zinc-500 text-[10px] font-black uppercase tracking-widest">
+                <span className="hover:text-white cursor-pointer transition-colors">Facebook Protocol</span>
+                <span className="hover:text-white cursor-pointer transition-colors">Instagram Insights</span>
+             </div>
+          </div>
+          <div>
+             <h4 className="text-white font-black text-[10px] uppercase tracking-[0.3em] mb-10 italic">Ownership Care</h4>
+             <ul className="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-black space-y-5">
+                <li className="hover:text-white cursor-pointer transition-colors">Warranty & Registration</li>
+                <li className="hover:text-white cursor-pointer transition-colors">Operations Manuals</li>
+                <li className="hover:text-white cursor-pointer transition-colors">Contact Engineering</li>
+             </ul>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-12 mt-20 pt-10 border-t border-white/5 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 italic">
+          <span>© 2024 Marquis Spas. All Rights Reserved.</span>
+          <span>Crafted in Nevada, USA</span>
+        </div>
+      </footer>
+    </main>
   );
 }
