@@ -1,3 +1,4 @@
+// BUG_HUNT_MARKER_DA7CAA9
 generator client {
   provider = "prisma-client-js"
 }
