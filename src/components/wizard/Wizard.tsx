@@ -398,7 +398,7 @@ export default function Wizard() {
                     key={opt.value}
                     onClick={() => {
                       updatePreference(q.id, opt.value);
-                      setTimeout(nextQuestion, 400);
+                      setTimeout(nextQuestion, 150);
                     }}
                     className={cn(
                       "group relative bg-white rounded-2xl border-2 p-6 text-left transition-all shadow-sm hover:shadow-md",
@@ -442,7 +442,7 @@ export default function Wizard() {
                       key={opt.value}
                       onClick={() => {
                         updatePreference(q.id, opt.value);
-                        setTimeout(nextQuestion, 400);
+                        setTimeout(nextQuestion, 150);
                       }}
                       className={cn(
                         "w-full flex items-center justify-between p-6 bg-white rounded-2xl border-2 transition-all group",
@@ -648,12 +648,12 @@ export default function Wizard() {
           <div className="lg:col-span-7 space-y-12">
             {/* Interactive Feature Map */}
             {product.overheadImageUrl && (
-              <section className="bg-white p-6 rounded-[40px] shadow-xl border border-slate-100 overflow-hidden">
+              <section className="bg-white p-6 rounded-[40px] shadow-xl border border-slate-100">
                 <h4 className="text-xl font-black italic uppercase text-slate-900 mb-6 px-4">Interactive Feature Map</h4>
-                <div className="relative aspect-square md:aspect-video rounded-3xl overflow-hidden bg-slate-100 group">
+                <div className="relative aspect-square md:aspect-video rounded-3xl bg-slate-100 group">
                   <img 
                     src={product.overheadImageUrl} 
-                    className="w-full h-full object-contain" 
+                    className="w-full h-full object-contain rounded-3xl" 
                     alt="Overhead View" 
                   />
                   
