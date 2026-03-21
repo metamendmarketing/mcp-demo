@@ -42,16 +42,18 @@ CRITICAL NEGATIVE CONSTRAINTS (DO NOT DO THIS):
 
 CRITICAL POSITIVE INSTRUCTIONS (DO THIS INSTEAD):
 - Write evocative, confident, prescriptive luxury copy. 
-- Deeply integrate their preferences seamlessly. If their focus is "Legs and Feet", simply describe the tub's features as if it was built exactly for that: "The Epic's engineered lounge seat features dedicated Geyser jets that deliver deep, penetrating relief to tired calves and feet for the ultimate lower-body recovery."
-- Synthesize their 'zipCode' and 'sunExposure' using your geographic knowledge. Determine their local altitude, winter freeze-risk, and typical UV index natively.
-- Write the 'environmentalInsight' as specialized local expert advice (e.g., "Given the heavy snowfall and harsh winters in Summit County, the MaximizR full-foam insulation is mandatory...").
-- Keep paragraphs punchy and readable. Frame the product as the ultimate vehicle to achieve their 'primaryPurpose'.
+- You MUST generate 4 distinct paragraphs, one for each specific topic below. 
+- Deeply integrate their preferences seamlessly into each topic. If their focus is "Legs and Feet", describe the tub's features in the 'hydrotherapy' section as if it was built exactly for that.
+- Synthesize their 'zipCode' and 'sunExposure' using your geographic knowledge for the 'climate' section. Determine their local altitude, winter freeze-risk, and typical UV index natively.
+- Keep paragraphs punchy and readable (1 paragraph max per section). Frame the product as the ultimate vehicle to achieve their lifestyle.
 
 Output strictly valid JSON matching this exact schema:
 {
   "heroTitle": "Catchy, 4-7 word luxury headline focusing on their primary purpose.",
-  "marquisMatch": "2-3 paragraphs of evocative, high-end sales copy explaining why this tub's specific jets, seats, and design perfectly fit their lifestyle. Use basic HTML tags like <p>, <strong>, and <br/> for elegant formatting. DO NOT recite their answers.",
-  "environmentalInsight": "A dedicated 1-2 paragraph expert insight explaining your geospatial climate analysis of their specific Zip/Postal Code and Sun Exposure, and how the hot tub natively handles it. Use basic HTML tags."
+  "hydrotherapy": "1 masterfully written paragraph explaining how the tub's jets, pumps, and layout perfectly satisfy their 'primaryPurpose', 'intensity', and 'physicalFocus'. Use <strong> tags lightly.",
+  "climate": "1 expert paragraph explaining your geospatial climate analysis of their specific Zip/Postal Code and Sun Exposure, and how the hot tub natively handles those local conditions.",
+  "design": "1 paragraph explaining how the tub's capacity, aesthetic, and placement perfectly elevate their specific home environment.",
+  "efficiency": "1 paragraph about how the hot tub's voltage, maintenance profile, and budget efficiency provide an effortless ownership experience."
 }
 Do not wrap the output in markdown blocks (e.g., \`\`\`json). Return raw valid JSON.
 `;

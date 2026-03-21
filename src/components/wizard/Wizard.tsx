@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
+import { Thermometer, Users, Activity, Zap, 
   Check, ChevronRight, RotateCcw, Zap, Users, Star, Maximize, UserCheck, 
   MessageSquare, MapPin, Droplets, Heart, Sparkles, ArrowRight, Info, ChevronLeft, Plus,
   Compass, Sun, CloudSun, Sunset, Cloud, Box, Home, TreePine, Activity, Flame, Droplet,
   Waves, Palette, LayoutGrid, Leaf, Settings, Wrench, Battery, BatteryCharging, Gauge,
   Wallet, Landmark, Gem, Hammer, Truck
 } from 'lucide-react';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { Thermometer, Users, Activity, Zap, clsx, type ClassValue } from 'clsx';
+import { Thermometer, Users, Activity, Zap, twMerge } from 'tailwind-merge';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -275,7 +275,7 @@ export default function Wizard() {
   const [results, setResults] = useState<ScoredProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedResult, setSelectedResult] = useState<ScoredProduct | null>(null);
-  const [aiNarrative, setAiNarrative] = useState<{heroTitle?: string; marquisMatch?: string; environmentalInsight?: string} | null>(null);
+  const [aiNarrative, setAiNarrative] = useState<{heroTitle?: string; hydrotherapy?: string; climate?: string; design?: string; efficiency?: string; error?: string} | null>(null);
   const [narrativeLoading, setNarrativeLoading] = useState(false);
 
   const updatePreference = (key: PreferenceKey, value: string) => {
@@ -758,66 +758,47 @@ export default function Wizard() {
               </section>
             )}
 
-            <section className="bg-white p-10 rounded-[40px] shadow-xl border border-slate-100 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-5">
-                   <Star className="w-40 h-40" />
-                </div>
-                <h2 className="text-3xl md:text-4xl font-black italic uppercase text-slate-900 mb-8 flex items-center gap-4">
-                  {narrativeLoading ? "Synthesizing AI Blueprint..." : (aiNarrative?.heroTitle || "The Marquis Match")} <Sparkles className="w-8 h-8 text-marquis-blue" />
-                </h2>
-                <div className="space-y-8 relative z-10">
-                  {narrativeLoading ? (
-                    <div className="space-y-4 animate-pulse">
-                      <div className="h-4 bg-slate-200 rounded w-full"></div>
-                      <div className="h-4 bg-slate-200 rounded w-5/6"></div>
-                      <div className="h-4 bg-slate-200 rounded w-4/6"></div>
+            {/* HERO TITLE HEADER */}
+            <div className="text-center mb-8">
+               <h2 className="text-4xl md:text-6xl font-black italic uppercase text-slate-900 tracking-tight flex items-center justify-center gap-4">
+                  {narrativeLoading ? "Synthesizing Profile..." : (aiNarrative?.heroTitle || product.modelName)} 
+                  <Sparkles className="w-10 h-10 text-marquis-blue" />
+               </h2>
+               <p className="text-xl text-slate-500 font-medium mt-4 max-w-2xl mx-auto">We've generated completely personalized blueprints analyzing how this specific model seamlessly anchors your lifestyle.</p>
+            </div>
+
+            {/* AI MODULES */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 w-full mb-12">
+              {[
+                { id: 'hydrotherapy', title: 'Hydrotherapy & Wellness', icon: <Activity className="w-8 h-8" />, delay: 'delay-100' },
+                { id: 'climate', title: 'Climate & Surroundings', icon: <Thermometer className="w-8 h-8" />, delay: 'delay-200' },
+                { id: 'design', title: 'Design & Capacity', icon: <Users className="w-8 h-8" />, delay: 'delay-300' },
+                { id: 'efficiency', title: 'Power & Maintenance', icon: <Zap className="w-8 h-8" />, delay: 'delay-500' }
+              ].map((mod, i) => (
+                <section key={i} className={`bg-white p-8 rounded-[40px] shadow-2xl border border-slate-100 relative overflow-hidden animate-in fade-in slide-in-from-bottom fill-mode-both ${mod.delay}`}>
+                  <h3 className="text-2xl font-black italic uppercase text-slate-900 mb-6 flex items-center gap-4 border-b border-slate-100 pb-6">
+                    <div className="bg-marquis-blue/10 p-4 rounded-2xl text-marquis-blue flex-shrink-0">
+                      {mod.icon}
                     </div>
+                    {mod.title}
+                  </h3>
+                  {narrativeLoading ? (
+                    <div className="space-y-4 animate-pulse pt-2">
+                      <div className="h-4 bg-slate-100 rounded w-full"></div>
+                      <div className="h-4 bg-slate-100 rounded w-5/6"></div>
+                      <div className="h-4 bg-slate-100 rounded w-4/6"></div>
+                    </div>
+                  ) : (aiNarrative as any)?.error ? (
+                    <div className="text-red-500 text-sm font-medium">AI Generation Failed: {(aiNarrative as any).error}</div>
                   ) : (
                     <div 
-                      className="text-lg text-slate-600 leading-relaxed font-medium space-y-4"
-                      dangerouslySetInnerHTML={{ __html: aiNarrative?.marquisMatch || `"${product.marketingSummary}"` }}
+                      className="text-lg text-slate-600 leading-relaxed font-medium prose prose-slate prose-lg" 
+                      dangerouslySetInnerHTML={{ __html: (aiNarrative as any)?.[mod.id] || "Synthesizing your personalized profile..." }} 
                     />
                   )}
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {reasons.slice(0, 4).map((r, i) => (
-                      <div key={i} className="flex gap-4 items-start bg-blue-50/50 p-6 rounded-3xl border border-blue-100/50 transition-all hover:scale-102">
-                        <div className="bg-marquis-blue text-white rounded-full p-2 flex-shrink-0">
-                          <Check className="w-4 h-4" />
-                        </div>
-                        <p className="text-sm text-slate-700 font-bold leading-relaxed">{r}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-            </section>
-
-            <section className="bg-slate-900 text-white p-10 rounded-[40px] shadow-2xl relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-marquis-blue/20 to-transparent" />
-                <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10">
-                  <div className="space-y-4">
-                     <h4 className="text-2xl font-black italic uppercase text-marquis-blue border-b border-marquis-blue/30 pb-2">Geo-Climate Analysis</h4>
-                     {narrativeLoading ? (
-                       <div className="space-y-3 animate-pulse">
-                         <div className="h-3 bg-slate-800 rounded w-full"></div>
-                         <div className="h-3 bg-slate-800 rounded w-5/6"></div>
-                         <div className="h-3 bg-slate-800 rounded w-4/6"></div>
-                       </div>
-                     ) : (aiNarrative as any)?.error ? (
-                       <div className="text-red-500 text-sm">Failed to generate climate insights due to backend error.</div>
-                     ) : (
-                       <div 
-                         className="text-sm md:text-base text-slate-400 leading-relaxed space-y-3"
-                         dangerouslySetInnerHTML={{ __html: aiNarrative?.environmentalInsight || `Based on your ${preferences.zipCode} location, we recommend the MaximizR™ insulation package to maintain peak efficiency during cold night cycles.` }}
-                       />
-                     )}
-                  </div>
-                  <div className="space-y-4">
-                     <h4 className="text-2xl font-black italic uppercase text-marquis-green">Placement Note</h4>
-                     <p className="text-slate-400 leading-relaxed">For your {preferences.placement} installation, ensure a load-bearing capacity of at least 150 lbs/sqft to accommodate the filled weight of the {product.modelName}.</p>
-                  </div>
-                </div>
-            </section>
+                </section>
+              ))}
+            </div>
           </div>
         </div>
       </div>
