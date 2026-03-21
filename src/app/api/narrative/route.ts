@@ -17,6 +17,12 @@ export async function POST(request: Request) {
       console.warn("GEMINI_API_KEY is missing. Returning fallback narrative.");
       return NextResponse.json({ 
         heroTitle: "Your Perfect Marquis Spa",
+        summaryBullets: [
+          "Optimized for deep hydrotherapy and athletic recovery.",
+          "Specially insulated for extreme cold and high altitudes.",
+          "Stunning modern aesthetic with seating for 5 adults.",
+          "Energy-efficient 240V system with automated cleaning."
+        ],
         hydrotherapy: "We have calculated that this Marquis spa is the perfect fit for your lifestyle. Add API key for full generation.",
         climate: "Your specific location requires specialized consideration. Add your API key.",
         design: "This spa is aesthetically matched to your home.",
@@ -52,6 +58,12 @@ CRITICAL POSITIVE INSTRUCTIONS (DO THIS INSTEAD):
 Output strictly valid JSON matching this exact schema:
 {
   "heroTitle": "Catchy, 4-7 word luxury headline focusing on their primary purpose.",
+  "summaryBullets": [
+    "1-sentence punchy summary of how the hydrotherapy fits their physical needs.",
+    "1-sentence punchy summary of how the tub fits their specific geographic climate.",
+    "1-sentence punchy summary of how the design/capacity fits their lifestyle.",
+    "1-sentence punchy summary of how the maintenance/power fits their preferences."
+  ],
   "hydrotherapy": "1 masterfully written paragraph explaining how the tub's jets, pumps, and layout perfectly satisfy their 'primaryPurpose', 'intensity', and 'physicalFocus'. Use <strong> tags lightly.",
   "climate": "1 expert paragraph explaining your geospatial climate analysis of their specific Zip/Postal Code and Sun Exposure, and how the hot tub natively handles those local conditions.",
   "design": "1 paragraph explaining how the tub's capacity, aesthetic, and placement perfectly elevate their specific home environment.",
