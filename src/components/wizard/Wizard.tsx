@@ -122,7 +122,7 @@ const QUESTIONS: {
     subtext: "Determines heating speed and parallel pump performance.",
     expertTip: "This is a critical infrastructure decision. 110V 'Plug and Play' models can connect to a standard household outlet, making installation trivial. However, they cannot run the 4kW heater and high-speed pumps simultaneously. If you live in a cold climate or demand aggressive jet pressure, a dedicated 240V hardwired line is essential.",
     layout: 'split',
-    bgImage: '/mcp/demo/assets/bg_electrical_1774075759328.png',
+    bgImage: '/mcp/demo/assets/bg_electrical_night_1774075976736.png',
     options: [
       { value: '110v', label: '110V Plug & Play', tip: "Easy install via standard outlet. Heater pauses when jets are on high.", icon: <Battery className="w-8 h-8 text-blue-400" /> },
       { value: '240v', label: '240V Hardwired', tip: "Requires an electrician. Maximum parallel performance and rapid heating.", icon: <BatteryCharging className="w-8 h-8 text-marquis-blue" /> },
