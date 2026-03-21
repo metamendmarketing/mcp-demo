@@ -76,6 +76,7 @@ const QUESTIONS: {
   subtext: string;
   expertTip: string;
   layout: 'grid' | 'split' | 'map' | 'slider';
+  bgImage?: string;
   options: { label: string; value: string; icon?: React.ReactNode; image?: string; tip?: string }[];
 }[] = [
   {
@@ -192,6 +193,7 @@ const QUESTIONS: {
     subtext: "Determine your tolerance for manual water chemistry.",
     expertTip: "Water care shouldn't feel like a chemistry degree. If you select 'Automated', we will equip your model with the ConstantClean+™ system featuring in-line SmartChlor and ozonators, which manages 90% of sanitization automatically. If you prefer a hands-on approach and lower upfront costs, traditional manual dosing is available.",
     layout: 'split',
+    bgImage: '/mcp/demo/assets/bg_maintenance_1774073867138.png',
     options: [
       { value: 'automated', label: 'Set it and Forget it', tip: "Requires the ConstantClean+™ automated inline sanitation system upgrade.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
       { value: 'hands-on', label: 'I enjoy the ritual', tip: "Standard filtration with manual weekly chemical balancing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
@@ -203,6 +205,7 @@ const QUESTIONS: {
     subtext: "Are you looking for a gentle soak or aggressive deep tissue manipulation?",
     expertTip: "Pump horsepower doesn't equal pressure—flow dynamics do. For a 'Firm Deep Tissue' massage, we require models with dedicated dual-speed pumps routed through High-Kinetic (HK) massage jets. If you prefer 'Gentle', we prioritize High-Volume, Low-Pressure (HVLP) broad orifice jets that move water smoothly over the skin without stinging.",
     layout: 'split',
+    bgImage: '/mcp/demo/assets/bg_intensity_1774073882614.png',
     options: [
       { value: 'gentle', label: 'Gentle Relaxation', tip: "Broad, smooth water flow. Ideal for sensitive skin or simple soaking.", icon: <Cloud className="w-8 h-8" /> },
       { value: 'medium', label: 'Medium Vigorous', tip: "The perfect balance of soothing soak and active muscle recovery.", icon: <Waves className="w-8 h-8" /> },
@@ -423,20 +426,43 @@ export default function Wizard() {
             )}
 
             {q.layout === 'split' && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                <div className="lg:col-span-5 space-y-6">
-                  <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-2 h-full bg-marquis-blue" />
-                    <div className="flex items-center gap-3 text-marquis-blue mb-4">
+              <div className={cn(
+                "grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative",
+                q.bgImage ? "p-10 rounded-[40px] overflow-hidden shadow-2xl" : ""
+              )}>
+                {q.bgImage && (
+                  <>
+                    <div className="absolute inset-0 bg-slate-900 z-0" />
+                    <img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 mix-blend-overlay" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/50 to-transparent z-10" />
+                  </>
+                )}
+                
+                <div className="lg:col-span-5 space-y-6 relative z-20">
+                  <div className={cn(
+                    "p-8 rounded-3xl border shadow-sm relative overflow-hidden",
+                    q.bgImage ? "bg-white/10 backdrop-blur-md border-white/20 text-white" : "bg-white border-slate-100"
+                  )}>
+                    <div className={cn(
+                      "absolute top-0 left-0 w-2 h-full",
+                      q.bgImage ? "bg-white/50" : "bg-marquis-blue"
+                    )} />
+                    <div className={cn(
+                      "flex items-center gap-3 mb-4",
+                      q.bgImage ? "text-blue-200" : "text-marquis-blue"
+                    )}>
                       <Info className="w-6 h-6" />
                       <span className="text-xs font-bold uppercase tracking-widest">Expert Insight</span>
                     </div>
-                    <p className="text-lg text-slate-700 font-medium leading-relaxed italic">
+                    <p className={cn(
+                      "text-lg font-medium leading-relaxed italic",
+                      q.bgImage ? "text-white" : "text-slate-700"
+                    )}>
                       "{q.expertTip}"
                     </p>
                   </div>
                 </div>
-                <div className="lg:col-span-7 space-y-4">
+                <div className="lg:col-span-7 space-y-4 relative z-20">
                   {q.options.map((opt) => (
                     <button
                       key={opt.value}
