@@ -53,8 +53,12 @@ Do not wrap the output in markdown blocks (e.g., \`\`\`json). Return raw valid J
     const result = await model.generateContent(prompt);
     const responseText = result.response.text();
     
-    // Clean potential markdown blocks just in case
-    const cleanJson = responseText.replace(/^```json\n/, '').replace(/\n```$/, '').trim();
+    // Aggressively extract JSON from the text
+    let cleanJson = responseText;
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      cleanJson = jsonMatch[0];
+    }
     
     let parsedData;
     try {

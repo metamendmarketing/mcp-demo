@@ -803,6 +803,8 @@ export default function Wizard() {
                          <div className="h-3 bg-slate-800 rounded w-5/6"></div>
                          <div className="h-3 bg-slate-800 rounded w-4/6"></div>
                        </div>
+                     ) : (aiNarrative as any)?.error ? (
+                       <div className="text-red-500 text-sm">Failed to generate climate insights due to backend error.</div>
                      ) : (
                        <div 
                          className="text-sm md:text-base text-slate-400 leading-relaxed space-y-3"
