@@ -275,6 +275,8 @@ export default function Wizard() {
   const [results, setResults] = useState<ScoredProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedResult, setSelectedResult] = useState<ScoredProduct | null>(null);
+  const [aiNarrative, setAiNarrative] = useState<{heroTitle?: string; marquisMatch?: string; environmentalInsight?: string} | null>(null);
+  const [narrativeLoading, setNarrativeLoading] = useState(false);
 
   const updatePreference = (key: PreferenceKey, value: string) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
@@ -314,6 +316,24 @@ export default function Wizard() {
       }));
       setResults(formattedResults || []);
       setStep('results');
+
+
+      if (formattedResults && formattedResults.length > 0) {
+        setNarrativeLoading(true);
+        try {
+          const narrativeRes = await fetch('/mcp/demo/api/narrative', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ preferences, product: formattedResults[0].product }),
+          });
+          const narrativeData = await narrativeRes.json();
+          setAiNarrative(narrativeData);
+        } catch (narrativeError) {
+          console.error('Narrative failed', narrativeError);
+        } finally {
+          setNarrativeLoading(false);
+        }
+      }
     } catch (err) {
       console.error('Recommendation failed', err);
     } finally {
@@ -742,13 +762,22 @@ export default function Wizard() {
                 <div className="absolute top-0 right-0 p-8 opacity-5">
                    <Star className="w-40 h-40" />
                 </div>
-                <h2 className="text-4xl font-black italic uppercase text-slate-900 mb-8 flex items-center gap-4">
-                  The Marquis Match <Sparkles className="w-8 h-8 text-marquis-blue" />
+                <h2 className="text-3xl md:text-4xl font-black italic uppercase text-slate-900 mb-8 flex items-center gap-4">
+                  {narrativeLoading ? "Synthesizing AI Blueprint..." : (aiNarrative?.heroTitle || "The Marquis Match")} <Sparkles className="w-8 h-8 text-marquis-blue" />
                 </h2>
                 <div className="space-y-8 relative z-10">
-                  <p className="text-xl text-slate-600 leading-relaxed font-black uppercase italic italic opacity-70">
-                    "{product.marketingSummary}"
-                  </p>
+                  {narrativeLoading ? (
+                    <div className="space-y-4 animate-pulse">
+                      <div className="h-4 bg-slate-200 rounded w-full"></div>
+                      <div className="h-4 bg-slate-200 rounded w-5/6"></div>
+                      <div className="h-4 bg-slate-200 rounded w-4/6"></div>
+                    </div>
+                  ) : (
+                    <div 
+                      className="text-lg text-slate-600 leading-relaxed font-medium space-y-4"
+                      dangerouslySetInnerHTML={{ __html: aiNarrative?.marquisMatch || `"${product.marketingSummary}"` }}
+                    />
+                  )}
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {reasons.slice(0, 4).map((r, i) => (
@@ -767,8 +796,19 @@ export default function Wizard() {
                 <div className="absolute inset-0 bg-gradient-to-br from-marquis-blue/20 to-transparent" />
                 <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-4">
-                     <h4 className="text-2xl font-black italic uppercase text-marquis-blue">Expert Insight</h4>
-                     <p className="text-slate-400 leading-relaxed">Based on your {preferences.zipCode} location, we recommend the MaximizR™ insulation package to maintain peak efficiency during cold night cycles.</p>
+                     <h4 className="text-2xl font-black italic uppercase text-marquis-blue border-b border-marquis-blue/30 pb-2">Geo-Climate Analysis</h4>
+                     {narrativeLoading ? (
+                       <div className="space-y-3 animate-pulse">
+                         <div className="h-3 bg-slate-800 rounded w-full"></div>
+                         <div className="h-3 bg-slate-800 rounded w-5/6"></div>
+                         <div className="h-3 bg-slate-800 rounded w-4/6"></div>
+                       </div>
+                     ) : (
+                       <div 
+                         className="text-sm md:text-base text-slate-400 leading-relaxed space-y-3"
+                         dangerouslySetInnerHTML={{ __html: aiNarrative?.environmentalInsight || `Based on your ${preferences.zipCode} location, we recommend the MaximizR™ insulation package to maintain peak efficiency during cold night cycles.` }}
+                       />
+                     )}
                   </div>
                   <div className="space-y-4">
                      <h4 className="text-2xl font-black italic uppercase text-marquis-green">Placement Note</h4>
