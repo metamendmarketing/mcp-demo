@@ -397,7 +397,7 @@ export default function Wizard() {
                       setTimeout(nextQuestion, 150);
                     }}
                     className={cn(
-                      "group relative bg-white rounded-2xl border-2 p-6 text-left transition-all shadow-sm hover:shadow-lg flex flex-col justify-between h-full min-h-[160px]",
+                      "group relative bg-white rounded-2xl border-2 p-6 text-left transition-all shadow-sm hover:shadow-lg flex flex-col justify-start items-center h-full min-h-[160px]",
                       preferences[q.id] === opt.value ? "border-marquis-blue ring-2 ring-marquis-blue/20 bg-blue-50/20" : "border-slate-100/80 hover:border-marquis-blue/40"
                     )}
                   >
@@ -413,9 +413,9 @@ export default function Wizard() {
                         {opt.icon}
                       </div>
                     ) : null}
-                    <div>
-                      <h4 className="text-xl font-black uppercase italic mb-2 text-slate-800 tracking-wide text-center">{opt.label}</h4>
-                      {opt.tip && <p className="text-sm text-slate-500 font-medium leading-relaxed text-center">{opt.tip}</p>}
+                    <div className="flex flex-col flex-grow w-full items-center justify-start text-center mt-auto">
+                      <h4 className="text-xl font-black uppercase italic mb-2 text-slate-800 tracking-wide">{opt.label}</h4>
+                      {opt.tip && <p className="text-sm text-slate-500 font-medium leading-relaxed">{opt.tip}</p>}
                     </div>
                     
                     {/* Selected state indicator */}
