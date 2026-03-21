@@ -109,6 +109,7 @@ const QUESTIONS: {
     subtext: "A fully reclined seat designed for intense, full-body immersion.",
     expertTip: "Loungers provide the absolute best full-body hydrotherapy sequence, targeting your neck down to your calves simultaneously. However, a lounge seat consumes the footprint of approximately two standard upright seats. If your goal is maximizing headcount for parties, we recommend an open-seating model.",
     layout: 'split',
+    bgImage: '/mcp/demo/assets/bg_lounge_1774075579221.png',
     options: [
       { value: 'yes', label: 'Yes, include a Lounger', tip: "I prioritize solo, full-body relaxation.", icon: <Maximize className="w-8 h-8" /> },
       { value: 'no', label: 'No, Open Seating', tip: "I want to maximize the number of seats available.", icon: <Users className="w-8 h-8" /> },
