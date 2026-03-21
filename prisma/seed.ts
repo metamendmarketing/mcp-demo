@@ -1,128 +1,161 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import Database from 'better-sqlite3';
 import path from 'path';
 
-const dbPath = path.resolve(__dirname, 'dev.db');
+// Use the same adapter setup as src/lib/prisma.ts
+const dbPath = path.resolve('c:/dev2/prisma/dev.db');
 const adapter = new PrismaBetterSqlite3({ url: dbPath });
 const prisma = new PrismaClient({ adapter } as any);
 
 async function main() {
-  console.log('Seeding Marquis data...');
-
-  // 1. Create Brand
-  const marquis = await prisma.brand.upsert({
-    where: { domain: 'marquisspas.com' },
-    update: {},
-    create: {
-      id: 'marquis',
-      name: 'Marquis Spas',
-      domain: 'marquisspas.com',
-      themeConfig: {
-        primary: '#1a365d',
-        secondary: '#2d3748',
-        accent: '#3182ce',
-        logoUrl: '/brands/marquis/logo.svg',
-      },
-      active: true,
-    },
-  });
-
-  // 2. Create Series
-  const v21Series = await prisma.series.create({
-    data: {
-      brandId: marquis.id,
-      name: 'Vector21 Swim Spas',
-      category: 'swim_spa',
-      positioningTier: 'luxury',
-      description: 'The Vector21 series combines the features of a hot tub and swim spa.',
-    },
-  });
-
-  // 3. Create Products
-  const products = [
-    {
-      modelName: 'V150P',
-      slug: 'v150p-swim-spa',
-      brandId: marquis.id,
-      seriesId: v21Series.id,
-      seatsMin: 8,
-      seatsMax: 8,
-      jetCount: 39, // 36 + 3
-      capacityGallons: 950,
-      dryWeightLbs: 1800,
-      lengthIn: 150,
-      widthIn: 90,
-      depthIn: 50,
-      voltageOptions: ['240V'],
-      amperage: '50 amp',
-      marketingSummary: 'A huge party spa combining the features of a hot tub and swim spa.',
-      usageTags: ['therapy', 'recreational'],
-    },
-    {
-      modelName: 'V150W',
-      slug: 'v150w-swim-spa',
-      brandId: marquis.id,
-      seriesId: v21Series.id,
-      seatsMin: 4,
-      seatsMax: 4,
-      jetCount: 25, // 21 + 4
-      capacityGallons: 1200,
-      dryWeightLbs: 1700,
-      lengthIn: 150,
-      widthIn: 90,
-      depthIn: 50,
-      voltageOptions: ['240V'],
-      amperage: '50 amp',
-      marketingSummary: 'The personal aquatic multi-use gym you\'ve always wanted.',
-      usageTags: ['fitness', 'workout'],
-    },
-    {
-      modelName: 'V174S',
-      slug: 'v174s-swim-spa',
-      brandId: marquis.id,
-      seriesId: v21Series.id,
-      seatsMin: 4,
-      seatsMax: 4,
-      jetCount: 33, // 27 + 6
-      capacityGallons: 1600,
-      dryWeightLbs: 2325,
-      lengthIn: 174,
-      widthIn: 90,
-      depthIn: 56,
-      voltageOptions: ['240V'],
-      amperage: '50 amp',
-      marketingSummary: 'Pure exhilaration with true health benefits.',
-      usageTags: ['fitness', 'therapy'],
-    },
-    {
-      modelName: 'V174K',
-      slug: 'v174k-swim-spa',
-      brandId: marquis.id,
-      seriesId: v21Series.id,
-      seatsMin: 4,
-      seatsMax: 4,
-      jetCount: 37, // 31 + 6
-      capacityGallons: 1600,
-      dryWeightLbs: 2325,
-      lengthIn: 174,
-      widthIn: 90,
-      depthIn: 56,
-      voltageOptions: ['240V'],
-      amperage: '50 amp',
-      marketingSummary: 'High-performance swim-training and therapy.',
-      usageTags: ['fitness', 'high-performance'],
-    },
-  ];
-
-  for (const productData of products) {
-    await prisma.product.upsert({
-      where: { slug: productData.slug },
-      update: productData,
-      create: productData,
+  // Clear existing data for a clean seed
+  await prisma.product.deleteMany({ where: { brandId: 'marquis' } });
+  await prisma.series.deleteMany({ where: { brandId: 'marquis' } });
+  
+  // Find or create the Marquis brand
+  let marquis = await prisma.brand.findFirst({ where: { domain: 'marquisspas.com' } });
+  if (!marquis) {
+    marquis = await prisma.brand.create({
+      data: {
+        name: 'Marquis',
+        domain: 'marquisspas.com',
+        logoUrl: '/mcp/demo/assets/marquis_logo.png',
+        themeConfig: {
+          primary: '#88a65e',
+          secondary: '#306797',
+          accent: '#ffffff',
+          fontFamily: 'Inter, sans-serif'
+        }
+      }
     });
   }
 
-  console.log('Seeding complete.');
+  // Create Crown Series
+  const crownSeries = await prisma.series.create({
+    data: {
+      brandId: marquis.id,
+      name: 'Crown Series',
+      category: 'hot_tub',
+      positioningTier: 'luxury',
+      description: 'The ultimate hot tub experience with V-O-L-T™ flow management.'
+    }
+  });
+
+  // Seed Models
+  const products = [
+    {
+      modelName: 'Summit',
+      slug: 'marquis-crown-summit',
+      seatsMin: 7,
+      seatsMax: 7,
+      jetCount: 65,
+      lengthIn: 94,
+      widthIn: 94,
+      depthIn: 36,
+      capacityGallons: 400, // Estimated
+      loungeCount: 0,
+      voltageOptions: ["240V"],
+      heroImageUrl: 'https://www.marquisspas.com/media/177319/summit_beauty.jpg',
+      overheadImageUrl: 'https://www.marquisspas.com/media/177314/2021_crown_summit_overhead.jpg',
+      usageTags: ["therapy", "social", "large-family"],
+      hotspots: [
+        { id: "hot-zone-leg", x: 50, y: 75, label: "Whitewater-4™ Jet", description: "This monster jet in the footwell provides incredible leg and foot therapy, moving massive volumes of water without the sting." },
+        { id: "hot-zone-back", x: 15, y: 15, label: "H.O.T. Zone™", description: "High Output Therapy zones target the back and shoulders with concentrated precision." },
+        { id: "controls", x: 92, y: 50, label: "MQTouch™ Control", description: "The color touch-screen interface allows you to orchestrate your entire spa experience with a tap." }
+      ]
+    },
+    {
+      modelName: 'Epic',
+      slug: 'marquis-crown-epic',
+      seatsMin: 6,
+      seatsMax: 6,
+      jetCount: 53,
+      lengthIn: 90,
+      widthIn: 90,
+      depthIn: 36,
+      loungeCount: 1,
+      voltageOptions: ["240V"],
+      heroImageUrl: 'https://www.marquisspas.com/media/177319/summit_beauty.jpg', // Placeholder
+      usageTags: ["therapy", "comfort", "lounge"]
+    },
+    {
+      modelName: 'Spirit',
+      slug: 'marquis-crown-spirit',
+      seatsMin: 3,
+      seatsMax: 4,
+      jetCount: 32,
+      lengthIn: 85,
+      widthIn: 66,
+      depthIn: 36,
+      capacityGallons: 265,
+      loungeCount: 1,
+      voltageOptions: ["110V", "240V"], // Often 110V compatible
+      heroImageUrl: 'https://www.marquisspas.com/media/177319/summit_beauty.jpg', // Placeholder
+      usageTags: ["compact", "couples", "therapy"]
+    },
+    {
+      modelName: 'Euphoria',
+      slug: 'marquis-crown-euphoria',
+      seatsMin: 7,
+      seatsMax: 7,
+      jetCount: 53,
+      lengthIn: 90,
+      widthIn: 90,
+      depthIn: 36,
+      capacityGallons: 380,
+      loungeCount: 0,
+      voltageOptions: ["240V"],
+      heroImageUrl: 'https://www.marquisspas.com/media/177319/summit_beauty.jpg', // Placeholder
+      usageTags: ["therapy", "large-family", "social"]
+    },
+    {
+      modelName: 'Resort',
+      slug: 'marquis-crown-resort',
+      seatsMin: 5,
+      seatsMax: 5,
+      jetCount: 50,
+      lengthIn: 85,
+      widthIn: 85,
+      depthIn: 36,
+      capacityGallons: 360,
+      loungeCount: 2, // Dual Adirondack loungers
+      voltageOptions: ["240V"],
+      heroImageUrl: 'https://www.marquisspas.com/media/177319/summit_beauty.jpg', // Placeholder
+      usageTags: ["lounge", "therapy", "comfort"]
+    },
+    {
+      modelName: 'Wish',
+      slug: 'marquis-crown-wish',
+      seatsMin: 5,
+      seatsMax: 5,
+      jetCount: 30, // 2-pump model
+      lengthIn: 77,
+      widthIn: 77,
+      depthIn: 36,
+      capacityGallons: 300, // Estimated based on dimensions
+      loungeCount: 1, // Full-body lounge
+      voltageOptions: ["240V"],
+      heroImageUrl: 'https://www.marquisspas.com/media/177319/summit_beauty.jpg', // Placeholder
+      usageTags: ["lounge", "compact", "relaxation"]
+    }
+  ];
+
+  for (const productData of products) {
+    await prisma.product.create({
+      data: {
+        ...productData,
+        brandId: marquis!.id,
+        seriesId: crownSeries.id,
+        standardFeatures: JSON.stringify(["MQTouch", "V-O-L-T Flow", "SmartClean"]),
+        hotspots: JSON.stringify(productData.hotspots || []),
+        usageTags: JSON.stringify(productData.usageTags || []),
+        voltageOptions: JSON.stringify(productData.voltageOptions || [])
+      } as any
+    });
+  }
+
+  console.log('Seed completed for Marquis Crown Series.');
 }
 
 main()

@@ -1111,3 +1111,30 @@ Mitigation: scheduled import jobs + content diff alerts + source URL tracking.
 Build a single multi-tenant, grounded AI buying assistant with four branded configurations, using deterministic product matching plus Gemini-powered explanation, and launch on the richest catalogs first.
 
 Next, I can turn this into a cleaner client-facing technical proposal or a developer-ready PRD with user stories and API endpoints.
+
+21. AI Concierge Evolution: The Personalized PDP
+
+The "Next Generation" of this tool moves from a standard filter towards a high-end AI Concierge. The core goal is for two different users to receive the same product recommendation, but see entirely different Product Detail Pages (PDPs) tailored to their unique reasons for buying.
+
+Key refined concepts:
+- Dynamic PDP Generation: Gemini uses the user’s entire questionnaire profile + technical product data to generate bespoke copy, headings, and feature focus areas.
+- Aesthetic/Vibe Matching: Collecting user style preferences (Modern, Rustic, etc.) to visually and narratively adapt the recommendation.
+- Expert/Environment Awareness: Using geolocation (Zip Code/GPS) to track sun patterns and local climate, enabling "expert advice" on placement and insulation requirements.
+- PDP Concierge Chat: An interactive, grounded chat interface embedded on the detail page for deep-dive technical follow-ups.
+- High-Value Demographic Collection: Transforming simple questions into data points that show "Marquis knows everything about hot tubs" while providing the client with rich lead data.
+
+The 14-Question Expert Journey:
+1. Primary Purpose (Therapy, Social, Fitness)
+2. Capacity (Seating Needs)
+3. Lounge Preference (Need the lounger or prefer more open space?)
+4. Electrical Setup (Plug & Play 110V vs. 220V Professional)
+5. Environment (Location/Zip for Sun & Climate)
+6. Sun Exposure (Where the sun hits your backyard)
+7. Placement Site (Deck, Patio, Ground, Indoor)
+8. Physical Focus (Targeting Back, Shoulders, Feet, or Stress)
+9. Aesthetic/Vibe (Modern, Rustic, Tropical, Classic)
+10. Maintenance Profile (Automated Sanitation vs. Manual Care)
+11. Hydrotherapy Intensity (Gentle/Relaxing vs. Deep/Powerful)
+12. Budget Comfort Zone (Pricing tier)
+13. Installation Readiness (Foundation check)
+14. Delivery Access (Clearance check)

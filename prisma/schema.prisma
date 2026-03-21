@@ -44,6 +44,7 @@ model Product {
   slug              String    @unique
   status            String    @default("active")
   heroImageUrl      String?
+  overheadImageUrl  String?
   seatsMin          Int?
   seatsMax          Int?
   loungeCount       Int       @default(0)
@@ -59,6 +60,7 @@ model Product {
   pumpConfig        Json?
   filtration        Json?
   insulationType    String?
+  hotspots          Json      @default("[]")
   warranty          Json?
   standardFeatures  Json      @default("[]")
   optionalFeatures  Json      @default("[]")

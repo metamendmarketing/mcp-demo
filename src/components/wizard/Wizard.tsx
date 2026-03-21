@@ -1,10 +1,64 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, ChevronRight, RotateCcw, Zap, Users, Star, Maximize, UserCheck, MessageSquare, MapPin, Droplets, Heart, Sparkles, ArrowRight } from 'lucide-react';
+import { 
+  Check, 
+  ChevronRight, 
+  RotateCcw, 
+  Zap, 
+  Users, 
+  Star, 
+  Maximize, 
+  UserCheck, 
+  MessageSquare, 
+  MapPin, 
+  Droplets, 
+  Heart, 
+  Sparkles, 
+  ArrowRight,
+  Info,
+  ChevronLeft,
+  Plus
+} from 'lucide-react';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
-type Priority = 'fitness' | 'therapy' | 'recreational';
-type Seating = '2+' | '4+' | '6+';
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export type PreferenceKey = 
+  | 'primaryPurpose' 
+  | 'capacity' 
+  | 'lounge' 
+  | 'electrical' 
+  | 'zipCode' 
+  | 'sunExposure' 
+  | 'placement' 
+  | 'physicalFocus' 
+  | 'aesthetic' 
+  | 'maintenance' 
+  | 'intensity' 
+  | 'budget' 
+  | 'installationReady' 
+  | 'deliveryAccess';
+
+export interface UserPreferences {
+  primaryPurpose: string | null;
+  capacity: string | null;
+  lounge: string | null;
+  electrical: string | null;
+  zipCode: string | null;
+  sunExposure: string | null;
+  placement: string | null;
+  physicalFocus: string | null;
+  aesthetic: string | null;
+  maintenance: string | null;
+  intensity: string | null;
+  budget: string | null;
+  installationReady: string | null;
+  deliveryAccess: string | null;
+}
 
 interface Product {
   id: string;
@@ -17,7 +71,9 @@ interface Product {
   jetCount: number;
   seatsMin: number;
   seatsMax: number;
-  usageTags: string[]; 
+  usageTags: string[];
+  overheadImageUrl?: string;
+  hotspots?: any[];
 }
 
 interface ScoredProduct {
@@ -26,27 +82,234 @@ interface ScoredProduct {
   reasons: string[];
 }
 
+const QUESTIONS: {
+  id: PreferenceKey;
+  question: string;
+  subtext: string;
+  expertTip: string;
+  layout: 'grid' | 'split' | 'map' | 'slider';
+  options: { label: string; value: string; icon?: React.ReactNode; image?: string; tip?: string }[];
+}[] = [
+  {
+    id: 'primaryPurpose',
+    question: "What is the primary purpose of your hot tub?",
+    subtext: "Your goal determines the jet configuration and flow management system.",
+    expertTip: "Therapy-focused models use V-O-L-T™ flow to target deep muscle groups, while social models prioritize open seating and ambient lighting.",
+    layout: 'grid',
+    options: [
+      { value: 'therapy', label: 'Therapy & Healing', image: '/mcp/demo/assets/therapy_premium.png' },
+      { value: 'recreational', label: 'Quality Time', image: '/mcp/demo/assets/recreation_premium.png' },
+      { value: 'relaxation', label: 'Relaxation', image: '/mcp/demo/assets/fitness_premium.png' }
+    ]
+  },
+  {
+    id: 'capacity',
+    question: "What seating capacity do you need?",
+    subtext: "From intimate retreats to ultimate entertainment hubs.",
+    expertTip: "A 4-5 person tub is our most popular for families, but 6+ models provide the 'Ultimate Entertainment' experience.",
+    layout: 'grid',
+    options: [
+      { value: '2-3', label: '2-3 Adults', image: '/mcp/demo/assets/therapy_premium.png' },
+      { value: '4-5', label: '4-5 Adults', image: '/mcp/demo/assets/recreation_premium.png' },
+      { value: '6+', label: '6+ Adults', image: '/mcp/demo/assets/fitness_premium.png' }
+    ]
+  },
+  {
+    id: 'lounge',
+    question: "Do you prefer a lounge seat?",
+    subtext: "A reclined seat for full-body immersion.",
+    expertTip: "Loungers are incredible for full-body therapy, but they take up the space of about two upright seats. Consider if you prioritize 'me-time' or 'we-time'.",
+    layout: 'split',
+    options: [
+      { value: 'yes', label: 'Yes, I want to lounge', tip: "Best for solitary relaxation." },
+      { value: 'no', label: 'No, more open seating', tip: "Best for social gatherings." },
+      { value: 'no-pref', label: 'No preference', tip: "I'm open to both." }
+    ]
+  },
+  {
+    id: 'electrical',
+    question: "What is your electrical setup?",
+    subtext: "110V (Plug-and-Play) vs 240V (Dedicated Circuit).",
+    expertTip: "240V systems allow the heater and pumps to run at full speed simultaneously—crucial for cold climates and intense therapy.",
+    layout: 'split',
+    options: [
+      { value: '110v', label: '110V Plug Play', tip: "Easy install, standard outlet." },
+      { value: '240v', label: '240V Hardwired', tip: "Maximum performance and heat." },
+      { value: 'help', label: 'Help me decide', tip: "We'll recommend based on usage." }
+    ]
+  },
+  {
+    id: 'zipCode',
+    question: "Where will your oasis be located?",
+    subtext: "Your climate and elevation affect heating efficiency.",
+    expertTip: "High-altitude and colder regions require our MaximizR™ full-foam insulation to maintain consistent 104°F temperatures efficiently.",
+    layout: 'map',
+    options: []
+  },
+  {
+    id: 'sunExposure',
+    question: "What is the Backyard Orientation?",
+    subtext: "Sun exposure affects your cover's lifespan and daily water temps.",
+    expertTip: "Direct afternoon sun in the south requires a premium ProLast™ cover to prevent UV degradation and maintain energy efficiency.",
+    layout: 'grid',
+    options: [
+      { value: 'morning', label: 'Morning Sun' },
+      { value: 'afternoon', label: 'Afternoon Sun' },
+      { value: 'direct', label: 'Full Day Direct' },
+      { value: 'shaded', label: 'Predominantly Shaded' }
+    ]
+  },
+  {
+    id: 'placement',
+    question: "Where will the hot tub be placed?",
+    subtext: "Site preparation is key to a lifetime of enjoyment.",
+    expertTip: "A 'Ground' placement often requires a concrete pad or EZ-Pad, while a 'Deck' requires structural verification for filled weights (often 3,000+ lbs).",
+    layout: 'grid',
+    options: [
+      { value: 'deck', label: 'Wood/Composite Deck' },
+      { value: 'patio', label: 'Concrete/Paver Patio' },
+      { value: 'indoor', label: 'Indoor/Sunroom' },
+      { value: 'ground', label: 'New Ground Site' }
+    ]
+  },
+  {
+    id: 'physicalFocus',
+    question: "Where do you need the most relief?",
+    subtext: "Our V-O-L-T™ system targets specific H.O.T. Zones.",
+    expertTip: "If you select 'Neck & Shoulders', we'll prioritize seats with specialized collar jets and high-output therapy zones.",
+    layout: 'grid',
+    options: [
+      { value: 'neck-shoulders', label: 'Neck & Shoulders' },
+      { value: 'lower-back', label: 'Lower Back' },
+      { value: 'legs-feet', label: 'Legs & Feet' },
+      { value: 'full-body', label: 'Full Body' }
+    ]
+  },
+  {
+    id: 'aesthetic',
+    question: "What is your aesthetic preference?",
+    subtext: "Harmonize your spa with your environment.",
+    expertTip: "A 'Modern' look pairs our Durashell® interior with monochrome cabinets, while 'Rustic' highlights earth tones and wood-grain textures.",
+    layout: 'grid',
+    options: [
+      { value: 'modern', label: 'Sleek & Modern' },
+      { value: 'rustic', label: 'Warm & Rustic' },
+      { value: 'tropical', label: 'Island Tropical' },
+      { value: 'classic', label: 'Timeless Classic' }
+    ]
+  },
+  {
+    id: 'maintenance',
+    question: "What is your maintenance profile?",
+    subtext: "From fully automated to hands-on care.",
+    expertTip: "ConstantClean+™ and SmartClean™ technology can automate 90% of water care, so you spend more time soaking and less time testing.",
+    layout: 'split',
+    options: [
+      { value: 'automated', label: 'Set it and Forget it' },
+      { value: 'hands-on', label: 'I enjoy the ritual' }
+    ]
+  },
+  {
+    id: 'intensity',
+    question: "Preferred Hydrotherapy Intensity?",
+    subtext: "Gentle bubbling vs. deep tissue penetration.",
+    expertTip: "HK jets provide 'Deep Tissue' massage, while our Multi-Touch jets offer a 'Relaxing' broader sensation.",
+    layout: 'split',
+    options: [
+      { value: 'gentle', label: 'Gentle Relaxation' },
+      { value: 'medium', label: 'Medium/Vigorous' },
+      { value: 'firm', label: 'Firm Deep Tissue' }
+    ]
+  },
+  {
+    id: 'budget',
+    question: "Your Investment Range?",
+    subtext: "We have a Marquis for every backyard.",
+    expertTip: "While initial cost matters, our the Vector21 and Crown Series offer significantly lower long-term energy costs due to high-density insulation.",
+    layout: 'grid',
+    options: [
+      { value: 'entry', label: 'Entry ($5k - $8k)' },
+      { value: 'mid', label: 'Standard ($9k - $13k)' },
+      { value: 'premium', label: 'Premium ($14k - $18k)' },
+      { value: 'luxury', label: 'Luxury ($19k+)' }
+    ]
+  },
+  {
+    id: 'installationReady',
+    question: "Installation Readiness?",
+    subtext: "Are you ready to install or just dreaming?",
+    expertTip: "Professional site evaluation by a Marquis dealer is crucial before delivery to ensure permanent access and electrical compliance.",
+    layout: 'split',
+    options: [
+      { value: 'ready', label: 'Ready to go' },
+      { value: 'planning', label: 'Just planning' }
+    ]
+  },
+  {
+    id: 'deliveryAccess',
+    question: "Final Step: Backyard Access?",
+    subtext: "Clearance for delivery and final placement.",
+    expertTip: "Most tubs need at least 38\" of vertical clearance. If access is tight, we can coordinate specialized dollies or even crane services.",
+    layout: 'split',
+    options: [
+      { value: 'easy', label: 'Wide open access' },
+      { value: 'standard', label: 'Standard side gate' },
+      { value: 'tight', label: 'Tight/Complex paths' }
+    ]
+  }
+];
+
 export default function Wizard() {
-  const [step, setStep] = useState<'intro' | 'usage' | 'seating' | 'results' | 'details'>('intro');
-  const [priority, setPriority] = useState<Priority | null>(null);
-  const [seating, setSeating] = useState<Seating | null>(null);
+  const [step, setStep] = useState<'intro' | 'question' | 'blueprint' | 'results' | 'details'>('intro');
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [preferences, setPreferences] = useState<UserPreferences>({
+    primaryPurpose: null,
+    capacity: null,
+    lounge: null,
+    electrical: null,
+    zipCode: null,
+    sunExposure: null,
+    placement: null,
+    physicalFocus: null,
+    aesthetic: null,
+    maintenance: null,
+    intensity: null,
+    budget: null,
+    installationReady: null,
+    deliveryAccess: null,
+  });
+  
   const [results, setResults] = useState<ScoredProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedResult, setSelectedResult] = useState<ScoredProduct | null>(null);
 
-  const handleRecommend = async (overrideSeating?: Seating) => {
-    const activeSeating = overrideSeating || seating;
+  const updatePreference = (key: PreferenceKey, value: string) => {
+    setPreferences(prev => ({ ...prev, [key]: value }));
+  };
+
+  const nextQuestion = () => {
+    if (currentQuestionIndex < QUESTIONS.length - 1) {
+      setCurrentQuestionIndex(prev => prev + 1);
+    } else {
+      setStep('blueprint');
+    }
+  };
+
+  const prevQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1);
+    } else {
+      setStep('intro');
+    }
+  };
+
+  const handleRecommend = async () => {
     setLoading(true);
     try {
       const res = await fetch('/mcp/demo/api/recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          preferences: {
-            priority,
-            seatingNeeds: activeSeating === '2+' ? 2 : activeSeating === '4+' ? 4 : 6,
-          }
-        }),
+        body: JSON.stringify({ preferences }),
       });
       const data = await res.json();
       const formattedResults = data.results?.map((r: any) => ({
@@ -66,9 +329,9 @@ export default function Wizard() {
   };
 
   const getHeroImage = (modelCode: string) => {
-    if (modelCode.includes('V150')) return '/mcp/demo/assets/v150_hero.png';
-    if (modelCode.includes('V174')) return '/mcp/demo/assets/v174_hero.png';
-    return null;
+    if (modelCode.includes('Summit')) return 'https://www.marquisspas.com/media/177319/summit_beauty.jpg';
+    if (modelCode.includes('Epic')) return 'https://www.marquisspas.com/media/177319/summit_beauty.jpg';
+    return '/mcp/demo/assets/therapy_premium.png';
   };
 
   const StepHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
@@ -78,6 +341,7 @@ export default function Wizard() {
         <h2 className="text-xl md:text-2xl font-black italic uppercase leading-none drop-shadow-sm">{title}</h2>
         {subtitle && <p className="text-sm font-medium text-white/90 mt-1">{subtitle}</p>}
       </div>
+      <div className="absolute bottom-0 left-0 h-1 bg-marquis-green transition-all duration-500 ease-out" style={{ width: `${((currentQuestionIndex + 1) / QUESTIONS.length) * 100}%` }} />
     </div>
   );
 
@@ -93,7 +357,7 @@ export default function Wizard() {
                "Create the ultimate relaxation oasis in your own backyard with meticulous refinement and obsessive attention to detail."
             </p>
             <button 
-              onClick={() => setStep('usage')}
+              onClick={() => setStep('question')}
               className="btn-marquis-premium px-12 py-4 rounded-full text-base font-bold flex items-center gap-3 shadow-2xl hover:scale-105 transition-transform"
             >
               Get Started <ArrowRight className="w-5 h-5" />
@@ -118,107 +382,177 @@ export default function Wizard() {
     );
   }
 
-  if (step === 'usage') {
+  if (step === 'question') {
+    const q = QUESTIONS[currentQuestionIndex];
+    
     return (
-      <div className="flex flex-col h-full bg-slate-50 animate-slick-reveal">
-        <StepHeader title="What is the primary purpose of your hot tub?" />
+      <div className="flex flex-col h-full bg-slate-50 animate-slick-reveal overflow-hidden">
+        <StepHeader title={q.question} subtitle={q.subtext} />
         
-        <div className="p-6 md:p-10 flex-grow">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[
-              { id: 'therapy', title: 'THERAPY & HEALING', desc: 'Meticulous hydrotherapy and orthopedic recovery powered by V-O-L-T™ flow management.', icon: <Heart className="w-6 h-6" />, img: '/mcp/demo/assets/therapy_premium.png' },
-              { id: 'recreational', title: 'QUALITY TIME', desc: 'Extraordinary social environments designed for family connection and refined leisure.', icon: <Users className="w-6 h-6" />, img: '/mcp/demo/assets/recreation_premium.png' },
-              { id: 'fitness', title: 'RELAXATION', desc: 'Create your ultimate oasis for stress relief and world-class quietude.', icon: <Sparkles className="w-6 h-6" />, img: '/mcp/demo/assets/fitness_premium.png' }
-            ].map((item, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setPriority(item.id as Priority);
-                  setTimeout(() => setStep('seating'), 400); // Auto-advance with slight delay for visual feedback
-                }}
-                className={`bg-white rounded-2xl overflow-hidden group flex flex-col text-left border-2 transition-all shadow-sm hover:shadow-md ${
-                  priority === item.id ? 'border-marquis-blue' : 'border-transparent'
-                } stagger-${i+1}`}
-              >
-                <div className="w-full h-48 overflow-hidden relative">
-                   <img src={item.img} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={item.title} />
-                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-90" />
-                   
-                   {priority === item.id && (
-                     <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-marquis-blue flex items-center justify-center text-white shadow-lg animate-in zoom-in-50">
-                        <Check className="w-5 h-5" />
-                     </div>
-                   )}
-
-                   <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <div className="flex items-center gap-2 mb-1">
-                        {item.icon}
-                        <h3 className="text-lg font-black uppercase italic leading-none">{item.title}</h3>
+        <div className="flex-grow overflow-y-auto px-6 py-8 md:p-10">
+          <div className="max-w-6xl mx-auto">
+            {q.layout === 'grid' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {q.options.map((opt, i) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => {
+                      updatePreference(q.id, opt.value);
+                      setTimeout(nextQuestion, 400);
+                    }}
+                    className={cn(
+                      "group relative bg-white rounded-2xl border-2 p-6 text-left transition-all shadow-sm hover:shadow-md",
+                      preferences[q.id] === opt.value ? "border-marquis-blue ring-1 ring-marquis-blue/20" : "border-transparent"
+                    )}
+                  >
+                    {opt.image && (
+                      <div className="w-full h-32 mb-4 rounded-xl overflow-hidden bg-slate-100">
+                        <img src={opt.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                       </div>
-                   </div>
+                    )}
+                    <h4 className="text-lg font-black uppercase italic mb-2 text-slate-800">{opt.label}</h4>
+                    {opt.tip && <p className="text-xs text-slate-500 italic">{opt.tip}</p>}
+                    {preferences[q.id] === opt.value && (
+                      <div className="absolute top-4 right-4 bg-marquis-blue text-white rounded-full p-1 animate-in zoom-in-50">
+                        <Check className="w-4 h-4" />
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {q.layout === 'split' && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div className="lg:col-span-5 space-y-6">
+                  <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-2 h-full bg-marquis-blue" />
+                    <div className="flex items-center gap-3 text-marquis-blue mb-4">
+                      <Info className="w-6 h-6" />
+                      <span className="text-xs font-bold uppercase tracking-widest">Expert Insight</span>
+                    </div>
+                    <p className="text-lg text-slate-700 font-medium leading-relaxed italic">
+                      "{q.expertTip}"
+                    </p>
+                  </div>
                 </div>
-                <div className="p-5 flex-grow bg-white">
-                  <p className="text-slate-600 text-sm leading-relaxed">"{item.desc}"</p>
+                <div className="lg:col-span-7 space-y-4">
+                  {q.options.map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => {
+                        updatePreference(q.id, opt.value);
+                        setTimeout(nextQuestion, 400);
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between p-6 bg-white rounded-2xl border-2 transition-all group",
+                        preferences[q.id] === opt.value ? "border-marquis-blue bg-blue-50/30" : "border-slate-100 hover:border-marquis-blue/30"
+                      )}
+                    >
+                      <div className="flex flex-col text-left">
+                        <span className="text-xl font-black uppercase italic text-slate-800">{opt.label}</span>
+                        {opt.tip && <span className="text-sm text-slate-500">{opt.tip}</span>}
+                      </div>
+                      <div className={cn(
+                        "w-10 h-10 rounded-full flex items-center justify-center transition-all",
+                        preferences[q.id] === opt.value ? "bg-marquis-blue text-white" : "bg-slate-100 text-slate-400 group-hover:bg-marquis-blue/10"
+                      )}>
+                        {preferences[q.id] === opt.value ? <Check className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
+                      </div>
+                    </button>
+                  ))}
                 </div>
-              </button>
+              </div>
+            )}
+
+            {q.layout === 'map' && (
+              <div className="max-w-md mx-auto space-y-8 text-center py-10">
+                <div className="relative inline-block">
+                  <div className="absolute inset-0 bg-marquis-blue/20 blur-3xl rounded-full" />
+                  <MapPin className="w-20 h-20 text-marquis-blue relative z-10 mx-auto animate-bounce duration-1000" />
+                </div>
+                <div className="space-y-4">
+                   <input 
+                      type="text" 
+                      placeholder="Enter Delivery Zip Code"
+                      className="w-full bg-white border-2 border-slate-200 rounded-2xl px-6 py-5 text-2xl font-black italic uppercase text-center focus:border-marquis-blue focus:ring-4 focus:ring-marquis-blue/10 outline-none transition-all placeholder:text-slate-300"
+                      onChange={(e) => updatePreference('zipCode', e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && nextQuestion()}
+                   />
+                   <p className="text-sm text-slate-500 font-medium">We use this to calculate local sunrise/sunset and climate stress.</p>
+                   <button 
+                     onClick={nextQuestion}
+                     className="btn-marquis-premium w-full py-4 rounded-2xl text-lg font-black italic uppercase shadow-xl"
+                   >
+                     Confirm Location
+                   </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <div className="p-6 bg-white border-t border-slate-200 flex justify-between items-center">
+          <button 
+            onClick={prevQuestion}
+            className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-marquis-blue transition-colors px-4 py-2"
+          >
+            <ChevronLeft className="w-5 h-5" /> Back
+          </button>
+          
+          <div className="flex gap-1">
+            {QUESTIONS.map((_, i) => (
+              <div 
+                key={i} 
+                className={cn(
+                  "w-1.5 h-1.5 rounded-full transition-all",
+                  i === currentQuestionIndex ? "bg-marquis-blue w-6" : "bg-slate-200"
+                )} 
+              />
             ))}
+          </div>
+          
+          <div className="text-xs font-black uppercase text-slate-400 tracking-widest">
+            Step {currentQuestionIndex + 1} of {QUESTIONS.length}
           </div>
         </div>
       </div>
     );
   }
 
-  if (step === 'seating') {
-    const capacities = [
-       { id: '2+', title: 'Intimate Retreat', desc: '2-3 Adults', img: '/mcp/demo/assets/therapy_premium.png' },
-       { id: '4+', title: 'Family Focus', desc: '4-5 Adults', img: '/mcp/demo/assets/recreation_premium.png' },
-       { id: '6+', title: 'Ultimate Entertainment', desc: '6+ Adults', img: '/mcp/demo/assets/fitness_premium.png' }
-    ];
-
+  if (step === 'blueprint') {
     return (
-      <div className="flex flex-col h-full bg-slate-50 animate-slick-reveal">
-        <StepHeader title="What size hot tub are you looking for?" subtitle="Select the capacity that perfectly fits your space and lifestyle." />
-        
-        <div className="p-6 md:p-10 flex-grow">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {capacities.map((cap, i) => (
-              <button
-                key={cap.id}
-                onClick={() => {
-                  setSeating(cap.id as Seating);
-                  handleRecommend(cap.id as Seating); // Auto-advance
-                }}
-                className={`relative bg-slate-200 rounded-2xl overflow-hidden text-center border-4 group transition-all shadow-md group ${
-                  seating === cap.id ? 'border-marquis-blue shadow-marquis-blue/20' : 'border-transparent hover:border-marquis-blue/30'
-                } stagger-${i+1}`}
-              >
-                <div className="w-full h-40 md:h-56 relative opacity-80 group-hover:opacity-100 transition-opacity">
-                    <img src={cap.img} className="w-full h-full object-cover" alt={cap.title} />
-                    <div className="absolute inset-0 bg-slate-900/60" />
-                </div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-white z-10 point-events-none">
-                    {seating === cap.id && (
-                        <div className="absolute top-4 right-4 bg-marquis-blue w-8 h-8 rounded-full flex items-center justify-center shadow-lg animate-in zoom-in-50">
-                            <Check className="w-5 h-5 text-white" />
-                        </div>
-                    )}
-                    <h3 className="text-2xl font-black italic uppercase text-white drop-shadow-md mb-2">{cap.title}</h3>
-                    <div className="text-sm font-bold text-white/90 bg-black/40 px-4 py-1 rounded-full">{cap.desc}</div>
-                </div>
-              </button>
-            ))}
-          </div>
-          
-          <div className="flex justify-center mt-10">
-            <button onClick={() => setStep('usage')} className="group px-6 py-3 text-sm font-semibold text-slate-500 hover:text-marquis-blue transition-colors flex items-center gap-2">
-              <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" /> Back to Purpose
-            </button>
-            {loading && (
-              <div className="ml-4 flex items-center gap-3 text-marquis-blue font-bold text-sm animate-pulse">
-                Analyzing Selections...
+      <div className="flex flex-col h-full bg-slate-900 text-white animate-slick-reveal">
+        <div className="flex-grow flex flex-col items-center justify-center p-10 text-center max-w-4xl mx-auto space-y-10">
+           <div className="space-y-4">
+              <div className="w-20 h-20 bg-marquis-blue rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)]">
+                 <Sparkles className="w-10 h-10 text-white" />
               </div>
-            )}
-          </div>
+              <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-none">AI Blueprint <br/><span className="text-marquis-blue">Generated.</span></h2>
+              <p className="text-slate-400 text-lg">We've synthesized your 14 data points into a personalized hydrotherapy profile.</p>
+           </div>
+
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+              {[
+                { label: 'Environment', val: preferences.sunExposure },
+                { label: 'Usage', val: preferences.primaryPurpose },
+                { label: 'Intensity', val: preferences.intensity },
+                { label: 'Aesthetic', val: preferences.aesthetic }
+              ].map((item, i) => (
+                <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-2xl text-left backdrop-blur-sm">
+                  <div className="text-[10px] font-bold text-marquis-blue uppercase tracking-widest mb-1">{item.label}</div>
+                  <div className="text-sm font-black uppercase italic truncate">{item.val?.toUpperCase() || 'CALCULATING'}</div>
+                </div>
+              ))}
+           </div>
+
+           <button 
+             onClick={handleRecommend}
+             disabled={loading}
+             className="btn-marquis-premium px-16 py-5 rounded-2xl text-xl font-black italic uppercase shadow-[0_0_50px_rgba(59,130,246,0.3)] animate-pulse"
+           >
+             {loading ? 'Synthesizing Match...' : 'Reveal My Perfection'}
+           </button>
         </div>
       </div>
     );
@@ -227,58 +561,41 @@ export default function Wizard() {
   if (step === 'results') {
     return (
       <div className="flex flex-col h-full bg-slate-50 animate-slick-reveal">
-        <StepHeader title="Your Personalized Selection" subtitle="Meticulously matched based on your purpose and capacity needs." />
+        <StepHeader title="Your Personalized Selection" subtitle="Meticulously matched based on your 14 expert criteria." />
         
-        <div className="p-6 md:p-10">
-           <div className="flex justify-between items-end mb-8 border-b-2 border-slate-200 pb-4 max-w-5xl mx-auto">
-              <div className="space-y-1">
-                <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Your Criteria:</h2>
-                <div className="flex gap-2 text-sm font-semibold text-slate-700">
-                  <span className="bg-marquis-blue/10 text-marquis-blue px-3 py-1 rounded-md">{priority?.replace('recreational', 'Quality Time').replace('therapy', 'Therapy').replace('fitness', 'Relaxation').toUpperCase()}</span>
-                  <span className="bg-white px-3 py-1 rounded-md border border-slate-200">{seating} Adults</span>
-                </div>
-              </div>
-              <button 
-                onClick={() => { setStep('intro'); setPriority(null); setSeating(null); }}
-                className="group flex items-center gap-2 text-xs font-bold uppercase text-slate-500 hover:text-marquis-blue transition-colors px-4 py-2 bg-white rounded-md border border-slate-200"
-              >
-                <RotateCcw className="w-3 h-3 group-hover:-rotate-90 transition-transform" /> Start Over
-              </button>
-           </div>
-
+        <div className="p-6 md:p-10 flex-grow">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
              {results && results.slice(0, 2).map((res, i) => {
                const heroImg = getHeroImage(res.product.modelName);
                return (
-                 <div key={res.product.id} className={`bg-white rounded-2xl overflow-hidden shadow-md flex flex-col border border-slate-100 ${i === 0 ? 'ring-2 ring-marquis-blue shadow-lg shadow-marquis-blue/10' : ''} animate-in fade-in slide-in-from-bottom duration-700`}>
-                   
-                   <div className="w-full h-56 relative bg-slate-100 overflow-hidden group">
-                      {heroImg ? <img src={heroImg} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" alt={res.product.modelName} /> : <div className="w-full h-full flex items-center justify-center font-black italic text-slate-300 text-3xl">MARQUIS</div>}
+                 <div key={res.product.id} className={cn(
+                   "bg-white rounded-3xl overflow-hidden shadow-md flex flex-col border transition-all duration-700 animate-in fade-in slide-in-from-bottom",
+                   i === 0 ? "border-marquis-blue ring-2 ring-marquis-blue/10 shadow-xl" : "border-slate-100"
+                 )}>
+                   <div className="w-full h-64 relative bg-slate-100 overflow-hidden group">
+                      <img src={heroImg} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={res.product.modelName} />
                       {i === 0 && (
-                          <div className="absolute top-4 left-4 bg-marquis-blue px-4 py-1.5 rounded-full text-xs font-bold uppercase text-white shadow-md">Best Match</div>
+                          <div className="absolute top-6 left-6 bg-marquis-blue px-4 py-2 rounded-full text-xs font-black uppercase text-white shadow-xl">The Gold Standard Match</div>
                       )}
-                      
-                      {/* Compact Quick Stats overlaid on image shadow */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex justify-between text-white pb-3 pt-12">
-                         <div className="text-xs font-semibold flex items-center gap-1"><Maximize className="w-3 h-3"/> {res.product.lengthIn}" Long</div>
-                         <div className="text-xs font-semibold flex items-center gap-1"><Zap className="w-3 h-3"/> {res.product.jetCount} Jets</div>
-                         <div className="text-xs font-semibold flex items-center gap-1"><Users className="w-3 h-3"/> {res.product.seatsMax} Seats</div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6 flex justify-between text-white">
+                         <div className="text-sm font-bold"><Zap className="inline w-4 h-4 mr-1 text-marquis-blue"/> {res.product.jetCount} Jets</div>
+                         <div className="text-sm font-bold"><Heart className="inline w-4 h-4 mr-1 text-marquis-blue"/> {res.score}% Match</div>
                       </div>
                    </div>
                    
-                   <div className="p-6 flex flex-col flex-grow">
-                      <div className="mb-4">
-                          <h3 className="text-2xl font-black italic uppercase text-slate-800 leading-none mb-1">{res.product.modelName}</h3>
-                          <div className="text-marquis-blue text-xs font-bold uppercase tracking-wider">Vector21 Series</div>
+                   <div className="p-8 flex flex-col flex-grow">
+                      <div className="mb-6">
+                          <h3 className="text-3xl font-black italic uppercase text-slate-800 leading-none mb-2">{res.product.modelName}</h3>
+                          <div className="text-marquis-blue text-xs font-bold uppercase tracking-widest">Crown Series Collection</div>
                       </div>
                       
-                      <p className="text-sm text-slate-600 mb-6 flex-grow line-clamp-3">"{res.product.marketingSummary}"</p>
+                      <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed">"{res.product.marketingSummary}"</p>
 
                       <button 
                         onClick={() => { setSelectedResult(res); setStep('details'); window.scrollTo(0,0); }}
-                        className="btn-marquis-premium w-full py-3 text-sm rounded-lg font-semibold"
+                        className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20"
                       >
-                        Explore Details
+                        Explore My Blueprint
                       </button>
                    </div>
                  </div>
@@ -295,111 +612,113 @@ export default function Wizard() {
     const heroImg = getHeroImage(product.modelName);
 
     return (
-      <div className="max-w-6xl mx-auto px-6 py-10 animate-slick-reveal bg-white rounded-3xl">
-        <button onClick={() => setStep('results')} className="group text-slate-500 hover:text-marquis-blue flex items-center gap-2 mb-8 font-bold text-xs uppercase tracking-wider transition-colors">
-          <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" /> Back to Results
+      <div className="max-w-7xl mx-auto px-6 py-10 animate-slick-reveal">
+        <button onClick={() => setStep('results')} className="group text-slate-500 hover:text-marquis-blue flex items-center gap-3 mb-10 font-black text-xs uppercase tracking-widest transition-colors">
+          <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Back to matches
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          
-          {/* Main Visual & Key Action (Left Side on Desktop) */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-100 bg-slate-50">
-              {heroImg ? <img src={heroImg} className="w-full h-[300px] object-cover" alt={product.modelName} /> : <div className="w-full h-[300px] flex items-center justify-center font-black italic text-slate-300 text-5xl">MARQUIS</div>}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div className="lg:col-span-5 space-y-8">
+            <div className="bg-white rounded-[40px] overflow-hidden shadow-2xl border border-slate-100 p-2">
+              <img src={heroImg} className="w-full h-[400px] object-cover rounded-[32px]" alt={product.modelName} />
             </div>
-            
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-               <h3 className="text-3xl font-black italic uppercase text-slate-800 mb-2 leading-none">{product.modelName}</h3>
-               <div className="text-marquis-blue text-sm font-bold uppercase mb-4">Vector21 Series</div>
+
+            <div className="bg-white p-10 rounded-[40px] shadow-xl border border-slate-100">
+               <h3 className="text-5xl font-black italic uppercase text-slate-900 mb-2 leading-none">{product.modelName}</h3>
+               <div className="text-marquis-blue text-sm font-black uppercase tracking-widest mb-8">Marquis Crown Series</div>
                
-               <div className="flex flex-wrap gap-2 mb-6">
-                 {product.usageTags.map(tag => (
-                    <span key={tag} className="bg-white border border-slate-200 px-3 py-1 rounded-md text-xs font-bold text-slate-600">
-                       {tag.replace('therapy', 'Therapy').replace('fitness', 'Fitness').replace('recreational', 'Recreation')}
-                    </span>
-                 ))}
+               <div className="grid grid-cols-2 gap-4 mb-10">
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase mb-1">Dimensions</div>
+                    <div className="text-lg font-black italic uppercase">{product.lengthIn}x{product.widthIn}"</div>
+                  </div>
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase mb-1">Seating</div>
+                    <div className="text-lg font-black italic uppercase">{product.seatsMax} Adults</div>
+                  </div>
                </div>
-               
-               <div className="space-y-3">
-                 <button className="w-full btn-marquis-premium py-3 rounded-lg text-sm shadow-md">
-                   Get Local Pricing
-                 </button>
-                 <button className="w-full bg-white text-marquis-blue border border-marquis-blue/30 hover:border-marquis-blue hover:bg-blue-50 py-3 rounded-lg text-sm font-bold transition-all shadow-sm">
-                   Find a Showroom Showroom
-                 </button>
+
+               <div className="space-y-4">
+                 <button className="btn-marquis-premium w-full py-5 rounded-2xl text-md font-black italic uppercase shadow-xl">Get Local Pricing</button>
+                 <button className="w-full bg-white text-marquis-blue border-2 border-marquis-blue px-6 py-5 rounded-2xl text-md font-black italic uppercase hover:bg-marquis-blue/5 transition-all">Find Dealer</button>
                </div>
-            </div>
-            
-            {/* Quick Specs table instead of massive cards */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                <h4 className="text-sm font-bold text-slate-800 uppercase mb-4 border-b border-slate-100 pb-2">At a Glance</h4>
-                <ul className="space-y-3 text-sm">
-                    <li className="flex justify-between"><span className="text-slate-500">Dimensions</span> <span className="font-semibold text-slate-800">{product.lengthIn}" L x {product.widthIn}" W</span></li>
-                    <li className="flex justify-between"><span className="text-slate-500">Depth</span> <span className="font-semibold text-slate-800">{product.depthIn}"</span></li>
-                    <li className="flex justify-between"><span className="text-slate-500">Capacity</span> <span className="font-semibold text-slate-800">{product.seatsMin}-{product.seatsMax} Adults</span></li>
-                    <li className="flex justify-between"><span className="text-slate-500">Velocity Jets</span> <span className="font-semibold text-slate-800">{product.jetCount} Injectors</span></li>
-                </ul>
             </div>
           </div>
 
-          {/* Educational Content & Marketing Narrative (Right Side on Desktop) */}
-          <div className="lg:col-span-7 space-y-8">
-            <section className="bg-white">
-                <h2 className="text-2xl md:text-3xl font-black italic uppercase text-slate-800 mb-4 pb-2 border-b border-slate-100">
-                   The Marquis Experience
+          <div className="lg:col-span-7 space-y-12">
+            {/* Interactive Feature Map */}
+            {product.overheadImageUrl && (
+              <section className="bg-white p-6 rounded-[40px] shadow-xl border border-slate-100 overflow-hidden">
+                <h4 className="text-xl font-black italic uppercase text-slate-900 mb-6 px-4">Interactive Feature Map</h4>
+                <div className="relative aspect-square md:aspect-video rounded-3xl overflow-hidden bg-slate-100 group">
+                  <img 
+                    src={product.overheadImageUrl} 
+                    className="w-full h-full object-contain" 
+                    alt="Overhead View" 
+                  />
+                  
+                  {/* Hotspots */}
+                  {product.hotspots && (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots).map((spot: any, i: number) => (
+                    <div 
+                      key={i}
+                      className="absolute group/spot transition-all z-20"
+                      style={{ top: `${spot.y}%`, left: `${spot.x}%` }}
+                    >
+                      <button className="w-8 h-8 bg-marquis-blue text-white rounded-full flex items-center justify-center shadow-lg hover:scale-125 transition-transform animate-pulse">
+                        <Plus className="w-5 h-5" />
+                      </button>
+                      
+                      {/* Tooltip */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-64 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-opacity pointer-events-none z-30">
+                        <div className="text-xs font-black uppercase italic text-marquis-blue mb-1">{spot.title}</div>
+                        <p className="text-xs text-slate-300 leading-relaxed">{spot.description}</p>
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-slate-900" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-center text-xs text-slate-400 mt-4 font-bold uppercase tracking-widest italic animate-pulse">Hover over hotspots to reveal engineering details</p>
+              </section>
+            )}
+
+            <section className="bg-white p-10 rounded-[40px] shadow-xl border border-slate-100 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8 opacity-5">
+                   <Star className="w-40 h-40" />
+                </div>
+                <h2 className="text-4xl font-black italic uppercase text-slate-900 mb-8 flex items-center gap-4">
+                  The Marquis Match <Sparkles className="w-8 h-8 text-marquis-blue" />
                 </h2>
-                <div className="mb-8">
-                   <p className="text-slate-600 text-base leading-relaxed font-medium italic mb-6">
-                     "{product.marketingSummary}"
-                   </p>
-                   
-                   <h3 className="text-sm font-bold uppercase text-marquis-green mb-3 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4" /> Why this model fits you perfectly
-                   </h3>
-                   <ul className="space-y-4">
-                     {reasons.map((r, i) => (
-                       <li key={i} className="flex gap-4 items-start bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-                         <div className="mt-1 flex-shrink-0 text-marquis-blue">
-                            <Check className="w-5 h-5" />
-                         </div>
-                         <p className="text-sm text-slate-700 font-medium leading-relaxed">{r}</p>
-                       </li>
-                     ))}
-                   </ul>
-                </div>
-            </section>
-            
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-marquis-blue/5 border border-marquis-blue/10 p-6 rounded-2xl">
-                    <h4 className="text-lg font-black italic text-marquis-blue mb-2 flex items-center gap-2">
-                       <Zap className="w-5 h-5"/> V-O-L-T™ Flow
-                    </h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                       Our patented Vector-Optimized Laminar Therapy system delivers up to 40% more flow volume to specific zones without increasing pump size, providing deep, restorative muscle massage precisely where you need it.
-                    </p>
-                </div>
-                
-                <div className="bg-marquis-green/5 border border-marquis-green/10 p-6 rounded-2xl">
-                    <h4 className="text-lg font-black italic text-marquis-green mb-2 flex items-center gap-2">
-                       <Maximize className="w-5 h-5"/> Meticulous Space
-                    </h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                       Designed with ergonomic precision. Every curve and seat depth in the {product.modelName} is calibrated to keep you naturally buoyant yet firmly anchored during high-intensity hydrotherapy sessions.
-                    </p>
-                </div>
-            </section>
-            
-            <section className="bg-slate-100 p-6 orounded-2xl border border-slate-200 mt-8 rounded-2xl">
-                <h4 className="text-md font-bold text-slate-800 mb-2">Showroom Checklist</h4>
-                <p className="text-xs text-slate-500 mb-4">Print this or take a screenshot to discuss with your local Marquis dealer.</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6">
-                    <div className="flex items-center gap-2 text-sm text-slate-700 font-medium"><div className="w-1.5 h-1.5 rounded-full bg-marquis-blue"></div> Test V-O-L-T™ valve controls</div>
-                    <div className="flex items-center gap-2 text-sm text-slate-700 font-medium"><div className="w-1.5 h-1.5 rounded-full bg-marquis-blue"></div> View shell color finishes</div>
-                    <div className="flex items-center gap-2 text-sm text-slate-700 font-medium"><div className="w-1.5 h-1.5 rounded-full bg-marquis-blue"></div> Confirm site preparation</div>
-                    <div className="flex items-center gap-2 text-sm text-slate-700 font-medium"><div className="w-1.5 h-1.5 rounded-full bg-marquis-blue"></div> Discuss electrical requirements</div>
+                <div className="space-y-8 relative z-10">
+                  <p className="text-xl text-slate-600 leading-relaxed font-black uppercase italic italic opacity-70">
+                    "{product.marketingSummary}"
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {reasons.slice(0, 4).map((r, i) => (
+                      <div key={i} className="flex gap-4 items-start bg-blue-50/50 p-6 rounded-3xl border border-blue-100/50 transition-all hover:scale-102">
+                        <div className="bg-marquis-blue text-white rounded-full p-2 flex-shrink-0">
+                          <Check className="w-4 h-4" />
+                        </div>
+                        <p className="text-sm text-slate-700 font-bold leading-relaxed">{r}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
             </section>
 
+            <section className="bg-slate-900 text-white p-10 rounded-[40px] shadow-2xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-marquis-blue/20 to-transparent" />
+                <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+                  <div className="space-y-4">
+                     <h4 className="text-2xl font-black italic uppercase text-marquis-blue">Expert Insight</h4>
+                     <p className="text-slate-400 leading-relaxed">Based on your {preferences.zipCode} location, we recommend the MaximizR™ insulation package to maintain peak efficiency during cold night cycles.</p>
+                  </div>
+                  <div className="space-y-4">
+                     <h4 className="text-2xl font-black italic uppercase text-marquis-green">Placement Note</h4>
+                     <p className="text-slate-400 leading-relaxed">For your {preferences.placement} installation, ensure a load-bearing capacity of at least 150 lbs/sqft to accommodate the filled weight of the {product.modelName}.</p>
+                  </div>
+                </div>
+            </section>
           </div>
         </div>
       </div>
