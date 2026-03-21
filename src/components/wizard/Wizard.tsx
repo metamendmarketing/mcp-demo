@@ -98,9 +98,9 @@ const QUESTIONS: {
     expertTip: "Capacity isn't solely about how many people you plan to host. A 6+ person model offers a significantly larger interior footprint, providing diverse jet patterns and varying seat depths. This is crucial if your family has significant height differences. For solo or couples therapy, a 2-3 person blueprint maximizes efficiency without sacrificing power.",
     layout: 'grid',
     options: [
-      { value: '2-3', label: '2-3 Adults', tip: "Intimate, highly efficient footprint perfect for smaller patios.", icon: <Users className="w-10 h-10 opacity-60 mx-auto" /> },
-      { value: '4-5', label: '4-5 Adults', tip: "The standard family size, offering a mix of lounges and deep bucket seats.", icon: <Users className="w-10 h-10 opacity-80 mx-auto" /> },
-      { value: '6+', label: '6+ Adults', tip: "Ultimate entertainment hubs with massive open seating specifications.", icon: <Users className="w-10 h-10 opacity-100 mx-auto" /> }
+      { value: '2-3', label: '2-3 Adults', tip: "Intimate, highly efficient footprint perfect for smaller patios.", image: '/mcp/demo/assets/capacity_intimate_1774075207167.png' },
+      { value: '4-5', label: '4-5 Adults', tip: "The standard family size, offering a mix of lounges and deep bucket seats.", image: '/mcp/demo/assets/capacity_family_1774075222333.png' },
+      { value: '6+', label: '6+ Adults', tip: "Ultimate entertainment hubs with massive open seating specifications.", image: '/mcp/demo/assets/capacity_entertaining_1774075235674.png' }
     ]
   },
   {
