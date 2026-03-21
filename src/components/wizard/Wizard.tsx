@@ -2,23 +2,11 @@
 
 import React, { useState } from 'react';
 import { 
-  Check, 
-  ChevronRight, 
-  RotateCcw, 
-  Zap, 
-  Users, 
-  Star, 
-  Maximize, 
-  UserCheck, 
-  MessageSquare, 
-  MapPin, 
-  Droplets, 
-  Heart, 
-  Sparkles, 
-  ArrowRight,
-  Info,
-  ChevronLeft,
-  Plus
+  Check, ChevronRight, RotateCcw, Zap, Users, Star, Maximize, UserCheck, 
+  MessageSquare, MapPin, Droplets, Heart, Sparkles, ArrowRight, Info, ChevronLeft, Plus,
+  Compass, Sun, CloudSun, Sunset, Cloud, Box, Home, TreePine, Activity, Flame, Droplet,
+  Waves, Palette, LayoutGrid, Leaf, Settings, Wrench, Battery, BatteryCharging, Gauge,
+  Wallet, Landmark, Gem, Hammer, Truck
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -97,9 +85,9 @@ const QUESTIONS: {
     expertTip: "Therapy-focused models use V-O-L-T™ flow to target deep muscle groups, while social models prioritize open seating and ambient lighting.",
     layout: 'grid',
     options: [
-      { value: 'therapy', label: 'Therapy & Healing', image: '/mcp/demo/assets/therapy_premium.png' },
-      { value: 'recreational', label: 'Quality Time', image: '/mcp/demo/assets/recreation_premium.png' },
-      { value: 'relaxation', label: 'Relaxation', image: '/mcp/demo/assets/fitness_premium.png' }
+      { value: 'therapy', label: 'Therapy & Healing', image: '/mcp/demo/assets/therapy_premium.png', icon: <Activity className="w-8 h-8" /> },
+      { value: 'recreational', label: 'Quality Time', image: '/mcp/demo/assets/recreation_premium.png', icon: <Users className="w-8 h-8" /> },
+      { value: 'relaxation', label: 'Relaxation', image: '/mcp/demo/assets/fitness_premium.png', icon: <Heart className="w-8 h-8" /> }
     ]
   },
   {
@@ -109,9 +97,9 @@ const QUESTIONS: {
     expertTip: "A 4-5 person tub is our most popular for families, but 6+ models provide the 'Ultimate Entertainment' experience.",
     layout: 'grid',
     options: [
-      { value: '2-3', label: '2-3 Adults', image: '/mcp/demo/assets/therapy_premium.png' },
-      { value: '4-5', label: '4-5 Adults', image: '/mcp/demo/assets/recreation_premium.png' },
-      { value: '6+', label: '6+ Adults', image: '/mcp/demo/assets/fitness_premium.png' }
+      { value: '2-3', label: '2-3 Adults', icon: <Users className="w-8 h-8 opacity-60" /> },
+      { value: '4-5', label: '4-5 Adults', icon: <Users className="w-8 h-8 opacity-80" /> },
+      { value: '6+', label: '6+ Adults', icon: <Users className="w-8 h-8 opacity-100" /> }
     ]
   },
   {
@@ -121,9 +109,9 @@ const QUESTIONS: {
     expertTip: "Loungers are incredible for full-body therapy, but they take up the space of about two upright seats. Consider if you prioritize 'me-time' or 'we-time'.",
     layout: 'split',
     options: [
-      { value: 'yes', label: 'Yes, I want to lounge', tip: "Best for solitary relaxation." },
-      { value: 'no', label: 'No, more open seating', tip: "Best for social gatherings." },
-      { value: 'no-pref', label: 'No preference', tip: "I'm open to both." }
+      { value: 'yes', label: 'Yes, I want to lounge', tip: "Best for solitary relaxation.", icon: <Maximize className="w-6 h-6" /> },
+      { value: 'no', label: 'No, more open seating', tip: "Best for social gatherings.", icon: <Users className="w-6 h-6" /> },
+      { value: 'no-pref', label: 'No preference', tip: "I'm open to both.", icon: <Star className="w-6 h-6" /> }
     ]
   },
   {
@@ -133,9 +121,9 @@ const QUESTIONS: {
     expertTip: "240V systems allow the heater and pumps to run at full speed simultaneously—crucial for cold climates and intense therapy.",
     layout: 'split',
     options: [
-      { value: '110v', label: '110V Plug Play', tip: "Easy install, standard outlet." },
-      { value: '240v', label: '240V Hardwired', tip: "Maximum performance and heat." },
-      { value: 'help', label: 'Help me decide', tip: "We'll recommend based on usage." }
+      { value: '110v', label: '110V Plug Play', tip: "Easy install, standard outlet.", icon: <Battery className="w-6 h-6" /> },
+      { value: '240v', label: '240V Hardwired', tip: "Maximum performance and heat.", icon: <BatteryCharging className="w-6 h-6" /> },
+      { value: 'help', label: 'Help me decide', tip: "We'll recommend based on usage.", icon: <Info className="w-6 h-6" /> }
     ]
   },
   {
@@ -153,10 +141,10 @@ const QUESTIONS: {
     expertTip: "Direct afternoon sun in the south requires a premium ProLast™ cover to prevent UV degradation and maintain energy efficiency.",
     layout: 'grid',
     options: [
-      { value: 'morning', label: 'Morning Sun' },
-      { value: 'afternoon', label: 'Afternoon Sun' },
-      { value: 'direct', label: 'Full Day Direct' },
-      { value: 'shaded', label: 'Predominantly Shaded' }
+      { value: 'morning', label: 'Morning Sun', icon: <Sun className="w-8 h-8 text-amber-500" /> },
+      { value: 'afternoon', label: 'Afternoon Sun', icon: <Sunset className="w-8 h-8 text-orange-500" /> },
+      { value: 'direct', label: 'Full Day Direct', icon: <Flame className="w-8 h-8 text-red-500" /> },
+      { value: 'shaded', label: 'Predominantly Shaded', icon: <Cloud className="w-8 h-8 text-slate-400" /> }
     ]
   },
   {
@@ -166,10 +154,10 @@ const QUESTIONS: {
     expertTip: "A 'Ground' placement often requires a concrete pad or EZ-Pad, while a 'Deck' requires structural verification for filled weights (often 3,000+ lbs).",
     layout: 'grid',
     options: [
-      { value: 'deck', label: 'Wood/Composite Deck' },
-      { value: 'patio', label: 'Concrete/Paver Patio' },
-      { value: 'indoor', label: 'Indoor/Sunroom' },
-      { value: 'ground', label: 'New Ground Site' }
+      { value: 'deck', label: 'Wood/Composite Deck', icon: <Box className="w-8 h-8" /> },
+      { value: 'patio', label: 'Concrete/Paver Patio', icon: <MapPin className="w-8 h-8" /> },
+      { value: 'indoor', label: 'Indoor/Sunroom', icon: <Home className="w-8 h-8" /> },
+      { value: 'ground', label: 'New Ground Site', icon: <TreePine className="w-8 h-8" /> }
     ]
   },
   {
@@ -179,10 +167,10 @@ const QUESTIONS: {
     expertTip: "If you select 'Neck & Shoulders', we'll prioritize seats with specialized collar jets and high-output therapy zones.",
     layout: 'grid',
     options: [
-      { value: 'neck-shoulders', label: 'Neck & Shoulders' },
-      { value: 'lower-back', label: 'Lower Back' },
-      { value: 'legs-feet', label: 'Legs & Feet' },
-      { value: 'full-body', label: 'Full Body' }
+      { value: 'neck-shoulders', label: 'Neck & Shoulders', icon: <Activity className="w-8 h-8" /> },
+      { value: 'lower-back', label: 'Lower Back', icon: <Waves className="w-8 h-8" /> },
+      { value: 'legs-feet', label: 'Legs & Feet', icon: <Droplet className="w-8 h-8" /> },
+      { value: 'full-body', label: 'Full Body', icon: <Heart className="w-8 h-8" /> }
     ]
   },
   {
@@ -192,10 +180,10 @@ const QUESTIONS: {
     expertTip: "A 'Modern' look pairs our Durashell® interior with monochrome cabinets, while 'Rustic' highlights earth tones and wood-grain textures.",
     layout: 'grid',
     options: [
-      { value: 'modern', label: 'Sleek & Modern' },
-      { value: 'rustic', label: 'Warm & Rustic' },
-      { value: 'tropical', label: 'Island Tropical' },
-      { value: 'classic', label: 'Timeless Classic' }
+      { value: 'modern', label: 'Sleek & Modern', icon: <LayoutGrid className="w-8 h-8 text-slate-800" /> },
+      { value: 'rustic', label: 'Warm & Rustic', icon: <Palette className="w-8 h-8 text-amber-700" /> },
+      { value: 'tropical', label: 'Island Tropical', icon: <Leaf className="w-8 h-8 text-teal-600" /> },
+      { value: 'classic', label: 'Timeless Classic', icon: <Star className="w-8 h-8 text-indigo-700" /> }
     ]
   },
   {
@@ -205,8 +193,8 @@ const QUESTIONS: {
     expertTip: "ConstantClean+™ and SmartClean™ technology can automate 90% of water care, so you spend more time soaking and less time testing.",
     layout: 'split',
     options: [
-      { value: 'automated', label: 'Set it and Forget it' },
-      { value: 'hands-on', label: 'I enjoy the ritual' }
+      { value: 'automated', label: 'Set it and Forget it', tip: "Automated sanitization systems.", icon: <Settings className="w-6 h-6" /> },
+      { value: 'hands-on', label: 'I enjoy the ritual', tip: "Manual water care.", icon: <Wrench className="w-6 h-6" /> }
     ]
   },
   {
@@ -216,22 +204,22 @@ const QUESTIONS: {
     expertTip: "HK jets provide 'Deep Tissue' massage, while our Multi-Touch jets offer a 'Relaxing' broader sensation.",
     layout: 'split',
     options: [
-      { value: 'gentle', label: 'Gentle Relaxation' },
-      { value: 'medium', label: 'Medium/Vigorous' },
-      { value: 'firm', label: 'Firm Deep Tissue' }
+      { value: 'gentle', label: 'Gentle Relaxation', tip: "Soothing flow.", icon: <Cloud className="w-6 h-6" /> },
+      { value: 'medium', label: 'Medium/Vigorous', tip: "Balanced therapy.", icon: <Waves className="w-6 h-6" /> },
+      { value: 'firm', label: 'Firm Deep Tissue', tip: "High impact targeting.", icon: <Gauge className="w-6 h-6" /> }
     ]
   },
   {
     id: 'budget',
     question: "Your Investment Range?",
     subtext: "We have a Marquis for every backyard.",
-    expertTip: "While initial cost matters, our the Vector21 and Crown Series offer significantly lower long-term energy costs due to high-density insulation.",
+    expertTip: "While initial cost matters, our Vector21 and Crown Series offer significantly lower long-term energy costs due to high-density insulation.",
     layout: 'grid',
     options: [
-      { value: 'entry', label: 'Entry ($5k - $8k)' },
-      { value: 'mid', label: 'Standard ($9k - $13k)' },
-      { value: 'premium', label: 'Premium ($14k - $18k)' },
-      { value: 'luxury', label: 'Luxury ($19k+)' }
+      { value: 'entry', label: 'Entry ($5k - $8k)', icon: <Wallet className="w-8 h-8" /> },
+      { value: 'mid', label: 'Standard ($9k - $13k)', icon: <Landmark className="w-8 h-8" /> },
+      { value: 'premium', label: 'Premium ($14k - $18k)', icon: <Star className="w-8 h-8" /> },
+      { value: 'luxury', label: 'Luxury ($19k+)', icon: <Gem className="w-8 h-8" /> }
     ]
   },
   {
@@ -241,8 +229,8 @@ const QUESTIONS: {
     expertTip: "Professional site evaluation by a Marquis dealer is crucial before delivery to ensure permanent access and electrical compliance.",
     layout: 'split',
     options: [
-      { value: 'ready', label: 'Ready to go' },
-      { value: 'planning', label: 'Just planning' }
+      { value: 'ready', label: 'Ready to go', tip: "I have a site and budget.", icon: <Zap className="w-6 h-6" /> },
+      { value: 'planning', label: 'Just planning', tip: "Still researching.", icon: <Compass className="w-6 h-6" /> }
     ]
   },
   {
@@ -252,9 +240,9 @@ const QUESTIONS: {
     expertTip: "Most tubs need at least 38\" of vertical clearance. If access is tight, we can coordinate specialized dollies or even crane services.",
     layout: 'split',
     options: [
-      { value: 'easy', label: 'Wide open access' },
-      { value: 'standard', label: 'Standard side gate' },
-      { value: 'tight', label: 'Tight/Complex paths' }
+      { value: 'easy', label: 'Wide open access', tip: "Standard truck delivery.", icon: <Truck className="w-6 h-6" /> },
+      { value: 'standard', label: 'Standard side gate', tip: "Minimum 38 inch clearance.", icon: <Hammer className="w-6 h-6" /> },
+      { value: 'tight', label: 'Tight/Complex paths', tip: "Requires special equipment.", icon: <MapPin className="w-6 h-6" /> }
     ]
   }
 ];
@@ -401,22 +389,34 @@ export default function Wizard() {
                       setTimeout(nextQuestion, 150);
                     }}
                     className={cn(
-                      "group relative bg-white rounded-2xl border-2 p-6 text-left transition-all shadow-sm hover:shadow-md",
-                      preferences[q.id] === opt.value ? "border-marquis-blue ring-1 ring-marquis-blue/20" : "border-transparent"
+                      "group relative bg-white rounded-2xl border-2 p-6 text-left transition-all shadow-sm hover:shadow-lg flex flex-col justify-between h-full min-h-[160px]",
+                      preferences[q.id] === opt.value ? "border-marquis-blue ring-2 ring-marquis-blue/20 bg-blue-50/20" : "border-slate-100/80 hover:border-marquis-blue/40"
                     )}
                   >
-                    {opt.image && (
+                    {opt.image ? (
                       <div className="w-full h-32 mb-4 rounded-xl overflow-hidden bg-slate-100">
-                        <img src={opt.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                        <img src={opt.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={opt.label} />
                       </div>
-                    )}
-                    <h4 className="text-lg font-black uppercase italic mb-2 text-slate-800">{opt.label}</h4>
-                    {opt.tip && <p className="text-xs text-slate-500 italic">{opt.tip}</p>}
-                    {preferences[q.id] === opt.value && (
-                      <div className="absolute top-4 right-4 bg-marquis-blue text-white rounded-full p-1 animate-in zoom-in-50">
-                        <Check className="w-4 h-4" />
+                    ) : opt.icon ? (
+                      <div className={cn(
+                        "w-16 h-16 mb-6 rounded-2xl flex items-center justify-center transition-all duration-300",
+                        preferences[q.id] === opt.value ? "bg-marquis-blue text-white shadow-xl shadow-marquis-blue/30 scale-105" : "bg-slate-50 text-marquis-blue/60 group-hover:bg-blue-50/80 group-hover:text-marquis-blue group-hover:scale-105"
+                      )}>
+                        {opt.icon}
                       </div>
-                    )}
+                    ) : null}
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic mb-2 text-slate-800 tracking-wide">{opt.label}</h4>
+                      {opt.tip && <p className="text-sm text-slate-500 font-medium leading-relaxed">{opt.tip}</p>}
+                    </div>
+                    
+                    {/* Selected state indicator */}
+                    <div className={cn(
+                      "absolute top-4 right-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300",
+                      preferences[q.id] === opt.value ? "bg-marquis-blue text-white opacity-100 scale-100" : "bg-transparent text-transparent opacity-0 scale-50"
+                    )}>
+                      <Check className="w-4 h-4 text-white" />
+                    </div>
                   </button>
                 ))}
               </div>
@@ -445,19 +445,30 @@ export default function Wizard() {
                         setTimeout(nextQuestion, 150);
                       }}
                       className={cn(
-                        "w-full flex items-center justify-between p-6 bg-white rounded-2xl border-2 transition-all group",
-                        preferences[q.id] === opt.value ? "border-marquis-blue bg-blue-50/30" : "border-slate-100 hover:border-marquis-blue/30"
+                        "w-full flex items-center justify-between p-6 bg-white rounded-2xl border-2 transition-all hover:shadow-md group",
+                        preferences[q.id] === opt.value ? "border-marquis-blue bg-blue-50/30 scale-[1.02]" : "border-slate-100/80 hover:border-marquis-blue/40"
                       )}
                     >
-                      <div className="flex flex-col text-left">
-                        <span className="text-xl font-black uppercase italic text-slate-800">{opt.label}</span>
-                        {opt.tip && <span className="text-sm text-slate-500">{opt.tip}</span>}
+                      <div className="flex items-center gap-6">
+                        {opt.icon && (
+                          <div className={cn(
+                            "w-14 h-14 rounded-2xl flex items-center justify-center transition-all shrink-0",
+                            preferences[q.id] === opt.value ? "bg-marquis-blue text-white shadow-lg shadow-marquis-blue/20" : "bg-slate-50 text-slate-400 group-hover:bg-blue-50/50 group-hover:text-marquis-blue"
+                          )}>
+                            {opt.icon}
+                          </div>
+                        )}
+                        <div className="flex flex-col text-left">
+                          <span className="text-xl font-black uppercase italic text-slate-800 tracking-wide">{opt.label}</span>
+                          {opt.tip && <span className="text-sm text-slate-500 font-medium mt-1">{opt.tip}</span>}
+                        </div>
                       </div>
+                      
                       <div className={cn(
-                        "w-10 h-10 rounded-full flex items-center justify-center transition-all",
-                        preferences[q.id] === opt.value ? "bg-marquis-blue text-white" : "bg-slate-100 text-slate-400 group-hover:bg-marquis-blue/10"
+                        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 border-2",
+                        preferences[q.id] === opt.value ? "bg-marquis-blue border-marquis-blue text-white" : "bg-transparent border-slate-200 text-slate-300 group-hover:border-marquis-blue/30 group-hover:bg-blue-50/30 group-hover:text-marquis-blue"
                       )}>
-                        {preferences[q.id] === opt.value ? <Check className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
+                        {preferences[q.id] === opt.value ? <Check className="w-5 h-5 mx-auto" /> : <div className="w-2.5 h-2.5 rounded-full bg-current" />}
                       </div>
                     </button>
                   ))}
