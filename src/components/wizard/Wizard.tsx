@@ -383,7 +383,12 @@ export default function Wizard() {
         <div className="flex-grow overflow-y-auto px-6 py-8 md:p-10">
           <div className="max-w-6xl mx-auto">
             {q.layout === 'grid' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className={cn(
+                "grid gap-6 mx-auto",
+                q.options.length === 3 
+                  ? "grid-cols-1 md:grid-cols-3 max-w-4xl" 
+                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+              )}>
                 {q.options.map((opt, i) => (
                   <button
                     key={opt.value}
