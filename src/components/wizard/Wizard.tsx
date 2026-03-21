@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { 
-  Check, ChevronRight, RotateCcw, Zap, Users, Star, Maximize, UserCheck, 
+  Check, ChevronRight, RotateCcw, Zap, Users, Star, Maximize, UserCheck, BookOpen, Scale,
   MessageSquare, MapPin, Droplets, Heart, Sparkles, ArrowRight, Info, ChevronLeft, Plus,
   Compass, Sun, CloudSun, Sunset, Cloud, Box, Home, TreePine, Activity, Flame, Droplet,
   Waves, Palette, LayoutGrid, Leaf, Settings, Wrench, Battery, BatteryCharging, Gauge,
