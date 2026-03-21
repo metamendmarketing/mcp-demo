@@ -80,169 +80,169 @@ const QUESTIONS: {
 }[] = [
   {
     id: 'primaryPurpose',
-    question: "What is the primary purpose of your hot tub?",
-    subtext: "Your goal determines the jet configuration and flow management system.",
-    expertTip: "Therapy-focused models use V-O-L-T™ flow to target deep muscle groups, while social models prioritize open seating and ambient lighting.",
+    question: "What is your primary goal?",
+    subtext: "Your intention dictates the flow management and jet configurations we recommend.",
+    expertTip: "The physical architecture of a Marquis spa changes based on your answer. Therapy-focused models utilize our proprietary V-O-L-T™ flow system to drive massive, low-pressure water volume for deep tissue penetration. Conversely, recreational models prioritize open-concept seating, ambient waterline lighting, and spacious footwells for group entertaining.",
     layout: 'grid',
     options: [
-      { value: 'therapy', label: 'Therapy & Healing', image: '/mcp/demo/assets/therapy_premium.png', icon: <Activity className="w-8 h-8" /> },
-      { value: 'recreational', label: 'Quality Time', image: '/mcp/demo/assets/recreation_premium.png', icon: <Users className="w-8 h-8" /> },
-      { value: 'relaxation', label: 'Relaxation', image: '/mcp/demo/assets/fitness_premium.png', icon: <Heart className="w-8 h-8" /> }
+      { value: 'therapy', label: 'Deep Hydrotherapy', tip: "Focused relief for chronic pain, athletic recovery, and targeted muscle tension.", image: '/mcp/demo/assets/therapy_premium.png' },
+      { value: 'recreational', label: 'Social & Entertainment', tip: "Open seating, vibrant lighting, and space for family connection.", image: '/mcp/demo/assets/recreation_premium.png' },
+      { value: 'relaxation', label: 'Stress Relief & Sleep', tip: "Gentle bubbling, quiet operation, and ergonomic lounging for mental reset.", image: '/mcp/demo/assets/fitness_premium.png' }
     ]
   },
   {
     id: 'capacity',
-    question: "What seating capacity do you need?",
-    subtext: "From intimate retreats to ultimate entertainment hubs.",
-    expertTip: "A 4-5 person tub is our most popular for families, but 6+ models provide the 'Ultimate Entertainment' experience.",
+    question: "What seating capacity fits your lifestyle?",
+    subtext: "Determine your footprint. Remember, larger tubs offer more varied seat depths.",
+    expertTip: "Capacity isn't solely about how many people you plan to host. A 6+ person model offers a significantly larger interior footprint, providing diverse jet patterns and varying seat depths. This is crucial if your family has significant height differences. For solo or couples therapy, a 2-3 person blueprint maximizes efficiency without sacrificing power.",
     layout: 'grid',
     options: [
-      { value: '2-3', label: '2-3 Adults', icon: <Users className="w-8 h-8 opacity-60" /> },
-      { value: '4-5', label: '4-5 Adults', icon: <Users className="w-8 h-8 opacity-80" /> },
-      { value: '6+', label: '6+ Adults', icon: <Users className="w-8 h-8 opacity-100" /> }
+      { value: '2-3', label: '2-3 Adults', tip: "Intimate, highly efficient footprint perfect for smaller patios.", icon: <Users className="w-10 h-10 opacity-60 mx-auto" /> },
+      { value: '4-5', label: '4-5 Adults', tip: "The standard family size, offering a mix of lounges and deep bucket seats.", icon: <Users className="w-10 h-10 opacity-80 mx-auto" /> },
+      { value: '6+', label: '6+ Adults', tip: "Ultimate entertainment hubs with massive open seating specifications.", icon: <Users className="w-10 h-10 opacity-100 mx-auto" /> }
     ]
   },
   {
     id: 'lounge',
-    question: "Do you prefer a lounge seat?",
-    subtext: "A reclined seat for full-body immersion.",
-    expertTip: "Loungers are incredible for full-body therapy, but they take up the space of about two upright seats. Consider if you prioritize 'me-time' or 'we-time'.",
+    question: "Do you prefer a dedicated lounge seat?",
+    subtext: "A fully reclined seat designed for intense, full-body immersion.",
+    expertTip: "Loungers provide the absolute best full-body hydrotherapy sequence, targeting your neck down to your calves simultaneously. However, a lounge seat consumes the footprint of approximately two standard upright seats. If your goal is maximizing headcount for parties, we recommend an open-seating model.",
     layout: 'split',
     options: [
-      { value: 'yes', label: 'Yes, I want to lounge', tip: "Best for solitary relaxation.", icon: <Maximize className="w-6 h-6" /> },
-      { value: 'no', label: 'No, more open seating', tip: "Best for social gatherings.", icon: <Users className="w-6 h-6" /> },
-      { value: 'no-pref', label: 'No preference', tip: "I'm open to both.", icon: <Star className="w-6 h-6" /> }
+      { value: 'yes', label: 'Yes, include a Lounger', tip: "I prioritize solo, full-body relaxation.", icon: <Maximize className="w-8 h-8" /> },
+      { value: 'no', label: 'No, Open Seating', tip: "I want to maximize the number of seats available.", icon: <Users className="w-8 h-8" /> },
+      { value: 'no-pref', label: 'No Preference', tip: "Show me the best matches for both layouts.", icon: <Star className="w-8 h-8" /> }
     ]
   },
   {
     id: 'electrical',
-    question: "What is your electrical setup?",
-    subtext: "110V (Plug-and-Play) vs 240V (Dedicated Circuit).",
-    expertTip: "240V systems allow the heater and pumps to run at full speed simultaneously—crucial for cold climates and intense therapy.",
+    question: "What is your electrical capacity?",
+    subtext: "Determines heating speed and parallel pump performance.",
+    expertTip: "This is a critical infrastructure decision. 110V 'Plug and Play' models can connect to a standard household outlet, making installation trivial. However, they cannot run the 4kW heater and high-speed pumps simultaneously. If you live in a cold climate or demand aggressive jet pressure, a dedicated 240V hardwired line is essential.",
     layout: 'split',
     options: [
-      { value: '110v', label: '110V Plug Play', tip: "Easy install, standard outlet.", icon: <Battery className="w-6 h-6" /> },
-      { value: '240v', label: '240V Hardwired', tip: "Maximum performance and heat.", icon: <BatteryCharging className="w-6 h-6" /> },
-      { value: 'help', label: 'Help me decide', tip: "We'll recommend based on usage.", icon: <Info className="w-6 h-6" /> }
+      { value: '110v', label: '110V Plug & Play', tip: "Easy install via standard outlet. Heater pauses when jets are on high.", icon: <Battery className="w-8 h-8 text-blue-400" /> },
+      { value: '240v', label: '240V Hardwired', tip: "Requires an electrician. Maximum parallel performance and rapid heating.", icon: <BatteryCharging className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'help', label: 'Help me decide', tip: "I need more information on electrical requirements.", icon: <Info className="w-8 h-8 text-slate-400" /> }
     ]
   },
   {
     id: 'zipCode',
     question: "Where will your oasis be located?",
     subtext: "Your climate and elevation affect heating efficiency.",
-    expertTip: "High-altitude and colder regions require our MaximizR™ full-foam insulation to maintain consistent 104°F temperatures efficiently.",
+    expertTip: "High-altitude and colder regions require our MaximizR™ full-foam insulation to maintain consistent 104°F temperatures efficiently. We factor your ZIP code to determine thermal load.",
     layout: 'map',
     options: []
   },
   {
     id: 'sunExposure',
-    question: "What is the Backyard Orientation?",
-    subtext: "Sun exposure affects your cover's lifespan and daily water temps.",
-    expertTip: "Direct afternoon sun in the south requires a premium ProLast™ cover to prevent UV degradation and maintain energy efficiency.",
+    question: "What is the primary backyard orientation?",
+    subtext: "Understanding UV exposure dictates cover life and energy retention.",
+    expertTip: "We ask this to determine your thermal load. A hot tub facing full Southern exposure will experience significant solar gain, reducing heating costs but accelerating UV degradation on standard covers. In this scenario, we will specifically mandate a premium Weathershield™ or ProLast™ cover to protect your investment.",
     layout: 'grid',
     options: [
-      { value: 'morning', label: 'Morning Sun', icon: <Sun className="w-8 h-8 text-amber-500" /> },
-      { value: 'afternoon', label: 'Afternoon Sun', icon: <Sunset className="w-8 h-8 text-orange-500" /> },
-      { value: 'direct', label: 'Full Day Direct', icon: <Flame className="w-8 h-8 text-red-500" /> },
-      { value: 'shaded', label: 'Predominantly Shaded', icon: <Cloud className="w-8 h-8 text-slate-400" /> }
+      { value: 'morning', label: 'Morning Sun', tip: "Gentle Eastern exposure.", icon: <Sun className="w-10 h-10 text-amber-500 mx-auto" /> },
+      { value: 'afternoon', label: 'Afternoon Sun', tip: "Intense Western exposure.", icon: <Sunset className="w-10 h-10 text-orange-500 mx-auto" /> },
+      { value: 'direct', label: 'Full Day Direct', tip: "Maximum Southern exposure.", icon: <Flame className="w-10 h-10 text-red-500 mx-auto" /> },
+      { value: 'shaded', label: 'Predominantly Shaded', tip: "Under trees or awnings.", icon: <Cloud className="w-10 h-10 text-slate-400 mx-auto" /> }
     ]
   },
   {
     id: 'placement',
     question: "Where will the hot tub be placed?",
-    subtext: "Site preparation is key to a lifetime of enjoyment.",
-    expertTip: "A 'Ground' placement often requires a concrete pad or EZ-Pad, while a 'Deck' requires structural verification for filled weights (often 3,000+ lbs).",
+    subtext: "Site preparation dictates the structural requirements.",
+    expertTip: "A filled hot tub commands a massive structural load—often exceeding 4,000 lbs. Ground installations require a leveled crushed rock base or a poured concrete pad (minimum 4 inches thick). If you select 'Wood Deck', you must have a structural engineer verify that your joists can support 150 lbs. per square foot.",
     layout: 'grid',
     options: [
-      { value: 'deck', label: 'Wood/Composite Deck', icon: <Box className="w-8 h-8" /> },
-      { value: 'patio', label: 'Concrete/Paver Patio', icon: <MapPin className="w-8 h-8" /> },
-      { value: 'indoor', label: 'Indoor/Sunroom', icon: <Home className="w-8 h-8" /> },
-      { value: 'ground', label: 'New Ground Site', icon: <TreePine className="w-8 h-8" /> }
+      { value: 'deck', label: 'Wood/Composite Deck', tip: "Requires joist load-bearing verification.", image: '/mcp/demo/assets/placement_deck_1774073130622.png' },
+      { value: 'patio', label: 'Concrete/Paver Patio', tip: "Standard solid foundation.", image: '/mcp/demo/assets/placement_patio_1774073144196.png' },
+      { value: 'indoor', label: 'Indoor/Sunroom', tip: "Requires dedicated ventilation planning.", image: '/mcp/demo/assets/placement_indoor_1774073157297.png' },
+      { value: 'ground', label: 'New Ground Site', tip: "Requires level EZ-Pad or crushed rock base.", image: '/mcp/demo/assets/placement_ground_1774073171701.png' }
     ]
   },
   {
     id: 'physicalFocus',
-    question: "Where do you need the most relief?",
-    subtext: "Our V-O-L-T™ system targets specific H.O.T. Zones.",
-    expertTip: "If you select 'Neck & Shoulders', we'll prioritize seats with specialized collar jets and high-output therapy zones.",
+    question: "Where do you need the most physical relief?",
+    subtext: "We will prioritize specific High Output Therapy (H.O.T.) Zones.",
+    expertTip: "Each Marquis seat is engineered differently. If you suffer from plantar fasciitis or standing fatigue, we will filter for models equipped with the Geyser Jet system in the footwell. If neck tension is your primary complaint, we focus on models featuring our specialized Neck and Shoulder collar down-draft jets.",
     layout: 'grid',
     options: [
-      { value: 'neck-shoulders', label: 'Neck & Shoulders', icon: <Activity className="w-8 h-8" /> },
-      { value: 'lower-back', label: 'Lower Back', icon: <Waves className="w-8 h-8" /> },
-      { value: 'legs-feet', label: 'Legs & Feet', icon: <Droplet className="w-8 h-8" /> },
-      { value: 'full-body', label: 'Full Body', icon: <Heart className="w-8 h-8" /> }
+      { value: 'neck-shoulders', label: 'Neck & Shoulders', tip: "Targeted collar jets for tension headaches.", icon: <Activity className="w-10 h-10 mx-auto" /> },
+      { value: 'lower-back', label: 'Lower Back & Lumbar', tip: "Deep penetration HK jets for sciatica.", icon: <Waves className="w-10 h-10 mx-auto" /> },
+      { value: 'legs-feet', label: 'Legs & Feet', tip: "Reflexology and calf massage zones.", icon: <Droplet className="w-10 h-10 mx-auto" /> },
+      { value: 'full-body', label: 'Total Immersion', tip: "Comprehensive sequential massage.", icon: <Heart className="w-10 h-10 mx-auto" /> }
     ]
   },
   {
     id: 'aesthetic',
-    question: "What is your aesthetic preference?",
-    subtext: "Harmonize your spa with your environment.",
-    expertTip: "A 'Modern' look pairs our Durashell® interior with monochrome cabinets, while 'Rustic' highlights earth tones and wood-grain textures.",
+    question: "What is your backyard's aesthetic design?",
+    subtext: "We will harmonize the spa's exterior cabinet and shell colors.",
+    expertTip: "A hot tub is a massive visual focal point. We want it to blend seamlessly into your architecture. 'Sleek & Modern' homes pair perfectly with our stark Midnight Canyon shells and monochromatic Slate cabinets. For a 'Warm Rustic' environment, we lean toward Tuscan Sun acrylics layered against natural wood-grain textures.",
     layout: 'grid',
     options: [
-      { value: 'modern', label: 'Sleek & Modern', icon: <LayoutGrid className="w-8 h-8 text-slate-800" /> },
-      { value: 'rustic', label: 'Warm & Rustic', icon: <Palette className="w-8 h-8 text-amber-700" /> },
-      { value: 'tropical', label: 'Island Tropical', icon: <Leaf className="w-8 h-8 text-teal-600" /> },
-      { value: 'classic', label: 'Timeless Classic', icon: <Star className="w-8 h-8 text-indigo-700" /> }
+      { value: 'modern', label: 'Sleek & Modern', tip: "Monochrome, glass, stark lines.", image: '/mcp/demo/assets/aesthetic_modern_1774073072031.png' },
+      { value: 'rustic', label: 'Warm & Rustic', tip: "Heavy timber, natural stone, earth tones.", image: '/mcp/demo/assets/aesthetic_rustic_1774073087013.png' },
+      { value: 'tropical', label: 'Island Tropical', tip: "Lush greens, teaks, resort-style.", image: '/mcp/demo/assets/aesthetic_tropical_1774073099414.png' },
+      { value: 'classic', label: 'Timeless Classic', tip: "Brick, manicured lawns, white trim.", image: '/mcp/demo/assets/aesthetic_classic_1774073116007.png' }
     ]
   },
   {
     id: 'maintenance',
-    question: "What is your maintenance profile?",
-    subtext: "From fully automated to hands-on care.",
-    expertTip: "ConstantClean+™ and SmartClean™ technology can automate 90% of water care, so you spend more time soaking and less time testing.",
+    question: "What is your expected maintenance profile?",
+    subtext: "Determine your tolerance for manual water chemistry.",
+    expertTip: "Water care shouldn't feel like a chemistry degree. If you select 'Automated', we will equip your model with the ConstantClean+™ system featuring in-line SmartChlor and ozonators, which manages 90% of sanitization automatically. If you prefer a hands-on approach and lower upfront costs, traditional manual dosing is available.",
     layout: 'split',
     options: [
-      { value: 'automated', label: 'Set it and Forget it', tip: "Automated sanitization systems.", icon: <Settings className="w-6 h-6" /> },
-      { value: 'hands-on', label: 'I enjoy the ritual', tip: "Manual water care.", icon: <Wrench className="w-6 h-6" /> }
+      { value: 'automated', label: 'Set it and Forget it', tip: "Requires the ConstantClean+™ automated inline sanitation system upgrade.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'hands-on', label: 'I enjoy the ritual', tip: "Standard filtration with manual weekly chemical balancing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
     ]
   },
   {
     id: 'intensity',
     question: "Preferred Hydrotherapy Intensity?",
-    subtext: "Gentle bubbling vs. deep tissue penetration.",
-    expertTip: "HK jets provide 'Deep Tissue' massage, while our Multi-Touch jets offer a 'Relaxing' broader sensation.",
+    subtext: "Are you looking for a gentle soak or aggressive deep tissue manipulation?",
+    expertTip: "Pump horsepower doesn't equal pressure—flow dynamics do. For a 'Firm Deep Tissue' massage, we require models with dedicated dual-speed pumps routed through High-Kinetic (HK) massage jets. If you prefer 'Gentle', we prioritize High-Volume, Low-Pressure (HVLP) broad orifice jets that move water smoothly over the skin without stinging.",
     layout: 'split',
     options: [
-      { value: 'gentle', label: 'Gentle Relaxation', tip: "Soothing flow.", icon: <Cloud className="w-6 h-6" /> },
-      { value: 'medium', label: 'Medium/Vigorous', tip: "Balanced therapy.", icon: <Waves className="w-6 h-6" /> },
-      { value: 'firm', label: 'Firm Deep Tissue', tip: "High impact targeting.", icon: <Gauge className="w-6 h-6" /> }
+      { value: 'gentle', label: 'Gentle Relaxation', tip: "Broad, smooth water flow. Ideal for sensitive skin or simple soaking.", icon: <Cloud className="w-8 h-8" /> },
+      { value: 'medium', label: 'Medium Vigorous', tip: "The perfect balance of soothing soak and active muscle recovery.", icon: <Waves className="w-8 h-8" /> },
+      { value: 'firm', label: 'Aggressive Deep Tissue', tip: "High-kinetic jets designed to break down lactic acid and deep knots.", icon: <Gauge className="w-8 h-8" /> }
     ]
   },
   {
     id: 'budget',
-    question: "Your Investment Range?",
-    subtext: "We have a Marquis for every backyard.",
-    expertTip: "While initial cost matters, our Vector21 and Crown Series offer significantly lower long-term energy costs due to high-density insulation.",
+    question: "What is your comfortable investment range?",
+    subtext: "We respect your budget and will maximize the value within it.",
+    expertTip: "While the initial sticker price matters, true cost of ownership is found in energy efficiency. A 'Premium' tier tub from our Crown Series features full-foam insulation that dramatically reduces monthly electrical costs. An 'Entry' level tub will save you thousands today, but may cost slightly more per month to operate in freezing temperatures.",
     layout: 'grid',
     options: [
-      { value: 'entry', label: 'Entry ($5k - $8k)', icon: <Wallet className="w-8 h-8" /> },
-      { value: 'mid', label: 'Standard ($9k - $13k)', icon: <Landmark className="w-8 h-8" /> },
-      { value: 'premium', label: 'Premium ($14k - $18k)', icon: <Star className="w-8 h-8" /> },
-      { value: 'luxury', label: 'Luxury ($19k+)', icon: <Gem className="w-8 h-8" /> }
+      { value: 'entry', label: 'Entry Tier', tip: "$5,000 - $8,000. Basic foam, standard jets, unmatched Marquis reliability.", icon: <Wallet className="w-10 h-10 mx-auto" /> },
+      { value: 'mid', label: 'Standard Tier', tip: "$9,000 - $13,000. Upgraded insulation, more pumps, advanced lighting.", icon: <Landmark className="w-10 h-10 mx-auto" /> },
+      { value: 'premium', label: 'Premium Tier', tip: "$14,000 - $18,000. Full-foam MaximizR, comprehensive V-O-L-T™ therapy.", icon: <Star className="w-10 h-10 mx-auto" /> },
+      { value: 'luxury', label: 'Luxury Tier', tip: "$19,000+. The pinnacle of hydrotherapy, automation, and aesthetic design.", icon: <Gem className="w-10 h-10 mx-auto" /> }
     ]
   },
   {
     id: 'installationReady',
-    question: "Installation Readiness?",
-    subtext: "Are you ready to install or just dreaming?",
-    expertTip: "Professional site evaluation by a Marquis dealer is crucial before delivery to ensure permanent access and electrical compliance.",
+    question: "What is your current project timeline?",
+    subtext: "Are we delivering next week, or are you breaking ground next year?",
+    expertTip: "Timing affects availability. If you are 'Ready to go', we will prioritize in-stock models available at your local dealer immediately. If you are in the planning phase, we can explore custom-ordered shell and cabinet combinations straight from the factory, which carry a 6-8 week lead time.",
     layout: 'split',
     options: [
-      { value: 'ready', label: 'Ready to go', tip: "I have a site and budget.", icon: <Zap className="w-6 h-6" /> },
-      { value: 'planning', label: 'Just planning', tip: "Still researching.", icon: <Compass className="w-6 h-6" /> }
+      { value: 'ready', label: 'I am ready to buy', tip: "Site is leveled, electrical is routed, and budget is secured.", icon: <Zap className="w-8 h-8 text-yellow-500" /> },
+      { value: 'planning', label: 'I am just researching', tip: "Still formulating the backyard design and gathering quotes.", icon: <Compass className="w-8 h-8 text-marquis-blue" /> }
     ]
   },
   {
     id: 'deliveryAccess',
-    question: "Final Step: Backyard Access?",
-    subtext: "Clearance for delivery and final placement.",
-    expertTip: "Most tubs need at least 38\" of vertical clearance. If access is tight, we can coordinate specialized dollies or even crane services.",
+    question: "Final Step: Backyard Delivery Access?",
+    subtext: "We need to physically move a 900lb shell into your space.",
+    expertTip: "A standard hot tub measures about 36 to 40 inches tall when placed on its side for delivery on a spa dolly. If your side gate offers 40+ inches of clearance, delivery is smooth. However, if you have tight switchbacks, steep stairs, or narrow alleyways, we may need to coordinate a specialized crane drop.",
     layout: 'split',
     options: [
-      { value: 'easy', label: 'Wide open access', tip: "Standard truck delivery.", icon: <Truck className="w-6 h-6" /> },
-      { value: 'standard', label: 'Standard side gate', tip: "Minimum 38 inch clearance.", icon: <Hammer className="w-6 h-6" /> },
-      { value: 'tight', label: 'Tight/Complex paths', tip: "Requires special equipment.", icon: <MapPin className="w-6 h-6" /> }
+      { value: 'easy', label: 'Wide Open Access', tip: "Double-wide gates or zero steps. Standard 2-man delivery.", icon: <Truck className="w-8 h-8" /> },
+      { value: 'standard', label: 'Standard Clearance', tip: "Minimum 40-inch wide side gate with a clear, flat path.", icon: <Hammer className="w-8 h-8" /> },
+      { value: 'tight', label: 'Tight / Complex Path', tip: "Narrow gates, stairs, or requires crane facilitation.", icon: <MapPin className="w-8 h-8" /> }
     ]
   }
 ];
@@ -406,8 +406,8 @@ export default function Wizard() {
                       </div>
                     ) : null}
                     <div>
-                      <h4 className="text-xl font-black uppercase italic mb-2 text-slate-800 tracking-wide">{opt.label}</h4>
-                      {opt.tip && <p className="text-sm text-slate-500 font-medium leading-relaxed">{opt.tip}</p>}
+                      <h4 className="text-xl font-black uppercase italic mb-2 text-slate-800 tracking-wide text-center">{opt.label}</h4>
+                      {opt.tip && <p className="text-sm text-slate-500 font-medium leading-relaxed text-center">{opt.tip}</p>}
                     </div>
                     
                     {/* Selected state indicator */}
