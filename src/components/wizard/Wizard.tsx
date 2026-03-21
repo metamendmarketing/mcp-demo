@@ -432,9 +432,8 @@ export default function Wizard() {
               )}>
                 {q.bgImage && (
                   <>
-                    <div className="absolute inset-0 bg-slate-900 z-0" />
-                    <img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 mix-blend-overlay" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/50 to-transparent z-10" />
+                    <img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-slate-900/20 z-10" />
                   </>
                 )}
                 
