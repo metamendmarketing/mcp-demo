@@ -17,8 +17,10 @@ export async function POST(request: Request) {
       console.warn("GEMINI_API_KEY is missing. Returning fallback narrative.");
       return NextResponse.json({ 
         heroTitle: "Your Perfect Marquis Spa",
-        marquisMatch: "<p>We have calculated that this Marquis spa is the perfect fit for your lifestyle. Please add your GEMINI_API_KEY to see the full AI generation.</p>",
-        environmentalInsight: "Your specific location and sun exposure requires specialized consideration. Add your API key to generate the geospatial climate report."
+        hydrotherapy: "We have calculated that this Marquis spa is the perfect fit for your lifestyle. Add API key for full generation.",
+        climate: "Your specific location requires specialized consideration. Add your API key.",
+        design: "This spa is aesthetically matched to your home.",
+        efficiency: "Built for peak efficiency."
       });
     }
 

@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Thermometer, Users, Activity, Zap, 
+import { 
   Check, ChevronRight, RotateCcw, Zap, Users, Star, Maximize, UserCheck, 
   MessageSquare, MapPin, Droplets, Heart, Sparkles, ArrowRight, Info, ChevronLeft, Plus,
   Compass, Sun, CloudSun, Sunset, Cloud, Box, Home, TreePine, Activity, Flame, Droplet,
   Waves, Palette, LayoutGrid, Leaf, Settings, Wrench, Battery, BatteryCharging, Gauge,
-  Wallet, Landmark, Gem, Hammer, Truck
+  Wallet, Landmark, Gem, Hammer, Truck, Thermometer
 } from 'lucide-react';
-import { Thermometer, Users, Activity, Zap, clsx, type ClassValue } from 'clsx';
-import { Thermometer, Users, Activity, Zap, twMerge } from 'tailwind-merge';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
