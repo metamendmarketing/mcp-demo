@@ -17,12 +17,6 @@ export async function POST(request: Request) {
       console.warn("GEMINI_API_KEY is missing. Returning fallback narrative.");
       return NextResponse.json({ 
         heroTitle: "Your Perfect Marquis Spa",
-        summaryBullets: [
-          "Optimized for deep hydrotherapy and athletic recovery.",
-          "Specially insulated for extreme cold and high altitudes.",
-          "Stunning modern aesthetic with seating for 5 adults.",
-          "Energy-efficient 240V system with automated cleaning."
-        ],
         hydrotherapy: "We have calculated that this Marquis spa is the perfect fit for your lifestyle. Add API key for full generation.",
         climate: "Your specific location requires specialized consideration. Add your API key.",
         design: "This spa is aesthetically matched to your home.",
@@ -31,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     const prompt = `
 You are an elite, world-class luxury copywriter for Marquis Hot Tubs. 
@@ -58,12 +52,6 @@ CRITICAL POSITIVE INSTRUCTIONS (DO THIS INSTEAD):
 Output strictly valid JSON matching this exact schema:
 {
   "heroTitle": "Catchy, 4-7 word luxury headline focusing on their primary purpose.",
-  "summaryBullets": [
-    "1-sentence punchy summary of how the hydrotherapy fits their physical needs.",
-    "1-sentence punchy summary of how the tub fits their specific geographic climate.",
-    "1-sentence punchy summary of how the design/capacity fits their lifestyle.",
-    "1-sentence punchy summary of how the maintenance/power fits their preferences."
-  ],
   "hydrotherapy": "1 masterfully written paragraph explaining how the tub's jets, pumps, and layout perfectly satisfy their 'primaryPurpose', 'intensity', and 'physicalFocus'. Use <strong> tags lightly.",
   "climate": "1 expert paragraph explaining your geospatial climate analysis of their specific Zip/Postal Code and Sun Exposure, and how the hot tub natively handles those local conditions.",
   "design": "1 paragraph explaining how the tub's capacity, aesthetic, and placement perfectly elevate their specific home environment.",
@@ -72,40 +60,30 @@ Output strictly valid JSON matching this exact schema:
 Do not wrap the output in markdown blocks (e.g., \`\`\`json). Return raw valid JSON.
 `;
 
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+    
+    // Aggressively extract JSON from the text
+    let cleanJson = responseText;
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      cleanJson = jsonMatch[0];
+    }
+    
+    let parsedData;
     try {
-      const result = await model.generateContent(prompt);
-      const responseText = result.response.text();
-      
-      let cleanJson = responseText;
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        cleanJson = jsonMatch[0];
-      }
-      
-      const parsedData = JSON.parse(cleanJson);
-      return NextResponse.json(parsedData);
-    } catch (apiError: any) {
-      console.error("Gemini API Error (Falling back to mock):", apiError.message);
-      // Smart Fallback Narrative
-      return NextResponse.json({ 
-        heroTitle: `“A masterfully engineered sanctuary combining the features of a high-performance hot tub and full-body recovery.”`,
-        summaryBullets: [
-          `Perfectly accommodates your ${body.preferences.capacity || 'multi-person'} household.`,
-          `Advanced V-O-L-T™ jet configurations for targeted muscle relief.`,
-          `High-flow ConstantClean™ water management system.`,
-          `Designed with Meticulous Space® ergonomic seat depth.`
-        ],
-        hydrotherapy: `Our patented **V-O-L-T™ (Vector-Optimized Laminar Therapy)** system delivers up to 40% more flow volume to specific zones without increasing pump size, providing deep, restorative muscle massage precisely where you need it.`,
-        climate: `Engineered with **MaximizR™ full-foam insulation** and a high-impact **DuraShell®** exterior, this model is built to thrive in the \`${body.preferences.zipCode || 'local'}\` climate, maintaining peak thermal efficiency regardless of external temperature fluctuations.`,
-        design: `**Meticulous Space®** design ensures every curve and seat depth in the ${body.product.modelName} is calibrated to keep you naturally buoyant yet firmly anchored during high-intensity hydrotherapy sessions.`,
-        efficiency: `The high-output ${body.preferences.electrical || '240V'} power architecture powers secondary Whitewater-4™ jets, while the automated dual-filtration system ensures your retreat is always ready for immediate use with minimal owner intervention.`
-      });
+      parsedData = JSON.parse(cleanJson);
+    } catch (parseError) {
+      console.error("Failed to parse Gemini JSON:", cleanJson);
+      throw new Error("Invalid JSON returned from AI");
     }
 
+    return NextResponse.json(parsedData);
+
   } catch (error: any) {
-    console.error('[NARRATIVE_API_ERROR_CRITICAL]', error);
+    console.error('[NARRATIVE_API_ERROR]', error);
     return NextResponse.json({ 
-      error: 'Critical system failure', 
+      error: 'Failed to generate narrative', 
       details: error.message 
     }, { status: 500 });
   }
