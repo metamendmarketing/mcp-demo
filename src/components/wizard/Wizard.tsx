@@ -714,231 +714,232 @@ export default function Wizard() {
           </div>
         </div>
 
-        {/* TIER 1: THE EXECUTIVE VERDICT (HERO) */}
-        <section className="max-w-7xl mx-auto px-6 py-12 md:py-20 lg:mb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7">
-               <div className="relative group">
-                  <div className="absolute -inset-4 bg-gradient-to-tr from-marquis-blue/20 to-transparent blur-3xl opacity-50 group-hover:opacity-100 transition-opacity duration-1000" />
-                  <div className="relative bg-white p-4 rounded-[60px] shadow-2xl overflow-hidden border border-slate-100">
-                     <img src={heroImg} className="w-full h-[500px] object-cover rounded-[48px] transform group-hover:scale-102 transition-transform duration-[2000ms]" alt={product.modelName} />
-                  </div>
-               </div>
-            </div>
-            
-            <div className="lg:col-span-5 space-y-8">
-               <div className="space-y-2">
-                  <div className="text-marquis-blue text-sm font-black uppercase tracking-[0.3em] mb-4">The Verdict</div>
-                  <h1 className="text-5xl md:text-7xl font-black italic uppercase text-slate-900 leading-[0.9] tracking-tighter">
-                    {narrativeLoading ? "Synthesizing..." : (aiNarrative?.heroTitle || product.modelName)}
-                  </h1>
-               </div>
-
-               <div className="space-y-4 pt-6">
-                  {narrativeLoading || !aiNarrative?.summaryBullets ? (
-                    [1,2,3,4].map(i => (
-                      <div key={i} className="flex gap-4 items-center animate-pulse">
-                        <div className="w-8 h-8 bg-slate-200 rounded-full flex-shrink-0" />
-                        <div className="h-4 bg-slate-200 rounded w-full" />
-                      </div>
-                    ))
-                  ) : (
-                    aiNarrative.summaryBullets.map((bullet, i) => (
-                      <div key={i} className="flex gap-4 items-start animate-in fade-in slide-in-from-right fill-mode-both" style={{ animationDelay: `${i * 100}ms` }}>
-                        <div className="bg-marquis-blue text-white p-2 rounded-xl mt-1 flex-shrink-0">
-                          <Check className="w-4 h-4" />
-                        </div>
-                        <p className="text-lg text-slate-600 font-bold leading-tight">{bullet}</p>
-                      </div>
-                    ))
-                  )}
-               </div>
-
-               <div className="pt-8 grid grid-cols-2 gap-4">
-                  <div className="bg-white p-6 rounded-3xl shadow-lg border border-slate-100">
-                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Configuration</div>
-                    <div className="text-xl font-black italic uppercase text-slate-900">{product.seatsMax} Adults</div>
-                  </div>
-                  <div className="bg-white p-6 rounded-3xl shadow-lg border border-slate-100">
-                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Jet Topology</div>
-                    <div className="text-xl font-black italic uppercase text-slate-900">{product.jetCount} V-O-L-T™</div>
-                  </div>
-               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* TIER 2: THE MARQUIS MIRROR (COMPARISON) */}
-        <section className="bg-white py-24 border-y border-slate-100 overflow-hidden relative mb-20">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-marquis-blue/5 rounded-full blur-[120px] -z-10" />
-          <div className="max-w-5xl mx-auto px-6 text-center mb-16">
-            <h2 className="text-4xl font-black italic uppercase text-slate-900 mb-4">The Marquis Mirror</h2>
-            <p className="text-slate-500 font-medium text-lg">Direct technical comparison against leading market alternatives.</p>
-          </div>
-
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="grid grid-cols-3 gap-0 border-2 border-slate-900 rounded-[40px] overflow-hidden shadow-2xl bg-white">
-              {/* HEADERS */}
-              <div className="p-8 bg-slate-900 text-slate-400 font-black uppercase tracking-widest text-[10px] flex items-end">Technical Spec</div>
-              <div className="p-8 bg-marquis-blue text-white text-center">
-                <div className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-1">Your Match</div>
-                <div className="text-2xl font-black italic uppercase tracking-tighter">Marquis {product.modelName}</div>
-              </div>
-              <div className="p-8 bg-slate-100 text-slate-900 text-center">
-                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Leading Alternative</div>
-                <div className="text-2xl font-black italic uppercase tracking-tighter">{competitor.name} {competitor.model}</div>
-              </div>
-
-              {/* ROWS */}
-              {[
-                { label: 'Flow Architecture', marquis: 'Proprietary V-O-L-T™ Flow', other: 'Standard PVC Multi-Stage' },
-                { label: 'Jet Volume', marquis: `${product.jetCount} High-Velocity`, other: `${competitor.jets} Restricted-Line` },
-                { label: 'Insulation System', marquis: 'MaximizR™ Full-Foam', other: 'Partial-Fill / Loose' },
-                { label: 'Water Management', marquis: 'SmartClean™ Automated', other: 'Traditional Cartridge' }
-              ].map((row, i) => (
-                <React.Fragment key={i}>
-                  <div className="p-8 border-t border-slate-100 font-bold text-slate-500 text-sm flex items-center">{row.label}</div>
-                  <div className="p-8 border-t border-slate-100 bg-marquis-blue/5 text-marquis-blue font-black italic uppercase text-center flex items-center justify-center gap-2">
-                    <Check className="w-4 h-4" /> {row.marquis}
-                  </div>
-                  <div className="p-8 border-t border-slate-100 text-slate-500 font-medium text-center flex items-center justify-center italic">
-                    {row.other}
-                  </div>
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* TIER 3: THE DEEP DIVE (COLOR-RICH HORIZONTALS) */}
-        <section className="space-y-0">
-          {[
-            { 
-              id: 'hydrotherapy', 
-              title: 'Hydrotherapy & Wellness', 
-              icon: <Activity className="w-12 h-12" />, 
-              bg: 'bg-gradient-to-br from-[#0a192f] via-[#112240] to-[#0a192f]', 
-              textColor: 'text-white',
-              accent: 'text-marquis-blue',
-              img: '/mcp/demo/assets/therapy_premium.png'
-            },
-            { 
-              id: 'climate', 
-              title: 'Climate & Surroundings', 
-              icon: <Thermometer className="w-12 h-12" />, 
-              bg: 'bg-gradient-to-br from-[#f0f9ff] via-[#e0f2fe] to-[#f0f9ff]', 
-              textColor: 'text-slate-900',
-              accent: 'text-marquis-blue',
-              img: '/mcp/demo/assets/fitness_premium.png'
-            },
-            { 
-              id: 'design', 
-              title: 'Design & Capacity', 
-              icon: <Users className="w-12 h-12" />, 
-              bg: 'bg-gradient-to-br from-[#fafaf9] via-[#f5f5f4] to-[#fafaf9]', 
-              textColor: 'text-slate-900',
-              accent: 'text-marquis-blue',
-              img: '/mcp/demo/assets/recreation_premium.png'
-            },
-            { 
-              id: 'efficiency', 
-              title: 'Power & Maintenance', 
-              icon: <Zap className="w-12 h-12" />, 
-              bg: 'bg-gradient-to-br from-[#064e3b] via-[#065f46] to-[#064e3b]', 
-              textColor: 'text-white',
-              accent: 'text-green-400',
-              img: '/mcp/demo/assets/bg_electrical.png'
-            }
-          ].map((mod, i) => (
-            <div key={i} className={`py-32 ${mod.bg}`}>
-              <div className="max-w-7xl mx-auto px-6">
-                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-20 items-center`}>
-                  <div className={i % 2 === 1 ? 'lg:order-last' : ''}>
-                     <div className="relative group">
-                        <div className={`absolute -inset-2 bg-gradient-to-r from-marquis-blue to-transparent blur-xl opacity-0 group-hover:opacity-40 transition-opacity`} />
-                        <img src={mod.img} className="w-full h-[500px] object-cover rounded-[50px] shadow-2xl relative z-10" alt={mod.title} />
-                     </div>
-                  </div>
-                  
-                  <div className="space-y-8">
-                     <div className={`${mod.accent} bg-white/10 w-24 h-24 rounded-3xl flex items-center justify-center p-6 backdrop-blur-xl border border-white/20`}>
-                        {mod.icon}
-                     </div>
-                     <h2 className={`text-5xl font-black italic uppercase ${mod.textColor} tracking-tight leading-none`}>{mod.title}</h2>
-                     {narrativeLoading ? (
-                        <div className="space-y-4 animate-pulse pt-4">
-                           <div className="h-4 bg-white/20 rounded w-full"></div>
-                           <div className="h-4 bg-white/20 rounded w-5/6"></div>
-                           <div className="h-4 bg-white/20 rounded w-4/6"></div>
-                        </div>
-                     ) : (
-                        <div 
-                          className={`text-xl font-medium leading-[1.8] ${mod.textColor === 'text-white' ? 'text-slate-300' : 'text-slate-600'} prose prose-invert opacity-95`}
-                          dangerouslySetInnerHTML={{ __html: (aiNarrative as any)?.[mod.id] || "Analyzing engineering tolerances..." }}
-                        />
-                     )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </section>
-
-        {/* INTERACTIVE FEATURE MAP SECTION */}
-        <section className="bg-slate-900 py-32 overflow-hidden relative mt-0">
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-marquis-blue/10 rounded-full blur-[150px]" />
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="text-center mb-16">
-              <h4 className="text-marquis-blue text-sm font-black uppercase tracking-[0.3em] mb-4">The Blueprints</h4>
-              <h2 className="text-4xl md:text-6xl font-black italic uppercase text-white mb-4 leading-none">Engineering Detail</h2>
-              <p className="text-slate-400 font-medium text-lg">Hover specify engineering hotspots to reveal proprietary hardware.</p>
-            </div>
-
-            {product.overheadImageUrl && (
-              <div className="bg-white/5 border border-white/10 p-4 md:p-8 rounded-[60px] backdrop-blur-3xl shadow-2xl">
-                 <div className="relative aspect-square md:aspect-video rounded-[40px] bg-black/20 group overflow-hidden">
-                    <img 
-                      src={product.overheadImageUrl} 
-                      className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-[5000ms]" 
-                      alt="Overhead View" 
-                    />
-                    
-                    {/* Hotspots */}
-                    {product.hotspots && (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots).map((spot: any, i: number) => (
-                      <div 
-                        key={i}
-                        className="absolute group/spot transition-all z-20"
-                        style={{ top: `${spot.y}%`, left: `${spot.x}%` }}
-                      >
-                        <button className="w-10 h-10 bg-marquis-blue text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-150 active:scale-95 transition-all animate-pulse">
-                          <Plus className="w-6 h-6" />
-                        </button>
-                        
-                        {/* Tooltip */}
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 w-72 bg-white text-slate-900 p-6 rounded-3xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-all scale-90 group-hover/spot:scale-100 pointer-events-none z-30 border border-slate-100">
-                          <div className="text-xs font-black uppercase italic text-marquis-blue mb-2 tracking-widest">{spot.title}</div>
-                          <p className="text-sm text-slate-600 leading-relaxed font-bold">{spot.description}</p>
-                          <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[12px] border-t-white" />
-                        </div>
-                      </div>
-                    ))}
+        <div className="max-w-7xl mx-auto px-6 py-12 space-y-12">
+          
+          {/* TIER 1: INTEGRATED HERO BIG CARD */}
+          <section className="bg-white rounded-[60px] shadow-2xl overflow-hidden border border-slate-100 p-8 md:p-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+              <div className="lg:col-span-7">
+                 <div className="relative group">
+                    <div className="absolute -inset-4 bg-gradient-to-tr from-marquis-blue/10 to-transparent blur-3xl opacity-50" />
+                    <img src={heroImg} className="w-full h-[400px] md:h-[550px] object-cover rounded-[48px] relative z-10 shadow-xl" alt={product.modelName} />
                  </div>
               </div>
-            )}
-          </div>
-        </section>
+              
+              <div className="lg:col-span-5 space-y-6">
+                 <div>
+                    <div className="text-marquis-blue text-xs font-black uppercase tracking-[0.3em] mb-4">The Verdict</div>
+                    <h1 className="text-4xl md:text-6xl font-black italic uppercase text-slate-900 leading-[0.9] tracking-tighter mb-6">
+                      {narrativeLoading ? "Synthesizing..." : (aiNarrative?.heroTitle || product.modelName)}
+                    </h1>
+                 </div>
 
-        {/* FINAL CTA FOOTER */}
-        <section className="bg-white py-32">
-          <div className="max-w-4xl mx-auto px-6 text-center">
-             <div className="text-marquis-blue text-sm font-black uppercase tracking-[0.3em] mb-4 text-center">Final Decision</div>
-            <h2 className="text-5xl md:text-8xl font-black italic uppercase text-slate-900 mb-12 leading-[0.8] tracking-tighter text-center">Ready to anchor your lifestyle?</h2>
-            <div className="flex flex-col md:flex-row gap-6 justify-center">
-              <button className="bg-marquis-blue text-white px-12 py-8 rounded-[40px] text-xl font-black italic uppercase shadow-2xl shadow-marquis-blue/30 transform hover:-translate-y-2 transition-transform">Download My Blueprint (PDF)</button>
-              <button className="border-4 border-slate-900 text-slate-900 px-12 py-8 rounded-[40px] text-xl font-black italic uppercase transform hover:-translate-y-2 transition-transform">Find Local Dealer</button>
+                 <div className="space-y-4">
+                    {narrativeLoading || !aiNarrative?.summaryBullets ? (
+                      [1,2,3,4].map(i => (
+                        <div key={i} className="flex gap-3 items-center animate-pulse">
+                          <div className="w-6 h-6 bg-slate-100 rounded-lg flex-shrink-0" />
+                          <div className="h-4 bg-slate-100 rounded w-full" />
+                        </div>
+                      ))
+                    ) : (
+                      aiNarrative.summaryBullets.map((bullet, i) => (
+                        <div key={i} className="flex gap-4 items-start animate-in fade-in slide-in-from-right fill-mode-both" style={{ animationDelay: `${i * 100}ms` }}>
+                          <div className="bg-marquis-blue text-white p-1.5 rounded-lg mt-0.5 flex-shrink-0">
+                            <Check className="w-3.5 h-3.5" />
+                          </div>
+                          <p className="text-md text-slate-600 font-bold leading-snug">{bullet}</p>
+                        </div>
+                      ))
+                    )}
+                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* TIER 2: SPECS & MAP SPLIT ROW */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* SPECS CARD */}
+            <div className="lg:col-span-4 bg-white p-10 rounded-[50px] shadow-xl border border-slate-100 flex flex-col justify-between">
+               <div>
+                  <h3 className="text-4xl font-black italic uppercase text-slate-900 leading-none mb-1">{product.modelName}</h3>
+                  <div className="text-marquis-blue text-[10px] font-black uppercase tracking-widest mb-8">Crown Series Collection</div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-8">
+                     <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100 text-center">
+                       <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Seating</div>
+                       <div className="text-xl font-black italic uppercase text-slate-900">{product.seatsMax} Adults</div>
+                     </div>
+                     <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100 text-center">
+                       <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Dimensions</div>
+                       <div className="text-md font-black italic uppercase text-slate-900">{product.lengthIn}x{product.widthIn}"</div>
+                     </div>
+                  </div>
+               </div>
+
+               <div className="space-y-4">
+                 <button className="bg-marquis-blue text-white w-full py-5 rounded-[24px] text-sm font-black italic uppercase shadow-xl hover:scale-102 transition-transform">Get Local Pricing</button>
+                 <button className="w-full bg-white text-marquis-blue border-2 border-marquis-blue/20 py-5 rounded-[24px] text-sm font-black italic uppercase hover:bg-marquis-blue/5 transition-all">Find Dealer</button>
+               </div>
+            </div>
+
+            {/* INTERACTIVE MAP */}
+            <div className="lg:col-span-8 bg-slate-900 p-2 rounded-[50px] shadow-2xl overflow-hidden relative group">
+               <div className="absolute inset-0 bg-marquis-blue/10 animate-pulse" />
+               <div className="relative h-full bg-slate-900 rounded-[48px] p-6 lg:p-10">
+                  <div className="flex justify-between items-center mb-6">
+                    <h4 className="text-white text-sm font-black uppercase tracking-widest italic group-hover:text-marquis-blue transition-colors">Engineering Overview</h4>
+                    <div className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] flex items-center gap-2">
+                       <Plus className="w-3 h-3" /> Interact with hotspots
+                    </div>
+                  </div>
+                  
+                  {product.overheadImageUrl && (
+                    <div className="relative aspect-video rounded-[32px] overflow-hidden bg-black/20">
+                      <img 
+                        src={product.overheadImageUrl} 
+                        className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-[5000ms]" 
+                        alt="Overhead View" 
+                      />
+                      
+                      {product.hotspots && (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots).map((spot: any, i: number) => (
+                        <div 
+                          key={i}
+                          className="absolute group/spot transition-all z-20"
+                          style={{ top: `${spot.y}%`, left: `${spot.x}%` }}
+                        >
+                          <button className="w-8 h-8 bg-marquis-blue text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-125 transition-all">
+                            <Plus className="w-5 h-5" />
+                          </button>
+                          
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-60 bg-white text-slate-900 p-5 rounded-3xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-all scale-90 group-hover/spot:scale-100 pointer-events-none z-30 border border-slate-100">
+                            <div className="text-[10px] font-black uppercase italic text-marquis-blue mb-1">{spot.title}</div>
+                            <p className="text-xs text-slate-600 leading-relaxed font-bold">{spot.description}</p>
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-white" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+               </div>
             </div>
           </div>
-        </section>
+
+          {/* TIER 3: COMPACT DEEP DIVE GRID */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              { 
+                id: 'hydrotherapy', 
+                title: 'Hydrotherapy', 
+                icon: <Activity className="w-8 h-8" />, 
+                bg: 'bg-gradient-to-br from-[#0a192f] via-[#112240] to-[#0a192f]', 
+                textColor: 'text-white'
+              },
+              { 
+                id: 'climate', 
+                title: 'Climate', 
+                icon: <Thermometer className="w-8 h-8" />, 
+                bg: 'bg-gradient-to-br from-[#f0f9ff] via-[#e0f2fe] to-[#f0f9ff]', 
+                textColor: 'text-slate-900'
+              },
+              { 
+                id: 'design', 
+                title: 'Design', 
+                icon: <Users className="w-8 h-8" />, 
+                bg: 'bg-gradient-to-br from-[#fafaf9] via-[#f5f5f4] to-[#fafaf9]', 
+                textColor: 'text-slate-900'
+              },
+              { 
+                id: 'efficiency', 
+                title: 'Power', 
+                icon: <Zap className="w-8 h-8" />, 
+                bg: 'bg-gradient-to-br from-[#064e3b] via-[#065f46] to-[#064e3b]', 
+                textColor: 'text-white'
+              }
+            ].map((mod, i) => (
+              <div key={i} className={`p-10 rounded-[50px] shadow-xl ${mod.bg} border border-white/5 relative overflow-hidden group/card`}>
+                <div className="flex items-center gap-6 mb-8 relative z-10">
+                   <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-xl border border-white/20 text-marquis-blue group-hover/card:scale-110 transition-transform">
+                      {mod.icon}
+                   </div>
+                   <h3 className={`text-3xl font-black italic uppercase ${mod.textColor} tracking-tight`}>{mod.title}</h3>
+                </div>
+                
+                {narrativeLoading ? (
+                  <div className="space-y-3 animate-pulse relative z-10">
+                     <div className={`h-4 ${mod.textColor === 'text-white' ? 'bg-white/10' : 'bg-slate-200'} rounded w-full`}></div>
+                     <div className={`h-4 ${mod.textColor === 'text-white' ? 'bg-white/10' : 'bg-slate-200'} rounded w-5/6`}></div>
+                  </div>
+                ) : (
+                  <div 
+                    className={`text-md font-bold leading-relaxed ${mod.textColor === 'text-white' ? 'text-slate-300' : 'text-slate-600'} relative z-10`}
+                    dangerouslySetInnerHTML={{ __html: (aiNarrative as any)?.[mod.id] || "Synthesizing..." }}
+                  />
+                )}
+                
+                <div className="absolute -bottom-10 -right-10 opacity-5 group-hover/card:scale-150 transition-transform duration-1000 grayscale">
+                    {mod.icon}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* TIER 4: THE MARQUIS MIRROR (BOTTOM) */}
+          <section className="bg-white py-20 px-4 rounded-[60px] shadow-2xl border border-slate-100">
+            <div className="max-w-5xl mx-auto text-center mb-16 px-4">
+              <h2 className="text-4xl font-black italic uppercase text-slate-900 mb-4">The Marquis Mirror</h2>
+              <p className="text-slate-500 font-medium text-lg">Direct technical comparison against leading market alternatives.</p>
+            </div>
+
+            <div className="max-w-6xl mx-auto overflow-hidden">
+              <div className="grid grid-cols-3 gap-0 border-2 border-slate-900 rounded-[40px] overflow-hidden bg-white">
+                <div className="p-8 bg-slate-900 text-slate-400 font-black uppercase tracking-widest text-[10px] flex items-end">Technical Spec</div>
+                <div className="p-8 bg-marquis-blue text-white text-center">
+                  <div className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-1">Your Match</div>
+                  <div className="text-2xl font-black italic uppercase tracking-tighter">Marquis {product.modelName}</div>
+                </div>
+                <div className="p-8 bg-slate-100 text-slate-900 text-center">
+                  <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Leading Alternative</div>
+                  <div className="text-2xl font-black italic uppercase tracking-tighter">{competitor.name} {competitor.model}</div>
+                </div>
+
+                {[
+                  { label: 'Flow Architecture', marquis: 'Proprietary V-O-L-T™ Flow', other: 'Standard PVC Multi-Stage' },
+                  { label: 'Jet Volume', marquis: `${product.jetCount} High-Velocity`, other: `${competitor.jets} Restricted-Line` },
+                  { label: 'Insulation System', marquis: 'MaximizR™ Full-Foam', other: 'Partial-Fill / Loose' },
+                  { label: 'Water Management', marquis: 'SmartClean™ Automated', other: 'Traditional Cartridge' }
+                ].map((row, i) => (
+                  <React.Fragment key={i}>
+                    <div className="p-8 border-t border-slate-100 font-bold text-slate-500 text-xs flex items-center">{row.label}</div>
+                    <div className="p-8 border-t border-slate-100 bg-marquis-blue/5 text-marquis-blue font-black italic uppercase text-center flex items-center justify-center gap-2 text-sm">
+                      <Check className="w-4 h-4" /> {row.marquis}
+                    </div>
+                    <div className="p-8 border-t border-slate-100 text-slate-500 font-medium text-center flex items-center justify-center italic text-sm">
+                      {row.other}
+                    </div>
+                  </React.Fragment>
+                ))}
+
+                {/* INTEGRATED CTA ROW FOR MARQUIS */}
+                <div className="p-8 border-t flex items-center justify-center bg-slate-50" />
+                <div className="p-8 border-t bg-marquis-blue/10 flex flex-col gap-3">
+                   <button className="bg-marquis-blue text-white py-3 rounded-xl text-[10px] font-black uppercase italic tracking-widest shadow-lg">Get Local Price</button>
+                   <button className="border-2 border-marquis-blue/20 text-marquis-blue py-3 rounded-xl text-[10px] font-black uppercase italic tracking-widest">Find Dealer</button>
+                </div>
+                <div className="p-8 border-t bg-slate-50 flex items-center justify-center italic text-[10px] font-black text-slate-400 uppercase tracking-widest">Competitive Analysis</div>
+              </div>
+            </div>
+          </section>
+
+          {/* FINAL CTA FOOTER */}
+          <div className="py-20 text-center">
+            <h2 className="text-4xl md:text-6xl font-black italic uppercase text-slate-900 mb-10 leading-[0.8] tracking-tighter">Ready to anchor your lifestyle?</h2>
+            <div className="flex flex-col md:flex-row gap-4 justify-center">
+              <button className="bg-marquis-blue text-white px-10 py-6 rounded-[30px] text-lg font-black italic uppercase shadow-xl transform hover:-translate-y-1 transition-transform">Download My Blueprint (PDF)</button>
+              <button className="bg-slate-900 text-white px-10 py-6 rounded-[30px] text-lg font-black italic uppercase transform hover:-translate-y-1 transition-transform">Share with Family</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
