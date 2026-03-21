@@ -1,5 +1,6 @@
 'use client';
 
+/** Phase 6 Deployment: Three-Tier PDP Overhaul v1.1 **/
 import React, { useState } from 'react';
 import { 
   Check, ChevronRight, RotateCcw, Zap, Users, Star, Maximize, UserCheck, 
