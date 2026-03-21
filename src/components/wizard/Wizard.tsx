@@ -384,6 +384,20 @@ export default function Wizard() {
         
         <div className="flex-grow overflow-y-auto px-6 py-8 md:p-10">
           <div className="max-w-6xl mx-auto">
+            {q.layout !== 'split' && q.expertTip && (
+              <div className="mb-8 p-6 bg-blue-50/50 border border-blue-100/50 rounded-2xl flex items-start gap-4">
+                <div className="p-2 bg-white rounded-xl shadow-sm shrink-0">
+                  <Info className="w-5 h-5 text-marquis-blue" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold uppercase tracking-widest text-marquis-blue mb-1">Expert Insight</h4>
+                  <p className="text-sm md:text-base text-slate-600 font-medium leading-relaxed italic">
+                    "{q.expertTip}"
+                  </p>
+                </div>
+              </div>
+            )}
+            
             {q.layout === 'grid' && (
               <div className={cn(
                 "grid gap-6 mx-auto",
