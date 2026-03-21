@@ -470,8 +470,8 @@ export default function Wizard() {
                         setTimeout(nextQuestion, 150);
                       }}
                       className={cn(
-                        "w-full flex items-center justify-between p-6 bg-white rounded-2xl border-2 transition-all hover:shadow-md group",
-                        preferences[q.id] === opt.value ? "border-marquis-blue bg-blue-50/30 scale-[1.02]" : "border-slate-100/80 hover:border-marquis-blue/40"
+                        "w-full flex items-center justify-between p-6 rounded-2xl border-2 transition-all hover:shadow-md group",
+                        preferences[q.id] === opt.value ? "bg-white border-marquis-blue ring-2 ring-marquis-blue/20 scale-[1.02] shadow-xl" : "bg-white/95 border-slate-100/80 hover:border-marquis-blue/40"
                       )}
                     >
                       <div className="flex items-center gap-6">
