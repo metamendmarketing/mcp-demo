@@ -700,244 +700,258 @@ export default function Wizard() {
     const competitor = COMPETITORS[product.modelName] || { name: 'Market', model: 'Equivalent', jets: 45, capacity: '6-7 Adults', highlights: ['Standard Filtration', 'Basic Jets'] };
 
     return (
-      <div className="min-h-screen bg-slate-50 pb-20">
+      <div className="min-h-screen bg-white pb-20">
         {/* TOP NAV BAR */}
-        <div className="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div className="bg-white border-b border-slate-100 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <button onClick={() => setStep('results')} className="group text-slate-500 hover:text-marquis-blue flex items-center gap-3 font-black text-xs uppercase tracking-widest transition-colors">
-              <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Back to matches
+            <button onClick={() => setStep('results')} className="group text-slate-500 hover:text-marquis-blue flex items-center gap-2 font-black text-[10px] uppercase tracking-widest transition-colors">
+              <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Results
             </button>
-            <div className="flex gap-4">
-               <button className="bg-marquis-blue text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest italic">Get Pricing</button>
-               <button className="border-2 border-slate-200 text-slate-500 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest italic">Find Dealer</button>
+            <div className="hidden md:flex gap-4 items-center">
+               <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Personalized Blueprint</div>
+               <button className="bg-[#afd485] text-white px-8 py-2.5 rounded-full text-xs font-black uppercase tracking-widest italic shadow-lg shadow-green-200/50">Find Dealer</button>
             </div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 py-12 space-y-12">
-          
-          {/* TIER 1: INTEGRATED HERO BIG CARD */}
-          <section className="bg-white rounded-[60px] shadow-2xl overflow-hidden border border-slate-100 p-8 md:p-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              <div className="lg:col-span-7">
-                 <div className="relative group">
-                    <div className="absolute -inset-4 bg-gradient-to-tr from-marquis-blue/10 to-transparent blur-3xl opacity-50" />
-                    <img src={heroImg} className="w-full h-[400px] md:h-[550px] object-cover rounded-[48px] relative z-10 shadow-xl" alt={product.modelName} />
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          {/* THE EXPERIENCE HERO GRID */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+            
+            {/* LEFT COLUMN: VISUALS & AT-A-GLANCE */}
+            <div className="lg:col-span-5 space-y-8">
+              <div className="relative group">
+                 <img src={heroImg} className="w-full h-[400px] md:h-[500px] object-cover rounded-[40px] shadow-2xl shadow-slate-200/50 transform group-hover:scale-102 transition-transform duration-[3000ms]" alt={product.modelName} />
+                 <div className="absolute top-6 left-6 flex gap-2">
+                    <span className="bg-black/40 backdrop-blur-md text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-full border border-white/20">Marquis Verified</span>
                  </div>
               </div>
-              
-              <div className="lg:col-span-5 space-y-6">
-                 <div>
-                    <div className="text-marquis-blue text-xs font-black uppercase tracking-[0.3em] mb-4">The Verdict</div>
-                    <h1 className="text-4xl md:text-6xl font-black italic uppercase text-slate-900 leading-[0.9] tracking-tighter mb-6">
-                      {narrativeLoading ? "Synthesizing..." : (aiNarrative?.heroTitle || product.modelName)}
-                    </h1>
+
+              {/* IDENTITY CARD */}
+              <div className="bg-white p-10 rounded-[40px] shadow-2xl shadow-slate-100 border border-slate-50">
+                <h3 className="text-5xl font-black italic uppercase text-slate-900 leading-none mb-1 tracking-tighter">{product.modelName}</h3>
+                <div className="text-marquis-blue text-xs font-black uppercase tracking-[0.2em] mb-6">{(product as any).series?.toUpperCase() || 'CROWN SERIES'} COLLECTION</div>
+                
+                <div className="flex gap-2 mb-10">
+                   <span className="bg-slate-50 text-slate-500 text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-slate-100">Therapy</span>
+                   <span className="bg-slate-50 text-slate-500 text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-slate-100">Recreation</span>
+                </div>
+
+                <div className="space-y-4 mb-10">
+                   <button className="bg-marquis-blue text-white w-full py-6 rounded-[24px] text-xs font-black italic uppercase tracking-widest shadow-xl shadow-blue-100 hover:scale-102 transition-transform flex items-center justify-center gap-3">
+                      GET LOCAL PRICING
+                   </button>
+                   <button className="w-full bg-white text-slate-500 border-2 border-slate-100 py-6 rounded-[24px] text-xs font-black italic uppercase tracking-widest hover:bg-slate-50 transition-all">
+                      Find a Showroom Showroom
+                   </button>
+                </div>
+
+                {/* AT A GLANCE TABLE */}
+                <div className="pt-10 border-t border-slate-50">
+                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">At A Glance</div>
+                  <div className="grid grid-cols-2 gap-y-4">
+                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Dimensions</span>
+                     <span className="text-xs font-black text-slate-900 text-right">{product.lengthIn}" L x {product.widthIn}" W</span>
+                     
+                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Capacity</span>
+                     <span className="text-xs font-black text-slate-900 text-right">{product.seatsMax} Adults</span>
+                     
+                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Therapy Zones</span>
+                     <span className="text-xs font-black text-slate-900 text-right">{product.jetCount} V-O-L-T™ Jets</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN: THE EXPERIENCE & TECH CARDS */}
+            <div className="lg:col-span-7 space-y-12">
+              <div className="space-y-6">
+                <h1 className="text-5xl md:text-8xl font-black italic uppercase text-slate-900 leading-[0.8] tracking-tighter">
+                  The Marquis Experience
+                </h1>
+                <p className="text-xl italic font-medium text-slate-500 max-w-2xl border-l-4 border-slate-100 pl-6 py-2">
+                  {narrativeLoading ? "Synthesizing your escape..." : (aiNarrative?.heroTitle || `“A masterfully engineered sanctuary combining the features of a hot tub and recovery.”`)}
+                </p>
+              </div>
+
+              <div className="space-y-8">
+                 <div className="flex items-center gap-3 text-marquis-blue/60 font-black text-[10px] uppercase tracking-[0.3em]">
+                    <Sparkles className="w-4 h-4" /> Why this model fits you perfectly
                  </div>
 
-                 <div className="space-y-4">
+                 <div className="space-y-3">
                     {narrativeLoading || !aiNarrative?.summaryBullets ? (
-                      [1,2,3,4].map(i => (
-                        <div key={i} className="flex gap-3 items-center animate-pulse">
-                          <div className="w-6 h-6 bg-slate-100 rounded-lg flex-shrink-0" />
-                          <div className="h-4 bg-slate-100 rounded w-full" />
-                        </div>
-                      ))
+                       [1,2,3].map(i => (
+                        <div key={i} className="h-16 bg-slate-50 rounded-3xl animate-pulse" />
+                       ))
                     ) : (
                       aiNarrative.summaryBullets.map((bullet, i) => (
-                        <div key={i} className="flex gap-4 items-start animate-in fade-in slide-in-from-right fill-mode-both" style={{ animationDelay: `${i * 100}ms` }}>
-                          <div className="bg-marquis-blue text-white p-1.5 rounded-lg mt-0.5 flex-shrink-0">
-                            <Check className="w-3.5 h-3.5" />
-                          </div>
-                          <p className="text-md text-slate-600 font-bold leading-snug">{bullet}</p>
+                        <div key={i} className="bg-white p-6 rounded-[28px] border border-slate-100 flex gap-4 items-center shadow-sm hover:shadow-md transition-shadow">
+                          <Check className="w-5 h-5 text-marquis-blue flex-shrink-0" />
+                          <p className="text-sm font-bold text-slate-700 leading-tight">{bullet}</p>
                         </div>
                       ))
                     )}
                  </div>
               </div>
+
+              {/* DUAL FEATURE CARDS */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                 {/* V-O-L-T FLOW */}
+                 <div className="p-10 bg-slate-50/50 rounded-[48px] border border-slate-100 space-y-6 group hover:bg-white hover:shadow-2xl transition-all duration-500">
+                    <div className="bg-white p-4 rounded-2xl w-fit shadow-lg shadow-blue-100/50 text-marquis-blue">
+                       <Activity className="w-6 h-6" />
+                    </div>
+                    <div>
+                       <h3 className="text-xl font-black italic uppercase text-slate-900 mb-3 tracking-tighter flex items-center gap-2">
+                          V-O-L-T™ Flow <Zap className="w-4 h-4 text-marquis-blue" />
+                       </h3>
+                       <div 
+                         className="text-xs font-bold leading-relaxed text-slate-500"
+                         dangerouslySetInnerHTML={{ __html: (aiNarrative as any)?.hydrotherapy || "Analyzing jet architecture..." }}
+                       />
+                    </div>
+                 </div>
+
+                 {/* METICULOUS SPACE */}
+                 <div className="p-10 bg-slate-50/50 rounded-[48px] border border-slate-100 space-y-6 group hover:bg-white hover:shadow-2xl transition-all duration-500">
+                    <div className="bg-white p-4 rounded-2xl w-fit shadow-lg shadow-blue-100/50 text-marquis-blue">
+                       <Maximize className="w-6 h-6" />
+                    </div>
+                    <div>
+                       <h3 className="text-xl font-black italic uppercase text-slate-900 mb-3 tracking-tighter">Meticulous Space</h3>
+                       <div 
+                         className="text-xs font-bold leading-relaxed text-slate-500"
+                         dangerouslySetInnerHTML={{ __html: (aiNarrative as any)?.design || "Calculating ergonomic anchorage..." }}
+                       />
+                    </div>
+                 </div>
+              </div>
+
+              {/* SHOWROOM CHECKLIST */}
+              <div className="bg-[#f0f4f8] p-10 rounded-[48px] border border-slate-200 shadow-xl shadow-slate-100">
+                 <h4 className="text-sm font-black uppercase italic tracking-widest text-slate-800 mb-6">Showroom Checklist</h4>
+                 <p className="text-[10px] font-bold text-slate-400 mb-8 uppercase tracking-widest">Print this or take a screenshot to discuss with your local Marquis dealer.</p>
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                    {[
+                      "Test V-O-L-T™ valve controls",
+                      "View shell color finishes",
+                      "Confirm site preparation",
+                      "Discuss electrical requirements"
+                    ].map((item, i) => (
+                      <div key={i} className="flex gap-4 items-center">
+                         <Check className="w-4 h-4 text-marquis-blue" />
+                         <span className="text-[11px] font-black text-slate-900 italic uppercase tracking-tight">{item}</span>
+                      </div>
+                    ))}
+                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* FULL WIDTH ENGINEERING DETAIL SECTION */}
+          <section className="bg-slate-900 md:-mx-12 py-32 overflow-hidden relative rounded-[80px]">
+            <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-marquis-blue/10 rounded-full blur-[200px]" />
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+              <div className="text-center mb-16">
+                <h4 className="text-marquis-blue text-xs font-black uppercase tracking-[0.4em] mb-4">The Blueprints</h4>
+                <h2 className="text-4xl md:text-8xl font-black italic uppercase text-white mb-6 leading-none tracking-tighter">Engineering Detail</h2>
+                <p className="text-slate-400 font-bold text-lg max-w-2xl mx-auto">Hover specific engineering hotspots to reveal proprietary hardware and hydrotherapy zones.</p>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 p-6 md:p-12 rounded-[80px] backdrop-blur-3xl shadow-3xl">
+                <div className="relative aspect-square md:aspect-video rounded-[60px] bg-black/40 group overflow-hidden">
+                    <img 
+                      src={product.overheadImageUrl || '/mcp/demo/assets/blueprint_top.png'} 
+                      className="w-full h-full object-contain transform group-hover:scale-102 transition-transform duration-[5000ms]" 
+                      alt="Engineering Overview" 
+                    />
+                    
+                    {/* Pinpoint Accurate Hotspots for Massage Seats */}
+                    {[
+                      { title: 'Deep-Tissue Massage Seat', desc: 'Precision jets targeting shoulder and lower lumbar regions for intense relief.', x: 18, y: 22 },
+                      { title: 'Shiatsu Massage Seat', desc: 'Circular pressure zones mimicking expert deep-tissue fingertip techniques.', x: 18, y: 52 },
+                      { title: 'Swedish Massage Seat', desc: 'Gentle, sweeping surface flow for systemic relaxation and lymphatic drainage.', x: 18, y: 82 },
+                      { title: 'Relaxation Massage Seat', desc: 'High-volume low-pressure flow for passive recovery and buoyancy.', x: 82, y: 22 },
+                      { title: 'Deep-Tissue Massage Seat', desc: 'High-velocity jet array for intense muscle knot release in calves and back.', x: 82, y: 52 },
+                      { title: 'Shiatsu Massage Seat', desc: 'Focused pressure points for specific tendon and joint relief.', x: 82, y: 82 }
+                    ].map((spot, i) => (
+                      <div 
+                        key={i}
+                        className="absolute group/spot transition-all z-20"
+                        style={{ top: `${spot.y}%`, left: `${spot.x}%` }}
+                      >
+                        <button className="w-10 h-10 bg-marquis-blue text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-150 active:scale-95 transition-all outline-none">
+                          <Plus className="w-5 h-5" />
+                        </button>
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-8 w-72 bg-white text-slate-900 p-8 rounded-[36px] shadow-3xl opacity-0 group-hover/spot:opacity-100 transition-all scale-90 group-hover/spot:scale-100 pointer-events-none z-30 border border-slate-100">
+                          <div className="text-[10px] font-black uppercase italic text-marquis-blue mb-2 tracking-widest">{spot.title}</div>
+                          <p className="text-sm text-slate-600 leading-relaxed font-bold">{spot.desc}</p>
+                          <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[15px] border-t-white" />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             </div>
           </section>
 
-          {/* TIER 2: SPECS & MAP SPLIT ROW */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* SPECS CARD */}
-            <div className="lg:col-span-4 bg-white p-10 rounded-[50px] shadow-xl border border-slate-100 flex flex-col justify-between">
-               <div>
-                  <h3 className="text-4xl font-black italic uppercase text-slate-900 leading-none mb-1">{product.modelName}</h3>
-                  <div className="text-marquis-blue text-[10px] font-black uppercase tracking-widest mb-8">Crown Series Collection</div>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-8">
-                     <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100 text-center">
-                       <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Seating</div>
-                       <div className="text-xl font-black italic uppercase text-slate-900">{product.seatsMax} Adults</div>
-                     </div>
-                     <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100 text-center">
-                       <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Dimensions</div>
-                       <div className="text-md font-black italic uppercase text-slate-900">{product.lengthIn}x{product.widthIn}"</div>
-                     </div>
-                  </div>
+          {/* COMPARISON TIER: THE MARQUIS MIRROR */}
+          <section className="py-32 px-4">
+             <div className="max-w-7xl mx-auto">
+               <div className="text-center mb-16">
+                  <h2 className="text-4xl md:text-7xl font-black italic uppercase text-slate-900 mb-4 tracking-tighter">The Marquis Mirror</h2>
+                  <p className="text-slate-500 font-bold text-lg italic uppercase tracking-tight">Direct technical comparison against market equivalents.</p>
                </div>
+               
+               <div className="max-w-5xl mx-auto overflow-hidden border-4 border-slate-900 rounded-[60px] shadow-2xl">
+                  <div className="grid grid-cols-3 bg-white">
+                     <div className="p-10 bg-slate-900 text-slate-500 text-[10px] font-black uppercase tracking-widest flex items-end border-r border-white/5">Spec Comparison</div>
+                     <div className="p-10 bg-marquis-blue text-white text-center border-r border-white/10">
+                        <div className="text-2xl font-black italic uppercase italic tracking-tighter">Marquis {product.modelName}</div>
+                     </div>
+                     <div className="p-10 bg-slate-100 text-slate-500 text-center font-black italic uppercase italic">
+                        {competitor.name} {competitor.model}
+                     </div>
 
-               <div className="space-y-4">
-                 <button className="bg-marquis-blue text-white w-full py-5 rounded-[24px] text-sm font-black italic uppercase shadow-xl hover:scale-102 transition-transform">Get Local Pricing</button>
-                 <button className="w-full bg-white text-marquis-blue border-2 border-marquis-blue/20 py-5 rounded-[24px] text-sm font-black italic uppercase hover:bg-marquis-blue/5 transition-all">Find Dealer</button>
-               </div>
-            </div>
-
-            {/* INTERACTIVE MAP */}
-            <div className="lg:col-span-8 bg-slate-900 p-2 rounded-[50px] shadow-2xl overflow-hidden relative group">
-               <div className="absolute inset-0 bg-marquis-blue/10 animate-pulse" />
-               <div className="relative h-full bg-slate-900 rounded-[48px] p-6 lg:p-10">
-                  <div className="flex justify-between items-center mb-6">
-                    <h4 className="text-white text-sm font-black uppercase tracking-widest italic group-hover:text-marquis-blue transition-colors">Engineering Overview</h4>
-                    <div className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] flex items-center gap-2">
-                       <Plus className="w-3 h-3" /> Interact with hotspots
-                    </div>
-                  </div>
-                  
-                  {product.overheadImageUrl && (
-                    <div className="relative aspect-video rounded-[32px] overflow-hidden bg-black/20">
-                      <img 
-                        src={product.overheadImageUrl} 
-                        className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-[5000ms]" 
-                        alt="Overhead View" 
-                      />
-                      
-                      {product.hotspots && (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots).map((spot: any, i: number) => (
-                        <div 
-                          key={i}
-                          className="absolute group/spot transition-all z-20"
-                          style={{ top: `${spot.y}%`, left: `${spot.x}%` }}
-                        >
-                          <button className="w-8 h-8 bg-marquis-blue text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-125 transition-all">
-                            <Plus className="w-5 h-5" />
-                          </button>
-                          
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-60 bg-white text-slate-900 p-5 rounded-3xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-all scale-90 group-hover/spot:scale-100 pointer-events-none z-30 border border-slate-100">
-                            <div className="text-[10px] font-black uppercase italic text-marquis-blue mb-1">{spot.title}</div>
-                            <p className="text-xs text-slate-600 leading-relaxed font-bold">{spot.description}</p>
-                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-white" />
+                     {[
+                       { label: 'Hydraulic Flow', marquis: 'Proprietary V-O-L-T™', other: 'Standard PVC Multi-Stage' },
+                       { label: 'Jet Volume', marquis: `${product.jetCount} Velocity Jets`, other: `${competitor.jets} Restricted-Line` },
+                       { label: 'Sanitation', marquis: 'ConstantClean™ Automated', other: 'Basic Inline Cartridge' },
+                       { label: 'Insulation', marquis: 'MaximizR™ Full-Foam', other: 'Partial / Loose-Fill' }
+                     ].map((row, i) => (
+                       <React.Fragment key={i}>
+                          <div className="p-10 border-t border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center">{row.label}</div>
+                          <div className="p-10 border-t border-slate-100 bg-marquis-blue/5 text-marquis-blue font-black italic uppercase text-center flex items-center justify-center gap-2">
+                             <Check className="w-4 h-4" /> {row.marquis}
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-               </div>
-            </div>
-          </div>
+                          <div className="p-10 border-t border-slate-100 text-slate-400 italic text-center text-sm flex items-center justify-center">{row.other}</div>
+                       </React.Fragment>
+                     ))}
 
-          {/* TIER 3: COMPACT DEEP DIVE GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              { 
-                id: 'hydrotherapy', 
-                title: 'Hydrotherapy', 
-                icon: <Activity className="w-8 h-8" />, 
-                bg: 'bg-gradient-to-br from-[#0a192f] via-[#112240] to-[#0a192f]', 
-                textColor: 'text-white'
-              },
-              { 
-                id: 'climate', 
-                title: 'Climate', 
-                icon: <Thermometer className="w-8 h-8" />, 
-                bg: 'bg-gradient-to-br from-[#f0f9ff] via-[#e0f2fe] to-[#f0f9ff]', 
-                textColor: 'text-slate-900'
-              },
-              { 
-                id: 'design', 
-                title: 'Design', 
-                icon: <Users className="w-8 h-8" />, 
-                bg: 'bg-gradient-to-br from-[#fafaf9] via-[#f5f5f4] to-[#fafaf9]', 
-                textColor: 'text-slate-900'
-              },
-              { 
-                id: 'efficiency', 
-                title: 'Power', 
-                icon: <Zap className="w-8 h-8" />, 
-                bg: 'bg-gradient-to-br from-[#064e3b] via-[#065f46] to-[#064e3b]', 
-                textColor: 'text-white'
-              }
-            ].map((mod, i) => (
-              <div key={i} className={`p-10 rounded-[50px] shadow-xl ${mod.bg} border border-white/5 relative overflow-hidden group/card`}>
-                <div className="flex items-center gap-6 mb-8 relative z-10">
-                   <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-xl border border-white/20 text-marquis-blue group-hover/card:scale-110 transition-transform">
-                      {mod.icon}
-                   </div>
-                   <h3 className={`text-3xl font-black italic uppercase ${mod.textColor} tracking-tight`}>{mod.title}</h3>
-                </div>
-                
-                {narrativeLoading ? (
-                  <div className="space-y-3 animate-pulse relative z-10">
-                     <div className={`h-4 ${mod.textColor === 'text-white' ? 'bg-white/10' : 'bg-slate-200'} rounded w-full`}></div>
-                     <div className={`h-4 ${mod.textColor === 'text-white' ? 'bg-white/10' : 'bg-slate-200'} rounded w-5/6`}></div>
+                     {/* CTA ROW */}
+                     <div className="p-10 bg-slate-50 border-t border-slate-100" />
+                     <div className="p-10 bg-marquis-blue/10 border-t border-slate-100 flex flex-col gap-4">
+                        <button className="bg-marquis-blue text-white py-4 rounded-2xl text-[10px] font-black uppercase italic tracking-widest shadow-lg">Get Local Price</button>
+                        <button className="bg-white text-marquis-blue border border-marquis-blue/20 py-4 rounded-2xl text-[10px] font-black uppercase italic tracking-widest">Find Dealer</button>
+                     </div>
+                     <div className="p-10 bg-slate-50 border-t border-slate-100 flex items-center justify-center italic text-[10px] font-black text-slate-400 uppercase tracking-widest">Technical Validation</div>
                   </div>
-                ) : (
-                  <div 
-                    className={`text-md font-bold leading-relaxed ${mod.textColor === 'text-white' ? 'text-slate-300' : 'text-slate-600'} relative z-10`}
-                    dangerouslySetInnerHTML={{ __html: (aiNarrative as any)?.[mod.id] || "Synthesizing..." }}
-                  />
-                )}
-                
-                <div className="absolute -bottom-10 -right-10 opacity-5 group-hover/card:scale-150 transition-transform duration-1000 grayscale">
-                    {mod.icon}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* TIER 4: THE MARQUIS MIRROR (BOTTOM) */}
-          <section className="bg-white py-20 px-4 rounded-[60px] shadow-2xl border border-slate-100">
-            <div className="max-w-5xl mx-auto text-center mb-16 px-4">
-              <h2 className="text-4xl font-black italic uppercase text-slate-900 mb-4">The Marquis Mirror</h2>
-              <p className="text-slate-500 font-medium text-lg">Direct technical comparison against leading market alternatives.</p>
-            </div>
-
-            <div className="max-w-6xl mx-auto overflow-hidden">
-              <div className="grid grid-cols-3 gap-0 border-2 border-slate-900 rounded-[40px] overflow-hidden bg-white">
-                <div className="p-8 bg-slate-900 text-slate-400 font-black uppercase tracking-widest text-[10px] flex items-end">Technical Spec</div>
-                <div className="p-8 bg-marquis-blue text-white text-center">
-                  <div className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-1">Your Match</div>
-                  <div className="text-2xl font-black italic uppercase tracking-tighter">Marquis {product.modelName}</div>
-                </div>
-                <div className="p-8 bg-slate-100 text-slate-900 text-center">
-                  <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Leading Alternative</div>
-                  <div className="text-2xl font-black italic uppercase tracking-tighter">{competitor.name} {competitor.model}</div>
-                </div>
-
-                {[
-                  { label: 'Flow Architecture', marquis: 'Proprietary V-O-L-T™ Flow', other: 'Standard PVC Multi-Stage' },
-                  { label: 'Jet Volume', marquis: `${product.jetCount} High-Velocity`, other: `${competitor.jets} Restricted-Line` },
-                  { label: 'Insulation System', marquis: 'MaximizR™ Full-Foam', other: 'Partial-Fill / Loose' },
-                  { label: 'Water Management', marquis: 'SmartClean™ Automated', other: 'Traditional Cartridge' }
-                ].map((row, i) => (
-                  <React.Fragment key={i}>
-                    <div className="p-8 border-t border-slate-100 font-bold text-slate-500 text-xs flex items-center">{row.label}</div>
-                    <div className="p-8 border-t border-slate-100 bg-marquis-blue/5 text-marquis-blue font-black italic uppercase text-center flex items-center justify-center gap-2 text-sm">
-                      <Check className="w-4 h-4" /> {row.marquis}
-                    </div>
-                    <div className="p-8 border-t border-slate-100 text-slate-500 font-medium text-center flex items-center justify-center italic text-sm">
-                      {row.other}
-                    </div>
-                  </React.Fragment>
-                ))}
-
-                {/* INTEGRATED CTA ROW FOR MARQUIS */}
-                <div className="p-8 border-t flex items-center justify-center bg-slate-50" />
-                <div className="p-8 border-t bg-marquis-blue/10 flex flex-col gap-3">
-                   <button className="bg-marquis-blue text-white py-3 rounded-xl text-[10px] font-black uppercase italic tracking-widest shadow-lg">Get Local Price</button>
-                   <button className="border-2 border-marquis-blue/20 text-marquis-blue py-3 rounded-xl text-[10px] font-black uppercase italic tracking-widest">Find Dealer</button>
-                </div>
-                <div className="p-8 border-t bg-slate-50 flex items-center justify-center italic text-[10px] font-black text-slate-400 uppercase tracking-widest">Competitive Analysis</div>
-              </div>
-            </div>
+               </div>
+             </div>
           </section>
 
           {/* FINAL CTA FOOTER */}
-          <div className="py-20 text-center">
-            <h2 className="text-4xl md:text-6xl font-black italic uppercase text-slate-900 mb-10 leading-[0.8] tracking-tighter">Ready to anchor your lifestyle?</h2>
-            <div className="flex flex-col md:flex-row gap-4 justify-center">
-              <button className="bg-marquis-blue text-white px-10 py-6 rounded-[30px] text-lg font-black italic uppercase shadow-xl transform hover:-translate-y-1 transition-transform">Download My Blueprint (PDF)</button>
-              <button className="bg-slate-900 text-white px-10 py-6 rounded-[30px] text-lg font-black italic uppercase transform hover:-translate-y-1 transition-transform">Share with Family</button>
-            </div>
+          <div className="py-40 text-center bg-slate-50 border-t border-slate-100 md:-mx-12 rounded-[100px] mt-20">
+             <div className="max-w-4xl mx-auto px-6">
+               <h2 className="text-6xl md:text-9xl font-black italic uppercase text-slate-900 mb-12 leading-[0.8] tracking-tighter">Ready to anchor your lifestyle?</h2>
+               <div className="flex flex-col md:flex-row gap-6 justify-center">
+                  <button className="bg-marquis-blue text-white px-16 py-8 rounded-[40px] text-xl font-black italic uppercase shadow-3xl hover:-translate-y-2 transition-transform">Download Blueprint (PDF)</button>
+                  <button className="bg-slate-900 text-white px-16 py-8 rounded-[40px] text-xl font-black italic uppercase hover:-translate-y-2 transition-transform">Consult Specialist</button>
+               </div>
+               <p className="mt-12 text-[10px] font-black text-slate-400 uppercase tracking-widest">Proprietary Technology of Marquis Spas © 2026</p>
+             </div>
           </div>
         </div>
       </div>

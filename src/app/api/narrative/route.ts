@@ -88,17 +88,17 @@ Do not wrap the output in markdown blocks (e.g., \`\`\`json). Return raw valid J
       console.error("Gemini API Error (Falling back to mock):", apiError.message);
       // Smart Fallback Narrative
       return NextResponse.json({ 
-        heroTitle: `The ${body.product.modelName}: Your Ultimate Escape`,
+        heroTitle: `“A masterfully engineered sanctuary combining the features of a high-performance hot tub and full-body recovery.”`,
         summaryBullets: [
-          `Precision-engineered for ${body.preferences.primaryPurpose || 'relaxation'} and recovery.`,
-          `High-performance insulation tailored for your local climate conditions.`,
-          `Expansive ${body.product.seatsMax}-adult capacity with premium ${body.preferences.aesthetic || 'modern'} styling.`,
-          `Effortless ownership with ${body.preferences.maintenance || 'automated'} cleaning systems.`
+          `Perfectly accommodates your ${body.preferences.capacity || 'multi-person'} household.`,
+          `Advanced V-O-L-T™ jet configurations for targeted muscle relief.`,
+          `High-flow ConstantClean™ water management system.`,
+          `Designed with Meticulous Space® ergonomic seat depth.`
         ],
-        hydrotherapy: `The ${body.product.modelName} utilizes proprietary V-O-L-T™ flow technology to deliver the ${body.preferences.intensity || 'therapeutic'} experience you require. With ${body.product.jetCount} specialized jets, every muscle group—from your ${body.preferences.physicalFocus || 'full body'} to your core—receives targeted, high-velocity relief.`,
-        climate: `Engineered specifically for your environment, the ${body.product.modelName} features MaximizR™ full-foam insulation. Whether facing the intense sun or freezing winter nights, your retreat remains energy-efficient and temperature-stable.`,
-        design: `With a footprint of ${body.product.lengthIn}x${body.product.widthIn}", this model seamlessly integrates into your ${body.preferences.placement || 'outdoor'} space, creating a ${body.preferences.aesthetic || 'luxurious'} focal point for your home.`,
-        efficiency: `The ${body.preferences.electrical || '240V'} power architecture ensures rapid heating and consistent pressure, while the SmartClean™ system handles the heavy lifting of water maintenance.`
+        hydrotherapy: `Our patented **V-O-L-T™ (Vector-Optimized Laminar Therapy)** system delivers up to 40% more flow volume to specific zones without increasing pump size, providing deep, restorative muscle massage precisely where you need it.`,
+        climate: `Engineered with **MaximizR™ full-foam insulation** and a high-impact **DuraShell®** exterior, this model is built to thrive in the \`${body.preferences.zipCode || 'local'}\` climate, maintaining peak thermal efficiency regardless of external temperature fluctuations.`,
+        design: `**Meticulous Space®** design ensures every curve and seat depth in the ${body.product.modelName} is calibrated to keep you naturally buoyant yet firmly anchored during high-intensity hydrotherapy sessions.`,
+        efficiency: `The high-output ${body.preferences.electrical || '240V'} power architecture powers secondary Whitewater-4™ jets, while the automated dual-filtration system ensures your retreat is always ready for immediate use with minimal owner intervention.`
       });
     }
 
