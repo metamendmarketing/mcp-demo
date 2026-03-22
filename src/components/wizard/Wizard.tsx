@@ -709,7 +709,7 @@ export default function Wizard() {
                         }}
                         className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20"
                       >
-                        Explore My Blueprint
+                        Explore this option
                       </button>
                    </div>
                  </div>
@@ -749,7 +749,7 @@ export default function Wizard() {
             </div>
             <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
                <h2 className="text-2xl md:text-3xl font-black italic uppercase text-slate-800 tracking-tight flex items-center gap-3 mb-8 border-b border-slate-100 pb-6">
-                  {narrativeLoading ? "Synthesizing Profile..." : (aiNarrative?.heroTitle || product.modelName)} 
+                  {narrativeLoading ? "Expert Analysis..." : (aiNarrative?.heroTitle || product.modelName)} 
                   <Sparkles className="w-6 h-6 text-marquis-blue flex-shrink-0" />
                </h2>
                
