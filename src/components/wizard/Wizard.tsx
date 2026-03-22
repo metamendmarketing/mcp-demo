@@ -130,53 +130,6 @@ const QUESTIONS: {
     ]
   },
   {
-    id: 'electrical',
-    question: "What is your electrical capacity?",
-    subtext: "Determines heating speed and parallel pump performance.",
-    expertTip: "This is a critical infrastructure decision. 110V 'Plug and Play' models can connect to a standard household outlet, making installation trivial. However, they cannot run the 4kW heater and high-speed pumps simultaneously. If you live in a cold climate or demand aggressive jet pressure, a dedicated 240V hardwired line is essential.",
-    layout: 'split',
-    bgImage: '/mcp/demo/assets/bg_electrical_night_1774075976736.png',
-    options: [
-      { value: '110v', label: '110V Plug & Play', tip: "Easy install via standard outlet. Heater pauses when jets are on high.", icon: <Battery className="w-8 h-8 text-blue-400" /> },
-      { value: '240v', label: '240V Hardwired', tip: "Requires an electrician. Maximum parallel performance and rapid heating.", icon: <BatteryCharging className="w-8 h-8 text-marquis-blue" /> },
-      { value: 'help', label: 'Help me decide', tip: "I need more information on electrical requirements.", icon: <Info className="w-8 h-8 text-slate-400" /> }
-    ]
-  },
-  {
-    id: 'placement',
-    question: "Where will the hot tub be placed?",
-    subtext: "Site preparation dictates the structural requirements.",
-    expertTip: "A filled hot tub commands a massive structural load—often exceeding 4,000 lbs. Ground installations require a leveled crushed rock base or a poured concrete pad (minimum 4 inches thick). If you select 'Wood Deck', you must have a structural engineer verify that your joists can support 150 lbs. per square foot.",
-    layout: 'grid',
-    options: [
-      { value: 'deck', label: 'Wood/Composite Deck', tip: "Requires joist load-bearing verification.", image: '/mcp/demo/assets/placement_deck_1774073130622.png' },
-      { value: 'patio', label: 'Concrete/Paver Patio', tip: "Standard solid foundation.", image: '/mcp/demo/assets/placement_patio_1774073144196.png' },
-      { value: 'indoor', label: 'Indoor/Sunroom', tip: "Requires dedicated ventilation planning.", image: '/mcp/demo/assets/placement_indoor_1774073157297.png' },
-      { value: 'ground', label: 'New Ground Site', tip: "Requires level EZ-Pad or crushed rock base.", image: '/mcp/demo/assets/placement_ground_1774073171701.png' }
-    ]
-  },  {
-    id: 'sunExposure',
-    question: "How much sun does this exact spot receive?",
-    subtext: "Understanding UV exposure dictates cover life and energy retention.",
-    expertTip: "We ask this to determine your thermal load. A hot tub sitting in direct sunlight all day will experience significant solar gain, reducing heating costs but accelerating UV degradation on standard vinyl covers. In a high-sun scenario, we will specifically mandate a premium Weathershield™ or ProLast™ fabric cover to protect your investment.",
-    layout: 'grid',
-    options: [
-      { value: 'morning', label: 'Morning Sun Only', tip: "Gentle warmth; cooler in the evenings.", icon: <Sun className="w-10 h-10 text-amber-500 mx-auto" /> },
-      { value: 'afternoon', label: 'Afternoon / Late Sun', tip: "Intense heat during the peak of the day.", icon: <Sunset className="w-10 h-10 text-orange-500 mx-auto" /> },
-      { value: 'direct', label: 'Direct Sun All Day', tip: "Maximum solar gain; minimal shade.", icon: <Flame className="w-10 h-10 text-red-500 mx-auto" /> },
-      { value: 'shaded', label: 'Heavy Shade / Covered', tip: "Under a roof, pergola, or dense trees.", icon: <TreePine className="w-10 h-10 text-slate-400 mx-auto" /> }
-    ]
-  },
-  {
-    id: 'zipCode',
-    question: "What is your Zip Code?",
-    subtext: "Your precise climate and elevation affect heating efficiency.",
-    expertTip: "High-altitude and colder regions require our MaximizR™ full-foam insulation to maintain consistent 104°F temperatures efficiently. We factor your ZIP code to determine thermal load.",
-    layout: 'map',
-    options: []
-  },
-
-  {
     id: 'physicalFocus',
     question: "Where do you need the most physical relief?",
     subtext: "We will prioritize specific High Output Therapy (H.O.T.) Zones.",
@@ -187,6 +140,31 @@ const QUESTIONS: {
       { value: 'lower-back', label: 'Lower Back & Lumbar', tip: "Deep penetration HK jets for sciatica.", icon: <Waves className="w-10 h-10 mx-auto" /> },
       { value: 'legs-feet', label: 'Legs & Feet', tip: "Reflexology and calf massage zones.", icon: <Droplet className="w-10 h-10 mx-auto" /> },
       { value: 'full-body', label: 'Total Immersion', tip: "Comprehensive sequential massage.", icon: <Heart className="w-10 h-10 mx-auto" /> }
+    ]
+  },
+  {
+    id: 'intensity',
+    question: "Preferred Hydrotherapy Intensity?",
+    subtext: "Are you looking for a gentle soak or aggressive deep tissue manipulation?",
+    expertTip: "Pump horsepower doesn't equal pressure—flow dynamics do. For a 'Firm Deep Tissue' massage, we require models with dedicated dual-speed pumps routed through High-Kinetic (HK) massage jets. If you prefer 'Gentle', we prioritize High-Volume, Low-Pressure (HVLP) broad orifice jets that move water smoothly over the skin without stinging.",
+    layout: 'split',
+    bgImage: '/mcp/demo/assets/bg_intensity_1774073882614.png',
+    options: [
+      { value: 'gentle', label: 'Gentle Relaxation', tip: "Broad, smooth water flow. Ideal for sensitive skin or simple soaking.", icon: <Cloud className="w-8 h-8" /> },
+      { value: 'medium', label: 'Medium Vigorous', tip: "The perfect balance of soothing soak and active muscle recovery.", icon: <Waves className="w-8 h-8" /> },
+      { value: 'firm', label: 'Aggressive Deep Tissue', tip: "High-kinetic jets designed to break down lactic acid and deep knots.", icon: <Gauge className="w-8 h-8" /> }
+    ]
+  },
+  {
+    id: 'maintenance',
+    question: "What is your expected maintenance profile?",
+    subtext: "Determine your tolerance for manual water chemistry.",
+    expertTip: "Water care shouldn't feel like a chemistry degree. If you select 'Automated', we will equip your model with the ConstantClean+™ system featuring in-line SmartChlor and ozonators, which manages 90% of sanitization automatically. If you prefer a hands-on approach and lower upfront costs, traditional manual dosing is available.",
+    layout: 'split',
+    bgImage: '/mcp/demo/assets/bg_maintenance_1774073867138.png',
+    options: [
+      { value: 'automated', label: 'Set it and Forget it', tip: "Requires the ConstantClean+™ automated inline sanitation system upgrade.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'hands-on', label: 'I enjoy the ritual', tip: "Standard filtration with manual weekly chemical balancing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
     ]
   },
   {
@@ -203,28 +181,50 @@ const QUESTIONS: {
     ]
   },
   {
-    id: 'maintenance',
-    question: "What is your expected maintenance profile?",
-    subtext: "Determine your tolerance for manual water chemistry.",
-    expertTip: "Water care shouldn't feel like a chemistry degree. If you select 'Automated', we will equip your model with the ConstantClean+™ system featuring in-line SmartChlor and ozonators, which manages 90% of sanitization automatically. If you prefer a hands-on approach and lower upfront costs, traditional manual dosing is available.",
+    id: 'electrical',
+    question: "What is your electrical capacity?",
+    subtext: "Determines heating speed and parallel pump performance.",
+    expertTip: "This is a critical infrastructure decision. 110V 'Plug and Play' models can connect to a standard household outlet, making installation trivial. However, they cannot run the 4kW heater and high-speed pumps simultaneously. If you live in a cold climate or demand aggressive jet pressure, a dedicated 240V hardwired line is essential.",
     layout: 'split',
-    bgImage: '/mcp/demo/assets/bg_maintenance_1774073867138.png',
+    bgImage: '/mcp/demo/assets/bg_electrical_night_1774075976736.png',
     options: [
-      { value: 'automated', label: 'Set it and Forget it', tip: "Requires the ConstantClean+™ automated inline sanitation system upgrade.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
-      { value: 'hands-on', label: 'I enjoy the ritual', tip: "Standard filtration with manual weekly chemical balancing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
+      { value: '110v', label: '110V Plug & Play', tip: "Easy install via standard outlet. Heater pauses when jets are on high.", icon: <Battery className="w-8 h-8 text-blue-400" /> },
+      { value: '240v', label: '240V Hardwired', tip: "Requires an electrician. Maximum parallel performance and rapid heating.", icon: <BatteryCharging className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'help', label: 'Help me decide', tip: "I need more information on electrical requirements.", icon: <Info className="w-8 h-8 text-slate-400" /> }
     ]
   },
   {
-    id: 'intensity',
-    question: "Preferred Hydrotherapy Intensity?",
-    subtext: "Are you looking for a gentle soak or aggressive deep tissue manipulation?",
-    expertTip: "Pump horsepower doesn't equal pressure—flow dynamics do. For a 'Firm Deep Tissue' massage, we require models with dedicated dual-speed pumps routed through High-Kinetic (HK) massage jets. If you prefer 'Gentle', we prioritize High-Volume, Low-Pressure (HVLP) broad orifice jets that move water smoothly over the skin without stinging.",
-    layout: 'split',
-    bgImage: '/mcp/demo/assets/bg_intensity_1774073882614.png',
+    id: 'zipCode',
+    question: "What is your Zip Code?",
+    subtext: "Your precise climate and elevation affect heating efficiency.",
+    expertTip: "High-altitude and colder regions require our MaximizR™ full-foam insulation to maintain consistent 104°F temperatures efficiently. We factor your ZIP code to determine thermal load.",
+    layout: 'map',
+    options: []
+  },
+  {
+    id: 'sunExposure',
+    question: "How much sun does this exact spot receive?",
+    subtext: "Understanding UV exposure dictates cover life and energy retention.",
+    expertTip: "We ask this to determine your thermal load. A hot tub sitting in direct sunlight all day will experience significant solar gain, reducing heating costs but accelerating UV degradation on standard vinyl covers. In a high-sun scenario, we will specifically mandate a premium Weathershield™ or ProLast™ fabric cover to protect your investment.",
+    layout: 'grid',
     options: [
-      { value: 'gentle', label: 'Gentle Relaxation', tip: "Broad, smooth water flow. Ideal for sensitive skin or simple soaking.", icon: <Cloud className="w-8 h-8" /> },
-      { value: 'medium', label: 'Medium Vigorous', tip: "The perfect balance of soothing soak and active muscle recovery.", icon: <Waves className="w-8 h-8" /> },
-      { value: 'firm', label: 'Aggressive Deep Tissue', tip: "High-kinetic jets designed to break down lactic acid and deep knots.", icon: <Gauge className="w-8 h-8" /> }
+      { value: 'morning', label: 'Morning Sun Only', tip: "Gentle warmth; cooler in the evenings.", icon: <Sun className="w-10 h-10 text-amber-500 mx-auto" /> },
+      { value: 'afternoon', label: 'Afternoon / Late Sun', tip: "Intense heat during the peak of the day.", icon: <Sunset className="w-10 h-10 text-orange-500 mx-auto" /> },
+      { value: 'direct', label: 'Direct Sun All Day', tip: "Maximum solar gain; minimal shade.", icon: <Flame className="w-10 h-10 text-red-500 mx-auto" /> },
+      { value: 'shaded', label: 'Heavy Shade / Covered', tip: "Under a roof, pergola, or dense trees.", icon: <TreePine className="w-10 h-10 text-slate-400 mx-auto" /> }
+    ]
+  },
+  {
+    id: 'placement',
+    question: "Where will the hot tub be placed?",
+    subtext: "Site preparation dictates the structural requirements.",
+    expertTip: "A filled hot tub commands a massive structural load—often exceeding 4,000 lbs. Ground installations require a leveled crushed rock base or a poured concrete pad (minimum 4 inches thick). If you select 'Wood Deck', you must have a structural engineer verify that your joists can support 150 lbs. per square foot.",
+    layout: 'grid',
+    options: [
+      { value: 'deck', label: 'Wood/Composite Deck', tip: "Requires joist load-bearing verification.", image: '/mcp/demo/assets/placement_deck_1774073130622.png' },
+      { value: 'patio', label: 'Concrete/Paver Patio', tip: "Standard solid foundation.", image: '/mcp/demo/assets/placement_patio_1774073144196.png' },
+      { value: 'indoor', label: 'Indoor/Sunroom', tip: "Requires dedicated ventilation planning.", image: '/mcp/demo/assets/placement_indoor_1774073157297.png' },
+      { value: 'ground', label: 'New Ground Site', tip: "Requires level EZ-Pad or crushed rock base.", image: '/mcp/demo/assets/placement_ground_1774073171701.png' }
     ]
   },
   {
