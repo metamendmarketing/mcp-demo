@@ -32,52 +32,61 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       ? JSON.parse(product.usageTags) 
       : (product.usageTags || []);
 
+    const series = product.series || {};
+    const positioningTier = series.positioningTier || 'value';
+
     // 1. Capacity (Max 40 points)
     const seatsMax = product.seatsMax || 0;
     const targetCapacity = preferences.capacity === '6+' ? 6 : preferences.capacity === '4-5' ? 4 : 2;
     if (seatsMax >= targetCapacity) {
       score += 40;
-      reasons.push(`${product.modelName} perfectly fits ${seatsMax} adults.`);
+      reasons.push(`${product.modelName} fits your capacity needs.`);
     }
 
-    // 2. Primary Purpose (Max 40 points)
+    // 2. Budget Alignment (Major weight: 50 points)
+    // Budget tiers: entry, mid, premium, luxury
+    // Positioning tiers: value, premium, luxury
+    const budgetMap: Record<string, string> = {
+      'entry': 'value',
+      'mid': 'value',
+      'premium': 'premium',
+      'luxury': 'luxury'
+    };
+    
+    if (preferences.budget && budgetMap[preferences.budget] === positioningTier) {
+      score += 50;
+      reasons.push(`Aligns perfectly with your investment range.`);
+    } else if (preferences.budget) {
+      // One tier off boost (20 points)
+      const tiers = ['value', 'premium', 'luxury'];
+      const target = budgetMap[preferences.budget];
+      const diff = Math.abs(tiers.indexOf(target) - tiers.indexOf(positioningTier));
+      if (diff === 1) score += 20;
+    }
+
+    // 3. Primary Purpose (Max 40 points)
     if (preferences.primaryPurpose && usageTags.includes(preferences.primaryPurpose)) {
       score += 40;
-      reasons.push(`Optimized for your goal of ${preferences.primaryPurpose}.`);
+      reasons.push(`Optimized for ${preferences.primaryPurpose}.`);
     }
 
-    // 3. Lounge Preference (Max 20 points)
+    // 4. Luxury/Positioning Weight
+    if (positioningTier === 'luxury') score += 20; // Luxury models get a baseline boost for quality/features
+
+    // 5. Lounge Preference (Max 20 points)
     const hasLounge = usageTags.includes('lounge');
     if (preferences.lounge === 'yes' && hasLounge) {
       score += 20;
-      reasons.push(`Includes the full-body lounge seat you requested.`);
+      reasons.push(`Includes the lounge seat you prefer.`);
     } else if (preferences.lounge === 'no' && !hasLounge) {
       score += 20;
-      reasons.push(`Provides open social seating without a lounge.`);
     }
 
-    // 4. Physical Focus (Max 30 points)
-    if (preferences.physicalFocus) {
-      const focusTag = preferences.physicalFocus.replace('neck-shoulders', 'neck-jets').replace('legs-feet', 'foot-well');
-      if (usageTags.includes(focusTag) || usageTags.includes('high-jet-count')) {
-        score += 30;
-        reasons.push(`Features specific H.O.T. Zone therapy for your ${preferences.physicalFocus}.`);
-      }
-    }
+    // 6. Intensity / Physical Focus
+    if (preferences.intensity === 'firm' && product.jetCount > 50) score += 15;
+    if (preferences.physicalFocus && usageTags.includes(preferences.physicalFocus)) score += 15;
 
-    // 5. Electrical / Performance (Max 20 points)
-    if (preferences.electrical === '240v' && product.jetCount > 40) {
-      score += 20;
-      reasons.push(`High-performance V-O-L-T™ system paired with 240V power.`);
-    }
-
-    // 6. Intensity (Max 20 points)
-    if (preferences.intensity === 'firm' && product.jetCount > 50) {
-      score += 20;
-      reasons.push(`Maximum jet pressure for deep tissue relief.`);
-    }
-
-    // Ensure score is at least 0 and max 100 for percentage display
+    // Normalize final score to 0-100 range for display
     const finalScore = Math.min(Math.max(score, 0), 100);
 
     return {

@@ -68,7 +68,8 @@ Output strictly valid JSON matching this exact schema:
   "hydrotherapy": "1 masterfully written paragraph explaining how the tub's jets, pumps, and specialized flow (mention GPM and V-O-L-T if applicable) perfectly satisfy their 'primaryPurpose', 'intensity', and 'physicalFocus'. Use <strong> tags lightly.",
   "climate": "1 expert paragraph explaining your geospatial climate analysis of their specific Zip/Postal Code and Sun Exposure, and how the hot tub's insulation and shell handle those local conditions.",
   "design": "1 paragraph explaining how the tub's capacity, aesthetic, and specific finishes (Colors) perfectly elevate their specific home environment.",
-  "efficiency": "1 paragraph about how the hot tub's voltage, maintenance profile (ConstantClean+), and engineering durability provide an effortless ownership experience."
+  "efficiency": "1 paragraph about how the hot tub's voltage, maintenance profile (ConstantClean+), and engineering durability provide an effortless ownership experience.",
+  "designConsideration": "1 professional, gentle sentence about any potential trade-off based on their preferences (e.g., 'Note: This model maximizes social space by omitting a lounge seat.')"
 }
 Do not wrap the output in markdown blocks (e.g., \`\`\`json). Return raw valid JSON.
 `;

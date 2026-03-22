@@ -71,12 +71,16 @@ interface Product {
   hotspots?: any[];
   shellColors?: string[] | string;
   cabinetColors?: string[] | string;
+  series?: { name: string };
 }
 
 interface ScoredProduct {
   product: Product;
   score: number;
   reasons: string[];
+  matchStrategy?: string;
+  naturalNarrative?: string;
+  designConsiderations?: string;
 }
 
 const QUESTIONS: {
@@ -284,7 +288,7 @@ export default function Wizard() {
   const [results, setResults] = useState<ScoredProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedResult, setSelectedResult] = useState<ScoredProduct | null>(null);
-  const [aiNarrative, setAiNarrative] = useState<{heroTitle?: string; hydrotherapy?: string; climate?: string; design?: string; efficiency?: string; error?: string} | null>(null);
+  const [aiNarrative, setAiNarrative] = useState<{heroTitle?: string; hydrotherapy?: string; climate?: string; design?: string; efficiency?: string; designConsideration?: string; error?: string} | null>(null);
   const [narrativeLoading, setNarrativeLoading] = useState(false);
 
   const updatePreference = (key: PreferenceKey, value: string) => {
@@ -657,8 +661,9 @@ export default function Wizard() {
         
         <div className="p-6 md:p-10 flex-grow">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-             {results && results.slice(0, 2).map((res, i) => {
+             {results && results.slice(0, 4).map((res, i) => {
                const heroImg = getHeroImage(res.product);
+               const seriesName = res.product.series?.name || "Premium Series";
                return (
                  <div key={res.product.id} className={cn(
                    "bg-white rounded-3xl overflow-hidden shadow-md flex flex-col border transition-all duration-700 animate-in fade-in slide-in-from-bottom",
@@ -666,9 +671,9 @@ export default function Wizard() {
                  )}>
                    <div className="w-full h-64 relative bg-slate-100 overflow-hidden group">
                       <img src={heroImg} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={res.product.modelName} />
-                      {i === 0 && (
-                          <div className="absolute top-6 left-6 bg-marquis-blue px-4 py-2 rounded-full text-xs font-black uppercase text-white shadow-xl">The Gold Standard Match</div>
-                      )}
+                      <div className="absolute top-6 left-6 bg-marquis-blue px-4 py-2 rounded-full text-xs font-black uppercase text-white shadow-xl">
+                        {res.matchStrategy || (i === 0 ? "The Gold Standard Match" : "Expert Selection")}
+                      </div>
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6 flex justify-between text-white">
                          <div className="text-sm font-bold"><Zap className="inline w-4 h-4 mr-1 text-marquis-blue"/> {res.product.jetCount} Jets</div>
                          <div className="text-sm font-bold"><Heart className="inline w-4 h-4 mr-1 text-marquis-blue"/> {res.score}% Match</div>
@@ -678,10 +683,12 @@ export default function Wizard() {
                    <div className="p-8 flex flex-col flex-grow">
                       <div className="mb-6">
                           <h3 className="text-3xl font-black italic uppercase text-slate-800 leading-none mb-2">{res.product.modelName}</h3>
-                          <div className="text-marquis-blue text-xs font-bold uppercase tracking-widest">Crown Series Collection</div>
+                          <div className="text-marquis-blue text-xs font-bold uppercase tracking-widest">{seriesName}</div>
                       </div>
                       
-                      <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed">"{res.product.marketingSummary}"</p>
+                      <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed">
+                        {res.naturalNarrative || res.product.marketingSummary}
+                      </p>
 
                       <button 
                         onClick={() => { 
@@ -736,7 +743,7 @@ export default function Wizard() {
             <div className="md:w-1/2 relative bg-slate-50 border-r border-slate-100">
                <img src={heroImg} className="w-full h-full object-cover absolute inset-0" alt={product.modelName} />
                <div className="relative z-10 p-8 min-h-[350px] flex flex-col justify-end bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent">
-                  <div className="text-white/80 text-xs font-black uppercase tracking-widest mb-1 shadow-sm">Crown Series Collection</div>
+                  <div className="text-white/80 text-xs font-black uppercase tracking-widest mb-1 shadow-sm">{product.series?.name || "Premium Series Collection"}</div>
                   <h3 className="text-5xl md:text-6xl font-black italic uppercase text-white leading-none drop-shadow-lg">{product.modelName}</h3>
                </div>
             </div>
@@ -791,6 +798,19 @@ export default function Wizard() {
                       </div>
                    </div>
                 </div>
+
+               {/* Design Considerations / Trade-offs */}
+               {(selectedResult.designConsiderations || aiNarrative?.designConsideration) && (
+                  <div className="mb-8 bg-amber-50/30 p-6 rounded-2xl border border-amber-100/50">
+                     <div className="text-[10px] font-black text-amber-700 uppercase tracking-widest mb-2 flex items-center gap-2">
+                       <Info className="w-3 h-3" />
+                       Design Consideration
+                     </div>
+                     <p className="text-sm text-slate-700 font-medium leading-relaxed italic">
+                       {aiNarrative?.designConsideration || selectedResult.designConsiderations}
+                     </p>
+                  </div>
+               )}
 
                {/* Confirmation Bullets */}
                <div className="space-y-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/50">
