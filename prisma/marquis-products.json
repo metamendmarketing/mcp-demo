@@ -19,7 +19,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-broadway/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-broadway/overhead.png",
     "marketingSummary": "Broadway features a versatile seating layout, including a wraparound seat, a deep Director’s Chair with focused leg therapy, another deep seat for back therapy, and two more seats at different heights. A built-in waterfall adds a calming touch. The 120-volt plug-and-play system allows for easy setup almost anywhere, with an optional 240V Performance Upgrade for enhanced hydrotherapy.*",
-    "therapySummary": null,
+    "therapySummary": "Broadway features a versatile seating layout, including a wraparound seat, a deep Director’s Chair with focused leg therapy, another deep seat for back therapy, and two more seats at different heights.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -34,7 +34,11 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "soft",
+      "recovery"
+    ]
   },
   {
     "modelName": "Hollywood",
@@ -56,7 +60,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-hollywood/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-hollywood/overhead.png",
     "marketingSummary": "Hollywood seats six and features a full-body lounge, two deep therapy seats, two bucket seats, and a higher seat for cooling down. A built-in waterfall enhances the relaxing atmosphere.",
-    "therapySummary": null,
+    "therapySummary": "Hollywood seats six and features a full-body lounge, two deep therapy seats, two bucket seats, and a higher seat for cooling down.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -71,7 +75,13 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "relaxation",
+      "lounge",
+      "soft"
+    ]
   },
   {
     "modelName": "Monaco",
@@ -93,7 +103,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-monaco/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-monaco/overhead.png",
     "marketingSummary": "Monaco seats up to five and features a classic round design. It includes a spacious lounge with jets from neck to feet, two deep therapy seats for full-back massage, and two bucket seats. The 120-volt plug-and-play system offers easy placement, with an optional 240V Performance Upgrade available for added power and performance.*",
-    "therapySummary": null,
+    "therapySummary": "It includes a spacious lounge with jets from neck to feet, two deep therapy seats for full-back massage, and two bucket seats.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -108,7 +118,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ]
   },
   {
     "modelName": "Nashville",
@@ -130,7 +145,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-nashville/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-nashville/overhead.png",
     "marketingSummary": "The Nashville is a compact three-person hot tub designed for comfort and simplicity. It includes a full-body lounge, a deep therapy seat, and a cool-down seat, offering a variety of seating options in a small design. The 120-volt plug-and-play system allows for easy setup, while an optional 240V Performance Upgrade provides increased power for a stronger massage.* Ideal for smaller spaces, the Nashville combines efficient design with reliable performance.",
-    "therapySummary": null,
+    "therapySummary": "It includes a full-body lounge, a deep therapy seat, and a cool-down seat, offering a variety of seating options in a small design.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -145,7 +160,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ]
   },
   {
     "modelName": "Vegas",
@@ -167,7 +187,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-vegas/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-vegas/overhead.png",
     "marketingSummary": "Vegas comfortably seats six and includes two deep therapy seats, two side seats, a mid-level seat, a super-deep soak seat for full-body immersion, and a convenient entry step.",
-    "therapySummary": null,
+    "therapySummary": "Vegas comfortably seats six and includes two deep therapy seats, two side seats, a mid-level seat, a super-deep soak seat for full-body immersion, and a convenient entry step.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -182,7 +202,11 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "soft"
+    ]
   },
   {
     "modelName": "Woodstock",
@@ -204,7 +228,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-woodstock/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-woodstock/overhead.png",
     "marketingSummary": "Woodstock offers seating for seven, making it ideal for groups. The full-body lounge provides complete hydrotherapy from neck to feet, while a deep therapy seat targets the thighs and calves. With five additional seats, it delivers a versatile and satisfying spa experience for everyone.",
-    "therapySummary": null,
+    "therapySummary": "The full-body lounge provides complete hydrotherapy from neck to feet, while a deep therapy seat targets the thighs and calves.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -219,7 +243,11 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "firm"
+    ]
   },
   {
     "modelName": "Destiny",
@@ -241,7 +269,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-destiny/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-destiny/overhead.jpg",
     "marketingSummary": "Crown Series Destiny offers a spacious and comfortable setting with seven hydromassage seats. Two deep seats provide targeted Lumbar and Shoulder H.O.T. Zone relief, while a mid-height therapy seat features a broad cluster of jets to soothe the back. Equipped with a Regal Whitewater-4 jet, the spa offers a total of four H.O.T. Zones. Its varied seating heights ensure everyone can find their ideal comfort level.",
-    "therapySummary": null,
+    "therapySummary": "Crown Series Destiny offers a spacious and comfortable setting with seven hydromassage seats.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -256,7 +284,10 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ]
   },
   {
     "modelName": "Epic",
@@ -278,7 +309,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-epic/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-epic/overhead.jpg",
     "marketingSummary": "Crown Series Epic is designed for a premium hydrotherapy experience. It features sculpted, multilevel seating for six, including a full-body Adirondack Chair that delivers deep, targeted relief from neck to feet. A deep soak seat surrounds you in warmth while focusing on the neck, shoulders, and spine, and with five H.O.T. Zones - including Lumbar, Shoulder, and Foot therapy, plus the powerful Regal Whitewater-4 jet.",
-    "therapySummary": null,
+    "therapySummary": "Crown Series Epic is designed for a premium hydrotherapy experience.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -293,7 +324,10 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ]
   },
   {
     "modelName": "Euphoria",
@@ -315,7 +349,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-euphoria/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-euphoria/overhead.jpg",
     "marketingSummary": "Crown Series Euphoria is designed for shared relaxation and balanced comfort. Its symmetrical layout includes seven multilevel seats, with two deep therapy seats side-by-side for full-body massage. Each seat offers access to the powerful Regal Whitewater-4 jet for effective leg and foot therapy, while five H.O.T. Zones provide targeted relief for every guest.",
-    "therapySummary": null,
+    "therapySummary": "Its symmetrical layout includes seven multilevel seats, with two deep therapy seats side-by-side for full-body massage.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -330,7 +364,11 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "firm"
+    ]
   },
   {
     "modelName": "Resort",
@@ -352,7 +390,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-resort/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-resort/overhead.jpg",
     "marketingSummary": "Crown Series Resort’s curvaceous design offers multilevel seating for five, including dual Adirondack Chairs—one with targeted Lumbar H.O.T. Zone jets and the other with Shoulder H.O.T. Zone jets—both equipped with powerful leg and foot jets. Two deep therapy seats and a dedicated entry/cooldown seat complete the configuration. A Regal Whitewater-4 jet adds to the three H.O.T. Zones, delivering comprehensive therapeutic coverage.",
-    "therapySummary": null,
+    "therapySummary": "Crown Series Resort’s curvaceous design offers multilevel seating for five, including dual Adirondack Chairs—one with targeted Lumbar H.O.T.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -367,7 +405,10 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ]
   },
   {
     "modelName": "Specialized Massage Seats",
@@ -426,7 +467,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-spirit/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-spirit/overhead.jpg",
     "marketingSummary": "Crown Series Spirit’s curved front entry offers an elegant approach, with four hydromassage seats for up to three people. The soothing lounge with Shoulder H.O.T. Zone jets delivers full-body therapy. The deep therapy seat with Lumbar H.O.T. Zone jets works all your back muscles. Plus, a cooldown seat lifts your heart above the waterline, and makes for easier entry and exit.",
-    "therapySummary": null,
+    "therapySummary": "Crown Series Spirit’s curved front entry offers an elegant approach, with four hydromassage seats for up to three people.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -441,7 +482,11 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft"
+    ]
   },
   {
     "modelName": "Summit",
@@ -463,7 +508,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-summit/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-summit/overhead.jpg",
     "marketingSummary": "Crown Series Summit is designed as a spacious, comfortable retreat to relax and recharge. Three side-by-side Adirondack Chairs provide full-body support, while four additional hydromassage seats offer targeted relief and direct access to the powerful Regal Whitewater-4™ jet. With four H.O.T. Zones and an open layout, it delivers flexible, effective therapy with plenty of room to stretch out.",
-    "therapySummary": null,
+    "therapySummary": "Three side-by-side Adirondack Chairs provide full-body support, while four additional hydromassage seats offer targeted relief and direct access to the powerful Regal Whitewater-4™ jet.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -478,7 +523,11 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "firm"
+    ]
   },
   {
     "modelName": "Wish",
@@ -500,7 +549,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-wish/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-wish/overhead.jpg",
     "marketingSummary": "Crown Series Wish is designed with four multilevel seats to accommodate a variety of body types, including an elevated seat ideal for warming up or cooling down. It features a spacious full-body lounge with Lumbar H.O.T. Zone jets and a deep therapy seat with Shoulder H.O.T. Zone jets. Two additional seats and a cooldown seat also offer access to the powerful Regal Whitewater-4 jet on the 2-pump model. A portion of each Wish sale supports Make-A-Wish®, helping grant wishes for children with critical health conditions.",
-    "therapySummary": null,
+    "therapySummary": "It features a spacious full-body lounge with Lumbar H.O.T.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -515,7 +564,11 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft"
+    ]
   },
   {
     "modelName": "Broadway",
@@ -537,7 +590,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-broadway/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-broadway/overhead.png",
     "marketingSummary": "Broadway Elite features a unique seating layout with room for five, including a wraparound seat, a deep seat with strong leg therapy, a full-back therapy seat, and two additional seats at varying heights. A soothing waterfall and Twilight™ LED lighting enhance the atmosphere.",
-    "therapySummary": null,
+    "therapySummary": "Broadway Elite features a unique seating layout with room for five, including a wraparound seat, a deep seat with strong leg therapy, a full-back therapy seat, and two additional seats at varying heights.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -552,7 +605,10 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "soft"
+    ]
   },
   {
     "modelName": "Hollywood",
@@ -574,7 +630,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-hollywood/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-hollywood/overhead.png",
     "marketingSummary": "The Hollywood Elite seats six and offers a variety of comfortable options, including a full-body lounge with jets from neck to feet, two deep therapy seats, two bucket seats, and a high therapy seat. The powerful Whitewater-4™ jet delivers intense leg and foot massage, while Twilight™ LED lighting creates a colorful, customizable ambiance.",
-    "therapySummary": null,
+    "therapySummary": "The Hollywood Elite seats six and offers a variety of comfortable options, including a full-body lounge with jets from neck to feet, two deep therapy seats, two bucket seats, and a high therapy seat.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -589,7 +645,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "lounge",
+      "firm"
+    ]
   },
   {
     "modelName": "Monaco",
@@ -611,7 +672,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-monaco/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-monaco/overhead.png",
     "marketingSummary": "The Monaco Elite is a round hot tub that seats five, featuring a full-body lounge, two deep therapy seats, and two bucket seats. Its 120-volt plug-and-play system makes it easy to place almost anywhere. Standard features include stainless steel jet faces, foam-over-plumbing insulation, Twilight™ LED lighting, and ConstantClean+. Optional upgrades include full-foam insulation, Motown™ audio with Bluetooth, and a 240V Performance Upgrade.*",
-    "therapySummary": null,
+    "therapySummary": "The Monaco Elite is a round hot tub that seats five, featuring a full-body lounge, two deep therapy seats, and two bucket seats.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -626,7 +687,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ]
   },
   {
     "modelName": "Nashville",
@@ -648,7 +714,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-nashville/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-nashville/overhead.png",
     "marketingSummary": "Nashville Elite is a three-person hot tub designed for comfort and convenience. It features a lounge seat, a deep therapy seat, and a cool-down seat in a compact layout. The 120-volt plug-and-play system allows for easy setup in a variety of spaces. Standard features include stainless steel jet faces, foam-over-plumbing insulation, Twilight™ LED lighting, and ConstantClean+. Optional upgrades include full-foam insulation, Bluetooth audio, and a 240V Performance Upgrade.*",
-    "therapySummary": null,
+    "therapySummary": "It features a lounge seat, a deep therapy seat, and a cool-down seat in a compact layout.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -663,7 +729,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ]
   },
   {
     "modelName": "Vegas",
@@ -685,7 +756,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-vegas/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-vegas/overhead.png",
     "marketingSummary": "Vegas Elite’s unique seating positions provide comfort for six people, including two deep therapy seats, two side seats, a mid-level seat, a super-deep soak seat, and a bonus entry step. Its standout feature is the powerful Whitewater-4 jet, delivering intense leg therapy alongside a striking water wall. Stainless steel jet faces and foam over plumbing insulation come standard.",
-    "therapySummary": null,
+    "therapySummary": "Vegas Elite’s unique seating positions provide comfort for six people, including two deep therapy seats, two side seats, a mid-level seat, a super-deep soak seat, and a bonus entry step.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -700,7 +771,10 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ]
   },
   {
     "modelName": "Woodstock",
@@ -722,7 +796,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-woodstock/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-woodstock/overhead.png",
     "marketingSummary": "Woodstock Elite offers seating for seven, making it well-suited for larger groups. The lounge provides full-body hydrotherapy from neck to feet, while a deep therapy seat targets the thighs and calves. With five additional seating options and the Whitewater-4™ jet water wall, it delivers a versatile and comfortable spa experience.",
-    "therapySummary": null,
+    "therapySummary": "The lounge provides full-body hydrotherapy from neck to feet, while a deep therapy seat targets the thighs and calves.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -737,7 +811,11 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "firm"
+    ]
   },
   {
     "modelName": "Specialized Massage Seats",
@@ -796,7 +874,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v65l/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v65l/overhead.jpg",
     "marketingSummary": "The V65L is a compact three-person hot tub designed to fit into smaller spaces without sacrificing comfort. It includes a full Commander’s Lounge for extended relaxation and 22 Jetpods for effective muscle therapy. The 120-volt plug-and-play system lets you locate it anywhere.",
-    "therapySummary": null,
+    "therapySummary": "It includes a full Commander’s Lounge for extended relaxation and 22 Jetpods for effective muscle therapy.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -811,7 +889,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "lounge",
+      "soft"
+    ]
   },
   {
     "modelName": "V77l",
@@ -833,7 +916,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v77l/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v77l/overhead.jpg",
     "marketingSummary": "The V77L five-person hot tub offers a spacious layout with multiple seating options and room to move, making it ideal for relaxed, everyday use. The full-body Commander’s Lounge allows you to fully stretch out, while 27 Jetpods powered by the V-O-L-T system provide a targeted, therapeutic massage. Three V3 Throttle Control valves offer easy, adjustable control.",
-    "therapySummary": null,
+    "therapySummary": "The full-body Commander’s Lounge allows you to fully stretch out, while 27 Jetpods powered by the V-O-L-T system provide a targeted, therapeutic massage.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -848,7 +931,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "lounge",
+      "soft"
+    ]
   },
   {
     "modelName": "V84",
@@ -870,7 +958,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v84/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v84/overhead.jpg",
     "marketingSummary": "The V84 six-person hot tub is designed for year-round relaxation and performance. A raised seat offers full exposure to the powerful Whitewater-4 jet, while 36 Jetpods paired with the V-O-L-T system deliver a fully customized massage experience. Five V3 Throttle Control valves allow for precise adjustment, letting you target specific areas for focused hydrotherapy.",
-    "therapySummary": null,
+    "therapySummary": "A raised seat offers full exposure to the powerful Whitewater-4 jet, while 36 Jetpods paired with the V-O-L-T system deliver a fully customized massage experience.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -885,7 +973,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "soft",
+      "recovery"
+    ]
   },
   {
     "modelName": "V84l",
@@ -907,7 +1000,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v84l/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v84l/overhead.jpg",
     "marketingSummary": "The V84L is a high-performance hot tub designed for five, featuring a range of therapy seats and a full-body Commander’s Lounge for complete relaxation. With 35 Jetpods, a powerful Whitewater-4 jet, and four V3  Throttle Control valves, it delivers targeted, adjustable hydrotherapy exactly where you need it. Engineered for both comfort and control, it’s a dynamic spa experience built for everyday rejuvenation.",
-    "therapySummary": null,
+    "therapySummary": "The V84L is a high-performance hot tub designed for five, featuring a range of therapy seats and a full-body Commander’s Lounge for complete relaxation.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -922,7 +1015,13 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "lounge",
+      "soft",
+      "recovery"
+    ]
   },
   {
     "modelName": "V94",
@@ -944,7 +1043,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v94/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v94/overhead.jpg",
     "marketingSummary": "Looking for a spacious hot tub? The V94 accommodates seven, offering a generous 94-inch square layout. Its Whitewater-4 jet provides powerful, invigorating therapy, while 40 Jetpods and two dual-speed pumps deliver dynamic performance designed to handle any gathering.",
-    "therapySummary": null,
+    "therapySummary": "Its Whitewater-4 jet provides powerful, invigorating therapy, while 40 Jetpods and two dual-speed pumps deliver dynamic performance designed to handle any gathering.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -959,7 +1058,12 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "firm",
+      "recovery"
+    ]
   },
   {
     "modelName": "V94l",
@@ -981,7 +1085,7 @@
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v94l/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v94l/overhead.jpg",
     "marketingSummary": "V94L is a seven person hot tub with a full-body Commander’s Lounge. Whitewater-4 jet delivers a volcanic eruption of exhilarating therapy, especially to your legs and feet. With 44 Jetpods, two dual-speed pumps and five V3 Throttle Control valves, your V-O-L-T system creates vitalizing therapy with customized control.",
-    "therapySummary": null,
+    "therapySummary": "Whitewater-4 jet delivers a volcanic eruption of exhilarating therapy, especially to your legs and feet.",
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
@@ -996,6 +1100,10 @@
       "Granite",
       "Timber"
     ],
-    "usageTags": []
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "firm"
+    ]
   }
 ]
