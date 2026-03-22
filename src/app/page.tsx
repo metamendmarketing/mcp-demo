@@ -32,13 +32,6 @@ export default function Home() {
         </div>
       </header>
       
-      {/* GLOBAL DEPLOYMENT CANARY - NEON YELLOW */}
-      <div style={{ backgroundColor: '#ccff00', padding: '100px', border: '30px solid blue', color: 'black', textAlign: 'center', zIndex: 99999, position: 'relative' }}>
-        <h1 style={{ fontSize: '120px', fontWeight: '900' }}>GLOBAL LIVENESS TEST</h1>
-        <p style={{ fontSize: '40px' }}>IF THIS BLOCK IS ON THE HOME PAGE, THE BUILD WORKING.</p>
-        <p style={{ fontSize: '20px' }}>TIMESTAMP: {new Date().toISOString()}</p>
-      </div>
-
       {/* Subheader / Breadcrumbs */}
       <div className="w-full bg-white/80 backdrop-blur-sm border-b border-slate-200 py-6">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex gap-3 overflow-x-auto whitespace-nowrap italic">

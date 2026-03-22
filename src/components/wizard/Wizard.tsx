@@ -913,12 +913,6 @@ export default function Wizard() {
             </div>
          </div>
          
-          {/* ABSOLUTE VISIBILITY TEST */}
-          <div style={{ backgroundColor: 'yellow', padding: '100px', margin: '50px 0', border: '20px solid red', color: 'black', textAlign: 'center', zIndex: 9999 }}>
-            <h1 style={{ fontSize: '100px', fontWeight: '900' }}>HELLO WORLD</h1>
-            <p style={{ fontSize: '30px' }}>IF YOU SEE THIS, THE CODE IS LIVE</p>
-          </div>
-
          {/* HERO SECTION - COMPACT */}
          <div className="bg-white rounded-[32px] overflow-hidden shadow-2xl border border-slate-100 mb-8 flex flex-col md:flex-row">
             <div className="md:w-1/2 relative bg-slate-50 border-r border-slate-100">
@@ -1104,6 +1098,15 @@ export default function Wizard() {
              </section>
            )}
  
+          {/* GROUNDED Q&A FEATURE - Brain 2.0 */}
+          <section className="mb-12">
+            <AskTheBrain 
+              productId={product?.id} 
+              productName={product?.modelName} 
+              preferences={preferences} 
+            />
+          </section>
+
           {/* HORIZONTAL AI STACK */}
           <section className="mb-12">
              <div className="flex items-center gap-3 mb-8 px-2">
