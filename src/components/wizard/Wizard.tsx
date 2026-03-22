@@ -351,7 +351,14 @@ export default function Wizard() {
   };
 
   const getHeroImage = (product: Product) => {
-    if (product.heroImageUrl) return product.heroImageUrl;
+    // If we have a specific heroImageUrl that isn't the generic fallback, use it
+    if (product.heroImageUrl && !product.heroImageUrl.includes('therapy_premium')) return product.heroImageUrl;
+    
+    // Fail-safe: Use the slug-based directory structure for the crown series
+    if (product.slug) {
+      return `/mcp/demo/assets/products/${product.slug}/hero.jpg`;
+    }
+    
     return '/mcp/demo/assets/therapy_premium.png';
   };
 
