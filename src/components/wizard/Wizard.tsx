@@ -383,10 +383,10 @@ export default function Wizard() {
          <div className="absolute inset-0 bg-slate-900/50" />
          <div className="p-8 pb-16 md:p-16 flex flex-col items-center justify-center text-center relative z-10 flex-grow min-h-[500px]">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase text-white mb-6 leading-[1.1] drop-shadow-xl max-w-2xl">
-               Find the perfect <br /> <span className="text-marquis-blue drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">hot tub for you.</span>
+               Precision Selection. <br /> <span className="text-marquis-blue drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">Meticulously Matched.</span>
             </h1>
-            <p className="text-white/90 text-lg md:text-xl leading-relaxed max-w-xl mb-10 font-medium drop-shadow-md">
-               "Create the ultimate relaxation oasis in your own backyard with meticulous refinement and obsessive attention to detail."
+            <p className="text-white/90 text-lg md:text-xl leading-relaxed max-w-2xl mb-10 font-medium drop-shadow-md">
+               Our AI consultant analyzes 14 expert criteria—from hydrotherapy intensity to backyard climate—to identify the one perfect Marquis model for your lifestyle.
             </p>
             <button 
               onClick={() => setStep('question')}
