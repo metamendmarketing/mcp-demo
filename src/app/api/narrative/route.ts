@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
     
     // Sanitize product data for the prompt to avoid issues with special characters
     // Using a broader regex to catch most non-standard characters
