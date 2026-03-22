@@ -667,11 +667,14 @@ export default function Wizard() {
                return (
                  <div key={res.product.id} className={cn(
                    "bg-white rounded-3xl overflow-hidden shadow-md flex flex-col border transition-all duration-700 animate-in fade-in slide-in-from-bottom",
-                   i === 0 ? "border-marquis-blue ring-2 ring-marquis-blue/10 shadow-xl" : "border-slate-100"
+                   i === 0 ? "border-amber-400 ring-4 ring-amber-400/20 shadow-2xl scale-[1.02] z-10" : "border-slate-100"
                  )}>
                    <div className="w-full h-64 relative bg-slate-100 overflow-hidden group">
                       <img src={heroImg} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={res.product.modelName} />
-                      <div className="absolute top-6 left-6 bg-marquis-blue px-4 py-2 rounded-full text-xs font-black uppercase text-white shadow-xl">
+                      <div className={cn(
+                        "absolute top-6 left-6 px-4 py-2 rounded-full text-xs font-black uppercase text-white shadow-xl z-20",
+                        i === 0 ? "bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-900 border border-amber-300/50" : "bg-marquis-blue"
+                      )}>
                         {res.matchStrategy || (i === 0 ? "The Gold Standard Match" : "Expert Selection")}
                       </div>
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6 flex justify-between text-white">
