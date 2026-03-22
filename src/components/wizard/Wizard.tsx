@@ -1022,9 +1022,10 @@ export default function Wizard() {
                )}
             </div>
          </div>
- 
+
           {/* GROUNDED Q&A FEATURE - Brain 2.0 - DIAGNOSTIC POSITION */}
-          <div id="ask-the-brain-diagnostic-container" className="mb-12">
+          <div id="ask-the-brain-diagnostic-container" className="mb-12 border-8 border-red-500">
+            <div className="bg-red-500 text-white p-2 text-center font-black">DIAGNOSTIC: AskTheBrain Target Area</div>
             <AskTheBrain 
               productId={product?.id} 
               productName={product?.modelName} 
