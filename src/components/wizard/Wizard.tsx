@@ -912,6 +912,16 @@ export default function Wizard() {
                <button className="bg-marquis-blue text-white px-6 py-2 rounded-xl text-sm font-black italic uppercase shadow-xl hover:bg-blue-700 transition-all">Get Pricing</button>
             </div>
          </div>
+         
+          {/* GROUNDED Q&A FEATURE - Brain 2.0 - TOP LEVEL DIAGNOSTIC */}
+          <div id="ask-the-brain-diagnostic-container" className="mb-12 border-8 border-red-500">
+            <div className="bg-red-500 text-white p-4 text-center font-black text-2xl">!!! TOP LEVEL DIAGNOSTIC !!!</div>
+            <AskTheBrain 
+              productId={product?.id} 
+              productName={product?.modelName} 
+              preferences={preferences} 
+            />
+          </div>
 
          {/* HERO SECTION - COMPACT */}
          <div className="bg-white rounded-[32px] overflow-hidden shadow-2xl border border-slate-100 mb-8 flex flex-col md:flex-row">
@@ -1023,15 +1033,6 @@ export default function Wizard() {
             </div>
          </div>
 
-          {/* GROUNDED Q&A FEATURE - Brain 2.0 - DIAGNOSTIC POSITION */}
-          <div id="ask-the-brain-diagnostic-container" className="mb-12 border-8 border-red-500">
-            <div className="bg-red-500 text-white p-2 text-center font-black">DIAGNOSTIC: AskTheBrain Target Area</div>
-            <AskTheBrain 
-              productId={product?.id} 
-              productName={product?.modelName} 
-              preferences={preferences} 
-            />
-          </div>
 
           {/* INTERACTIVE HOTSPOTS - FULL WIDTH */}
           {product.overheadImageUrl && (
