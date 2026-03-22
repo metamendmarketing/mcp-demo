@@ -26,11 +26,18 @@ export async function POST(request: Request) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
+    // Sanitize product data for the prompt to avoid issues with special characters
+    const sanitizedProduct = JSON.parse(JSON.stringify(body.product).replace(/[™®©]/g, ''));
+    
     const prompt = `
 You are an elite, world-class luxury copywriter for Marquis Hot Tubs. 
 A customer has just completed a consultation profile, and our engine has selected the following Marquis Crown Series model for them:
-${JSON.stringify(body.product, null, 2)}
+${JSON.stringify(sanitizedProduct, null, 2)}
+
+REFERENCE GUIDELINES FOR ACCURACY:
+- PRODUCT TRUTH: Use the 'marketingSummary' and 'therapySummary' in the product data above as your "biological blueprint". These describe the physical reality of the tub's design.
+- TECHNICAL AUTHORITY: Weave in the 'pumpFlowGpm' (Hydro-flow capacity) and 'jetCount' to justify the therapeutic intensity.
+- FEATURE SYNERGY: If the user needs 'ConstantClean+' or 'MicroSilk', explain how those engineering features solve their specific maintenance or skin-health concerns.
 
 Here is the customer's consultation profile:
 ${JSON.stringify(body.preferences, null, 2)}
@@ -43,19 +50,19 @@ CRITICAL NEGATIVE CONSTRAINTS (DO NOT DO THIS):
 - NEVER mechanically list back their answers.
 
 CRITICAL POSITIVE INSTRUCTIONS (DO THIS INSTEAD):
-- Write evocative, confident, prescriptive luxury copy. 
+- Write evocative, confident, prescriptive luxury copy as a Trusted Advisor.
 - You MUST generate 4 distinct paragraphs, one for each specific topic below. 
-- Deeply integrate their preferences seamlessly into each topic. If their focus is "Legs and Feet", describe the tub's features in the 'hydrotherapy' section as if it was built exactly for that.
+- Deeply integrate their preferences seamlessly into each topic. If their focus is "Legs and Feet", describe the tub's features in the 'hydrotherapy' section as if it was built exactly for that, using the 'therapySummary' as your factual anchor.
 - Synthesize their 'zipCode' and 'sunExposure' using your geographic knowledge for the 'climate' section. Determine their local altitude, winter freeze-risk, and typical UV index natively.
 - Keep paragraphs punchy and readable (1 paragraph max per section). Frame the product as the ultimate vehicle to achieve their lifestyle.
 
 Output strictly valid JSON matching this exact schema:
 {
   "heroTitle": "Catchy, 4-7 word luxury headline focusing on their primary purpose.",
-  "hydrotherapy": "1 masterfully written paragraph explaining how the tub's jets, pumps, and layout perfectly satisfy their 'primaryPurpose', 'intensity', and 'physicalFocus'. Use <strong> tags lightly.",
-  "climate": "1 expert paragraph explaining your geospatial climate analysis of their specific Zip/Postal Code and Sun Exposure, and how the hot tub natively handles those local conditions.",
-  "design": "1 paragraph explaining how the tub's capacity, aesthetic, and placement perfectly elevate their specific home environment.",
-  "efficiency": "1 paragraph about how the hot tub's voltage, maintenance profile, and budget efficiency provide an effortless ownership experience."
+  "hydrotherapy": "1 masterfully written paragraph explaining how the tub's jets, pumps, and specialized flow (mention GPM and V-O-L-T if applicable) perfectly satisfy their 'primaryPurpose', 'intensity', and 'physicalFocus'. Use <strong> tags lightly.",
+  "climate": "1 expert paragraph explaining your geospatial climate analysis of their specific Zip/Postal Code and Sun Exposure, and how the hot tub's insulation and shell handle those local conditions.",
+  "design": "1 paragraph explaining how the tub's capacity, aesthetic, and specific finishes (Colors) perfectly elevate their specific home environment.",
+  "efficiency": "1 paragraph about how the hot tub's voltage, maintenance profile (ConstantClean+), and engineering durability provide an effortless ownership experience."
 }
 Do not wrap the output in markdown blocks (e.g., \`\`\`json). Return raw valid JSON.
 `;

@@ -52,16 +52,25 @@ interface Product {
   id: string;
   modelName: string;
   slug: string;
-  marketingSummary: string;
+  marketingSummary?: string;
+  therapySummary?: string;
   lengthIn: number;
   widthIn: number;
   depthIn: number;
   jetCount: number;
   seatsMin: number;
   seatsMax: number;
-  usageTags: string[];
+  capacityGallons?: number;
+  dryWeightLbs?: number;
+  fullWeightLbs?: number;
+  pumpFlowGpm?: number;
+  electricalAmps?: number;
+  usageTags: string[] | string;
+  heroImageUrl?: string;
   overheadImageUrl?: string;
   hotspots?: any[];
+  shellColors?: string[] | string;
+  cabinetColors?: string[] | string;
 }
 
 interface ScoredProduct {
@@ -341,9 +350,8 @@ export default function Wizard() {
     }
   };
 
-  const getHeroImage = (modelCode: string) => {
-    if (modelCode.includes('Summit')) return 'https://www.marquisspas.com/media/177319/summit_beauty.jpg';
-    if (modelCode.includes('Epic')) return 'https://www.marquisspas.com/media/177319/summit_beauty.jpg';
+  const getHeroImage = (product: Product) => {
+    if (product.heroImageUrl) return product.heroImageUrl;
     return '/mcp/demo/assets/therapy_premium.png';
   };
 
@@ -643,7 +651,7 @@ export default function Wizard() {
         <div className="p-6 md:p-10 flex-grow">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
              {results && results.slice(0, 2).map((res, i) => {
-               const heroImg = getHeroImage(res.product.modelName);
+               const heroImg = getHeroImage(res.product);
                return (
                  <div key={res.product.id} className={cn(
                    "bg-white rounded-3xl overflow-hidden shadow-md flex flex-col border transition-all duration-700 animate-in fade-in slide-in-from-bottom",
@@ -669,7 +677,22 @@ export default function Wizard() {
                       <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed">"{res.product.marketingSummary}"</p>
 
                       <button 
-                        onClick={() => { setSelectedResult(res); setStep('details'); window.scrollTo(0,0); }}
+                        onClick={() => { 
+                          setSelectedResult(res); 
+                          setStep('details'); 
+                          window.scrollTo(0,0);
+                          // Trigger fresh narrative for THIS specific product
+                          setNarrativeLoading(true);
+                          fetch('/mcp/demo/api/narrative', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ preferences, product: res.product }),
+                          })
+                            .then(n => n.json())
+                            .then(data => setAiNarrative(data))
+                            .catch(e => console.error('Narrative swap failed', e))
+                            .finally(() => setNarrativeLoading(false));
+                        }}
                         className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20"
                       >
                         Explore My Blueprint
@@ -686,7 +709,7 @@ export default function Wizard() {
 
   if (step === 'details' && selectedResult) {
     const { product, reasons } = selectedResult;
-    const heroImg = getHeroImage(product.modelName);
+    const heroImg = getHeroImage(product);
 
     return (
       <div className="max-w-6xl mx-auto px-4 py-8 animate-slick-reveal">
@@ -716,27 +739,58 @@ export default function Wizard() {
                   <Sparkles className="w-6 h-6 text-marquis-blue flex-shrink-0" />
                </h2>
                
-               {/* At a glance boxes */}
-               <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                     <Maximize className="w-6 h-6 text-marquis-blue/80" />
-                     <div>
-                       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Dimensions</div>
-                       <div className="text-sm font-black italic uppercase text-slate-700">{product.lengthIn}x{product.widthIn}"</div>
-                     </div>
-                  </div>
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                     <Users className="w-6 h-6 text-marquis-blue/80" />
-                     <div>
-                       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Capacity</div>
-                       <div className="text-sm font-black italic uppercase text-slate-700">{product.seatsMin}-{product.seatsMax} Adults</div>
-                     </div>
-                  </div>
-               </div>
+                {/* At a glance boxes */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+                      <Maximize className="w-6 h-6 text-marquis-blue/80" />
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Footprint</div>
+                        <div className="text-sm font-black italic uppercase text-slate-700">{product.lengthIn}x{product.widthIn}x{product.depthIn}"</div>
+                      </div>
+                   </div>
+                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+                      <Users className="w-6 h-6 text-marquis-blue/80" />
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Capacity</div>
+                        <div className="text-sm font-black italic uppercase text-slate-700">{product.seatsMin}-{product.seatsMax} Adults</div>
+                      </div>
+                   </div>
+                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+                      <Zap className="w-6 h-6 text-amber-500" />
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hydro-Flow</div>
+                        <div className="text-sm font-black italic uppercase text-slate-700">{product.pumpFlowGpm || 160} GPM</div>
+                      </div>
+                   </div>
+                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+                      <Waves className="w-6 h-6 text-marquis-blue/80" />
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Water Volume</div>
+                        <div className="text-sm font-black italic uppercase text-slate-700">{product.capacityGallons || 400} gal</div>
+                      </div>
+                   </div>
+                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+                      <Box className="w-6 h-6 text-slate-400" />
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Weight (Full)</div>
+                        <div className="text-sm font-black italic uppercase text-slate-700">{product.fullWeightLbs || 4500} lbs</div>
+                      </div>
+                   </div>
+                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+                      <BatteryCharging className="w-6 h-6 text-emerald-500" />
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Electrical</div>
+                        <div className="text-sm font-black italic uppercase text-slate-700">{product.electricalAmps || 50}A Config</div>
+                      </div>
+                   </div>
+                </div>
 
                {/* Confirmation Bullets */}
                <div className="space-y-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/50">
-                  <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3">Why this is your perfect match</div>
+                  <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3">Therapy Objective</div>
+                  <p className="text-sm text-slate-700 font-bold leading-relaxed mb-4 italic">"{product.therapySummary}"</p>
+                  
+                  <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3 border-t border-blue-100 pt-4">Expert Reasoning</div>
                   {reasons.slice(0, 3).map((r, i) => (
                     <div key={i} className="flex gap-3 items-start">
                       <div className="bg-marquis-blue text-white rounded-full p-1 mt-0.5"><Check className="w-3 h-3" /></div>
@@ -744,6 +798,24 @@ export default function Wizard() {
                     </div>
                   ))}
                </div>
+
+               {/* COLOR EXPLORER - NEW */}
+               {(product.shellColors || product.cabinetColors) && (
+                 <div className="mt-8 border-t border-slate-100 pt-8">
+                    <div className="text-[10px] font-black text-marquis-blue uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <Palette className="w-3 h-3" />
+                      Curated Finishes
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                       {/* Shell Colors */}
+                       {typeof product.shellColors === 'string' ? JSON.parse(product.shellColors).map((color: string, i: number) => (
+                         <div key={i} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase">{color}</div>
+                       )) : Array.isArray(product.shellColors) && product.shellColors.map((color: string, i: number) => (
+                         <div key={i} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase">{color}</div>
+                       ))}
+                    </div>
+                 </div>
+               )}
             </div>
          </div>
 
@@ -765,9 +837,16 @@ export default function Wizard() {
                       </button>
                       
                       {/* Tooltip */}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 bg-slate-900/95 backdrop-blur-md text-white p-5 rounded-2xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-opacity pointer-events-none z-30">
-                        <div className="text-sm font-black uppercase italic text-marquis-blue mb-2 border-b border-marquis-blue/30 pb-2">{spot.title}</div>
-                        <p className="text-xs text-slate-300 leading-relaxed font-medium">{spot.description}</p>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 bg-slate-900/95 backdrop-blur-md text-white p-0 overflow-hidden rounded-2xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-opacity pointer-events-none z-30 border border-white/10">
+                        {spot.imageUrl && (
+                          <div className="w-full h-32 overflow-hidden border-b border-white/10">
+                            <img src={spot.imageUrl} className="w-full h-full object-cover" alt={spot.label} />
+                          </div>
+                        )}
+                        <div className="p-5">
+                          <div className="text-sm font-black uppercase italic text-marquis-blue mb-2 border-b border-marquis-blue/30 pb-2">{spot.label}</div>
+                          <p className="text-xs text-slate-300 leading-relaxed font-medium">{spot.description}</p>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -836,11 +915,11 @@ export default function Wizard() {
                </div>
                
                {[
-                 { feature: "Therapy Flow Protocol", desc: "How water is managed and driven to the jets", marquis: "V-O-L-T™ System (High Volume, Low Pressure)", comp: "Standard High-Pressure Manifolds" },
-                 { feature: "Targeted Intensity", desc: "Specialized zones for deep tissue", marquis: "H.O.T. Zones™ (High Output Therapy)", comp: "Basic Seat Configurations" },
-                 { feature: "Sanitation Automation", desc: "Water care management", marquis: "SmartClean™ Software Architecture", comp: "Manual Timer Cycles" },
-                 { feature: "Thermal Retention", desc: "Insulation for cold climates", marquis: "MaximizR™ Full-Foam Matrix", comp: "Partial Foam / Perimeter" },
-                 { feature: "Structural Integrity", desc: "Exterior cabinet material", marquis: "DuraWood™ Extruded Profiling", comp: "Hollow Synthetic Panels" }
+                 { feature: "Hydraulic Efficiency", desc: "Total system flow rate (GPM)", marquis: `${product.pumpFlowGpm || 480} GPM (Velocity-Optimized)`, comp: "Standard 160-220 GPM" },
+                 { feature: "Jet Architecture", desc: "Proprietary laminar flow tech", marquis: `${product.jetCount} Velocity-Treated Jets`, comp: "Standard Multi-Stage Jets" },
+                 { feature: "Sanitation Logic", desc: "Advanced water care automation", marquis: "ConstantClean+™ System", comp: "Basic Filtration Cycles" },
+                 { feature: "Thermal Matrix", desc: "Insulation and shell durability", marquis: "MaximizR™ Full-Foam / DuraShell®", comp: "Partial Spray / Standard Acrylic" },
+                 { feature: "Load Capacity", desc: "Engineering weight tolerance", marquis: `${product.fullWeightLbs || 5020} lbs (Heavy Duty)`, comp: "~4,200 lbs (Standard Build)" }
                ].map((row, i) => (
                  <div key={i} className="grid grid-cols-4 border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors">
                    <div className="col-span-2 p-5 md:p-8 flex flex-col justify-center">
