@@ -44,9 +44,22 @@ export async function POST(req: NextRequest) {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
+      const marquisBrand = await (prisma as any).brand.findFirst({
+        where: { name: { contains: 'Marquis' } },
+        include: { expertise: true, glossary: true }
+      });
+
+      const knowledgeBase = {
+        expertise: marquisBrand?.expertise.map((e: any) => ({ key: e.key, content: e.content })) || [],
+        glossary: marquisBrand?.glossary.map((g: any) => ({ term: g.term, explanation: g.consumerExplanation })) || []
+      };
+
       const prompt = `
 You are a Marquis Hot Tub Advisor. We have filtered 8 candidates for a customer. 
 Your job: select the TOP 4 that best fit their preferences and provide a "Match Strategy" and a "Natural Narrative".
+
+BRAND KNOWLEDGE:
+${JSON.stringify(knowledgeBase, null, 2)}
 
 User Preferences:
 ${JSON.stringify(body.preferences, null, 2)}
@@ -56,16 +69,19 @@ ${JSON.stringify(top8Candidates.map(c => ({
   id: String(c.product.id), 
   name: c.product.modelName, 
   series: c.product.series?.name, 
-  specs: c.product.marketingSummary, 
-  jetCount: c.product.jetCount, 
-  seats: c.product.seatsMax 
+  tier: c.product.positioningTier,
+  score: c.product.score,
+  gpm: c.product.pumpFlowGpm,
+  jets: c.product.jetCount,
+  specs: c.product.marketingSummary,
+  therapy: c.product.therapySummary
 })), null, 2)}
 
-For each of the Top 4, provide:
-1. id: The EXACT product ID from the list above.
-2. matchStrategy: A 2-4 word "badge" (e.g. "Luxury Performance", "Family Value").
-3. naturalNarrative: A warm, premium paragraph for the result card. Focus on strengths and naturally address differences. Do not be negative.
-4. designConsiderations: A professional, gentle sentence for the PDP about any potential trade-off.
+INSTRUCTIONS:
+1. TECHNICAL SELECTION: Prioritize models with higher GPM (>300) and RHK™ jets for "Firm" intensity.
+2. MATCH STRATEGY: 2-4 word technical badge (e.g., "High-Flow Therapy", "Elite Efficiency").
+3. NARRATIVE: 1 warm, premium paragraph (max 60 words). Enforce technical authority—mention a specific glossary term or spec from the data.
+4. DESIGN CONSIDERATION: 1 professional sentence about a trade-off.
 
 Output strictly valid JSON (no markdown):
 {

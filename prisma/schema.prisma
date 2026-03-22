@@ -20,6 +20,7 @@ model Brand {
   leads       Lead[]
   products    Product[]
   series      Series[]
+  expertise   BrandExpertise[]
 }
 
 model Series {
@@ -70,6 +71,9 @@ model Product {
   marketingSummary  String?
   therapySummary    String?
   usageTags         Json      @default("[]")
+  positioningTier   String?
+  score             Int?
+  estimatedMsrp     Int?
   sourceUrl         String?
   sourceLastSeenAt  DateTime?
   completenessScore Float     @default(0)
@@ -143,4 +147,16 @@ model ConversationEvent {
   createdAt       DateTime @default(now())
 
   @@index([sessionId])
+}
+
+model BrandExpertise {
+  id        String   @id @default(cuid())
+  brandId   String?
+  key       String   // history, values, manufacturing, community, philanthropy
+  category  String
+  content   String
+  updatedAt DateTime @updatedAt
+  brand     Brand?   @relation(fields: [brandId], references: [id])
+
+  @@unique([brandId, key])
 }

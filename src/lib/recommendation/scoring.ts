@@ -8,17 +8,17 @@ export type UserPreferences = {
   zipCode: string | null;
   sunExposure: string | null;
   placement: string | null;
-  physicalFocus: string | null;
+  focus: string | null;
   aesthetic: string | null;
   maintenance: string | null;
   intensity: string | null;
   budget: string | null;
-  installationReady: string | null;
-  deliveryAccess: string | null;
+  delivery: string | null;
+  ownership: string | null;
 };
 
 export type ScoredProduct = {
-  product: any; // Using any for Prisma Product to avoid strict type issues with new fields
+  product: any;
   score: number;
   reasons: string[];
 };
@@ -32,79 +32,76 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       ? JSON.parse(product.usageTags) 
       : (product.usageTags || []);
 
-    const series = product.series || {};
-    const positioningTier = series.positioningTier || 'value';
+    const series = product.series?.name || product.series || '';
+    const seriesName = typeof series === 'string' ? series : series.name || '';
+    const positioningTier = product.positioningTier || product.series?.positioningTier || 'value';
 
     // 1. Capacity (Max 40 points)
     const seatsMax = product.seatsMax || 0;
     const targetCapacity = preferences.capacity === '6+' ? 6 : preferences.capacity === '4-5' ? 4 : 2;
     if (seatsMax >= targetCapacity) {
       score += 40;
-      reasons.push(`${product.modelName} perfectly accommodates your group size of ${targetCapacity}+.`);
+      reasons.push(`${product.modelName} perfectly accommodates your group size of ${targetCapacity}+ adults.`);
     }
 
-    // 2. Budget Alignment
-    const budgetMap: Record<string, string> = {
-      'entry': 'value',
-      'mid': 'value',
-      'premium': 'premium',
-      'luxury': 'luxury'
+    // 2. Budget / Ownership Intent (Max 50 points)
+    const budgetMap: Record<string, string[]> = {
+      'entry': ['value'],
+      'mid': ['value', 'mid'],
+      'premium': ['mid', 'premium'],
+      'luxury': ['premium', 'luxury']
     };
     
-    if (preferences.budget && budgetMap[preferences.budget] === positioningTier) {
-      score += 50;
-      reasons.push(`Matches your ${preferences.budget} investment target for the ${series.name || 'Marquis'} line.`);
-    } else if (preferences.budget) {
-      const tiers = ['value', 'premium', 'luxury'];
-      const target = budgetMap[preferences.budget];
-      const diff = Math.abs(tiers.indexOf(target) - tiers.indexOf(positioningTier));
-      if (diff === 1) {
-        score += 25;
-        reasons.push(`Excellent ${positioningTier} tier alternative within reach of your budget.`);
-      }
+    // Ownership Intent Bias
+    if (preferences.ownership === 'upgrade' && (positioningTier === 'premium' || positioningTier === 'luxury')) {
+      score += 25;
+      reasons.push(`Built with high-longevity MaximizR™ insulation and full-foam engineering for a "forever" investment.`);
+    } else if (preferences.ownership === 'discovery' && positioningTier === 'value') {
+      score += 15;
+      reasons.push(`An ideal high-value entry point into the Marquis experience.`);
     }
 
-    // 3. Primary Purpose & Therapy Tags
+    if (preferences.budget && budgetMap[preferences.budget]?.includes(positioningTier)) {
+      score += 25;
+      reasons.push(`Mathematically aligned with your ${preferences.budget} investment range.`);
+    }
+
+    // 3. Primary Purpose & Therapy Tags (Max 40 points)
     if (preferences.primaryPurpose && usageTags.includes(preferences.primaryPurpose)) {
       score += 40;
-      reasons.push(`Precision-engineered for ${preferences.primaryPurpose}.`);
+      reasons.push(`Specifically blueprint-matched for your goal of ${preferences.primaryPurpose}.`);
     }
 
-    // 4. Series & Positioning Boost
-    if (positioningTier === 'luxury') {
-      score += 20;
-      reasons.push("Features flagship materials and advanced filtration systems.");
-    } else if (positioningTier === 'premium') {
-      reasons.push("Balanced performance with premium hydrotherapy features.");
-    }
-
-    // 5. Lounge Preference
-    const hasLounge = usageTags.includes('lounge');
-    if (preferences.lounge === 'yes' && hasLounge) {
-      score += 20;
-      reasons.push(`Includes the high-performance lounge seat you requested.`);
-    } else if (preferences.lounge === 'no' && !hasLounge) {
-      score += 20;
-      reasons.push("Open seating design prioritizes social connection and movement.");
-    }
-
-    // 6. Intensity / Physical Focus
+    // 4. Engineering Mastery (V-O-L-T and GPM)
     if (preferences.intensity === 'firm') {
-      if (product.jetCount > 50) {
+      const gpm = product.pumpFlowGpm || 0;
+      if (gpm >= 320) {
+        score += 30;
+        reasons.push(`High Technical Authority: Dual 240V pumps move ${gpm} Gallons Per Minute for aggressive recovery.`);
+      } else if (gpm > 0) {
         score += 15;
-        reasons.push("High-pressure jet configuration for deep muscle recovery.");
-      } else if (usageTags.includes('firm')) {
-        score += 10;
-        reasons.push("Tuned for firm, invigorating therapeutic pressure.");
+        reasons.push(`Superior flow dynamics compared to traditional high-pressure/low-volume systems.`);
       }
     }
 
-    if (preferences.physicalFocus && usageTags.includes(preferences.physicalFocus)) {
+    // 5. Ergonomic Focus (Diverse Depth)
+    if (preferences.focus === 'diverse-depth') {
+      if (seriesName === 'Crown' || product.modelName.includes('Resort') || product.modelName.includes('Summit')) {
+        score += 25;
+        reasons.push(`Engineered with diverse seat depths to accommodate a wide range of user heights and immersion levels.`);
+      }
+    } else if (preferences.focus && usageTags.includes(preferences.focus)) {
       score += 15;
-      reasons.push(`Specialized ${preferences.physicalFocus} jet patterns included.`);
+      reasons.push(`Targeted RHK™ jet clusters mapped to your focus on ${preferences.focus}.`);
     }
 
-    // Normalize final score to 0-100 range for display
+    // 6. Maintenance Style
+    if (preferences.maintenance === 'automated' && usageTags.includes('constantclean')) {
+      score += 20;
+      reasons.push("Features ConstantClean+™ automated sanitation protocols for 90% manual reduction.");
+    }
+
+    // Normalize final score to 0-100 range
     const finalScore = Math.min(Math.max(score, 0), 100);
 
     return {

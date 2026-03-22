@@ -93,7 +93,7 @@ async function main() {
           brandId: marquis.id,
           name: sName,
           category: sName.toLowerCase().includes('swim') ? 'swim_spa' : 'hot_tub',
-          positioningTier: sName.includes('Crown') ? 'luxury' : (sName.includes('Elite') ? 'premium' : 'value'),
+          positioningTier: sName.includes('Crown') ? 'luxury' : (sName.includes('Elite') || sName.includes('Vector') ? 'premium' : 'value'),
           description: `${sName} by Marquis.`
         }
       });
@@ -101,10 +101,38 @@ async function main() {
     seriesMap[sName] = series.id;
   }
 
+  const calculateModelTier = (p: any) => {
+    let score = 0;
+    
+    // 1. Base Series Score
+    if (p.seriesName.includes('Crown')) score += 50;
+    else if (p.seriesName.includes('Vector')) score += 35;
+    else if (p.seriesName.includes('Elite')) score += 20;
+    else if (p.seriesName.includes('Celebrity')) score += 0;
+
+    // 2. Pump Performance (+10 per pump)
+    score += (p.pumpCount || 1) * 10;
+
+    // 3. Tech Features (+10 per high-spec feature)
+    const highSpecFeatures = ['VOLT', 'HOTZones', 'ConstantCleanPlus', 'FullFoam'];
+    (p.techFeatures || []).forEach((f: string) => {
+      if (highSpecFeatures.includes(f)) score += 10;
+    });
+
+    // 4. Calibration
+    let tier = 'value';
+    if (score >= 80) tier = 'luxury';
+    else if (score >= 60) tier = 'premium';
+    else if (score >= 35) tier = 'mid';
+
+    return { tier, score };
+  };
+
   // Seed Products
   for (const p of productsRaw) {
-    // Skip placeholder/accessory pages that look like products
     if (!p.jetCount && !p.dimensions && !p.marketingSummary) continue;
+
+    const { tier, score } = calculateModelTier(p);
 
     await prisma.product.create({
       data: {
@@ -121,6 +149,9 @@ async function main() {
         capacityGallons: p.capacityGallons,
         dryWeightLbs: p.dryWeightLbs,
         fullWeightLbs: p.fullWeightLbs,
+        pumpFlowGpm: p.pumpFlowGpm,
+        insulationType: p.insulationType,
+        filtration: JSON.stringify(p.filtration || {}),
         lengthIn: p.lengthIn,
         widthIn: p.widthIn,
         depthIn: p.depthIn,
@@ -131,7 +162,10 @@ async function main() {
         cabinetColors: JSON.stringify(p.cabinetColors || []),
         usageTags: JSON.stringify(p.usageTags || []),
         voltageOptions: JSON.stringify([p.electricalAmps === 50 ? "240V" : "110V/240V"]),
-        hotspots: JSON.stringify(ALL_HOTSPOTS[p.slug] || [])
+        hotspots: JSON.stringify(ALL_HOTSPOTS[p.slug] || []),
+        positioningTier: tier,
+        score: score,
+        estimatedMsrp: p.estimatedMsrp || null
       }
     });
   }
@@ -157,6 +191,31 @@ async function main() {
       term: "MicroSilk®",
       consumerExplanation: "Oxygen skin therapy that produces billions of tiny, oxygen-rich microbubbles that clean pores, stimulate collagen, and improve skin health.",
       relatedFeatures: ["Skin Health", "Relaxation"]
+    },
+    {
+      term: 'Regal Hydrokinetic (RHK™) Jets',
+      consumerExplanation: 'Exclusive to the Crown Series, these jets are designed for high-flow, low-pressure therapy that delivers massive volumes of water without the "sting" of traditional jets.',
+      relatedFeatures: ['Crown Series', 'High-flow Therapy'],
+    },
+    {
+      term: 'Jetpods',
+      consumerExplanation: 'Directional and specialized jet modules exclusive to the Vector21 Series, allowing for precise control and interchangeable therapy experiences.',
+      relatedFeatures: ['Vector21 Series', 'V-O-L-T System'],
+    },
+    {
+      term: "H.O.T. Zones®",
+      consumerExplanation: "High Output Therapy zones that target specific areas like the neck, shoulders, and lumbar with concentrated, high-pressure water for maximum therapeutic impact.",
+      relatedFeatures: ["Deep Tissue Massage", "Targeted Therapy"]
+    },
+    {
+      term: "Regal Whitewater-4™",
+      consumerExplanation: "A massive, centrally-located jet that moves huge volumes of water (up to 400 GPM) for intensive leg and foot therapy without the 'sting' of traditional high-pressure jets.",
+      relatedFeatures: ["Whitewater Jet", "Leg Therapy"]
+    },
+    {
+      term: "V3 Throttle Control",
+      consumerExplanation: "Proprietary valves that allow you to direct the full power of a pump to a single seat or individual H.O.T. Zones, giving you complete control over your massage intensity.",
+      relatedFeatures: ["V-O-L-T System", "Custom Massage"]
     }
   ];
 
@@ -173,7 +232,54 @@ async function main() {
     });
   }
 
-  console.log(`Seed completed. Populated ${productsRaw.length} products and specialized glossary.`);
+  // Seed Brand Expertise
+  const expertiseItems = [
+    {
+      key: "history",
+      category: "Heritage",
+      content: "Founded in 1980, Marquis has over 40 years of experience in hot tub design and manufacturing. The company has built a global reputation for quality products and a deep commitment to excellence. Employee-ownership is at the heart of our culture, ensuring every team member is personally invested in your ultimate satisfaction. Many of our customers have been part of the Marquis family for decades, a testament to our long-lasting quality and reliability."
+    },
+    {
+      key: "manufacturing",
+      category: "Engineering",
+      content: "All Marquis spas are proudly handcrafted by skilled craftspeople in Las Vegas, Nevada, using a combination of domestic and imported components. While many in the industry have moved production abroad, Marquis remains steadfast on American soil, focusing on unsurpassed design, product quality, and customer service. Our facilities combine state-of-the-art technology with meticulously applied hand-craftsmanship to ensure every spa meets our high standards."
+    },
+    {
+      key: "values",
+      category: "Philosophy",
+      content: "The Marquis philosophy is 'Elegant and Practical.' We believe a hot tub should be as beautiful as it is functional. Every design decision revolves around improving the user experience, from the therapeutic benefits of High-Flow Therapy to ergonomic details that fit the body naturally. Our goal is to provide the highest-quality, most energy-efficient, and easiest-to-maintain hot tubs in the world. We don't just build spas; we deliver 'The Ultimate Hot Tub Experience!™'"
+    },
+    {
+      key: "philanthropy",
+      category: "Community",
+      content: "Marquis is a proud Corporate Sponsor of Make-A-Wish® since 2000. We are their preferred provider for hot tub and swim spa wishes across North America, helping children with critical health conditions find joy and relief in the soothing water of a spa. Together with our network of dealers, we have granted over 900 wishes and contributed more than $5 million in-kind and cash donations, believing that we have a responsibility to enrich the lives of everyone we touch."
+    },
+      {
+        key: 'recognition',
+        category: 'Awards',
+        content: 'Marquis is a TradeCertified™ Overall Top Scoring Brand and a ConsumerAffairs Authorized Partner with over 800 verified reviews. They have received multiple "Best Buy" awards from WhatSpa? for the Crown Summit, Vector21 V94L, and Monaco Elite.',
+      },
+      {
+        key: 'TEST_SOAK_CIVILITY',
+        category: 'OWNERSHIP_EXPERIENCE',
+        content: 'Marquis advocates for the "Test Soak" philosophy—encouraging customers to test every model they consider before purchasing to ensure the ergonomics and therapy perfectly match their body and needs.',
+      },
+  ];
+
+  for (const item of expertiseItems) {
+    await prisma.brandExpertise.upsert({
+      where: { brandId_key: { brandId: marquis.id, key: item.key } },
+      update: { content: item.content, category: item.category },
+      create: { 
+        brandId: marquis.id, 
+        key: item.key, 
+        category: item.category, 
+        content: item.content 
+      }
+    });
+  }
+
+  console.log(`Seed completed. Populated ${productsRaw.length} products, specialized glossary, and brand expertise.`);
 }
 
 main()

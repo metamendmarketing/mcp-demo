@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import AskTheBrain from '../pdp/AskTheBrain';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -28,8 +29,8 @@ export type PreferenceKey =
   | 'maintenance' 
   | 'intensity' 
   | 'budget' 
-  | 'timeline' 
-  | 'delivery';
+  | 'delivery'
+  | 'ownership';
 
 export interface UserPreferences {
   primaryPurpose: string | null;
@@ -44,8 +45,8 @@ export interface UserPreferences {
   maintenance: string | null;
   intensity: string | null;
   budget: string | null;
-  timeline: string | null;
   delivery: string | null;
+  ownership: string | null;
 }
 
 interface Product {
@@ -71,7 +72,10 @@ interface Product {
   hotspots?: any[];
   shellColors?: string[] | string;
   cabinetColors?: string[] | string;
-  series?: { name: string };
+  series?: { name: string; positioningTier?: string };
+  positioningTier?: string;
+  score?: number;
+  estimatedMsrp?: number;
 }
 
 interface ScoredProduct {
@@ -88,7 +92,7 @@ const QUESTIONS: {
   question: string;
   subtext: string;
   expertTip: string;
-  layout: 'grid' | 'split' | 'map' | 'slider';
+  layout: 'grid' | 'split' | 'map' | 'slider' | 'custom-inquiry';
   bgImage?: string;
   options: { label: string; value: string; icon?: React.ReactNode; image?: string; tip?: string }[];
 }[] = [
@@ -131,40 +135,40 @@ const QUESTIONS: {
   },
   {
     id: 'focus',
-    question: "Where do you need the most physical relief?",
-    subtext: "We will prioritize specific High Output Therapy (H.O.T.) Zones.",
-    expertTip: "Each Marquis seat is engineered differently. If you suffer from plantar fasciitis or standing fatigue, we will filter for models equipped with the Geyser Jet system in the footwell. If neck tension is your primary complaint, we focus on models featuring our specialized Neck and Shoulder collar down-draft jets.",
+    question: "Select your primary hydrotherapy profile.",
+    subtext: "Diverse seat depths allow for a variety of body types and immersion levels.",
+    expertTip: "The Crown Series is engineered with 'The Big 3'—High Flow, ConstantClean, and Diverse Seating. By selecting 'Depth Variety,' we prioritize models like the Crown Resort, which features deep bucket seats for back therapy alongside shallower seating for diverse family heights. If you prefer a consistent soak, our Elite and Celebrity series offer stable, uniform seating heights.",
     layout: 'grid',
     options: [
+      { value: 'diverse-depth', label: 'Diverse Seat Depths', tip: "Varying heights for families with different physical profiles.", icon: <Maximize className="w-10 h-10 mx-auto" /> },
       { value: 'neck-shoulders', label: 'Neck & Shoulders', tip: "Targeted collar jets for tension headaches.", icon: <Activity className="w-10 h-10 mx-auto" /> },
-      { value: 'lower-back', label: 'Lower Back & Lumbar', tip: "Deep penetration HK jets for sciatica.", icon: <Waves className="w-10 h-10 mx-auto" /> },
-      { value: 'legs-feet', label: 'Legs & Feet', tip: "Reflexology and calf massage zones.", icon: <Droplet className="w-10 h-10 mx-auto" /> },
-      { value: 'full-body', label: 'Total Immersion', tip: "Comprehensive sequential massage.", icon: <Heart className="w-10 h-10 mx-auto" /> }
+      { value: 'lower-back', label: 'Lower Back Focus', tip: "Deep penetration HK jets for lumbar relief.", icon: <Waves className="w-10 h-10 mx-auto" /> },
+      { value: 'full-body', label: 'Full Body Immersion', tip: "Comprehensive sequential massage profile.", icon: <Heart className="w-10 h-10 mx-auto" /> }
     ]
   },
   {
     id: 'intensity',
     question: "Preferred Hydrotherapy Intensity?",
-    subtext: "Are you looking for a gentle soak or aggressive deep tissue manipulation?",
-    expertTip: "Pump horsepower doesn't equal pressure—flow dynamics do. For a 'Firm Deep Tissue' massage, we require models with dedicated dual-speed pumps routed through High-Kinetic (HK) massage jets. If you prefer 'Gentle', we prioritize High-Volume, Low-Pressure (HVLP) broad orifice jets that move water smoothly over the skin without stinging.",
+    subtext: "High-Volume, Low-Pressure (HVLP) is the Marquis difference.",
+    expertTip: "Marquis utilizes the V-O-L-T™ system to drive massive water volume (GPM) rather than just high pressure (PSI). If you select 'Firm', we will recommend models with dual-speed 240V pumps that move up to 480 Gallons Per Minute. For 'Gentle', we prioritize broad-distribution jets that soothe without the stinging sensation of standard high-pressure systems.",
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_intensity_1774073882614.png',
     options: [
-      { value: 'gentle', label: 'Gentle Relaxation', tip: "Broad, smooth water flow. Ideal for sensitive skin or simple soaking.", icon: <Cloud className="w-8 h-8" /> },
-      { value: 'medium', label: 'Medium Vigorous', tip: "The perfect balance of soothing soak and active muscle recovery.", icon: <Waves className="w-8 h-8" /> },
-      { value: 'firm', label: 'Aggressive Deep Tissue', tip: "High-kinetic jets designed to break down lactic acid and deep knots.", icon: <Gauge className="w-8 h-8" /> }
+      { value: 'gentle', label: 'Soothing Soak', tip: "Broad flow. Ideal for sensitive skin or simple relaxation.", icon: <Cloud className="w-8 h-8" /> },
+      { value: 'medium', label: 'Standard Vigorous', tip: "The perfect balance of active recovery and relaxation.", icon: <Waves className="w-8 h-8" /> },
+      { value: 'firm', label: 'High-Output Therapy', tip: "Maximum GPM flow designed to break down deep muscle tension.", icon: <Gauge className="w-8 h-8" /> }
     ]
   },
   {
     id: 'maintenance',
-    question: "What is your expected maintenance profile?",
-    subtext: "Determine your tolerance for manual water chemistry.",
-    expertTip: "Water care shouldn't feel like a chemistry degree. If you select 'Automated', we will equip your model with the ConstantClean+™ system featuring in-line SmartChlor and ozonators, which manages 90% of sanitization automatically. If you prefer a hands-on approach and lower upfront costs, traditional manual dosing is available.",
+    question: "Desired Water Management Style?",
+    subtext: "Integrity of water care defines the lifetime of the spa.",
+    expertTip: "Our ConstantClean+™ system is the gold standard of the industry. By selecting 'Automated Integrity,' we equip your model with dual-sanitation (Ozone + In-line) which manages 90% of the ritual for you. If you prefer to manually manage your chemistry, our standard filtration system remains one of the most efficient in the world.",
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_maintenance_1774073867138.png',
     options: [
-      { value: 'automated', label: 'Set it and Forget it', tip: "Requires the ConstantClean+™ automated inline sanitation system upgrade.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
-      { value: 'hands-on', label: 'I enjoy the ritual', tip: "Standard filtration with manual weekly chemical balancing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
+      { value: 'automated', label: 'Automated Integrity', tip: "Utilizes the ConstantClean+™ simplified in-line sanitation system.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'hands-on', label: 'Manual Management', tip: "Standard filtration with traditional chemistry dosing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
     ]
   },
   {
@@ -181,37 +185,48 @@ const QUESTIONS: {
     ]
   },
   {
-    id: 'electrical',
-    question: "What is your electrical capacity?",
-    subtext: "Determines heating speed and parallel pump performance.",
-    expertTip: "This is a critical infrastructure decision. 110V 'Plug and Play' models can connect to a standard household outlet, making installation trivial. However, they cannot run the 4kW heater and high-speed pumps simultaneously. If you live in a cold climate or demand aggressive jet pressure, a dedicated 240V hardwired line is essential.",
+    id: 'ownership',
+    question: "Is this a first spa discovery or a forever upgrade?",
+    subtext: "The duration of ownership dictates the engineering specs we prioritize.",
+    expertTip: "If this is your 'Forever Spa', we will bias toward our Crown and Vector21 Series, which feature full-foam MaximizR™ insulation and solid-state engineering that outlasts standard industry builds. If you are 'Discovering' for a short-term residence, our Celebrity series provides the famous Marquis quality at a high-value entry point.",
     layout: 'split',
-    bgImage: '/mcp/demo/assets/bg_electrical_night_1774075976736.png',
     options: [
-      { value: '110v', label: '110V Plug & Play', tip: "Easy install via standard outlet. Heater pauses when jets are on high.", icon: <Battery className="w-8 h-8 text-blue-400" /> },
-      { value: '240v', label: '240V Hardwired', tip: "Requires an electrician. Maximum parallel performance and rapid heating.", icon: <BatteryCharging className="w-8 h-8 text-marquis-blue" /> },
-      { value: 'help', label: 'Help me decide', tip: "I need more information on electrical requirements.", icon: <Info className="w-8 h-8 text-slate-400" /> }
+      { value: 'upgrade', label: 'Forever Spa Upgrade', tip: "I want the highest engineering specs and longevity (Crown/Vector).", icon: <Gem className="w-8 h-8 text-amber-500" /> },
+      { value: 'discovery', label: 'First Spa Discovery', tip: "I want the best value for a multi-year experience (Celebrity).", icon: <Compass className="w-8 h-8 text-marquis-blue" /> }
     ]
   },
   {
     id: 'zipCode',
-    question: "What is your Zip Code?",
-    subtext: "Your precise climate and elevation affect heating efficiency.",
-    expertTip: "High-altitude and colder regions require our MaximizR™ full-foam insulation to maintain consistent 104°F temperatures efficiently. We factor your ZIP code to determine thermal load.",
+    question: "Delivery Zip/Postal Code?",
+    subtext: "Precisely calculating local sunrise and climate stress.",
+    expertTip: "Elevation and climate are the primary drivers of energy cost. We cross-reference your Zip/Postal code with local heating index data to ensure the insulation package (standard vs MaximizR™) is appropriate for your region.",
     layout: 'map',
     options: []
   },
   {
     id: 'sunExposure',
-    question: "How much sun does this exact spot receive?",
-    subtext: "Understanding UV exposure dictates cover life and energy retention.",
-    expertTip: "We ask this to determine your thermal load. A hot tub sitting in direct sunlight all day will experience significant solar gain, reducing heating costs but accelerating UV degradation on standard vinyl covers. In a high-sun scenario, we will specifically mandate a premium Weathershield™ or ProLast™ fabric cover to protect your investment.",
+    question: "What is the typical sun exposure for the site?",
+    subtext: "Understanding UV load dictates cover specifications.",
+    expertTip: "Direct sunlight accelerates UV degradation on standard vinyl. In high-sun scenarios, we mandate the **DuraCover®** or **WeatherShield™** fabric upgrades, which are specifically designed to double the lifespan of the cover in intense UV environments.",
     layout: 'grid',
     options: [
       { value: 'morning', label: 'Morning Sun Only', tip: "Gentle warmth; cooler in the evenings.", icon: <Sun className="w-10 h-10 text-amber-500 mx-auto" /> },
       { value: 'afternoon', label: 'Afternoon / Late Sun', tip: "Intense heat during the peak of the day.", icon: <Sunset className="w-10 h-10 text-orange-500 mx-auto" /> },
-      { value: 'direct', label: 'Direct Sun All Day', tip: "Maximum solar gain; minimal shade.", icon: <Flame className="w-10 h-10 text-red-500 mx-auto" /> },
+      { value: 'direct', label: 'Direct Sun All Day', tip: "Maximum solar gain; require DuraCover®.", icon: <Flame className="w-10 h-10 text-red-500 mx-auto" /> },
       { value: 'shaded', label: 'Heavy Shade / Covered', tip: "Under a roof, pergola, or dense trees.", icon: <TreePine className="w-10 h-10 text-slate-400 mx-auto" /> }
+    ]
+  },
+  {
+    id: 'electrical',
+    question: "Confirmed electrical capacity?",
+    subtext: "Determining the parallel performance of pumps and heaters.",
+    expertTip: "For 100% therapy performance, a 240V dedicated line allows the heater and high-flow pumps to run simultaneously. If you select 110V, the heater will pause when the jets are on High to protect your household circuit. In colder climates, 240V is always the professional recommendation.",
+    layout: 'split',
+    bgImage: '/mcp/demo/assets/bg_electrical_night_1774075976736.png',
+    options: [
+      { value: '110v', label: '110V Plug & Play', tip: "Easy install. Best for temperate climates and smaller models.", icon: <Battery className="w-8 h-8 text-blue-400" /> },
+      { value: '240v', label: '240V Hardwired', tip: "Professional choice. Maximum heat retention and jet power.", icon: <BatteryCharging className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'help', label: 'Help me decide', tip: "I need more information on electrical requirements.", icon: <Info className="w-8 h-8 text-slate-400" /> }
     ]
   },
   {
@@ -230,35 +245,24 @@ const QUESTIONS: {
   {
     id: 'budget',
     question: "What is your comfortable investment range?",
-    subtext: "We respect your budget and will maximize the value within it.",
-    expertTip: "While the initial sticker price matters, true cost of ownership is found in energy efficiency. A 'Premium' tier tub from our Crown Series features full-foam insulation that dramatically reduces monthly electrical costs. An 'Entry' level tub will save you thousands today, but may cost slightly more per month to operate in freezing temperatures.",
+    subtext: "Market conditions vary; we help you find the absolute best value.",
+    expertTip: "Initial sticker price is only one part of the equation. We help you balance upfront costs against the lifetime efficiency of the **MaximizR™** insulation and the **ConstantClean™** sanitization suite. A premium tier Marquis often pays for itself via lower monthly utility bills.",
     layout: 'grid',
     options: [
-      { value: 'entry', label: 'Entry Tier', tip: "$5,000 - $8,000. Basic foam, standard jets, unmatched Marquis reliability.", icon: <Wallet className="w-10 h-10 mx-auto" /> },
-      { value: 'mid', label: 'Standard Tier', tip: "$9,000 - $13,000. Upgraded insulation, more pumps, advanced lighting.", icon: <Landmark className="w-10 h-10 mx-auto" /> },
-      { value: 'premium', label: 'Premium Tier', tip: "$14,000 - $18,000. Full-foam MaximizR, comprehensive V-O-L-T™ therapy.", icon: <Star className="w-10 h-10 mx-auto" /> },
-      { value: 'luxury', label: 'Luxury Tier', tip: "$19,000+. The pinnacle of hydrotherapy, automation, and aesthetic design.", icon: <Gem className="w-10 h-10 mx-auto" /> }
-    ]
-  },
-  {
-    id: 'timeline',
-    question: "What is your installation timeline?",
-    subtext: "Are we delivering next week, or are you breaking ground next year?",
-    expertTip: "Timing affects availability. If you are 'Ready to go', we will prioritize in-stock models available at your local dealer immediately. If you are in the planning phase, we can explore custom-ordered shell and cabinet combinations straight from the factory, which carry a 6-8 week lead time.",
-    layout: 'split',
-    options: [
-      { value: 'ready', label: 'I am ready to buy', tip: "Site is leveled, electrical is routed, and budget is secured.", icon: <Zap className="w-8 h-8 text-yellow-500" /> },
-      { value: 'planning', label: 'I am just researching', tip: "Still formulating the backyard design and gathering quotes.", icon: <Compass className="w-8 h-8 text-marquis-blue" /> }
+      { value: 'entry', label: 'Entry Tier', tip: "$5,000 - $8,000. Marquis quality in a standard equipment package.", icon: <Wallet className="w-10 h-10 mx-auto" /> },
+      { value: 'mid', label: 'Mid-Level Tier', tip: "$9,000 - $13,000. Upgraded filtration and additional massage pumps.", icon: <Landmark className="w-10 h-10 mx-auto" /> },
+      { value: 'premium', label: 'Premium Tier', tip: "$14,000 - $18,000. High-flow GPM and full-foam insulation standard.", icon: <Star className="w-10 h-10 mx-auto" /> },
+      { value: 'luxury', label: 'Luxury Tier', tip: "$19,000+. The absolute pinnacle of hydrotherapy and aesthetic.", icon: <Gem className="w-10 h-10 mx-auto" /> }
     ]
   },
   {
     id: 'delivery',
-    question: "Tell us about your delivery access.",
-    subtext: "We need to physically move a 900lb shell into your space.",
-    expertTip: "A standard hot tub measures about 36 to 40 inches tall when placed on its side for delivery on a spa dolly. If your side gate offers 40+ inches of clearance, delivery is smooth. However, if you have tight switchbacks, steep stairs, or narrow alleyways, we may need to coordinate a specialized crane drop.",
+    question: "Describe your delivery access.",
+    subtext: "We need 40 inches of clearance to walk a spa into position.",
+    expertTip: "Logistics are managed via specialized 'Spa Dollies'. If your gates or path are narrower than 40 inches, or if you have steep stairs, we may need to coordinate a crane lift. We will factors these complexities into our model recommendations.",
     layout: 'split',
     options: [
-      { value: 'easy', label: 'Wide Open Access', tip: "Double-wide gates or zero steps. Standard 2-man delivery.", icon: <Truck className="w-8 h-8" /> },
+      { value: 'easy', label: 'Wide Open Access', tip: "Double-wide gates or zero steps. Standard delivery.", icon: <Truck className="w-8 h-8" /> },
       { value: 'standard', label: 'Standard Clearance', tip: "Minimum 40-inch wide side gate with a clear, flat path.", icon: <Hammer className="w-8 h-8" /> },
       { value: 'tight', label: 'Tight / Complex Path', tip: "Narrow gates, stairs, or requires crane facilitation.", icon: <MapPin className="w-8 h-8" /> }
     ]
@@ -281,8 +285,8 @@ export default function Wizard() {
     maintenance: null,
     intensity: null,
     budget: null,
-    timeline: null,
-    delivery: null
+    delivery: null,
+    ownership: null
   });
 
   // Magnifier state
@@ -702,7 +706,9 @@ export default function Wizard() {
                    <div className="p-8 flex flex-col flex-grow">
                       <div className="mb-6">
                           <h3 className="text-3xl font-black italic uppercase text-slate-800 leading-none mb-2">{res.product.modelName}</h3>
-                          <div className="text-marquis-blue text-xs font-bold uppercase tracking-widest">{seriesName}</div>
+                          <div className="text-marquis-blue text-xs font-bold uppercase tracking-widest">
+                            {res.product.series?.name || 'Marquis'} {res.product.positioningTier ? `| ${res.product.positioningTier.charAt(0).toUpperCase() + res.product.positioningTier.slice(1)}` : ''}
+                          </div>
                       </div>
                       
                       <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed">
@@ -762,7 +768,9 @@ export default function Wizard() {
             <div className="md:w-1/2 relative bg-slate-50 border-r border-slate-100">
                <img src={heroImg} className="w-full h-full object-cover absolute inset-0" alt={product.modelName} />
                <div className="relative z-10 p-8 min-h-[350px] flex flex-col justify-end bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent">
-                  <div className="text-white/80 text-xs font-black uppercase tracking-widest mb-1 shadow-sm">{product.series?.name || "Premium Series Collection"}</div>
+                  <div className="text-white/80 text-xs font-black uppercase tracking-widest mb-1 shadow-sm">
+                    {product.series?.name || 'Marquis'} {product.positioningTier ? `| ${product.positioningTier.charAt(0).toUpperCase() + product.positioningTier.slice(1)}` : ''}
+                  </div>
                   <h3 className="text-5xl md:text-6xl font-black italic uppercase text-white leading-none drop-shadow-lg">{product.modelName}</h3>
                </div>
             </div>
@@ -936,47 +944,54 @@ export default function Wizard() {
                   })}
                </div>
                <p className="text-center text-xs text-slate-400 mt-4 font-bold uppercase tracking-widest italic animate-pulse">Use the magnifier to inspect jets or hover over hotspots for therapy details</p>
-            </section>
-          )}
-
-         {/* HORIZONTAL AI STACK */}
-         <section className="mb-12">
-            <div className="flex items-center gap-3 mb-8 px-2">
-              <BookOpen className="w-6 h-6 text-marquis-blue" />
-              <h4 className="text-2xl font-black italic uppercase text-slate-800">AI Synthesized Blueprint</h4>
-            </div>
-            
-            <div className="space-y-4">
-              {[
-                { id: 'hydrotherapy', title: 'Hydrotherapy & Wellness', bg: 'bg-indigo-50/30', border: 'border-indigo-100', iconBg: 'bg-indigo-100 text-indigo-600', icon: <Activity className="w-6 h-6" /> },
-                { id: 'climate', title: 'Climate & Surroundings', bg: 'bg-sky-50/30', border: 'border-sky-100', iconBg: 'bg-sky-100 text-sky-600', icon: <Thermometer className="w-6 h-6" /> },
-                { id: 'design', title: 'Design & Capacity', bg: 'bg-amber-50/30', border: 'border-amber-100', iconBg: 'bg-amber-100 text-amber-600', icon: <Users className="w-6 h-6" /> },
-                { id: 'efficiency', title: 'Power & Maintenance', bg: 'bg-emerald-50/30', border: 'border-emerald-100', iconBg: 'bg-emerald-100 text-emerald-600', icon: <Zap className="w-6 h-6" /> }
-              ].map((mod, i) => (
-                <div key={i} className={`flex flex-col md:flex-row gap-6 p-6 md:p-8 rounded-[32px] border shadow-sm transition-all hover:shadow-md ${mod.bg} ${mod.border}`}>
-                  <div className="md:w-1/3 flex items-start gap-5 border-b md:border-b-0 md:border-r border-slate-200/50 pb-4 md:pb-0 md:pr-6">
-                     <div className={`p-4 rounded-2xl shadow-sm flex-shrink-0 ${mod.iconBg}`}>{mod.icon}</div>
-                     <div className="pt-1">
-                       <h3 className="text-xl font-black italic uppercase text-slate-900 leading-none">{mod.title}</h3>
-                     </div>
-                  </div>
-                  <div className="md:w-2/3 md:pl-2">
-                    {narrativeLoading ? (
-                      <div className="space-y-3 animate-pulse pt-1">
-                        <div className="h-3 bg-slate-200/60 rounded w-full"></div>
-                        <div className="h-3 bg-slate-200/60 rounded w-5/6"></div>
-                        <div className="h-3 bg-slate-200/60 rounded w-4/6"></div>
+             </section>
+           )}
+ 
+          {/* HORIZONTAL AI STACK */}
+          <section className="mb-12">
+             <div className="flex items-center gap-3 mb-8 px-2">
+               <BookOpen className="w-6 h-6 text-marquis-blue" />
+               <h4 className="text-2xl font-black italic uppercase text-slate-800">AI Synthesized Blueprint</h4>
+             </div>
+             
+             <div className="space-y-4">
+               {[
+                 { id: 'hydrotherapy', title: 'Hydrotherapy & Wellness', bg: 'bg-indigo-50/30', border: 'border-indigo-100', iconBg: 'bg-indigo-100 text-indigo-600', icon: <Activity className="w-6 h-6" /> },
+                 { id: 'climate', title: 'Climate & Surroundings', bg: 'bg-sky-50/30', border: 'border-sky-100', iconBg: 'bg-sky-100 text-sky-600', icon: <Thermometer className="w-6 h-6" /> },
+                 { id: 'design', title: 'Design & Capacity', bg: 'bg-amber-50/30', border: 'border-amber-100', iconBg: 'bg-amber-100 text-amber-600', icon: <Users className="w-6 h-6" /> },
+                 { id: 'efficiency', title: 'Power & Maintenance', bg: 'bg-emerald-50/30', border: 'border-emerald-100', iconBg: 'bg-emerald-100 text-emerald-600', icon: <Zap className="w-6 h-6" /> }
+               ].map((mod, i) => (
+                 <div key={i} className={`flex flex-col md:flex-row gap-6 p-6 md:p-8 rounded-[32px] border shadow-sm transition-all hover:shadow-md ${mod.bg} ${mod.border}`}>
+                   <div className="md:w-1/3 flex items-start gap-5 border-b md:border-b-0 md:border-r border-slate-200/50 pb-4 md:pb-0 md:pr-6">
+                      <div className={`p-4 rounded-2xl shadow-sm flex-shrink-0 ${mod.iconBg}`}>{mod.icon}</div>
+                      <div className="pt-1">
+                        <h3 className="text-xl font-black italic uppercase text-slate-900 leading-none">{mod.title}</h3>
                       </div>
-                    ) : (aiNarrative as any)?.error ? (
-                      <div className="text-red-500 text-sm font-medium">Generation Failed: {(aiNarrative as any).error}</div>
-                    ) : (
-                      <div className="text-sm md:text-base text-slate-600 leading-relaxed font-semibold prose prose-slate" dangerouslySetInnerHTML={{ __html: (aiNarrative as any)?.[mod.id] || "Synthesizing your personalized profile..." }} />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-         </section>
+                   </div>
+                   <div className="md:w-2/3 md:pl-2">
+                     {narrativeLoading ? (
+                       <div className="space-y-3 animate-pulse pt-1">
+                         <div className="h-3 bg-slate-200/60 rounded w-full"></div>
+                         <div className="h-3 bg-slate-200/60 rounded w-5/6"></div>
+                         <div className="h-3 bg-slate-200/60 rounded w-4/6"></div>
+                       </div>
+                     ) : (aiNarrative as any)?.error ? (
+                       <div className="text-red-500 text-sm font-medium">Generation Failed: {(aiNarrative as any).error}</div>
+                     ) : (
+                       <div className="text-sm md:text-base text-slate-600 leading-relaxed font-semibold prose prose-slate" dangerouslySetInnerHTML={{ __html: (aiNarrative as any)?.[mod.id] || "Synthesizing your personalized profile..." }} />
+                     )}
+                   </div>
+                 </div>
+               ))}
+             </div>
+          </section>
+
+           {/* GROUNDED Q&A FEATURE - Brain 2.0 */}
+           <AskTheBrain 
+             productId={product.id} 
+             productName={product.modelName} 
+             preferences={preferences} 
+           />
 
          {/* COMPARISON TABLE */}
          <section className="mb-14">
@@ -990,7 +1005,9 @@ export default function Wizard() {
                  <div className="col-span-2 p-5 md:p-8 font-black text-xs uppercase tracking-widest text-slate-400 flex items-end">Core Technology</div>
                  <div className="col-span-1 p-5 md:p-8 font-black italic text-lg md:text-2xl uppercase text-slate-900 border-l border-slate-200 bg-white">
                      {product.modelName}
-                     <div className="text-[10px] sm:text-xs text-marquis-blue font-bold tracking-widest not-italic mt-1">Marquis Crown</div>
+                     <div className="text-[10px] sm:text-xs text-marquis-blue font-bold tracking-widest not-italic mt-1">
+                        {product.series?.name || 'Marquis'} {product.positioningTier ? `| ${product.positioningTier.charAt(0).toUpperCase() + product.positioningTier.slice(1)}` : ''}
+                     </div>
                  </div>
                  <div className="col-span-1 p-5 md:p-8 font-black italic text-lg md:text-2xl uppercase text-slate-400 border-l border-slate-200">
                      Industry<br className="hidden md:block"/> Standard
@@ -999,6 +1016,8 @@ export default function Wizard() {
                </div>
                
                {[
+                 { feature: "Market Positioning", desc: "Tiered Engineering Level", marquis: `${product.positioningTier?.toUpperCase() || 'ELITE'}`, comp: "Entry / Mid-Range" },
+                 { feature: "Engineering Score", desc: "Quantified Feature Density", marquis: `${product.score || 85}/100`, comp: "60-65/100" },
                  { feature: "Hydraulic Efficiency", desc: "Total system flow rate (GPM)", marquis: `${product.pumpFlowGpm || 480} GPM (Velocity-Optimized)`, comp: "Standard 160-220 GPM" },
                  { feature: "Jet Architecture", desc: "Proprietary laminar flow tech", marquis: `${product.jetCount} Velocity-Treated Jets`, comp: "Standard Multi-Stage Jets" },
                  { feature: "Sanitation Logic", desc: "Advanced water care automation", marquis: "ConstantClean+™ System", comp: "Basic Filtration Cycles" },
