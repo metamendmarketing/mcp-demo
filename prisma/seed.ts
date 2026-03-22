@@ -9,7 +9,7 @@ const dbPath = path.resolve('c:/dev2/prisma/dev.db');
 const adapter = new PrismaBetterSqlite3({ url: dbPath });
 const prisma = new PrismaClient({ adapter } as any);
 
-const CROWN_HOTSPOTS: Record<string, any[]> = {
+const ALL_HOTSPOTS: Record<string, any[]> = {
   'marquis-crown-summit': [
     { id: "hot-zone-leg", x: 50, y: 75, label: "Whitewater-4 Jet", description: "This monster jet in the footwell provides incredible leg and foot therapy, moving massive volumes of water without the sting." },
     { id: "hot-zone-back", x: 15, y: 15, label: "H.O.T. Zone", description: "High Output Therapy zones target the back and shoulders with concentrated precision." },
@@ -45,6 +45,13 @@ const CROWN_HOTSPOTS: Record<string, any[]> = {
     { id: "full-body-lounge", x: 30, y: 60, label: "Body Lounge", description: "Sculpted to cradles your body from head to toe, delivering sustained, multi-point pressure relief." },
     { id: "cooldown", x: 80, y: 20, label: "Cooldown Seat", description: "Avoid overheating by using this slightly elevated seat during longer social sessions." },
     { id: "massage-seats", x: 50, y: 50, label: "Specialized Massage Seats", description: "Intimate and effective hydrotherapy.", imageUrl: "/mcp/demo/assets/products/marquis-crown-wish/details/massage-seats.jpg" }
+  ],
+  'marquis-vector21-v84l': [
+    { id: "swedish-lounge", x: 78, y: 22, label: "Swedish Massage Lounge", description: "Focused on long, soothing strokes and total body relaxation. Uses massive water volume for a deep, rhythmic soak." },
+    { id: "relaxation-seat", x: 88, y: 50, label: "Relaxation Massage Seat", description: "A gentle yet firm massage designed to reduce stress and improve circulation in the upper and lower back." },
+    { id: "shiatsu-seat", x: 74, y: 78, label: "Shiatsu Massage Seat", description: "Utilizes targeted high-pressure points to release deep muscle tension and stimulate vital pressure points." },
+    { id: "deep-tissue-seat", x: 22, y: 76, label: "Deep-Tissue Massage Seat", description: "Aggressive jet configuration for intense muscle recovery and lactic acid breakdown after physical exertion." },
+    { id: "massage-seats", x: 45, y: 45, label: "Vector Optimized Therapy", description: "Proprietary V-O-L-T™ system delivers more water with less turbulence.", imageUrl: "/mcp/demo/assets/products/marquis-crown-euphoria/details/massage-seats.jpg" }
   ]
 };
 
@@ -124,7 +131,7 @@ async function main() {
         cabinetColors: JSON.stringify(p.cabinetColors || []),
         usageTags: JSON.stringify(p.usageTags || []),
         voltageOptions: JSON.stringify([p.electricalAmps === 50 ? "240V" : "110V/240V"]),
-        hotspots: JSON.stringify(CROWN_HOTSPOTS[p.slug] || [])
+        hotspots: JSON.stringify(ALL_HOTSPOTS[p.slug] || [])
       }
     });
   }

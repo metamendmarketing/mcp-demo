@@ -23,13 +23,13 @@ export type PreferenceKey =
   | 'zipCode' 
   | 'sunExposure' 
   | 'placement' 
-  | 'physicalFocus' 
+  | 'focus' 
   | 'aesthetic' 
   | 'maintenance' 
   | 'intensity' 
   | 'budget' 
-  | 'installationReady' 
-  | 'deliveryAccess';
+  | 'timeline' 
+  | 'delivery';
 
 export interface UserPreferences {
   primaryPurpose: string | null;
@@ -39,13 +39,13 @@ export interface UserPreferences {
   zipCode: string | null;
   sunExposure: string | null;
   placement: string | null;
-  physicalFocus: string | null;
+  focus: string | null;
   aesthetic: string | null;
   maintenance: string | null;
   intensity: string | null;
   budget: string | null;
-  installationReady: string | null;
-  deliveryAccess: string | null;
+  timeline: string | null;
+  delivery: string | null;
 }
 
 interface Product {
@@ -130,7 +130,7 @@ const QUESTIONS: {
     ]
   },
   {
-    id: 'physicalFocus',
+    id: 'focus',
     question: "Where do you need the most physical relief?",
     subtext: "We will prioritize specific High Output Therapy (H.O.T.) Zones.",
     expertTip: "Each Marquis seat is engineered differently. If you suffer from plantar fasciitis or standing fatigue, we will filter for models equipped with the Geyser Jet system in the footwell. If neck tension is your primary complaint, we focus on models featuring our specialized Neck and Shoulder collar down-draft jets.",
@@ -241,8 +241,8 @@ const QUESTIONS: {
     ]
   },
   {
-    id: 'installationReady',
-    question: "What is your current project timeline?",
+    id: 'timeline',
+    question: "What is your installation timeline?",
     subtext: "Are we delivering next week, or are you breaking ground next year?",
     expertTip: "Timing affects availability. If you are 'Ready to go', we will prioritize in-stock models available at your local dealer immediately. If you are in the planning phase, we can explore custom-ordered shell and cabinet combinations straight from the factory, which carry a 6-8 week lead time.",
     layout: 'split',
@@ -252,8 +252,8 @@ const QUESTIONS: {
     ]
   },
   {
-    id: 'deliveryAccess',
-    question: "Final Step: Backyard Delivery Access?",
+    id: 'delivery',
+    question: "Tell us about your delivery access.",
     subtext: "We need to physically move a 900lb shell into your space.",
     expertTip: "A standard hot tub measures about 36 to 40 inches tall when placed on its side for delivery on a spa dolly. If your side gate offers 40+ inches of clearance, delivery is smooth. However, if you have tight switchbacks, steep stairs, or narrow alleyways, we may need to coordinate a specialized crane drop.",
     layout: 'split',
@@ -273,17 +273,33 @@ export default function Wizard() {
     capacity: null,
     lounge: null,
     electrical: null,
-    zipCode: null,
+    zipCode: '',
     sunExposure: null,
     placement: null,
-    physicalFocus: null,
+    focus: null,
     aesthetic: null,
     maintenance: null,
     intensity: null,
     budget: null,
-    installationReady: null,
-    deliveryAccess: null,
+    timeline: null,
+    delivery: null
   });
+
+  // Magnifier state
+  const [showMagnifier, setShowMagnifier] = useState(false);
+  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0, relX: 0, relY: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = e.pageX - left - window.scrollX;
+    const y = e.pageY - top - window.scrollY;
+    setMagnifierPos({ 
+      x: e.pageX, 
+      y: e.pageY, 
+      relX: (x / width) * 100, 
+      relY: (y / height) * 100 
+    });
+  };
   
   const [results, setResults] = useState<ScoredProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -849,48 +865,79 @@ export default function Wizard() {
             </div>
          </div>
 
-         {/* INTERACTIVE HOTSPOTS - FULL WIDTH */}
-         {product.overheadImageUrl && (
+          {/* INTERACTIVE HOTSPOTS - FULL WIDTH */}
+          {product.overheadImageUrl && (
             <section className="mb-12">
                <div className="flex items-center gap-3 mb-6 px-2">
                  <Settings className="w-6 h-6 text-marquis-blue" />
                  <h4 className="text-2xl font-black italic uppercase text-slate-800">Interactive Feature Explorer</h4>
                </div>
-               <div className="relative aspect-square md:aspect-video rounded-[32px] bg-[#f8fafc] group shadow-xl border border-slate-100 overflow-hidden">
+               <div 
+                 className="relative aspect-square md:aspect-video rounded-[32px] bg-[#f8fafc] group shadow-xl border border-slate-100 overflow-hidden cursor-crosshair"
+                 onMouseEnter={() => setShowMagnifier(true)}
+                 onMouseLeave={() => setShowMagnifier(false)}
+                 onMouseMove={handleMouseMove}
+               >
                   <img 
                     src={product.overheadImageUrl && !product.overheadImageUrl.includes('default') 
                       ? product.overheadImageUrl 
                       : `/mcp/demo/assets/products/${product.slug}/overhead.jpg`
                     } 
-                    className="w-full h-full object-contain p-4 md:p-10" 
+                    className="w-full h-full object-contain p-4 md:p-10 transition-opacity duration-300 group-hover:opacity-40" 
                     alt="Overhead View" 
                   />
                   
+                  {/* Magnifier Lens */}
+                  {showMagnifier && (
+                    <div 
+                      className="fixed pointer-events-none z-50 w-48 h-48 rounded-full border-4 border-white shadow-[0_0_20px_rgba(0,0,0,0.3)] overflow-hidden bg-white"
+                      style={{ 
+                        left: magnifierPos.x - 96, 
+                        top: magnifierPos.y - 96,
+                        backgroundImage: `url(${product.overheadImageUrl && !product.overheadImageUrl.includes('default') ? product.overheadImageUrl : `/mcp/demo/assets/products/${product.slug}/overhead.jpg`})`,
+                        backgroundPosition: `${magnifierPos.relX}% ${magnifierPos.relY}%`,
+                        backgroundSize: '400%',
+                        backgroundRepeat: 'no-repeat'
+                      }}
+                    />
+                  )}
+
                   {/* Hotspots */}
-                  {product.hotspots && (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots).map((spot: any, i: number) => (
-                    <div key={i} className="absolute group/spot transition-all z-20" style={{ top: `${spot.y}%`, left: `${spot.x}%` }}>
-                      <button className="w-8 h-8 md:w-10 md:h-10 bg-marquis-blue text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform animate-pulse">
-                        <Plus className="w-4 h-4 md:w-5 md:h-5" />
-                      </button>
-                      
-                      {/* Tooltip */}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 bg-slate-900/95 backdrop-blur-md text-white p-0 overflow-hidden rounded-2xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-opacity pointer-events-none z-30 border border-white/10">
-                        {spot.imageUrl && (
-                          <div className="w-full h-32 overflow-hidden border-b border-white/10">
-                            <img src={spot.imageUrl} className="w-full h-full object-cover" alt={spot.label} />
+                  {product.hotspots && (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots).map((spot: any, i: number) => {
+                    const isTop = spot.y < 35;
+                    const isBottom = spot.y > 65;
+                    const isRight = spot.x > 75;
+                    const isLeft = spot.x < 25;
+
+                    return (
+                      <div key={i} className="absolute group/spot transition-all z-20" style={{ top: `${spot.y}%`, left: `${spot.x}%` }}>
+                        <button className="w-8 h-8 md:w-10 md:h-10 bg-marquis-blue text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform animate-pulse border-2 border-white">
+                          <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                        </button>
+                        
+                        {/* Tooltip with Smart Positioning */}
+                        <div className={cn(
+                          "absolute mb-4 w-72 bg-slate-900/95 backdrop-blur-md text-white p-0 overflow-hidden rounded-2xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-all pointer-events-none z-30 border border-white/10 translate-y-2 group-hover/spot:translate-y-0",
+                          isTop ? "top-full mt-4" : "bottom-full mb-4",
+                          isRight ? "right-0" : isLeft ? "left-0" : "left-1/2 -translate-x-1/2"
+                        )}>
+                          {spot.imageUrl && (
+                            <div className="w-full h-32 overflow-hidden border-b border-white/10">
+                              <img src={spot.imageUrl} className="w-full h-full object-cover" alt={spot.label} />
+                            </div>
+                          )}
+                          <div className="p-5">
+                            <div className="text-sm font-black uppercase italic text-marquis-blue mb-2 border-b border-marquis-blue/30 pb-2">{spot.label}</div>
+                            <p className="text-xs text-slate-300 leading-relaxed font-medium">{spot.description}</p>
                           </div>
-                        )}
-                        <div className="p-5">
-                          <div className="text-sm font-black uppercase italic text-marquis-blue mb-2 border-b border-marquis-blue/30 pb-2">{spot.label}</div>
-                          <p className="text-xs text-slate-300 leading-relaxed font-medium">{spot.description}</p>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                </div>
-               <p className="text-center text-xs text-slate-400 mt-4 font-bold uppercase tracking-widest italic animate-pulse">Hover over hotspots to reveal engineering details</p>
+               <p className="text-center text-xs text-slate-400 mt-4 font-bold uppercase tracking-widest italic animate-pulse">Use the magnifier to inspect jets or hover over hotspots for therapy details</p>
             </section>
-         )}
+          )}
 
          {/* HORIZONTAL AI STACK */}
          <section className="mb-12">
