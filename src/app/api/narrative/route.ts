@@ -25,9 +25,15 @@ export async function POST(request: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    
     // Sanitize product data for the prompt to avoid issues with special characters
-    const sanitizedProduct = JSON.parse(JSON.stringify(body.product).replace(/[™®©]/g, ''));
+    // Using a broader regex to catch most non-standard characters
+    const sanitizedProduct = JSON.parse(
+      JSON.stringify(body.product)
+        .replace(/[™®©]/g, '')
+        .replace(/[\u0080-\uFFFF]/g, (m) => `\\u${m.charCodeAt(0).toString(16).padStart(4, '0')}`)
+    );
     
     const prompt = `
 You are an elite, world-class luxury copywriter for Marquis Hot Tubs. 
@@ -89,9 +95,11 @@ Do not wrap the output in markdown blocks (e.g., \`\`\`json). Return raw valid J
 
   } catch (error: any) {
     console.error('[NARRATIVE_API_ERROR]', error);
+    // Include full error details in the response for debugging on the live site
     return NextResponse.json({ 
-      error: 'Failed to generate narrative', 
-      details: error.message 
+      error: `Generation Failed: ${error.message || 'Unknown Error'}`, 
+      details: error.stack || 'No stack trace available',
+      rawError: JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)))
     }, { status: 500 });
   }
 }
