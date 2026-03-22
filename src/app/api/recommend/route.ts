@@ -99,6 +99,8 @@ Output strictly valid JSON (no markdown):
       }).filter(Boolean);
 
       if (finalResults.length > 0) {
+        // Sort by score descending to ensure UI consistency
+        finalResults.sort((a: any, b: any) => (b.score || 0) - (a.score || 0));
         return NextResponse.json({ results: finalResults });
       }
     } catch (aiError) {
