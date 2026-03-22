@@ -834,7 +834,14 @@ export default function Wizard() {
                  <h4 className="text-2xl font-black italic uppercase text-slate-800">Interactive Feature Explorer</h4>
                </div>
                <div className="relative aspect-square md:aspect-video rounded-[32px] bg-[#f8fafc] group shadow-xl border border-slate-100 overflow-hidden">
-                  <img src={product.overheadImageUrl} className="w-full h-full object-contain p-4 md:p-10" alt="Overhead View" />
+                  <img 
+                    src={product.overheadImageUrl && !product.overheadImageUrl.includes('default') 
+                      ? product.overheadImageUrl 
+                      : `/mcp/demo/assets/products/${product.slug}/overhead.jpg`
+                    } 
+                    className="w-full h-full object-contain p-4 md:p-10" 
+                    alt="Overhead View" 
+                  />
                   
                   {/* Hotspots */}
                   {product.hotspots && (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots).map((spot: any, i: number) => (
