@@ -46,8 +46,16 @@ function parseModelPage(htmlPath: string, seriesName: string, category: string):
   // Basic Regex parsers
   const nameMatch = content.match(/<h1>(.*?)<\/h1>/);
   if (!nameMatch) return null;
-  const modelName = nameMatch[1].trim();
-  const slug = `marquis-${seriesName.toLowerCase().replace(/\s+/g, '-')}-${modelName.toLowerCase().replace(/\s+/g, '-')}`;
+  let modelName = nameMatch[1].trim()
+    .replace(/^Crown Series\s+/i, '')
+    .replace(/^Celebrity\s+/i, '')
+    .replace(/\s+Elite$/i, '')
+    .replace(/\s+Series$/i, '');
+  
+  // Title Case normalization
+  modelName = modelName.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+
+  const slug = `marquis-${seriesName.toLowerCase().replace(/\s+series/i, '').replace(/\s+/g, '-')}-${modelName.toLowerCase().replace(/\s+/g, '-')}`;
 
   // Marketing Summary
   const summaryMatch = content.match(/<section class="spotlight lightText padd">[\s\S]*?<p>([\s\S]*?)<\/p>/);

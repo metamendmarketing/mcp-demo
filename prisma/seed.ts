@@ -9,11 +9,49 @@ const dbPath = path.resolve('c:/dev2/prisma/dev.db');
 const adapter = new PrismaBetterSqlite3({ url: dbPath });
 const prisma = new PrismaClient({ adapter } as any);
 
+const CROWN_HOTSPOTS: Record<string, any[]> = {
+  'marquis-crown-summit': [
+    { id: "hot-zone-leg", x: 50, y: 75, label: "Whitewater-4 Jet", description: "This monster jet in the footwell provides incredible leg and foot therapy, moving massive volumes of water without the sting." },
+    { id: "hot-zone-back", x: 15, y: 15, label: "H.O.T. Zone", description: "High Output Therapy zones target the back and shoulders with concentrated precision." },
+    { id: "controls", x: 92, y: 50, label: "MQTouch Control", description: "The color touch-screen interface allows you to orchestrate your entire spa experience with a tap." },
+    { id: "massage-seats", x: 30, y: 30, label: "Specialized Massage Seats", description: "Flexible and varied massage options for any mood.", imageUrl: "/mcp/demo/assets/products/marquis-crown-summit/details/massage-seats.jpg" }
+  ],
+  'marquis-crown-epic': [
+    { id: "adirondack", x: 25, y: 25, label: "Adirondack Chair", description: "A deeply sculpted seat providing full-body support and deep, targeted relief from neck to feet." },
+    { id: "geyser", x: 75, y: 75, label: "Geyser Seat", description: "Strategically designed to surround you in warmth while focusing therapy on the neck, shoulders, and spine." },
+    { id: "massage-seats", x: 50, y: 50, label: "Specialized Massage Seats", description: "Experience a variety of sensations for all-in-one therapy.", imageUrl: "/mcp/demo/assets/products/marquis-crown-epic/details/massage-seats.jpg" }
+  ],
+  'marquis-crown-euphoria': [
+    { id: "deep-therapy", x: 20, y: 20, label: "Deep Therapy Seats", description: "Side-by-side therapy seats offer a comprehensive full-body massage without feeling crowded." },
+    { id: "whitewater", x: 50, y: 50, label: "Regal Whitewater-4", description: "Centrally located to provide massive volumes of water for powerful leg and foot therapy in every seat." },
+    { id: "massage-seats", x: 80, y: 20, label: "Specialized Massage Seats", description: "The ultimate shared relaxation experience.", imageUrl: "/mcp/demo/assets/products/marquis-crown-euphoria/details/massage-seats.jpg" }
+  ],
+  'marquis-crown-resort': [
+    { id: "adirondack-1", x: 20, y: 30, label: "Adirondack Chair", description: "Features Lumbar H.O.T. Zone jets for targeted relief in a supportive, relaxed posture." },
+    { id: "adirondack-2", x: 70, y: 30, label: "Adirondack Chair", description: "Features Shoulder H.O.T. Zone jets to melt away upper-body tension after a long day." },
+    { id: "massage-seats", x: 45, y: 75, label: "Specialized Massage Seats", description: "A resort-style experience in your own backyard.", imageUrl: "/mcp/demo/assets/products/marquis-crown-resort/details/massage-seats.jpg" }
+  ],
+  'marquis-crown-destiny': [
+    { id: "social-seating", x: 50, y: 20, label: "Open Social Seating", description: "The non-lounge layout maximizes space for conversation while ensuring everyone has a dedicated therapy seat." },
+    { id: "hot-zone-foot", x: 50, y: 80, label: "Foot H.O.T. Zone", description: "Targeted high-output therapy for tired feet, a favorite for athletes and active families." },
+    { id: "massage-seats", x: 20, y: 50, label: "Specialized Massage Seats", description: "Versatile hydrotherapy for every guest.", imageUrl: "/mcp/demo/assets/products/marquis-crown-destiny/details/massage-seats.jpg" }
+  ],
+  'marquis-crown-spirit': [
+    { id: "lounge", x: 30, y: 50, label: "Therapy Lounge", description: "A soothing full-body lounge with dedicated Shoulder H.O.T. Zone jets for targeted tension relief." },
+    { id: "cooldown", x: 85, y: 15, label: "Elevated Seat", description: "An ideal spot for warming up or cooling down, also serving as an easy entry/exit point." },
+    { id: "massage-seats", x: 60, y: 60, label: "Specialized Massage Seats", description: "A peaceful location to re-center and relax.", imageUrl: "/mcp/demo/assets/products/marquis-crown-spirit/details/massage-seats.jpg" }
+  ],
+  'marquis-crown-wish': [
+    { id: "full-body-lounge", x: 30, y: 60, label: "Body Lounge", description: "Sculpted to cradles your body from head to toe, delivering sustained, multi-point pressure relief." },
+    { id: "cooldown", x: 80, y: 20, label: "Cooldown Seat", description: "Avoid overheating by using this slightly elevated seat during longer social sessions." },
+    { id: "massage-seats", x: 50, y: 50, label: "Specialized Massage Seats", description: "Intimate and effective hydrotherapy.", imageUrl: "/mcp/demo/assets/products/marquis-crown-wish/details/massage-seats.jpg" }
+  ]
+};
+
 async function main() {
   const productsRaw = JSON.parse(fs.readFileSync(path.resolve('c:/dev2/prisma/marquis-products.json'), 'utf8'));
 
   // Clear existing data for a clean seed
-  // (Optional: keep existing brands if you want, but here we reset Marquis)
   await prisma.product.deleteMany({ where: { brandId: 'marquis' } });
   await prisma.series.deleteMany({ where: { brandId: 'marquis' } });
   
@@ -65,7 +103,7 @@ async function main() {
       data: {
         brandId: marquis.id,
         seriesId: seriesMap[p.seriesName],
-        modelName: p.modelName.replace(/\w\S*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()), // Title Case
+        modelName: p.modelName,
         slug: p.slug,
         status: 'active',
         heroImageUrl: p.heroImageUrl,
@@ -86,7 +124,7 @@ async function main() {
         cabinetColors: JSON.stringify(p.cabinetColors || []),
         usageTags: JSON.stringify(p.usageTags || []),
         voltageOptions: JSON.stringify([p.electricalAmps === 50 ? "240V" : "110V/240V"]),
-        hotspots: JSON.stringify([]) // To be populated by AI or manual later
+        hotspots: JSON.stringify(CROWN_HOTSPOTS[p.slug] || [])
       }
     });
   }
