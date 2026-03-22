@@ -1,4 +1,3 @@
-// BUG_HUNT_MARKER_DA7CAA9
 generator client {
   provider = "prisma-client-js"
 }
@@ -51,6 +50,9 @@ model Product {
   jetCount          Int?
   capacityGallons   Int?
   dryWeightLbs      Int?
+  fullWeightLbs     Int?
+  pumpFlowGpm       Int?
+  electricalAmps    Int?
   lengthIn          Float?
   widthIn           Float?
   depthIn           Float?
@@ -61,7 +63,6 @@ model Product {
   filtration        Json?
   insulationType    String?
   hotspots          Json      @default("[]")
-  warranty          Json?
   standardFeatures  Json      @default("[]")
   optionalFeatures  Json      @default("[]")
   shellColors       Json      @default("[]")
@@ -74,8 +75,8 @@ model Product {
   completenessScore Float     @default(0)
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  series            Series    @relation(fields: [seriesId], references: [id])
   brand             Brand     @relation(fields: [brandId], references: [id])
+  series            Series    @relation(fields: [seriesId], references: [id])
 }
 
 model FeatureGlossary {
@@ -127,8 +128,8 @@ model Lead {
   userContact        Json
   consent            Json
   createdAt          DateTime @default(now())
-  dealer             Dealer?  @relation(fields: [dealerId], references: [id])
   brand              Brand    @relation(fields: [brandId], references: [id])
+  dealer             Dealer?  @relation(fields: [dealerId], references: [id])
 }
 
 model ConversationEvent {
