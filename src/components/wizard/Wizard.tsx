@@ -872,6 +872,15 @@ export default function Wizard() {
                )}
             </div>
          </div>
+ 
+          {/* GROUNDED Q&A FEATURE - Brain 2.0 - DIAGNOSTIC POSITION */}
+          <div id="ask-the-brain-diagnostic-container" className="mb-12">
+            <AskTheBrain 
+              productId={product?.id} 
+              productName={product?.modelName} 
+              preferences={preferences} 
+            />
+          </div>
 
           {/* INTERACTIVE HOTSPOTS - FULL WIDTH */}
           {product.overheadImageUrl && (
@@ -986,12 +995,6 @@ export default function Wizard() {
              </div>
           </section>
 
-           {/* GROUNDED Q&A FEATURE - Brain 2.0 */}
-           <AskTheBrain 
-             productId={product.id} 
-             productName={product.modelName} 
-             preferences={preferences} 
-           />
 
          {/* COMPARISON TABLE */}
          <section className="mb-14">

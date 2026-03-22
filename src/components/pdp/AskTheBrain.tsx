@@ -16,6 +16,7 @@ interface AskTheBrainProps {
 }
 
 export default function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) {
+  console.log('AskTheBrain rendering with:', { productId, productName });
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<{ answer: string; citedFeatures?: string[] } | null>(null);
