@@ -1,4 +1,5 @@
 import Wizard from "@/components/wizard/Wizard";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -34,9 +35,9 @@ export default function Home() {
       {/* Subheader / Breadcrumbs */}
       <div className="w-full bg-white/80 backdrop-blur-sm border-b border-slate-200 py-6">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex gap-3 overflow-x-auto whitespace-nowrap italic">
-          <span className="hover:text-marquis-blue cursor-pointer">Home</span> <span className="text-slate-300">/</span>
-          <span className="hover:text-marquis-blue cursor-pointer">Products</span> <span className="text-slate-300">/</span>
-          <span className="text-marquis-blue">Buying Assistant</span>
+          <Link href="/" className="hover:text-marquis-blue cursor-pointer transition-colors">Home</Link> <span className="text-slate-300">/</span>
+          <Link href="/products" className="hover:text-marquis-blue cursor-pointer transition-colors">Products</Link> <span className="text-slate-300">/</span>
+          <span className="text-marquis-blue font-black underline decoration-marquis-blue/30 decoration-2 underline-offset-4">Buying Assistant</span>
         </div>
       </div>
 
