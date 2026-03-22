@@ -913,14 +913,10 @@ export default function Wizard() {
             </div>
          </div>
          
-          {/* GROUNDED Q&A FEATURE - Brain 2.0 - TOP LEVEL DIAGNOSTIC */}
-          <div id="ask-the-brain-diagnostic-container" className="mb-12 border-8 border-red-500">
-            <div className="bg-red-500 text-white p-4 text-center font-black text-2xl">!!! TOP LEVEL DIAGNOSTIC !!!</div>
-            <AskTheBrain 
-              productId={product?.id} 
-              productName={product?.modelName} 
-              preferences={preferences} 
-            />
+          {/* ABSOLUTE VISIBILITY TEST */}
+          <div style={{ backgroundColor: 'yellow', padding: '100px', margin: '50px 0', border: '20px solid red', color: 'black', textAlign: 'center', zIndex: 9999 }}>
+            <h1 style={{ fontSize: '100px', fontWeight: '900' }}>HELLO WORLD</h1>
+            <p style={{ fontSize: '30px' }}>IF YOU SEE THIS, THE CODE IS LIVE</p>
           </div>
 
          {/* HERO SECTION - COMPACT */}
