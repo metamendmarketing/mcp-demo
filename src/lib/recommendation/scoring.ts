@@ -57,71 +57,66 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     };
     
     // Ownership Intent Bias
-    if (preferences.ownership === 'upgrade' && (positioningTier === 'premium' || positioningTier === 'luxury')) {
-      score += 25;
-      reasons.push(`Built with high-longevity MaximizR™ insulation and full-foam engineering for a "forever" investment.`);
-    } else if (preferences.ownership === 'discovery' && positioningTier === 'value') {
-      score += 15;
-      reasons.push(`An ideal high-value entry point into the Marquis experience.`);
+    const intent = preferences.ownership || 'balanced';
+    if (intent === 'upgrade' && (positioningTier === 'luxury' || positioningTier === 'premium')) {
+      score += 50;
+      reasons.push(`Premium component selection and build quality match your requirement for long-term luxury durability.`);
+    } else if (intent === 'discovery' && (positioningTier === 'value' || positioningTier === 'entry')) {
+      score += 40;
+      reasons.push(`Efficiency-first engineering delivers the highest value-to-performance ratio in its class.`);
     }
 
     if (preferences.budget && budgetMap[preferences.budget]?.includes(positioningTier)) {
-      score += 25;
-      reasons.push(`Mathematically aligned with your ${preferences.budget} investment range.`);
+      score += 30;
+      // Already covered by intent usually, but adding a specific budget match reasoning if needed
     }
 
-    // 2.5 Lounge Preference (Max 15 points)
-    if (preferences.lounge === 'yes' && (product.loungeCount || 0) > 0) {
-      score += 15;
-      reasons.push(`Features a dedicated full-body lounge seat for sequential hydrotherapy.`);
-    } else if (preferences.lounge === 'no' && (product.loungeCount || 0) === 0) {
-      score += 10;
-      reasons.push(`Open-seating blueprint maximizes party capacity and conversation flow.`);
-    }
-
-    // 3. Primary Purpose & Therapy Tags (Max 50 points)
+    // 3. Primary Purpose (Max 50 points)
     const tagMap: Record<string, string[]> = {
       'recreational': ['social', 'recreational'],
       'therapy': ['hydrotherapy', 'recovery', 'therapy'],
-      'athletic': ['recovery', 'athletic', 'performance'],
+      'wellness': ['relaxation', 'wellness', 'soft'],
       'solo': ['relaxation', 'soft', 'solo', 'intimate']
     };
 
-    const targetTags = preferences.primaryPurpose ? tagMap[preferences.primaryPurpose] || [] : [];
-    const hasTagMatch = usageTags.some((tag: string) => targetTags.includes(tag.toLowerCase()));
+    const usageFocus = preferences.primaryPurpose;
+    const productTags = usageTags.map((tag: string) => tag.toLowerCase());
+    const matchedTags = usageFocus ? productTags.filter((tag: string) => tagMap[usageFocus]?.includes(tag)) : [];
     
-    if (hasTagMatch) {
+    if (matchedTags.length > 0) {
       score += 50;
-      reasons.push(`Specifically blueprint-matched for your goal of ${preferences.primaryPurpose}.`);
+      reasons.push(`V-O-L-T™ system and seating layout are purpose-built for your focus on ${usageFocus} utility.`);
     }
 
     // 4. Engineering Mastery (V-O-L-T and GPM) (Max 40 points)
-    if (preferences.intensity === 'firm') {
-      const gpm = product.pumpFlowGpm || 0;
-      if (gpm >= 320) {
-        score += 40;
-        reasons.push(`High Technical Authority: Dual 240V pumps move ${gpm} Gallons Per Minute for aggressive recovery.`);
-      } else if (gpm > 0) {
-        score += 20;
-        reasons.push(`Superior flow dynamics compared to traditional high-pressure/low-volume systems.`);
-      }
+    if (product.pumpFlowGpm && product.pumpFlowGpm >= 320) {
+      score += 25;
+      reasons.push(`High-flow ${product.pumpFlowGpm} GPM plumbing system provides professional-grade hydrotherapy intensity.`);
     }
 
-    // 5. Ergonomic Focus (Diverse Depth) (Max 30 points)
-    if (preferences.focus === 'diverse-depth') {
-      if (seriesName === 'Crown' || product.modelName.includes('Resort') || product.modelName.includes('Summit')) {
-        score += 30;
-        reasons.push(`Engineered with diverse seat depths to accommodate a wide range of user heights and immersion levels.`);
-      }
-    } else if (preferences.focus && usageTags.some((t: string) => t.toLowerCase() === preferences.focus)) {
-      score += 20;
-      reasons.push(`Targeted RHK™ jet clusters mapped to your focus on ${preferences.focus}.`);
+    if (JSON.stringify(product.techFeatures || []).includes('VOLT')) {
+      score += 15;
+      reasons.push(`Advanced V-O-L-T™ system delivers precision-targeted water pressure and kinetic control.`);
     }
 
-    // 6. Maintenance Style (Max 20 points)
-    if (preferences.maintenance === 'automated' && (usageTags.includes('constantclean') || JSON.stringify(product.filtration || {}).toLowerCase().includes('constantclean'))) {
+    // 5. Ergonomic Focus (Lounge vs Open) (Max 30 points)
+    if (preferences.lounge === 'yes' && (usageTags.includes('lounge') || JSON.stringify(product.therapySummary || '').toLowerCase().includes('lounge'))) {
+      score += 30;
+      reasons.push(`Full-body Hydrotherapy Lounge configuration directly supports your recovery objectives.`);
+    } else if (preferences.lounge === 'no' && !usageTags.includes('lounge')) {
       score += 20;
-      reasons.push("Features ConstantClean+™ automated sanitation protocols for 90% manual reduction.");
+      reasons.push(`Open-seating blueprint maximizes party capacity and conversation flow.`);
+    }
+
+    // 6. Aesthetic (Max 25 points)
+    const userAesthetic = preferences.aesthetic || 'modern';
+    const isCurved = product.modelName?.includes('Crown') || product.modelName?.includes('Spirit') || product.modelName?.includes('Epic');
+    if (userAesthetic === 'curved' && isCurved) {
+      score += 25;
+      reasons.push(`Organic, curved architectural lines complement your preferred modern outdoor aesthetic.`);
+    } else if (userAesthetic === 'modern' && !isCurved) {
+      score += 20;
+      reasons.push(`Sleek, geometric cabinetry design aligns with contemporary architectural standards.`);
     }
 
     // 6.5 Electrical & Climate (Max 35 points)

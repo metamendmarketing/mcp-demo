@@ -976,7 +976,15 @@ export default function Wizard() {
                       <Users className="w-6 h-6 text-marquis-blue/80" />
                       <div>
                         <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Capacity</div>
-                        <div className="text-sm font-black italic uppercase text-slate-700">{product.seatsMin}-{product.seatsMax} Adults</div>
+                        <div className="text-sm font-black italic uppercase text-slate-700">
+                          {product.seatsMax ? (
+                            <>
+                              {product.seatsMin && product.seatsMin !== product.seatsMax ? `${product.seatsMin}-${product.seatsMax}` : product.seatsMax} Adults
+                            </>
+                          ) : (
+                            "Expert Spec"
+                          )}
+                        </div>
                       </div>
                    </div>
                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
