@@ -56,7 +56,7 @@ const ALL_HOTSPOTS: Record<string, any[]> = {
 };
 
 async function main() {
-  const productsRaw = JSON.parse(fs.readFileSync(path.resolve('c:/dev2/prisma/marquis-products.json'), 'utf8'));
+  const productsRaw = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'prisma/marquis-products.json'), 'utf8'));
 
   // Clear existing data for a clean seed
   await prisma.product.deleteMany({ where: { brandId: 'marquis' } });
