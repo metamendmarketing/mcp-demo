@@ -1,14 +1,8 @@
-import { PrismaClient } from '@prisma/client';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
-import Database from 'better-sqlite3';
+import { prisma } from '../src/lib/prisma';
 import fs from 'fs';
 import path from 'path';
 
-// Standardized adapter-based client for Vercel/Next.js compatibility
-const dbUrl = process.env.DATABASE_URL || 'file:./dev.db';
-const dbPath = dbUrl.startsWith('file:') ? path.resolve(process.cwd(), 'prisma', dbUrl.replace('file:', '')) : dbUrl;
-const adapter = new PrismaBetterSqlite3({ url: dbPath });
-const prisma = new PrismaClient({ adapter } as any);
+// Using the same singleton instance as the application to ensure path parity
 
 const ALL_HOTSPOTS: Record<string, any[]> = {
   'marquis-crown-summit': [
@@ -164,6 +158,7 @@ async function main() {
         usageTags: JSON.stringify(p.usageTags || []),
         voltageOptions: JSON.stringify([p.electricalAmps === 50 ? "240V" : "110V/240V"]),
         hotspots: JSON.stringify(ALL_HOTSPOTS[p.slug] || []),
+        // @ts-ignore - positioningTier is in schema but Prisma type might be stale in IDE
         positioningTier: tier,
         score: score,
         estimatedMsrp: p.estimatedMsrp || null,
@@ -275,6 +270,7 @@ async function main() {
   ];
 
   for (const item of expertiseItems) {
+    // @ts-ignore - brandExpertise is in schema but Prisma type might be stale in IDE
     await prisma.brandExpertise.upsert({
       where: { brandId_key: { brandId: marquis.id, key: item.key } },
       update: { content: item.content, category: item.category },
