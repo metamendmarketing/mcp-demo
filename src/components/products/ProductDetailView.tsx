@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { clsx, type ClassValue } from 'clsx';
-import { AESTHETIC_MAPPINGS, getAestheticTitle } from '@/lib/brands/aesthetics';
+import { AESTHETIC_MAPPINGS, getAestheticTitle, FINISH_IMAGE_MAP } from '@/lib/brands/aesthetics';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -67,9 +67,62 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
   const suggestedCabinet = suggested ? cabinetColors.filter((c: string) => suggested.cabinet.includes(c)) : [];
   const otherCabinet = suggested ? cabinetColors.filter((c: string) => !suggested.cabinet.includes(c)) : cabinetColors;
 
+  const renderColorSwatch = (color: string, isSuggested: boolean, isCabinet: boolean) => {
+    const imageUrl = FINISH_IMAGE_MAP[color] || FINISH_IMAGE_MAP[color.replace('®', '')];
+    
+    return (
+      <div 
+        key={`${isSuggested ? 's' : 'o'}-${isCabinet ? 'cab' : 'shell'}-${color}`}
+        className={cn(
+          "group relative flex flex-col items-center gap-2 transition-all duration-300",
+          isSuggested ? "scale-105 z-10" : "opacity-80 hover:opacity-100"
+        )}
+      >
+        {/* Swatch Circle */}
+        <div className={cn(
+          "relative w-12 h-12 rounded-full overflow-hidden border-2 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg",
+          isSuggested ? "border-emerald-400 shadow-md" : "border-slate-200"
+        )}>
+          {imageUrl ? (
+            <img src={imageUrl} alt={color} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full bg-slate-200 flex items-center justify-center">
+              <Palette className="w-4 h-4 text-slate-400" />
+            </div>
+          )}
+          
+          {/* Suggested Indicator */}
+          {isSuggested && (
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm z-10">
+              <Check className="w-2 h-2 text-white" />
+            </div>
+          )}
+        </div>
+
+        {/* Color Name */}
+        <div className={cn(
+          "text-[9px] font-black uppercase tracking-tighter text-center max-w-[64px] leading-tight transition-colors",
+          isSuggested ? "text-slate-800" : "text-slate-500"
+        )}>
+          {color}
+        </div>
+
+        {/* Hover Full Preview */}
+        {imageUrl && (
+          <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 w-48 h-48 rounded-2xl overflow-hidden border-4 border-white shadow-2xl opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none z-50">
+            <img src={imageUrl} alt={`${color} full size`} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-bottom p-3">
+              <div className="mt-auto text-white text-[10px] font-black uppercase tracking-widest">{color}</div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="mt-8 border-t border-slate-100 pt-8">
-       <div className="flex items-center justify-between mb-4">
+       <div className="flex items-center justify-between mb-6">
          <div className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-2">
            <Palette className="w-3 h-3" />
            Curated Finishes
@@ -82,27 +135,13 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
          )}
        </div>
 
-       <div className="space-y-6">
+       <div className="space-y-8">
          {/* Suggested Section */}
          {suggested && (suggestedShell.length > 0 || suggestedCabinet.length > 0) && (
-           <div className="space-y-4">
-             <div className="flex flex-wrap gap-2">
-               {suggestedShell.map((color: string, i: number) => (
-                 <div key={`s-shell-${i}`} className="group relative px-4 py-2 bg-white border-2 border-emerald-200 rounded-2xl text-[11px] font-black text-slate-800 uppercase shadow-sm hover:border-emerald-400 transition-all cursor-default">
-                   <span className="relative z-10">{color}</span>
-                   <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-                     <Check className="w-2 h-2 text-white" />
-                   </div>
-                 </div>
-               ))}
-               {suggestedCabinet.map((color: string, i: number) => (
-                 <div key={`s-cab-${i}`} className="group relative px-4 py-2 bg-slate-50 border-2 border-emerald-200 rounded-2xl text-[11px] font-black text-slate-800 uppercase shadow-sm hover:border-emerald-400 transition-all cursor-default">
-                   <span className="relative z-10">{color}</span>
-                   <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-                     <Check className="w-2 h-2 text-white" />
-                   </div>
-                 </div>
-               ))}
+           <div className="space-y-6">
+             <div className="flex flex-wrap gap-6">
+               {suggestedShell.map((color: string) => renderColorSwatch(color, true, false))}
+               {suggestedCabinet.map((color: string) => renderColorSwatch(color, true, true))}
              </div>
              
              {!showAllColors && (
@@ -116,22 +155,18 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
            </div>
          )}
 
-         {/* All Options Section (Visible if not suggested or if showAllColors is true) */}
+         {/* All Options Section */}
          {(showAllColors || !suggested) && (
            <div className="animate-in fade-in slide-in-from-top-2 duration-500">
-             {suggested && <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">All available finishes</div>}
-             <div className="flex flex-wrap gap-2">
-               {otherShell.map((color: string, i: number) => (
-                 <div key={`o-shell-${i}`} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase">{color}</div>
-               ))}
-               {otherCabinet.map((color: string, i: number) => (
-                 <div key={`o-cab-${i}`} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase italic">{color}</div>
-               ))}
+             {suggested && <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">All available finishes</div>}
+             <div className="flex flex-wrap gap-5">
+               {otherShell.map((color: string) => renderColorSwatch(color, false, false))}
+               {otherCabinet.map((color: string) => renderColorSwatch(color, false, true))}
              </div>
              {showAllColors && (
                 <button 
                 onClick={() => setShowAllColors(false)}
-                className="mt-4 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors"
+                className="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors"
               >
                 Show suggested only
               </button>
