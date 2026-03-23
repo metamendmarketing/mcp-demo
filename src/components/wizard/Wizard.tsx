@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import {
   Check, ChevronRight, Zap, Users, Star, Maximize, Heart, Sparkles, ArrowRight, Info, ChevronLeft,
   MapPin, Activity, Waves, Palette, Settings, Wrench, Battery, BatteryCharging, Gauge,
-  Wallet, Landmark, Gem, Hammer, Truck, Thermometer, Cloud, Flame, Sunset, Sun, TreePine, Compass
+  Wallet, Landmark, Gem, Hammer, Truck, Thermometer, Cloud, Flame, Sunset, Sun, TreePine, Compass,
+  Feather
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -125,9 +126,9 @@ const QUESTIONS: {
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_intensity_1774073882614.png',
     options: [
-      { value: 'gentle', label: 'Soothing Soak', tip: "Broad flow. Ideal for sensitive skin or simple relaxation.", icon: <Cloud className="w-8 h-8" /> },
-      { value: 'medium', label: 'Standard Vigorous', tip: "The perfect balance of active recovery and relaxation.", icon: <Waves className="w-8 h-8" /> },
-      { value: 'firm', label: 'High-Output Therapy', tip: "Maximum GPM flow designed to break down deep muscle tension.", icon: <Gauge className="w-8 h-8" /> }
+      { value: 'gentle', label: 'Soothing Soak', tip: "Broad flow. Ideal for sensitive skin or simple relaxation.", icon: <Feather className="w-8 h-8 text-teal-500" /> },
+      { value: 'medium', label: 'Standard Vigorous', tip: "The perfect balance of active recovery and relaxation.", icon: <Activity className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'firm', label: 'High-Output Therapy', tip: "Maximum GPM flow designed to break down deep muscle tension.", icon: <Gauge className="w-8 h-8 text-indigo-600" /> }
     ]
   },
   {
