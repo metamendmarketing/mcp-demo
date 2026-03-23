@@ -24,7 +24,7 @@ export type ScoredProduct = {
 };
 
 export function scoreProducts(products: any[], preferences: UserPreferences): ScoredProduct[] {
-  return products.map(product => {
+  const scoredRawWeights = products.map(product => {
     let score = 0;
     const reasons: string[] = [];
 
@@ -136,34 +136,25 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Dedicated 240V hardwired line ensures peak parallel heater and pump performance.`);
     }
 
-    // 7. Normalization Logic
-    // Total potential points in the current system is ~290. 
-    // We want a perfect match to be ~98-100%. 
-    // We'll use a divisor of 250 to allow for "Over-performance" on matches.
-    let finalPercentage = Math.round((score / 260) * 100);
-    
-    // Add a small randomized "Expert Weight" to break ties and feel natural
-    const tieBreaker = (product.modelName.charCodeAt(0) % 5);
-    finalPercentage = Math.min(finalPercentage + tieBreaker, 100);
-
-    // Baseline Reliability (Expert Reasoning Fallback)
-    if (reasons.length < 3) {
-      const baselines = [
-        `Engineered with proprietary DuraShell® technology for ultimate structural longevity.`,
-        `Features a high-flow laminar jet architecture for superior therapy without high skin pressure.`,
-        `Built with MaximizR™ full-foam insulation to maintain thermal consistency in all climates.`
-      ];
-      for (const baseline of baselines) {
-        if (reasons.length < 3 && !reasons.includes(baseline)) {
-          reasons.push(baseline);
-        }
-      }
-    }
-
     return {
       product,
-      score: finalPercentage,
+      score,
       reasons
     };
-  }).sort((a, b) => b.score - a.score);
+  });
+
+  // 7. Relative Scaling (The user requested the top match ALWAYS be 100%)
+  const maxRawScore = Math.max(...scoredRawWeights.map((s: any) => s.score));
+  
+  return scoredRawWeights.map((s: any) => {
+    let finalPercentage = 0;
+    if (maxRawScore > 0) {
+      finalPercentage = Math.round((s.score / maxRawScore) * 100);
+    }
+    
+    return {
+      ...s,
+      score: finalPercentage
+    };
+  }).sort((a: any, b: any) => (b.score || 0) - (a.score || 0));
 }
