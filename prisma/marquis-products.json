@@ -1634,7 +1634,7 @@
       "Whitewater-4"
     ],
     "heroImageUrl": "/mcp/demo/assets/v150_beauty.jpg",
-    "overheadImageUrl": "/mcp/demo/assets/v150_hero.png",
+    "overheadImageUrl": "/mcp/demo/assets/v150p_overhead.png",
     "hotspots": [
       {
         "x": 50,
@@ -1708,7 +1708,7 @@
       "VOLT"
     ],
     "heroImageUrl": "/mcp/demo/assets/v150_beauty.jpg",
-    "overheadImageUrl": "/mcp/demo/assets/v150_hero.png",
+    "overheadImageUrl": "/mcp/demo/assets/v150w_overhead.png",
     "hotspots": [
       {
         "x": 50,
@@ -1780,7 +1780,7 @@
     "estimatedMsrp": 34995,
     "techFeatures": [],
     "heroImageUrl": "/mcp/demo/assets/atv-v174-s-hero.jpg",
-    "overheadImageUrl": "/mcp/demo/assets/v174_hero.png",
+    "overheadImageUrl": "/mcp/demo/assets/v174s_overhead.png",
     "hotspots": [
       {
         "x": 50,
@@ -1852,7 +1852,7 @@
     "estimatedMsrp": 36995,
     "techFeatures": [],
     "heroImageUrl": "/mcp/demo/assets/atv-v174-k-hero.jpg",
-    "overheadImageUrl": "/mcp/demo/assets/v174_hero.png",
+    "overheadImageUrl": "/mcp/demo/assets/v174k_overhead.png",
     "hotspots": [
       {
         "x": 50,
