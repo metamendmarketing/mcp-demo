@@ -31,7 +31,9 @@ export async function POST(request: Request) {
           capacityGallons: true,
           lengthIn: true,
           widthIn: true,
-          therapySummary: true
+          therapySummary: true,
+          standardFeatures: true,
+          optionalFeatures: true
         }
       })
     ]);
@@ -47,7 +49,9 @@ export async function POST(request: Request) {
         loungers: p.loungeCount,
         gallons: p.capacityGallons,
         size: `${p.lengthIn}x${p.widthIn}in`,
-        focus: p.therapySummary
+        focus: p.therapySummary,
+        features: typeof p.standardFeatures === 'string' ? JSON.parse(p.standardFeatures) : p.standardFeatures,
+        options: typeof p.optionalFeatures === 'string' ? JSON.parse(p.optionalFeatures) : p.optionalFeatures
       });
       return acc;
     }, {});
