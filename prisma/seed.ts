@@ -165,7 +165,14 @@ async function main() {
         hotspots: JSON.stringify(ALL_HOTSPOTS[p.slug] || []),
         positioningTier: tier,
         score: score,
-        estimatedMsrp: p.estimatedMsrp || null
+        estimatedMsrp: p.estimatedMsrp || null,
+        staticHeroTitle: p.staticHeroTitle || null,
+        staticHydrotherapy: p.staticHydrotherapy || null,
+        staticClimate: p.staticClimate || null,
+        staticDesign: p.staticDesign || null,
+        staticEfficiency: p.staticEfficiency || null,
+        staticDesignConsideration: p.staticDesignConsideration || null,
+        staticReasons: JSON.stringify(p.staticReasons || [])
       }
     });
   }

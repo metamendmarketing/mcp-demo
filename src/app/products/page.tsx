@@ -101,9 +101,12 @@ export default async function ProductsPage() {
                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                          {p.lengthIn}x{p.widthIn}x{p.depthIn}"
                        </span>
-                       <button className="text-marquis-blue text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 group/btn">
+                       <Link 
+                         href={`/products/${p.slug}`}
+                         className="text-marquis-blue text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 group/btn"
+                       >
                          Details <ChevronRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
-                       </button>
+                       </Link>
                     </div>
                   </div>
                 </div>

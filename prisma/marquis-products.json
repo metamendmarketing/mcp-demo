@@ -16,10 +16,15 @@
     "fullWeightLbs": 3115,
     "pumpCount": 1,
     "estimatedMsrp": 7495,
-    "techFeatures": ["PlugAndPlay"],
+    "techFeatures": [
+      "PlugAndPlay"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-broadway/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-broadway/overhead.png",
@@ -27,9 +32,35 @@
     "therapySummary": "Broadway features a versatile seating layout, including a wraparound seat, a deep Director’s Chair with focused leg therapy, another deep seat for back therapy, and two more seats at different heights.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "soft", "recovery"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "soft",
+      "recovery"
+    ],
+    "staticHeroTitle": "The Broadway: Your Social Sanctuary",
+    "staticHydrotherapy": "Celebrity spas focus on social hydrotherapy, providing a relaxing and fun environment for family and friends with Marquis' signature water quality.",
+    "staticClimate": "Built to provide years of enjoyment with minimal upkeep, featuring a rugged cabinet and straightforward mechanical systems.",
+    "staticDesign": "Designed with an open-concept philosophy to maximize conversation space and ease of movement.",
+    "staticEfficiency": "The simple, effective filtration system ensures crystal-clear water with straightforward maintenance protocols.",
+    "staticDesignConsideration": "An ideal choice for first-time owners looking for a reliable, high-quality spa for social and recreational use.",
+    "staticReasons": [
+      "Social-first open seating layout",
+      "Simple, reliable mechanical systems",
+      "Excellent Marquis build quality",
+      "Vibrant lighting and water features"
+    ]
   },
   {
     "modelName": "Hollywood",
@@ -51,7 +82,10 @@
     "techFeatures": [],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-hollywood/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-hollywood/overhead.png",
@@ -59,9 +93,37 @@
     "therapySummary": "Hollywood seats six and features a full-body lounge, two deep therapy seats, two bucket seats, and a higher seat for cooling down.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "social", "relaxation", "lounge", "soft"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "relaxation",
+      "lounge",
+      "soft"
+    ],
+    "staticHeroTitle": "The Hollywood: Your Social Sanctuary",
+    "staticHydrotherapy": "Celebrity spas focus on social hydrotherapy, providing a relaxing and fun environment for family and friends with Marquis' signature water quality.",
+    "staticClimate": "Built to provide years of enjoyment with minimal upkeep, featuring a rugged cabinet and straightforward mechanical systems.",
+    "staticDesign": "Designed with an open-concept philosophy to maximize conversation space and ease of movement.",
+    "staticEfficiency": "The simple, effective filtration system ensures crystal-clear water with straightforward maintenance protocols.",
+    "staticDesignConsideration": "An ideal choice for first-time owners looking for a reliable, high-quality spa for social and recreational use.",
+    "staticReasons": [
+      "Social-first open seating layout",
+      "Simple, reliable mechanical systems",
+      "Excellent Marquis build quality",
+      "Vibrant lighting and water features"
+    ]
   },
   {
     "modelName": "Monaco",
@@ -79,8 +141,22 @@
     "dryWeightLbs": 500,
     "fullWeightLbs": 2590,
     "pumpCount": 1,
-    "estimatedMsrp": 6995,
-    "techFeatures": ["PlugAndPlay"],
+    "estimatedMsrp": 16995,
+    "staticHeroTitle": "The Monaco: Your Social Sanctuary",
+    "staticHydrotherapy": "Celebrity spas focus on social hydrotherapy, providing a relaxing and fun environment for family and friends with Marquis' signature water quality.",
+    "staticClimate": "Built to provide years of enjoyment with minimal upkeep, featuring a rugged cabinet and straightforward mechanical systems.",
+    "staticDesign": "Designed with an open-concept philosophy to maximize conversation space and ease of movement.",
+    "staticEfficiency": "The simple, effective filtration system ensures crystal-clear water with straightforward maintenance protocols.",
+    "staticDesignConsideration": "An ideal choice for first-time owners looking for a reliable, high-quality spa for social and recreational use.",
+    "staticReasons": [
+      "Social-first open seating layout",
+      "Simple, reliable mechanical systems",
+      "Excellent Marquis build quality",
+      "Vibrant lighting and water features"
+    ],
+    "techFeatures": [
+      "PlugAndPlay"
+    ],
     "pumpFlowGpm": 320,
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-monaco/hero.png",
@@ -89,9 +165,24 @@
     "therapySummary": "It includes a spacious lounge with jets from neck to feet, two deep therapy seats for full-back massage, and two bucket seats.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "soft", "recovery"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ]
   },
   {
     "modelName": "Nashville",
@@ -110,7 +201,9 @@
     "fullWeightLbs": 2276,
     "pumpCount": 1,
     "estimatedMsrp": 6495,
-    "techFeatures": ["PlugAndPlay"],
+    "techFeatures": [
+      "PlugAndPlay"
+    ],
     "pumpFlowGpm": 320,
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-nashville/hero.png",
@@ -119,9 +212,36 @@
     "therapySummary": "It includes a full-body lounge, a deep therapy seat, and a cool-down seat, offering a variety of seating options in a small design.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "soft", "recovery"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
+    "staticHeroTitle": "The Nashville: Your Social Sanctuary",
+    "staticHydrotherapy": "Celebrity spas focus on social hydrotherapy, providing a relaxing and fun environment for family and friends with Marquis' signature water quality.",
+    "staticClimate": "Built to provide years of enjoyment with minimal upkeep, featuring a rugged cabinet and straightforward mechanical systems.",
+    "staticDesign": "Designed with an open-concept philosophy to maximize conversation space and ease of movement.",
+    "staticEfficiency": "The simple, effective filtration system ensures crystal-clear water with straightforward maintenance protocols.",
+    "staticDesignConsideration": "An ideal choice for first-time owners looking for a reliable, high-quality spa for social and recreational use.",
+    "staticReasons": [
+      "Social-first open seating layout",
+      "Simple, reliable mechanical systems",
+      "Excellent Marquis build quality",
+      "Vibrant lighting and water features"
+    ]
   },
   {
     "modelName": "Vegas",
@@ -149,9 +269,35 @@
     "therapySummary": "Vegas comfortably seats six and includes two deep therapy seats, two side seats, a mid-level seat, a super-deep soak seat for full-body immersion, and a convenient entry step.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "social", "soft"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "soft"
+    ],
+    "staticHeroTitle": "The Vegas: Your Social Sanctuary",
+    "staticHydrotherapy": "Celebrity spas focus on social hydrotherapy, providing a relaxing and fun environment for family and friends with Marquis' signature water quality.",
+    "staticClimate": "Built to provide years of enjoyment with minimal upkeep, featuring a rugged cabinet and straightforward mechanical systems.",
+    "staticDesign": "Designed with an open-concept philosophy to maximize conversation space and ease of movement.",
+    "staticEfficiency": "The simple, effective filtration system ensures crystal-clear water with straightforward maintenance protocols.",
+    "staticDesignConsideration": "An ideal choice for first-time owners looking for a reliable, high-quality spa for social and recreational use.",
+    "staticReasons": [
+      "Social-first open seating layout",
+      "Simple, reliable mechanical systems",
+      "Excellent Marquis build quality",
+      "Vibrant lighting and water features"
+    ]
   },
   {
     "modelName": "Woodstock",
@@ -173,7 +319,10 @@
     "techFeatures": [],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-celebrity-woodstock/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-celebrity-woodstock/overhead.png",
@@ -181,9 +330,35 @@
     "therapySummary": "The full-body lounge provides complete hydrotherapy from neck to feet, while a deep therapy seat targets the thighs and calves.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "firm"
+    ],
+    "staticHeroTitle": "The Woodstock: Your Social Sanctuary",
+    "staticHydrotherapy": "Celebrity spas focus on social hydrotherapy, providing a relaxing and fun environment for family and friends with Marquis' signature water quality.",
+    "staticClimate": "Built to provide years of enjoyment with minimal upkeep, featuring a rugged cabinet and straightforward mechanical systems.",
+    "staticDesign": "Designed with an open-concept philosophy to maximize conversation space and ease of movement.",
+    "staticEfficiency": "The simple, effective filtration system ensures crystal-clear water with straightforward maintenance protocols.",
+    "staticDesignConsideration": "An ideal choice for first-time owners looking for a reliable, high-quality spa for social and recreational use.",
+    "staticReasons": [
+      "Social-first open seating layout",
+      "Simple, reliable mechanical systems",
+      "Excellent Marquis build quality",
+      "Vibrant lighting and water features"
+    ]
   },
   {
     "modelName": "Destiny",
@@ -201,11 +376,31 @@
     "dryWeightLbs": 700,
     "fullWeightLbs": 3289,
     "pumpCount": 2,
-    "estimatedMsrp": 18995,
-    "techFeatures": ["HOTZones", "Whitewater-4", "ConstantCleanPlus", "FullFoam"],
+    "estimatedMsrp": 17995,
+    "staticHeroTitle": "The Destiny: A Masterpiece of Hydrotherapy",
+    "staticHydrotherapy": "The Destiny features the Regal Hydrokinetic (RHK™) system, delivering massive water volume at low pressure for deep tissue penetration without the 'sting' of traditional jets.",
+    "staticClimate": "Built with full-foam insulation and the DuraShell® structure, this model is engineered to maintain thermal integrity in any environment.",
+    "staticDesign": "The Crown Series design philosophy focuses on sophisticated ergonomics and 'The Big 3': High-Flow Therapy, ConstantClean+™, and Diverse Seating.",
+    "staticEfficiency": "The ConstantClean+™ system manages water sanitation up to 51 times per day, significantly reducing maintenance time.",
+    "staticDesignConsideration": "As a premier luxury spa, this model requires professional electrical installation (50A/60A) to support its parallel pump and heater performance.",
+    "staticReasons": [
+      "Regal Hydrokinetic (RHK™) high-flow system",
+      "ConstantClean+™ automated sanitation",
+      "DuraShell® structural longevity",
+      "Handcrafted in the USA"
+    ],
+    "techFeatures": [
+      "HOTZones",
+      "Whitewater-4",
+      "ConstantCleanPlus",
+      "FullFoam"
+    ],
     "pumpFlowGpm": 480,
     "insulationType": "Full Foam",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-destiny/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-destiny/overhead.jpg",
@@ -213,9 +408,22 @@
     "therapySummary": "Crown Series Destiny offers a spacious and comfortable setting with seven hydromassage seats.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ]
   },
   {
     "modelName": "Epic",
@@ -234,10 +442,18 @@
     "fullWeightLbs": 4103,
     "pumpCount": 3,
     "estimatedMsrp": 21995,
-    "techFeatures": ["HOTZones", "Whitewater-4", "ConstantCleanPlus", "FullFoam"],
+    "techFeatures": [
+      "HOTZones",
+      "Whitewater-4",
+      "ConstantCleanPlus",
+      "FullFoam"
+    ],
     "pumpFlowGpm": 480,
     "insulationType": "Full Foam",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-epic/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-epic/overhead.jpg",
@@ -245,9 +461,34 @@
     "therapySummary": "Crown Series Epic is designed for a premium hydrotherapy experience.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ],
+    "staticHeroTitle": "The Epic: A Masterpiece of Hydrotherapy",
+    "staticHydrotherapy": "The Epic features the Regal Hydrokinetic (RHK™) system, delivering massive water volume at low pressure for deep tissue penetration without the 'sting' of traditional jets.",
+    "staticClimate": "Built with full-foam insulation and the DuraShell® structure, this model is engineered to maintain thermal integrity in any environment.",
+    "staticDesign": "The Crown Series design philosophy focuses on sophisticated ergonomics and 'The Big 3': High-Flow Therapy, ConstantClean+™, and Diverse Seating.",
+    "staticEfficiency": "The ConstantClean+™ system manages water sanitation up to 51 times per day, significantly reducing maintenance time.",
+    "staticDesignConsideration": "As a premier luxury spa, this model requires professional electrical installation (50A/60A) to support its parallel pump and heater performance.",
+    "staticReasons": [
+      "Regal Hydrokinetic (RHK™) high-flow system",
+      "ConstantClean+™ automated sanitation",
+      "DuraShell® structural longevity",
+      "Handcrafted in the USA"
+    ]
   },
   {
     "modelName": "Euphoria",
@@ -265,11 +506,31 @@
     "dryWeightLbs": 825,
     "fullWeightLbs": 3994,
     "pumpCount": 2,
-    "estimatedMsrp": 20995,
-    "techFeatures": ["HOTZones", "Whitewater-4", "ConstantCleanPlus", "FullFoam"],
+    "estimatedMsrp": 17995,
+    "staticHeroTitle": "The Euphoria: A Masterpiece of Hydrotherapy",
+    "staticHydrotherapy": "The Euphoria features the Regal Hydrokinetic (RHK™) system, delivering massive water volume at low pressure for deep tissue penetration without the 'sting' of traditional jets.",
+    "staticClimate": "Built with full-foam insulation and the DuraShell® structure, this model is engineered to maintain thermal integrity in any environment.",
+    "staticDesign": "The Crown Series design philosophy focuses on sophisticated ergonomics and 'The Big 3': High-Flow Therapy, ConstantClean+™, and Diverse Seating.",
+    "staticEfficiency": "The ConstantClean+™ system manages water sanitation up to 51 times per day, significantly reducing maintenance time.",
+    "staticDesignConsideration": "As a premier luxury spa, this model requires professional electrical installation (50A/60A) to support its parallel pump and heater performance.",
+    "staticReasons": [
+      "Regal Hydrokinetic (RHK™) high-flow system",
+      "ConstantClean+™ automated sanitation",
+      "DuraShell® structural longevity",
+      "Handcrafted in the USA"
+    ],
+    "techFeatures": [
+      "HOTZones",
+      "Whitewater-4",
+      "ConstantCleanPlus",
+      "FullFoam"
+    ],
     "pumpFlowGpm": 480,
     "insulationType": "Full Foam",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-euphoria/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-euphoria/overhead.jpg",
@@ -277,9 +538,23 @@
     "therapySummary": "Its symmetrical layout includes seven multilevel seats, with two deep therapy seats side-by-side for full-body massage.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "relaxation", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "firm"
+    ]
   },
   {
     "modelName": "Resort",
@@ -298,10 +573,18 @@
     "fullWeightLbs": 3762,
     "pumpCount": 2,
     "estimatedMsrp": 19995,
-    "techFeatures": ["HOTZones", "Whitewater-4", "ConstantCleanPlus", "FullFoam"],
+    "techFeatures": [
+      "HOTZones",
+      "Whitewater-4",
+      "ConstantCleanPlus",
+      "FullFoam"
+    ],
     "pumpFlowGpm": 480,
     "insulationType": "Full Foam",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-resort/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-resort/overhead.jpg",
@@ -309,9 +592,34 @@
     "therapySummary": "Crown Series Resort’s curvaceous design offers multilevel seating for five, including dual Adirondack Chairs—one with targeted Lumbar H.O.T.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ],
+    "staticHeroTitle": "The Resort: A Masterpiece of Hydrotherapy",
+    "staticHydrotherapy": "The Resort features the Regal Hydrokinetic (RHK™) system, delivering massive water volume at low pressure for deep tissue penetration without the 'sting' of traditional jets.",
+    "staticClimate": "Built with full-foam insulation and the DuraShell® structure, this model is engineered to maintain thermal integrity in any environment.",
+    "staticDesign": "The Crown Series design philosophy focuses on sophisticated ergonomics and 'The Big 3': High-Flow Therapy, ConstantClean+™, and Diverse Seating.",
+    "staticEfficiency": "The ConstantClean+™ system manages water sanitation up to 51 times per day, significantly reducing maintenance time.",
+    "staticDesignConsideration": "As a premier luxury spa, this model requires professional electrical installation (50A/60A) to support its parallel pump and heater performance.",
+    "staticReasons": [
+      "Regal Hydrokinetic (RHK™) high-flow system",
+      "ConstantClean+™ automated sanitation",
+      "DuraShell® structural longevity",
+      "Handcrafted in the USA"
+    ]
   },
   {
     "modelName": "Spirit",
@@ -330,10 +638,17 @@
     "fullWeightLbs": 2670,
     "pumpCount": 1,
     "estimatedMsrp": 15995,
-    "techFeatures": ["HOTZones", "ConstantCleanPlus", "FullFoam"],
+    "techFeatures": [
+      "HOTZones",
+      "ConstantCleanPlus",
+      "FullFoam"
+    ],
     "pumpFlowGpm": 480,
     "insulationType": "Full Foam",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-spirit/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-spirit/overhead.jpg",
@@ -341,9 +656,35 @@
     "therapySummary": "Crown Series Spirit’s curved front entry offers an elegant approach, with four hydromassage seats for up to three people.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "soft"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft"
+    ],
+    "staticHeroTitle": "The Spirit: A Masterpiece of Hydrotherapy",
+    "staticHydrotherapy": "The Spirit features the Regal Hydrokinetic (RHK™) system, delivering massive water volume at low pressure for deep tissue penetration without the 'sting' of traditional jets.",
+    "staticClimate": "Built with full-foam insulation and the DuraShell® structure, this model is engineered to maintain thermal integrity in any environment.",
+    "staticDesign": "The Crown Series design philosophy focuses on sophisticated ergonomics and 'The Big 3': High-Flow Therapy, ConstantClean+™, and Diverse Seating.",
+    "staticEfficiency": "The ConstantClean+™ system manages water sanitation up to 51 times per day, significantly reducing maintenance time.",
+    "staticDesignConsideration": "As a premier luxury spa, this model requires professional electrical installation (50A/60A) to support its parallel pump and heater performance.",
+    "staticReasons": [
+      "Regal Hydrokinetic (RHK™) high-flow system",
+      "ConstantClean+™ automated sanitation",
+      "DuraShell® structural longevity",
+      "Handcrafted in the USA"
+    ]
   },
   {
     "modelName": "Summit",
@@ -362,10 +703,18 @@
     "fullWeightLbs": 5020,
     "pumpCount": 3,
     "estimatedMsrp": 23995,
-    "techFeatures": ["HOTZones", "Whitewater-4", "ConstantCleanPlus", "FullFoam"],
+    "techFeatures": [
+      "HOTZones",
+      "Whitewater-4",
+      "ConstantCleanPlus",
+      "FullFoam"
+    ],
     "pumpFlowGpm": 480,
     "insulationType": "Full Foam",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-summit/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-summit/overhead.jpg",
@@ -373,9 +722,35 @@
     "therapySummary": "Three side-by-side Adirondack Chairs provide full-body support, while four additional hydromassage seats offer targeted relief and direct access to the powerful Regal Whitewater-4™ jet.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "relaxation", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "firm"
+    ],
+    "staticHeroTitle": "The Summit: A Masterpiece of Hydrotherapy",
+    "staticHydrotherapy": "The Summit features the Regal Hydrokinetic (RHK™) system, delivering massive water volume at low pressure for deep tissue penetration without the 'sting' of traditional jets.",
+    "staticClimate": "Built with full-foam insulation and the DuraShell® structure, this model is engineered to maintain thermal integrity in any environment.",
+    "staticDesign": "The Crown Series design philosophy focuses on sophisticated ergonomics and 'The Big 3': High-Flow Therapy, ConstantClean+™, and Diverse Seating.",
+    "staticEfficiency": "The ConstantClean+™ system manages water sanitation up to 51 times per day, significantly reducing maintenance time.",
+    "staticDesignConsideration": "As a premier luxury spa, this model requires professional electrical installation (50A/60A) to support its parallel pump and heater performance.",
+    "staticReasons": [
+      "Regal Hydrokinetic (RHK™) high-flow system",
+      "ConstantClean+™ automated sanitation",
+      "DuraShell® structural longevity",
+      "Handcrafted in the USA"
+    ]
   },
   {
     "modelName": "Wish",
@@ -394,10 +769,17 @@
     "fullWeightLbs": 2772,
     "pumpCount": 1,
     "estimatedMsrp": 16495,
-    "techFeatures": ["HOTZones", "ConstantCleanPlus", "FullFoam"],
+    "techFeatures": [
+      "HOTZones",
+      "ConstantCleanPlus",
+      "FullFoam"
+    ],
     "pumpFlowGpm": 480,
     "insulationType": "Full Foam",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-crown-wish/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-crown-wish/overhead.jpg",
@@ -405,9 +787,35 @@
     "therapySummary": "It features a spacious full-body lounge with Lumbar H.O.T.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "soft"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft"
+    ],
+    "staticHeroTitle": "The Wish: A Masterpiece of Hydrotherapy",
+    "staticHydrotherapy": "The Wish features the Regal Hydrokinetic (RHK™) system, delivering massive water volume at low pressure for deep tissue penetration without the 'sting' of traditional jets.",
+    "staticClimate": "Built with full-foam insulation and the DuraShell® structure, this model is engineered to maintain thermal integrity in any environment.",
+    "staticDesign": "The Crown Series design philosophy focuses on sophisticated ergonomics and 'The Big 3': High-Flow Therapy, ConstantClean+™, and Diverse Seating.",
+    "staticEfficiency": "The ConstantClean+™ system manages water sanitation up to 51 times per day, significantly reducing maintenance time.",
+    "staticDesignConsideration": "As a premier luxury spa, this model requires professional electrical installation (50A/60A) to support its parallel pump and heater performance.",
+    "staticReasons": [
+      "Regal Hydrokinetic (RHK™) high-flow system",
+      "ConstantClean+™ automated sanitation",
+      "DuraShell® structural longevity",
+      "Handcrafted in the USA"
+    ]
   },
   {
     "modelName": "Broadway",
@@ -426,10 +834,16 @@
     "fullWeightLbs": 3115,
     "pumpCount": 1,
     "estimatedMsrp": 10495,
-    "techFeatures": ["ConstantCleanPlus", "TwilightLED"],
+    "techFeatures": [
+      "ConstantCleanPlus",
+      "TwilightLED"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-broadway/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-broadway/overhead.png",
@@ -437,9 +851,34 @@
     "therapySummary": "Broadway Elite features a unique seating layout with room for five, including a wraparound seat, a deep seat with strong leg therapy, a full-back therapy seat, and two additional seats at varying heights.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "soft"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "soft"
+    ],
+    "staticHeroTitle": "The Broadway: High-Performance Value",
+    "staticHydrotherapy": "The Elite series delivers the famous Marquis 'Big 3' experience—High-Flow Therapy, ConstantClean™, and Diverse Seating—at an exceptional value point.",
+    "staticClimate": "Constructed with durable materials and efficient insulation, the Elite is designed for reliable performance across all four seasons.",
+    "staticDesign": "A balanced design that prioritizes seating comfort and traditional aesthetics, making it a timeless addition to any outdoor space.",
+    "staticEfficiency": "Features the proven ConstantClean™ filtration system and high-efficiency pumps for reduced operational costs.",
+    "staticDesignConsideration": "A perfect balance of footprint and feature density, offering premium hydrotherapy without the premium price tag.",
+    "staticReasons": [
+      "High-Flow hydrotherapy delivery",
+      "ConstantClean™ water management",
+      "Durable, long-lasting construction",
+      "Exceptional price-to-performance ratio"
+    ]
   },
   {
     "modelName": "Hollywood",
@@ -458,10 +897,17 @@
     "fullWeightLbs": 3659,
     "pumpCount": 2,
     "estimatedMsrp": 12795,
-    "techFeatures": ["ConstantCleanPlus", "Whitewater-4", "TwilightLED"],
+    "techFeatures": [
+      "ConstantCleanPlus",
+      "Whitewater-4",
+      "TwilightLED"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-hollywood/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-hollywood/overhead.png",
@@ -469,9 +915,36 @@
     "therapySummary": "The Hollywood Elite seats six and offers a variety of comfortable options, including a full-body lounge with jets from neck to feet, two deep therapy seats, two bucket seats, and a high therapy seat.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "social", "lounge", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "lounge",
+      "firm"
+    ],
+    "staticHeroTitle": "The Hollywood: High-Performance Value",
+    "staticHydrotherapy": "The Elite series delivers the famous Marquis 'Big 3' experience—High-Flow Therapy, ConstantClean™, and Diverse Seating—at an exceptional value point.",
+    "staticClimate": "Constructed with durable materials and efficient insulation, the Elite is designed for reliable performance across all four seasons.",
+    "staticDesign": "A balanced design that prioritizes seating comfort and traditional aesthetics, making it a timeless addition to any outdoor space.",
+    "staticEfficiency": "Features the proven ConstantClean™ filtration system and high-efficiency pumps for reduced operational costs.",
+    "staticDesignConsideration": "A perfect balance of footprint and feature density, offering premium hydrotherapy without the premium price tag.",
+    "staticReasons": [
+      "High-Flow hydrotherapy delivery",
+      "ConstantClean™ water management",
+      "Durable, long-lasting construction",
+      "Exceptional price-to-performance ratio"
+    ]
   },
   {
     "modelName": "Monaco",
@@ -490,10 +963,17 @@
     "fullWeightLbs": 2590,
     "pumpCount": 1,
     "estimatedMsrp": 9995,
-    "techFeatures": ["ConstantCleanPlus", "TwilightLED", "PlugAndPlay"],
+    "techFeatures": [
+      "ConstantCleanPlus",
+      "TwilightLED",
+      "PlugAndPlay"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-monaco/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-monaco/overhead.png",
@@ -501,9 +981,36 @@
     "therapySummary": "The Monaco Elite is a round hot tub that seats five, featuring a full-body lounge, two deep therapy seats, and two bucket seats.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "soft", "recovery"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
+    "staticHeroTitle": "The Monaco: High-Performance Value",
+    "staticHydrotherapy": "The Elite series delivers the famous Marquis 'Big 3' experience—High-Flow Therapy, ConstantClean™, and Diverse Seating—at an exceptional value point.",
+    "staticClimate": "Constructed with durable materials and efficient insulation, the Elite is designed for reliable performance across all four seasons.",
+    "staticDesign": "A balanced design that prioritizes seating comfort and traditional aesthetics, making it a timeless addition to any outdoor space.",
+    "staticEfficiency": "Features the proven ConstantClean™ filtration system and high-efficiency pumps for reduced operational costs.",
+    "staticDesignConsideration": "A perfect balance of footprint and feature density, offering premium hydrotherapy without the premium price tag.",
+    "staticReasons": [
+      "High-Flow hydrotherapy delivery",
+      "ConstantClean™ water management",
+      "Durable, long-lasting construction",
+      "Exceptional price-to-performance ratio"
+    ]
   },
   {
     "modelName": "Nashville",
@@ -522,10 +1029,17 @@
     "fullWeightLbs": 2026,
     "pumpCount": 1,
     "estimatedMsrp": 9495,
-    "techFeatures": ["ConstantCleanPlus", "TwilightLED", "PlugAndPlay"],
+    "techFeatures": [
+      "ConstantCleanPlus",
+      "TwilightLED",
+      "PlugAndPlay"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-nashville/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-nashville/overhead.png",
@@ -533,9 +1047,36 @@
     "therapySummary": "It features a lounge seat, a deep therapy seat, and a cool-down seat in a compact layout.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "soft", "recovery"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
+    "staticHeroTitle": "The Nashville: High-Performance Value",
+    "staticHydrotherapy": "The Elite series delivers the famous Marquis 'Big 3' experience—High-Flow Therapy, ConstantClean™, and Diverse Seating—at an exceptional value point.",
+    "staticClimate": "Constructed with durable materials and efficient insulation, the Elite is designed for reliable performance across all four seasons.",
+    "staticDesign": "A balanced design that prioritizes seating comfort and traditional aesthetics, making it a timeless addition to any outdoor space.",
+    "staticEfficiency": "Features the proven ConstantClean™ filtration system and high-efficiency pumps for reduced operational costs.",
+    "staticDesignConsideration": "A perfect balance of footprint and feature density, offering premium hydrotherapy without the premium price tag.",
+    "staticReasons": [
+      "High-Flow hydrotherapy delivery",
+      "ConstantClean™ water management",
+      "Durable, long-lasting construction",
+      "Exceptional price-to-performance ratio"
+    ]
   },
   {
     "modelName": "Vegas",
@@ -554,10 +1095,17 @@
     "fullWeightLbs": 3873,
     "pumpCount": 2,
     "estimatedMsrp": 11995,
-    "techFeatures": ["ConstantCleanPlus", "Whitewater-4", "TwilightLED"],
+    "techFeatures": [
+      "ConstantCleanPlus",
+      "Whitewater-4",
+      "TwilightLED"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-vegas/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-vegas/overhead.png",
@@ -565,9 +1113,34 @@
     "therapySummary": "Vegas Elite’s unique seating positions provide comfort for six people, including two deep therapy seats, two side seats, a mid-level seat, a super-deep soak seat, and a bonus entry step.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ],
+    "staticHeroTitle": "The Vegas: High-Performance Value",
+    "staticHydrotherapy": "The Elite series delivers the famous Marquis 'Big 3' experience—High-Flow Therapy, ConstantClean™, and Diverse Seating—at an exceptional value point.",
+    "staticClimate": "Constructed with durable materials and efficient insulation, the Elite is designed for reliable performance across all four seasons.",
+    "staticDesign": "A balanced design that prioritizes seating comfort and traditional aesthetics, making it a timeless addition to any outdoor space.",
+    "staticEfficiency": "Features the proven ConstantClean™ filtration system and high-efficiency pumps for reduced operational costs.",
+    "staticDesignConsideration": "A perfect balance of footprint and feature density, offering premium hydrotherapy without the premium price tag.",
+    "staticReasons": [
+      "High-Flow hydrotherapy delivery",
+      "ConstantClean™ water management",
+      "Durable, long-lasting construction",
+      "Exceptional price-to-performance ratio"
+    ]
   },
   {
     "modelName": "Woodstock",
@@ -586,10 +1159,17 @@
     "fullWeightLbs": 4621,
     "pumpCount": 2,
     "estimatedMsrp": 13495,
-    "techFeatures": ["ConstantCleanPlus", "Whitewater-4", "TwilightLED"],
+    "techFeatures": [
+      "ConstantCleanPlus",
+      "Whitewater-4",
+      "TwilightLED"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-elite-woodstock/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-elite-woodstock/overhead.png",
@@ -597,9 +1177,35 @@
     "therapySummary": "The lounge provides full-body hydrotherapy from neck to feet, while a deep therapy seat targets the thighs and calves.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "firm"
+    ],
+    "staticHeroTitle": "The Woodstock: High-Performance Value",
+    "staticHydrotherapy": "The Elite series delivers the famous Marquis 'Big 3' experience—High-Flow Therapy, ConstantClean™, and Diverse Seating—at an exceptional value point.",
+    "staticClimate": "Constructed with durable materials and efficient insulation, the Elite is designed for reliable performance across all four seasons.",
+    "staticDesign": "A balanced design that prioritizes seating comfort and traditional aesthetics, making it a timeless addition to any outdoor space.",
+    "staticEfficiency": "Features the proven ConstantClean™ filtration system and high-efficiency pumps for reduced operational costs.",
+    "staticDesignConsideration": "A perfect balance of footprint and feature density, offering premium hydrotherapy without the premium price tag.",
+    "staticReasons": [
+      "High-Flow hydrotherapy delivery",
+      "ConstantClean™ water management",
+      "Durable, long-lasting construction",
+      "Exceptional price-to-performance ratio"
+    ]
   },
   {
     "modelName": "V65L",
@@ -618,10 +1224,17 @@
     "fullWeightLbs": 2176,
     "pumpCount": 1,
     "estimatedMsrp": 14995,
-    "techFeatures": ["VOLT", "ConstantCleanPlus", "TwilightLED"],
+    "techFeatures": [
+      "VOLT",
+      "ConstantCleanPlus",
+      "TwilightLED"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v65l/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v65l/overhead.jpg",
@@ -629,9 +1242,36 @@
     "therapySummary": "It includes a full-body lounge with neck, back, and leg therapy, a deep therapy seat with shoulder jets, and a higher seat for cooling down.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "soft", "recovery"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
+    "staticHeroTitle": "The V65L: Precision Engineered Performance",
+    "staticHydrotherapy": "Driven by the V-O-L-T™ system, the V65L provides a laminar flow experience that eliminates turbulence and focuses power through interchangeable Jetpods.",
+    "staticClimate": "The architectural cabinet and high-density insulation package are designed for maximum efficiency and modern backyard aesthetics.",
+    "staticDesign": "Vector21 models feature a bold, geometric design that maximizes the interior footprint while providing surgical control over massage intensity.",
+    "staticEfficiency": "V3 Throttle Control valves allow you to direct 100% of pump power to individual seats or H.O.T. Zone® clusters.",
+    "staticDesignConsideration": "The modular Jetpod system allows for future therapy customization, ensuring the spa evolves with your wellness needs.",
+    "staticReasons": [
+      "V-O-L-T™ system with laminar flow",
+      "Interchangeable Jetpod therapy system",
+      "V3 Throttle Control for precise power",
+      "Architectural modern aesthetic"
+    ]
   },
   {
     "modelName": "V77L",
@@ -650,10 +1290,17 @@
     "fullWeightLbs": 3486,
     "pumpCount": 1,
     "estimatedMsrp": 16495,
-    "techFeatures": ["VOLT", "ConstantCleanPlus", "TwilightLED"],
+    "techFeatures": [
+      "VOLT",
+      "ConstantCleanPlus",
+      "TwilightLED"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v77l/hero.jpg",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v77l/overhead.jpg",
@@ -661,9 +1308,36 @@
     "therapySummary": "It features a full-body lounge, two deep therapy seats, and two bucket seats, offering a versatile range of massage options.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "social", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "social",
+      "firm"
+    ],
+    "staticHeroTitle": "The V77L: Precision Engineered Performance",
+    "staticHydrotherapy": "Driven by the V-O-L-T™ system, the V77L provides a laminar flow experience that eliminates turbulence and focuses power through interchangeable Jetpods.",
+    "staticClimate": "The architectural cabinet and high-density insulation package are designed for maximum efficiency and modern backyard aesthetics.",
+    "staticDesign": "Vector21 models feature a bold, geometric design that maximizes the interior footprint while providing surgical control over massage intensity.",
+    "staticEfficiency": "V3 Throttle Control valves allow you to direct 100% of pump power to individual seats or H.O.T. Zone® clusters.",
+    "staticDesignConsideration": "The modular Jetpod system allows for future therapy customization, ensuring the spa evolves with your wellness needs.",
+    "staticReasons": [
+      "V-O-L-T™ system with laminar flow",
+      "Interchangeable Jetpod therapy system",
+      "V3 Throttle Control for precise power",
+      "Architectural modern aesthetic"
+    ]
   },
   {
     "modelName": "V84",
@@ -682,10 +1356,29 @@
     "fullWeightLbs": 3743,
     "pumpCount": 2,
     "estimatedMsrp": 17495,
-    "techFeatures": ["VOLT", "ConstantCleanPlus", "TwilightLED"],
+    "staticHeroTitle": "The V84: Precision Engineered Performance",
+    "staticHydrotherapy": "Driven by the V-O-L-T™ system, the V84 provides a laminar flow experience that eliminates turbulence and focuses power through interchangeable Jetpods.",
+    "staticClimate": "The architectural cabinet and high-density insulation package are designed for maximum efficiency and modern backyard aesthetics.",
+    "staticDesign": "Vector21 models feature a bold, geometric design that maximizes the interior footprint while providing surgical control over massage intensity.",
+    "staticEfficiency": "V3 Throttle Control valves allow you to direct 100% of pump power to individual seats or H.O.T. Zone® clusters.",
+    "staticDesignConsideration": "The modular Jetpod system allows for future therapy customization, ensuring the spa evolves with your wellness needs.",
+    "staticReasons": [
+      "V-O-L-T™ system with laminar flow",
+      "Interchangeable Jetpod therapy system",
+      "V3 Throttle Control for precise power",
+      "Architectural modern aesthetic"
+    ],
+    "techFeatures": [
+      "VOLT",
+      "ConstantCleanPlus",
+      "TwilightLED"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v84/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v84/overhead.jpg",
@@ -693,9 +1386,23 @@
     "therapySummary": "It includes two deep therapy seats, two side seats, a mid-level seat, and a super-deep soak seat for full-body immersion.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "social", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "firm"
+    ]
   },
   {
     "modelName": "V84L",
@@ -714,10 +1421,17 @@
     "fullWeightLbs": 3576,
     "pumpCount": 2,
     "estimatedMsrp": 17997,
-    "techFeatures": ["VOLT", "ConstantCleanPlus", "TwilightLED"],
+    "techFeatures": [
+      "VOLT",
+      "ConstantCleanPlus",
+      "TwilightLED"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v84l/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v84l/overhead.jpg",
@@ -725,9 +1439,36 @@
     "therapySummary": "It features a full-body lounge with neck, back, and calf jets, alongside two deep therapy seats and two bucket seats.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "social", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "social",
+      "firm"
+    ],
+    "staticHeroTitle": "The V84L: Precision Engineered Performance",
+    "staticHydrotherapy": "Driven by the V-O-L-T™ system, the V84L provides a laminar flow experience that eliminates turbulence and focuses power through interchangeable Jetpods.",
+    "staticClimate": "The architectural cabinet and high-density insulation package are designed for maximum efficiency and modern backyard aesthetics.",
+    "staticDesign": "Vector21 models feature a bold, geometric design that maximizes the interior footprint while providing surgical control over massage intensity.",
+    "staticEfficiency": "V3 Throttle Control valves allow you to direct 100% of pump power to individual seats or H.O.T. Zone® clusters.",
+    "staticDesignConsideration": "The modular Jetpod system allows for future therapy customization, ensuring the spa evolves with your wellness needs.",
+    "staticReasons": [
+      "V-O-L-T™ system with laminar flow",
+      "Interchangeable Jetpod therapy system",
+      "V3 Throttle Control for precise power",
+      "Architectural modern aesthetic"
+    ]
   },
   {
     "modelName": "V94",
@@ -746,10 +1487,18 @@
     "fullWeightLbs": 4403,
     "pumpCount": 2,
     "estimatedMsrp": 19197,
-    "techFeatures": ["VOLT", "ConstantCleanPlus", "TwilightLED", "Whitewater-4"],
+    "techFeatures": [
+      "VOLT",
+      "ConstantCleanPlus",
+      "TwilightLED",
+      "Whitewater-4"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v94/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v94/overhead.jpg",
@@ -757,9 +1506,35 @@
     "therapySummary": "Its open layout includes a variety of seating heights and a powerful Regal Whitewater-4™ jet for intense leg and foot therapy.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "social", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "firm"
+    ],
+    "staticHeroTitle": "The V94: Precision Engineered Performance",
+    "staticHydrotherapy": "Driven by the V-O-L-T™ system, the V94 provides a laminar flow experience that eliminates turbulence and focuses power through interchangeable Jetpods.",
+    "staticClimate": "The architectural cabinet and high-density insulation package are designed for maximum efficiency and modern backyard aesthetics.",
+    "staticDesign": "Vector21 models feature a bold, geometric design that maximizes the interior footprint while providing surgical control over massage intensity.",
+    "staticEfficiency": "V3 Throttle Control valves allow you to direct 100% of pump power to individual seats or H.O.T. Zone® clusters.",
+    "staticDesignConsideration": "The modular Jetpod system allows for future therapy customization, ensuring the spa evolves with your wellness needs.",
+    "staticReasons": [
+      "V-O-L-T™ system with laminar flow",
+      "Interchangeable Jetpod therapy system",
+      "V3 Throttle Control for precise power",
+      "Architectural modern aesthetic"
+    ]
   },
   {
     "modelName": "V94L",
@@ -778,10 +1553,18 @@
     "fullWeightLbs": 4236,
     "pumpCount": 2,
     "estimatedMsrp": 19897,
-    "techFeatures": ["VOLT", "ConstantCleanPlus", "TwilightLED", "Whitewater-4"],
+    "techFeatures": [
+      "VOLT",
+      "ConstantCleanPlus",
+      "TwilightLED",
+      "Whitewater-4"
+    ],
     "pumpFlowGpm": 320,
     "insulationType": "Icynene® foam over plumbing",
-    "filtration": { "type": "ConstantClean+", "cyclesPerDay": 51 },
+    "filtration": {
+      "type": "ConstantClean+",
+      "cyclesPerDay": 51
+    },
     "electricalAmps": 50,
     "heroImageUrl": "/mcp/demo/assets/products/marquis-vector21-v94l/hero.png",
     "overheadImageUrl": "/mcp/demo/assets/products/marquis-vector21-v94l/overhead.jpg",
@@ -789,9 +1572,36 @@
     "therapySummary": "It features a full-body lounge with neck, back, and leg therapy, alongside two deep therapy seats and three bucket seats.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["hydrotherapy", "lounge", "social", "firm"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "social",
+      "firm"
+    ],
+    "staticHeroTitle": "The V94L: Precision Engineered Performance",
+    "staticHydrotherapy": "Driven by the V-O-L-T™ system, the V94L provides a laminar flow experience that eliminates turbulence and focuses power through interchangeable Jetpods.",
+    "staticClimate": "The architectural cabinet and high-density insulation package are designed for maximum efficiency and modern backyard aesthetics.",
+    "staticDesign": "Vector21 models feature a bold, geometric design that maximizes the interior footprint while providing surgical control over massage intensity.",
+    "staticEfficiency": "V3 Throttle Control valves allow you to direct 100% of pump power to individual seats or H.O.T. Zone® clusters.",
+    "staticDesignConsideration": "The modular Jetpod system allows for future therapy customization, ensuring the spa evolves with your wellness needs.",
+    "staticReasons": [
+      "V-O-L-T™ system with laminar flow",
+      "Interchangeable Jetpod therapy system",
+      "V3 Throttle Control for precise power",
+      "Architectural modern aesthetic"
+    ]
   },
   {
     "modelName": "V150P",
@@ -810,16 +1620,42 @@
     "fullWeightLbs": 9700,
     "pumpCount": 2,
     "estimatedMsrp": 29995,
-    "techFeatures": ["VOLT", "Whitewater-4"],
+    "techFeatures": [
+      "VOLT",
+      "Whitewater-4"
+    ],
     "heroImageUrl": "/mcp/demo/assets/v150_beauty.jpg",
     "overheadImageUrl": "/mcp/demo/assets/v150_hero.png",
     "marketingSummary": "The V150P (Party Vessel) is the ultimate social swim spa. With seating for eight and powerful therapy jets, it combines the benefits of a hot tub with the space of a swim spa. Perfect for families and social gatherings.",
     "therapySummary": "Features eight seats with dedicated therapy zones and powerful Whitewater-4 jets.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["social", "relaxation", "exercise"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "social",
+      "relaxation",
+      "exercise"
+    ],
+    "staticHeroTitle": "The V150P: The Ultimate Aquatic Trainer",
+    "staticHydrotherapy": "ATV swim spas are engineered for both high-performance aquatic training and deep-tissue hydrotherapy, offering a professional-grade swim current.",
+    "staticClimate": "Constructed with marine-grade materials to withstand the heavy loads and intense use of a swim spa environment.",
+    "staticDesign": "The dual-purpose design provides a dedicated swim lane for fitness and specialized therapy seats for post-workout recovery.",
+    "staticEfficiency": "Equipped with high-volume swim pumps and advanced filtration to handle larger water volumes and high bather loads.",
+    "staticDesignConsideration": "Requires a level, reinforced foundation capable of supporting over 15,000 lbs of water and equipment.",
+    "staticReasons": [
+      "Professional-grade swim current system",
+      "Dual-purpose fitness and therapy zones",
+      "High-volume aquatic filtration",
+      "Unsurpassed structural integrity"
+    ]
   },
   {
     "modelName": "V150W",
@@ -838,16 +1674,41 @@
     "fullWeightLbs": 10300,
     "pumpCount": 2,
     "estimatedMsrp": 31995,
-    "techFeatures": ["VOLT"],
+    "techFeatures": [
+      "VOLT"
+    ],
     "heroImageUrl": "/mcp/demo/assets/v150_hero.png",
     "overheadImageUrl": "/mcp/demo/assets/v150_beauty.jpg",
     "marketingSummary": "The V150W is a versatile aquatic training vessel designed for both fitness and relaxation. Its open design allows for swimming and exercise, while its seating provides high-quality hydrotherapy.",
     "therapySummary": "Offers a flexible seating arrangement for 4 to 8 people with targeted therapy jets.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["exercise", "hydrotherapy", "family"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "exercise",
+      "hydrotherapy",
+      "family"
+    ],
+    "staticHeroTitle": "The V150W: The Ultimate Aquatic Trainer",
+    "staticHydrotherapy": "ATV swim spas are engineered for both high-performance aquatic training and deep-tissue hydrotherapy, offering a professional-grade swim current.",
+    "staticClimate": "Constructed with marine-grade materials to withstand the heavy loads and intense use of a swim spa environment.",
+    "staticDesign": "The dual-purpose design provides a dedicated swim lane for fitness and specialized therapy seats for post-workout recovery.",
+    "staticEfficiency": "Equipped with high-volume swim pumps and advanced filtration to handle larger water volumes and high bather loads.",
+    "staticDesignConsideration": "Requires a level, reinforced foundation capable of supporting over 15,000 lbs of water and equipment.",
+    "staticReasons": [
+      "Professional-grade swim current system",
+      "Dual-purpose fitness and therapy zones",
+      "High-volume aquatic filtration",
+      "Unsurpassed structural integrity"
+    ]
   },
   {
     "modelName": "V174S",
@@ -873,9 +1734,32 @@
     "therapySummary": "Includes two deep therapy seats for post-workout recovery.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["exercise", "performance", "recovery"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "exercise",
+      "performance",
+      "recovery"
+    ],
+    "staticHeroTitle": "The V174S: The Ultimate Aquatic Trainer",
+    "staticHydrotherapy": "ATV swim spas are engineered for both high-performance aquatic training and deep-tissue hydrotherapy, offering a professional-grade swim current.",
+    "staticClimate": "Constructed with marine-grade materials to withstand the heavy loads and intense use of a swim spa environment.",
+    "staticDesign": "The dual-purpose design provides a dedicated swim lane for fitness and specialized therapy seats for post-workout recovery.",
+    "staticEfficiency": "Equipped with high-volume swim pumps and advanced filtration to handle larger water volumes and high bather loads.",
+    "staticDesignConsideration": "Requires a level, reinforced foundation capable of supporting over 15,000 lbs of water and equipment.",
+    "staticReasons": [
+      "Professional-grade swim current system",
+      "Dual-purpose fitness and therapy zones",
+      "High-volume aquatic filtration",
+      "Unsurpassed structural integrity"
+    ]
   },
   {
     "modelName": "V174K",
@@ -901,8 +1785,31 @@
     "therapySummary": "Features two therapy seats and the strongest swim current in the ATV lineup.",
     "standardFeatures": [],
     "optionalFeatures": [],
-    "shellColors": ["Alba", "Midnight Canyon", "Glacier"],
-    "cabinetColors": ["Granite", "Timber"],
-    "usageTags": ["exercise", "performance", "luxury"]
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
+    "usageTags": [
+      "exercise",
+      "performance",
+      "luxury"
+    ],
+    "staticHeroTitle": "The V174K: The Ultimate Aquatic Trainer",
+    "staticHydrotherapy": "ATV swim spas are engineered for both high-performance aquatic training and deep-tissue hydrotherapy, offering a professional-grade swim current.",
+    "staticClimate": "Constructed with marine-grade materials to withstand the heavy loads and intense use of a swim spa environment.",
+    "staticDesign": "The dual-purpose design provides a dedicated swim lane for fitness and specialized therapy seats for post-workout recovery.",
+    "staticEfficiency": "Equipped with high-volume swim pumps and advanced filtration to handle larger water volumes and high bather loads.",
+    "staticDesignConsideration": "Requires a level, reinforced foundation capable of supporting over 15,000 lbs of water and equipment.",
+    "staticReasons": [
+      "Professional-grade swim current system",
+      "Dual-purpose fitness and therapy zones",
+      "High-volume aquatic filtration",
+      "Unsurpassed structural integrity"
+    ]
   }
 ]
