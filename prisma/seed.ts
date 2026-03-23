@@ -5,7 +5,8 @@ import fs from 'fs';
 import path from 'path';
 
 // Standardized adapter-based client for Vercel/Next.js compatibility
-const dbPath = path.join(__dirname, 'dev.db');
+const dbUrl = process.env.DATABASE_URL || 'file:./dev.db';
+const dbPath = dbUrl.startsWith('file:') ? path.resolve(process.cwd(), 'prisma', dbUrl.replace('file:', '')) : dbUrl;
 const adapter = new PrismaBetterSqlite3({ url: dbPath });
 const prisma = new PrismaClient({ adapter } as any);
 
