@@ -61,11 +61,19 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
   
   const suggested = seriesKey && aestheticKey ? AESTHETIC_MAPPINGS[seriesKey]?.[aestheticKey] : null;
 
-  const suggestedShell = suggested ? shellColors.filter((c: string) => suggested.shell.includes(c)) : [];
-  const otherShell = suggested ? shellColors.filter((c: string) => !suggested.shell.includes(c)) : shellColors;
+  // Use case-insensitive matching for robustness
+  const isMatch = (color: string, suggestedList: string[]) => {
+    const normalizedColor = color.toLowerCase().trim().replace('®', '');
+    return suggestedList.some(s => s.toLowerCase().trim().replace('®', '') === normalizedColor);
+  };
+
+  const suggestedShell = suggested ? shellColors.filter((c: string) => isMatch(c, suggested.shell)) : [];
+  const otherShell = suggested ? shellColors.filter((c: string) => !isMatch(c, suggested.shell)) : shellColors;
   
-  const suggestedCabinet = suggested ? cabinetColors.filter((c: string) => suggested.cabinet.includes(c)) : [];
-  const otherCabinet = suggested ? cabinetColors.filter((c: string) => !suggested.cabinet.includes(c)) : cabinetColors;
+  const suggestedCabinet = suggested ? cabinetColors.filter((c: string) => isMatch(c, suggested.cabinet)) : [];
+  const otherCabinet = suggested ? cabinetColors.filter((c: string) => !isMatch(c, suggested.cabinet)) : cabinetColors;
+
+  const hasSuggestions = suggestedShell.length > 0 || suggestedCabinet.length > 0;
 
   const renderColorSwatch = (color: string, isSuggested: boolean, isCabinet: boolean) => {
     const imageUrl = FINISH_IMAGE_MAP[color] || FINISH_IMAGE_MAP[color.replace('®', '')];
@@ -155,8 +163,8 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
            </div>
          )}
 
-         {/* All Options Section */}
-         {(showAllColors || !suggested) && (
+         {/* All Options Section (Visible if not suggested, if showAllColors is true, or if suggestions are unexpectedly empty) */}
+         {(showAllColors || !suggested || !hasSuggestions) && (
            <div className="animate-in fade-in slide-in-from-top-2 duration-500">
              {suggested && <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">All available finishes</div>}
              <div className="flex flex-wrap gap-5">

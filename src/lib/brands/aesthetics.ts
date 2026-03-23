@@ -33,11 +33,11 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
     },
     tropical: {
       shell: ['Tuscan Sun', 'Alba'],
-      cabinet: ['Barnwood'] // Assuming Barnwood/Chestnut for tropical if not specified? User didn't specify cabinet for Vector Tropical.
+      cabinet: ['Barnwood', 'Chestnut']
     },
     classic: {
       shell: ['Alba', 'Sterling Silver', 'Glacier'],
-      cabinet: ['Barnwood', 'Chestnut'] // Assuming neutral/balanced
+      cabinet: ['Barnwood', 'Chestnut']
     }
   },
   celebrity: {
@@ -51,7 +51,7 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
     },
     tropical: {
       shell: ['Tuscan Sun'],
-      cabinet: ['Pecan'] // From user notes: "Tuscan Sun carries more weight"
+      cabinet: ['Pecan']
     },
     classic: {
       shell: ['Ash', 'Glacier', 'Sterling Silver'],
@@ -69,7 +69,7 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
     },
     tropical: {
       shell: ['Alba', 'Tuscan Sun'],
-      cabinet: ['Hickory'] // Hickory or Pecan? User said Hickory is most distinct rustic.
+      cabinet: ['Hickory']
     },
     classic: {
       shell: ['Alba', 'Sterling Silver', 'Glacier'],
@@ -98,7 +98,7 @@ export const FINISH_IMAGE_MAP: Record<string, string> = {
   'Ash': '/mcp/demo/assets/finishes/ash.png',
   'Granite': '/mcp/demo/assets/finishes/granite.jpg',
   'Timber': '/mcp/demo/assets/finishes/timber.jpg',
-  'Island Tropical': '/mcp/demo/assets/finishes/timber.jpg', // Fallback
+  'Island Tropical': '/mcp/demo/assets/finishes/timber.jpg',
   'Black DuraCovers®': '/mcp/demo/assets/finishes/black-duracovers.jpg',
   'Black Weathershield': '/mcp/demo/assets/finishes/black-weathershield.jpg',
   'Barnwood': '/mcp/demo/assets/finishes/barnwood.jpg',
