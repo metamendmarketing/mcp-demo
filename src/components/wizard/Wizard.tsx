@@ -557,7 +557,9 @@ export default function Wizard() {
     // Fail-safe: Use the slug-based directory structure (Database URLs for non-Crown are untrustworthy re: extensions)
     if (product.slug) {
       const isCrown = product.slug.includes('crown');
-      const ext = isCrown ? 'jpg' : 'png';
+      // Vector series is inconsistent: 65L and 77L are JPG, others are PNG
+      const isJpgVector = product.slug.includes('v65l') || product.slug.includes('v77l');
+      const ext = (isCrown || isJpgVector) ? 'jpg' : 'png';
       return `/mcp/demo/assets/products/${product.slug}/hero.${ext}`;
     }
 

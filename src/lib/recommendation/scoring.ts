@@ -36,12 +36,16 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     const seriesName = typeof series === 'string' ? series : series.name || '';
     const positioningTier = product.positioningTier || product.series?.positioningTier || 'value';
 
-    // 1. Capacity (Max 40 points)
-    const seatsMax = product.seatsMax || 0;
-    const targetCapacity = preferences.capacity === '6+' ? 6 : preferences.capacity === '4-5' ? 4 : 2;
-    if (seatsMax >= targetCapacity) {
-      score += 40;
-      reasons.push(`${product.modelName} perfectly accommodates your group size of ${targetCapacity}+ adults.`);
+    // 1. Capacity (Max 45 points)
+    const targetCapacity = parseInt(preferences.capacity || '4');
+    const seats = product.seatsMax || 0;
+    if (seats >= targetCapacity) {
+      // Exact match bonus for "Laser Focus"
+      const isExact = (seats === targetCapacity || (targetCapacity === 6 && seats === 6));
+      score += isExact ? 45 : 40;
+      reasons.push(isExact 
+        ? `Perfectly proportioned for your target capacity of ${targetCapacity} guests.`
+        : `Spacious ${seats}-seat design exceeds your requirements for social comfort.`);
     }
 
     // 2. Budget / Ownership Intent (Max 50 points)
@@ -135,6 +139,14 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       score += 10;
       reasons.push(`Dedicated 240V hardwired line ensures peak parallel heater and pump performance.`);
     }
+
+    // 6.6 Precision Tie-Breakers (0-10 small points)
+    if (seriesName === 'Crown') score += 5;
+    else if (seriesName.includes('Vector')) score += 3;
+    else if (seriesName === 'Marquis Elite') score += 1;
+
+    if ((product.jetCount || 0) > 50) score += 2;
+    if ((product.pumpFlowGpm || 0) > 350) score += 2;
 
     return {
       product,
