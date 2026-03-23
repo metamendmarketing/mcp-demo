@@ -252,7 +252,7 @@ const QUESTIONS: {
       return "Capacity isn't solely about how many people you plan to host. A correctly sized model ensures every guest has an optimized hydrotherapy sequence without crowding the footwell.";
     },
     layout: 'slider',
-    bgImage: '/mcp/demo/assets/bg_capacity_social.png',
+    bgImage: '/media/2945/v150_beauty.jpg',
     options: []
   },
   {
