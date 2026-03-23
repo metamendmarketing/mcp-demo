@@ -187,27 +187,6 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
           </div>
         )}
 
-        {!loading && !response && !error && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              "Where are your spas made?",
-              "What is the V-O-L-T™ system?",
-              "How does employee ownership affect me?",
-              "What is Make-A-Wish partnership?",
-              "Tell me about ConstantClean+™",
-              "How quiet are the pumps?"
-            ].map((q, i) => (
-              <button 
-                key={i} 
-                onClick={() => { setQuestion(q); }}
-                className="text-left p-4 rounded-2xl border border-slate-100 text-sm font-bold text-slate-500 hover:border-marquis-blue hover:text-marquis-blue hover:bg-marquis-blue/5 transition-all flex justify-between items-center group/suggestion"
-              >
-                {q}
-                <ChevronRight className="w-4 h-4 opacity-0 group-hover/suggestion:opacity-100 -translate-x-2 group-hover/suggestion:translate-x-0 transition-all" />
-              </button>
-            ))}
-          </div>
-        )}
       </div>
       
       <div className="bg-slate-50 border-t border-slate-100 p-6 flex justify-center">
