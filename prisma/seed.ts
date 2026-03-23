@@ -1,9 +1,13 @@
 import { PrismaClient } from '@prisma/client';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import Database from 'better-sqlite3';
 import fs from 'fs';
 import path from 'path';
 
-// Use standard PrismaClient for seeding to ensure perfect schema alignment
-const prisma = new PrismaClient();
+// Standardized adapter-based client for Vercel/Next.js compatibility
+const dbPath = path.join(__dirname, 'dev.db');
+const adapter = new PrismaBetterSqlite3({ url: dbPath });
+const prisma = new PrismaClient({ adapter } as any);
 
 const ALL_HOTSPOTS: Record<string, any[]> = {
   'marquis-crown-summit': [
