@@ -92,7 +92,7 @@ async function main() {
         data: {
           brandId: marquis.id,
           name: sName,
-          category: sName.toLowerCase().includes('swim') ? 'swim_spa' : 'hot_tub',
+          category: (sName.toLowerCase().includes('swim') || sName.toLowerCase().includes('atv')) ? 'swim_spa' : 'hot_tub',
           positioningTier: sName.includes('Crown') ? 'luxury' : (sName.includes('Elite') || sName.includes('Vector') ? 'premium' : 'value'),
           description: `${sName} by Marquis.`
         }
