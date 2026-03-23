@@ -145,7 +145,7 @@ const QUESTIONS: {
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_maintenance_1774073867138.png',
     options: [
-      { value: 'automated', label: 'Automated Integrity', tip: "Utilizes the ConstantClean+™ simplified in-line sanitation system.", icon: <Robot weight="duotone" className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'automated', label: 'Automated Cleaning', tip: "Utilizes the ConstantClean+™ simplified in-line sanitation system.", icon: <Robot weight="duotone" className="w-8 h-8 text-marquis-blue" /> },
       { value: 'hands-on', label: 'Manual Management', tip: "Standard filtration with traditional chemistry dosing.", icon: <Wrench weight="duotone" className="w-8 h-8 text-slate-400" /> }
     ],
   },
