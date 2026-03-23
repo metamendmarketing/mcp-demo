@@ -245,18 +245,15 @@ const QUESTIONS: {
   },
   {
     id: 'capacity',
-    question: "What seating capacity fits your lifestyle?",
-    subtext: "Determine your footprint. Remember, larger tubs offer more varied seat depths.",
+    question: "How many guests should your Marquis accommodate?",
+    subtext: "Slide to select your target seating capacity (1-10 adults).",
     expertTip: (prefs) => {
-      if (prefs.primaryPurpose === 'recreational') return "Since you're looking for social entertainment, remember that larger 6+ person models offer a massive interior footprint, allowing for diverse jet patterns without sacrificing open seating space. For a more intimate social setting, 4-5 person models are the industry standard.";
-      return "Capacity isn't solely about how many people you plan to host. A 6+ person model offers a significantly larger interior footprint, providing diverse jet patterns and varying seat depths. This is crucial if your family has significant height differences.";
+      if (prefs.primaryPurpose === 'recreational') return "Since you're looking for social entertainment, remember that larger 6+ person models offer a massive interior footprint, allowing for diverse jet patterns without sacrificing open seating space.";
+      return "Capacity isn't solely about how many people you plan to host. A correctly sized model ensures every guest has an optimized hydrotherapy sequence without crowding the footwell.";
     },
-    layout: 'grid',
-    options: [
-      { value: '2-3', label: '2-3 Adults', tip: "Intimate, highly efficient footprint perfect for smaller patios.", image: '/mcp/demo/assets/capacity_intimate_1774075207167.png' },
-      { value: '4-5', label: '4-5 Adults', tip: "The standard family size, offering a mix of lounges and deep bucket seats.", image: '/mcp/demo/assets/capacity_family_1774075222333.png' },
-      { value: '6+', label: '6+ Adults', tip: "Ultimate entertainment hubs with massive open seating specifications.", image: '/mcp/demo/assets/capacity_entertaining_1774075235674.png' }
-    ]
+    layout: 'slider',
+    bgImage: '/mcp/demo/assets/bg_capacity_social.png',
+    options: []
   },
   {
     id: 'lounge',
@@ -760,6 +757,63 @@ export default function Wizard() {
                       </div>
                     </button>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {q.layout === 'slider' && (
+              <div className="relative p-10 rounded-[40px] overflow-hidden shadow-2xl min-h-[450px] flex items-center justify-center">
+                {q.bgImage && (
+                  <>
+                    <img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" />
+                  </>
+                )}
+                
+                <div className="relative z-20 w-full max-w-2xl text-center space-y-12">
+                  <div className="space-y-4">
+                    <div className="inline-flex items-center gap-3 px-4 py-2 bg-marquis-blue/20 backdrop-blur-md rounded-full border border-marquis-blue/30 text-marquis-blue mb-4">
+                       <Users className="w-5 h-5" />
+                       <span className="text-xs font-black uppercase tracking-widest text-white">Seating Capacity</span>
+                    </div>
+                    <h3 className="text-7xl md:text-9xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl">
+                      {preferences[q.id] || '5'}<span className="text-3xl md:text-4xl ml-2 text-blue-300">Adults</span>
+                    </h3>
+                  </div>
+
+                  <div className="space-y-6">
+                    <input 
+                      type="range" 
+                      min="1" 
+                      max="10" 
+                      step="1"
+                      value={preferences[q.id] || '5'}
+                      onChange={(e) => updatePreference(q.id, e.target.value)}
+                      className="w-full h-4 bg-white/20 rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/30 transition-all border border-white/10"
+                    />
+                    <div className="flex justify-between text-white/40 text-[10px] font-black uppercase tracking-widest px-1">
+                      <span>1 Adult</span>
+                      <span>5 Adults</span>
+                      <span>10 Adults</span>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={nextQuestion}
+                    className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group"
+                  >
+                    Confirm Capacity <ChevronRight className="inline-block w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+
+                  <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl text-left max-w-lg mx-auto">
+                    <div className="flex items-center gap-3 mb-2 text-blue-300">
+                      <Sparkles className="w-5 h-5" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Expert Consultation</span>
+                    </div>
+                    <p className="text-white/90 text-sm font-medium leading-relaxed italic">
+                      "{q.expertTip(preferences)}"
+                    </p>
+                  </div>
                 </div>
               </div>
             )}

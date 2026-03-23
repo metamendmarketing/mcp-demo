@@ -37,15 +37,19 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     const positioningTier = product.positioningTier || product.series?.positioningTier || 'value';
 
     // 1. Capacity (Max 45 points)
-    const targetCapacity = parseInt(preferences.capacity || '4');
+    const targetCapacity = parseInt(preferences.capacity || '5');
     const seats = product.seatsMax || 0;
-    if (seats >= targetCapacity) {
-      // Exact match bonus for "Laser Focus"
-      const isExact = (seats === targetCapacity || (targetCapacity === 6 && seats === 6));
-      score += isExact ? 45 : 40;
-      reasons.push(isExact 
-        ? `Perfectly proportioned for your target capacity of ${targetCapacity} guests.`
-        : `Spacious ${seats}-seat design exceeds your requirements for social comfort.`);
+    const diff = Math.abs(seats - targetCapacity);
+    
+    if (diff === 0) {
+      score += 45;
+      reasons.push(`Precision-matched for your target occupancy of ${targetCapacity} guests.`);
+    } else if (diff <= 1) {
+      score += 35;
+      reasons.push(`Highly optimized ${seats}-seat configuration aligns with your ${targetCapacity}-person capacity goal.`);
+    } else if (seats > targetCapacity && seats <= targetCapacity + 2) {
+      score += 25;
+      reasons.push(`Spacious ${seats}-seat blueprint offers additional seating margin for social versatile.`);
     }
 
     // 2. Budget / Ownership Intent (Max 50 points)
