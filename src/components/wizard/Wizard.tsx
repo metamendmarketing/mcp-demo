@@ -252,7 +252,7 @@ const QUESTIONS: {
       return "Capacity isn't solely about how many people you plan to host. A correctly sized model ensures every guest has an optimized hydrotherapy sequence without crowding the footwell.";
     },
     layout: 'slider',
-    bgImage: '/media/2945/v150_beauty.jpg',
+    bgImage: '/mcp/demo/assets/v150_beauty.jpg',
     options: []
   },
   {
@@ -797,23 +797,12 @@ export default function Wizard() {
                       <span>10 Adults</span>
                     </div>
                   </div>
-
                   <button 
                     onClick={nextQuestion}
                     className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group"
                   >
                     Confirm Capacity <ChevronRight className="inline-block w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" />
                   </button>
-
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl text-left max-w-lg mx-auto">
-                    <div className="flex items-center gap-3 mb-2 text-blue-300">
-                      <Sparkles className="w-5 h-5" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest">Expert Consultation</span>
-                    </div>
-                    <p className="text-white/90 text-sm font-medium leading-relaxed italic">
-                      "{q.expertTip(preferences)}"
-                    </p>
-                  </div>
                 </div>
               </div>
             )}
