@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {
   Check, ChevronRight, Zap, Users, Star, Maximize, Heart, Sparkles, ArrowRight, Info, ChevronLeft,
   MapPin, Activity, Waves, Palette, Settings, Wrench, Battery, BatteryCharging, Gauge,
-  Wallet, Landmark, Gem, Hammer, Truck, Thermometer, Cloud, Flame, Sunset, Sun, TreePine
+  Wallet, Landmark, Gem, Hammer, Truck, Thermometer, Cloud, Flame, Sunset, Sun, TreePine, Compass
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
