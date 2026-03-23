@@ -390,7 +390,7 @@ export default function Wizard() {
                Expertly Matched.
             </h1>
             <p className="text-white/90 text-lg md:text-xl leading-relaxed max-w-2xl mb-10 font-medium drop-shadow-md">
-               Our AI analyzes 14 expert criteria to find the one perfect Marquis model for your lifestyle.
+               Discover Marquis models thoughtfully selected to match your lifestyle, powered by your personal preferences.
             </p>
             <button 
               onClick={() => setStep('question')}
