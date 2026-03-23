@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Check, ChevronRight, Zap, Users, Star, Maximize, Heart, Sparkles, ArrowRight, Info, ChevronLeft,
-  MapPin, Activity, Waves, Palette, Settings, Wrench, Battery, BatteryCharging, Gauge,
-  Wallet, Landmark, Gem, Hammer, Truck, Thermometer, Cloud, Flame, Sunset, Sun, TreePine, Compass,
-  Feather
+import { 
+  FirstAidKit, UsersThree, Wind, CornersOut, Users, ArrowsInCardinal, 
+  Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
+  Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin
+} from '@phosphor-icons/react';
+import { 
+  Check, ChevronRight, Zap, Sparkles, ArrowRight, Info, ChevronLeft,
+  Sun, Sunset, Flame, TreePine
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -65,9 +68,9 @@ const QUESTIONS: {
     expertTip: () => "The physical architecture of a Marquis spa changes based on your answer. Therapy-focused models utilize our proprietary V-O-L-T™ flow system to drive massive, low-pressure water volume for deep tissue penetration. Conversely, recreational models prioritize open-concept seating, ambient waterline lighting, and spacious footwells for group entertaining.",
     layout: 'grid',
     options: [
-      { value: 'therapy', label: 'Deep Hydrotherapy', tip: "Focused relief for chronic pain, athletic recovery, and targeted muscle tension.", image: '/mcp/demo/assets/therapy_premium.png' },
-      { value: 'recreational', label: 'Social & Entertainment', tip: "Open seating, vibrant lighting, and space for family connection.", image: '/mcp/demo/assets/recreation_premium.png' },
-      { value: 'relaxation', label: 'Stress Relief & Sleep', tip: "Gentle bubbling, quiet operation, and ergonomic lounging for mental reset.", image: '/mcp/demo/assets/fitness_premium.png' }
+      { value: 'therapy', label: 'Deep Hydrotherapy', tip: "Focused relief for chronic pain, athletic recovery, and targeted muscle tension.", image: '/mcp/demo/assets/therapy_premium.png', icon: <FirstAidKit weight="duotone" className="w-8 h-8 text-indigo-500" /> },
+      { value: 'recreational', label: 'Social & Entertainment', tip: "Open seating, vibrant lighting, and space for family connection.", image: '/mcp/demo/assets/recreation_premium.png', icon: <UsersThree weight="duotone" className="w-8 h-8 text-sky-500" /> },
+      { value: 'relaxation', label: 'Stress Relief & Sleep', tip: "Gentle bubbling, quiet operation, and ergonomic lounging for mental reset.", image: '/mcp/demo/assets/fitness_premium.png', icon: <Wind weight="duotone" className="w-8 h-8 text-teal-400" /> }
     ]
   },
   {
@@ -93,9 +96,9 @@ const QUESTIONS: {
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_lounge_1774075579221.png',
     options: [
-      { value: 'yes', label: 'Yes, include a Lounger', tip: "I prioritize solo, full-body relaxation.", icon: <Maximize className="w-8 h-8" /> },
-      { value: 'no', label: 'No, Open Seating', tip: "I want to maximize the number of seats available.", icon: <Users className="w-8 h-8" /> },
-      { value: 'no-pref', label: 'No Preference', tip: "Show me the best matches for both layouts.", icon: <Star className="w-8 h-8" /> }
+      { value: 'yes', label: 'Yes, include a Lounger', tip: "I prioritize solo, full-body relaxation.", icon: <CornersOut weight="duotone" className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'no', label: 'No, Open Seating', tip: "I want to maximize the number of seats available.", icon: <Users weight="duotone" className="w-8 h-8 text-slate-400" /> },
+      { value: 'no-pref', label: 'No Preference', tip: "Show me the best matches for both layouts.", icon: <ArrowsInCardinal weight="duotone" className="w-8 h-8 text-amber-500" /> }
     ]
   },
   {
@@ -126,9 +129,9 @@ const QUESTIONS: {
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_intensity_1774073882614.png',
     options: [
-      { value: 'gentle', label: 'Soothing Soak', tip: "Broad flow. Ideal for sensitive skin or simple relaxation.", icon: <Feather className="w-8 h-8 text-teal-500" /> },
-      { value: 'medium', label: 'Standard Vigorous', tip: "The perfect balance of active recovery and relaxation.", icon: <Activity className="w-8 h-8 text-marquis-blue" /> },
-      { value: 'firm', label: 'High-Output Therapy', tip: "Maximum GPM flow designed to break down deep muscle tension.", icon: <Gauge className="w-8 h-8 text-indigo-600" /> }
+      { value: 'gentle', label: 'Soothing Soak', tip: "Broad flow. Ideal for sensitive skin or simple relaxation.", icon: <Feather weight="duotone" className="w-8 h-8 text-teal-500" /> },
+      { value: 'medium', label: 'Standard Vigorous', tip: "The perfect balance of active recovery and relaxation.", icon: <Waveform weight="duotone" className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'firm', label: 'High-Output Therapy', tip: "Maximum GPM flow designed to break down deep muscle tension.", icon: <Speedometer weight="duotone" className="w-8 h-8 text-indigo-600" /> }
     ]
   },
   {
@@ -142,8 +145,8 @@ const QUESTIONS: {
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_maintenance_1774073867138.png',
     options: [
-      { value: 'automated', label: 'Automated Integrity', tip: "Utilizes the ConstantClean+™ simplified in-line sanitation system.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
-      { value: 'hands-on', label: 'Manual Management', tip: "Standard filtration with traditional chemistry dosing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
+      { value: 'automated', label: 'Automated Integrity', tip: "Utilizes the ConstantClean+™ simplified in-line sanitation system.", icon: <Robot weight="duotone" className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'hands-on', label: 'Manual Management', tip: "Standard filtration with traditional chemistry dosing.", icon: <Wrench weight="duotone" className="w-8 h-8 text-slate-400" /> }
     ],
   },
   {
@@ -169,8 +172,8 @@ const QUESTIONS: {
     },
     layout: 'split',
     options: [
-      { value: 'upgrade', label: 'Forever Spa Upgrade', tip: "I want the highest engineering specs and longevity (Crown/Vector).", icon: <Gem className="w-8 h-8 text-amber-500" /> },
-      { value: 'discovery', label: 'First Spa Discovery', tip: "I want the best value for a multi-year experience (Celebrity).", icon: <Compass className="w-8 h-8 text-marquis-blue" /> }
+      { value: 'upgrade', label: 'Forever Spa Upgrade', tip: "I want the highest engineering specs and longevity (Crown/Vector).", icon: <Crown weight="duotone" className="w-8 h-8 text-amber-500" /> },
+      { value: 'discovery', label: 'First Spa Discovery', tip: "I want the best value for a multi-year experience (Celebrity).", icon: <Compass weight="duotone" className="w-8 h-8 text-marquis-blue" /> }
     ]
   },
   {
@@ -208,9 +211,9 @@ const QUESTIONS: {
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_electrical_night_1774075976736.png',
     options: [
-      { value: '110v', label: '110V Plug & Play', tip: "Easy install. Best for temperate climates and smaller models.", icon: <Battery className="w-8 h-8 text-blue-400" /> },
-      { value: '240v', label: '240V Hardwired', tip: "Professional choice. Maximum heat retention and jet power.", icon: <BatteryCharging className="w-8 h-8 text-marquis-blue" /> },
-      { value: 'help', label: 'Help me decide', tip: "I need more information on electrical requirements.", icon: <Info className="w-8 h-8 text-slate-400" /> }
+      { value: '110v', label: '110V Plug & Play', tip: "Easy install. Best for temperate climates and smaller models.", icon: <Plug weight="duotone" className="w-8 h-8 text-blue-400" /> },
+      { value: '240v', label: '240V Hardwired', tip: "Professional choice. Maximum heat retention and jet power.", icon: <Lightning weight="duotone" className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'help', label: 'Help me decide', tip: "I need more information on electrical requirements.", icon: <Question weight="duotone" className="w-8 h-8 text-slate-400" /> }
     ]
   },
   {
@@ -239,10 +242,10 @@ const QUESTIONS: {
     },
     layout: 'grid',
     options: [
-      { value: 'entry', label: 'Entry Tier', tip: "$5,000 - $8,000. Marquis quality in a standard equipment package.", icon: <Wallet className="w-10 h-10 mx-auto" /> },
-      { value: 'mid', label: 'Mid-Level Tier', tip: "$9,000 - $13,000. Upgraded filtration and additional massage pumps.", icon: <Landmark className="w-10 h-10 mx-auto" /> },
-      { value: 'premium', label: 'Premium Tier', tip: "$14,000 - $18,000. High-flow GPM and full-foam insulation standard.", icon: <Star className="w-10 h-10 mx-auto" /> },
-      { value: 'luxury', label: 'Luxury Tier', tip: "$19,000+. The absolute pinnacle of hydrotherapy and aesthetic.", icon: <Gem className="w-10 h-10 mx-auto" /> }
+      { value: 'entry', label: 'Entry Tier', tip: "$5,000 - $8,000. Marquis quality in a standard equipment package.", icon: <Wallet weight="duotone" className="w-10 h-10 mx-auto text-slate-400" /> },
+      { value: 'mid', label: 'Mid-Level Tier', tip: "$9,000 - $13,000. Upgraded filtration and additional massage pumps.", icon: <Bank weight="duotone" className="w-10 h-10 mx-auto text-marquis-blue" /> },
+      { value: 'premium', label: 'Premium Tier', tip: "$14,000 - $18,000. High-flow GPM and full-foam insulation standard.", icon: <Star weight="duotone" className="w-10 h-10 mx-auto text-amber-400" /> },
+      { value: 'luxury', label: 'Luxury Tier', tip: "$19,000+. The absolute pinnacle of hydrotherapy and aesthetic.", icon: <Diamond weight="duotone" className="w-10 h-10 mx-auto text-indigo-500" /> }
     ]
   },
   {
@@ -255,9 +258,9 @@ const QUESTIONS: {
     },
     layout: 'split',
     options: [
-      { value: 'easy', label: 'Wide Open Access', tip: "Double-wide gates or zero steps. Standard delivery.", icon: <Truck className="w-8 h-8" /> },
-      { value: 'standard', label: 'Standard Clearance', tip: "Minimum 40-inch wide side gate with a clear, flat path.", icon: <Hammer className="w-8 h-8" /> },
-      { value: 'tight', label: 'Tight / Complex Path', tip: "Narrow gates, stairs, or requires crane facilitation.", icon: <MapPin className="w-8 h-8" /> }
+      { value: 'easy', label: 'Wide Open Access', tip: "Double-wide gates or zero steps. Standard delivery.", icon: <Truck weight="duotone" className="w-8 h-8 text-green-500" /> },
+      { value: 'standard', label: 'Standard Clearance', tip: "Minimum 40-inch wide side gate with a clear, flat path.", icon: <Hammer weight="duotone" className="w-8 h-8 text-marquis-blue" /> },
+      { value: 'tight', label: 'Tight / Complex Path', tip: "Narrow gates, stairs, or requires crane facilitation.", icon: <MapPin weight="duotone" className="w-8 h-8 text-red-500" /> }
     ]
   }
 ];
