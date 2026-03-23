@@ -453,7 +453,10 @@ export default function Wizard() {
                     <button key={opt.value} onClick={() => { updatePreference(q.id, opt.value); setTimeout(nextQuestion, 150); }} className={cn("w-full flex items-center justify-between p-6 rounded-2xl border-2 transition-all hover:shadow-md group", preferences[q.id] === opt.value ? "bg-white border-marquis-blue ring-2 ring-marquis-blue/20 scale-[1.02] shadow-xl" : "bg-white/95 border-slate-100/80 hover:border-marquis-blue/40")}>
                       <div className="flex items-center gap-6">
                         {opt.icon && <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-all", preferences[q.id] === opt.value ? "bg-marquis-blue text-white" : "bg-slate-50 text-slate-400 group-hover:text-marquis-blue")}>{opt.icon}</div>}
-                        <div className="flex flex-col text-left"><span className="text-xl font-black uppercase italic text-slate-800 tracking-wide">{opt.label}</span></div>
+                        <div className="flex flex-col text-left">
+                          <span className="text-xl font-black uppercase italic text-slate-800 tracking-wide leading-none mb-1">{opt.label}</span>
+                          {opt.tip && <p className="text-xs text-slate-500 font-medium leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">{opt.tip}</p>}
+                        </div>
                       </div>
                       <div className={cn("w-10 h-10 rounded-full flex items-center justify-center border-2", preferences[q.id] === opt.value ? "bg-marquis-blue border-marquis-blue text-white" : "bg-transparent border-slate-200")}>
                          {preferences[q.id] === opt.value ? <Check className="w-5 h-5" /> : <div className="w-2.5 h-2.5 rounded-full bg-current" />}
@@ -516,7 +519,12 @@ export default function Wizard() {
                   <div key={res.product.id} className={cn("bg-white rounded-3xl overflow-hidden shadow-md flex flex-col border transition-all duration-700", i === 0 ? "border-amber-400 ring-4 ring-amber-400/20 shadow-2xl scale-[1.02] z-10" : "border-slate-100")}>
                     <div className="w-full h-64 relative bg-slate-100 overflow-hidden group shrink-0">
                        <img src={getHeroImage(res.product)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={res.product.modelName} />
-                       <div className="absolute top-6 left-6 px-4 py-2 rounded-full text-xs font-black uppercase text-white shadow-xl bg-marquis-blue">{res.matchStrategy || "Expert Selection"}</div>
+                       <div className={cn(
+                         "absolute top-6 left-6 px-4 py-2 rounded-full text-xs font-black uppercase shadow-xl",
+                         i === 0 ? "bg-amber-400 text-slate-900 border-2 border-amber-200" : "bg-marquis-blue text-white"
+                       )}>
+                         {i === 0 ? "★ Best Match" : (res.matchStrategy || "Expert Selection")}
+                       </div>
                     </div>
                     <div className="p-8 flex flex-col flex-grow">
                           <h3 className="text-3xl font-black italic uppercase text-slate-800 leading-none mb-2">{res.product.modelName}</h3>
