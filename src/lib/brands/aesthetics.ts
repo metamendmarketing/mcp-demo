@@ -39,6 +39,24 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
       shell: ['Alba', 'Sterling Silver', 'Glacier'],
       cabinet: ['Barnwood', 'Chestnut'] // Assuming neutral/balanced
     }
+  },
+  celebrity: {
+    modern: {
+      shell: ['Midnight Canyon', 'Glacier', 'Sterling Silver'],
+      cabinet: ['Black Weathershield']
+    },
+    rustic: {
+      shell: ['Tuscan Sun'],
+      cabinet: ['Pecan']
+    },
+    tropical: {
+      shell: ['Tuscan Sun'],
+      cabinet: ['Pecan'] // From user notes: "Tuscan Sun carries more weight"
+    },
+    classic: {
+      shell: ['Ash', 'Glacier', 'Sterling Silver'],
+      cabinet: ['Ash']
+    }
   }
 };
 

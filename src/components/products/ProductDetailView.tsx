@@ -15,6 +15,133 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// --- SUB-COMPONENTS ---
+
+interface ColorExplorerProps {
+  product: any;
+  preferences?: any;
+}
+
+function ColorExplorer({ product, preferences: initialPreferences }: ColorExplorerProps) {
+  const [showAllColors, setShowAllColors] = useState(false);
+  const [persistedPreferences, setPersistedPreferences] = useState<any>(null);
+
+  // Sync preferences with localStorage for deep linking/direct page loads
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (initialPreferences) {
+        localStorage.setItem('marquis_user_preferences', JSON.stringify(initialPreferences));
+        setPersistedPreferences(initialPreferences);
+      } else {
+        const stored = localStorage.getItem('marquis_user_preferences');
+        if (stored) {
+          try {
+            setPersistedPreferences(JSON.parse(stored));
+          } catch (e) {
+            console.error("Failed to parse preferences", e);
+          }
+        }
+      }
+    }
+  }, [initialPreferences]);
+
+  const preferences = initialPreferences || persistedPreferences;
+
+  if (!product.shellColors && !product.cabinetColors) return null;
+
+  const shellColors = Array.isArray(product.shellColors) ? product.shellColors : [];
+  const cabinetColors = Array.isArray(product.cabinetColors) ? product.cabinetColors : [];
+  
+  const seriesName = product.seriesName || product.series?.name || '';
+  const seriesKey = seriesName.toLowerCase().includes('crown') ? 'crown' : 
+                   (seriesName.toLowerCase().includes('vector') ? 'vector' : 
+                   (seriesName.toLowerCase().includes('celebrity') ? 'celebrity' : null));
+  const aestheticKey = preferences?.aesthetic;
+  
+  const suggested = seriesKey && aestheticKey ? AESTHETIC_MAPPINGS[seriesKey]?.[aestheticKey] : null;
+
+  const suggestedShell = suggested ? shellColors.filter((c: string) => suggested.shell.includes(c)) : [];
+  const otherShell = suggested ? shellColors.filter((c: string) => !suggested.shell.includes(c)) : shellColors;
+  
+  const suggestedCabinet = suggested ? cabinetColors.filter((c: string) => suggested.cabinet.includes(c)) : [];
+  const otherCabinet = suggested ? cabinetColors.filter((c: string) => !suggested.cabinet.includes(c)) : cabinetColors;
+
+  return (
+    <div className="mt-8 border-t border-slate-100 pt-8">
+       <div className="flex items-center justify-between mb-4">
+         <div className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-2">
+           <Palette className="w-3 h-3" />
+           Curated Finishes
+         </div>
+         {suggested && (
+           <div className="px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
+             <Sparkles className="w-3 h-3" />
+             Suggested for {getAestheticTitle(aestheticKey)}
+           </div>
+         )}
+       </div>
+
+       <div className="space-y-6">
+         {/* Suggested Section */}
+         {suggested && (suggestedShell.length > 0 || suggestedCabinet.length > 0) && (
+           <div className="space-y-4">
+             <div className="flex flex-wrap gap-2">
+               {suggestedShell.map((color: string, i: number) => (
+                 <div key={`s-shell-${i}`} className="group relative px-4 py-2 bg-white border-2 border-emerald-200 rounded-2xl text-[11px] font-black text-slate-800 uppercase shadow-sm hover:border-emerald-400 transition-all cursor-default">
+                   <span className="relative z-10">{color}</span>
+                   <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                     <Check className="w-2 h-2 text-white" />
+                   </div>
+                 </div>
+               ))}
+               {suggestedCabinet.map((color: string, i: number) => (
+                 <div key={`s-cab-${i}`} className="group relative px-4 py-2 bg-slate-50 border-2 border-emerald-200 rounded-2xl text-[11px] font-black text-slate-800 uppercase shadow-sm hover:border-emerald-400 transition-all cursor-default">
+                   <span className="relative z-10">{color}</span>
+                   <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                     <Check className="w-2 h-2 text-white" />
+                   </div>
+                 </div>
+               ))}
+             </div>
+             
+             {!showAllColors && (
+               <button 
+                 onClick={() => setShowAllColors(true)}
+                 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors group/link"
+               >
+                 Explore all color options <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+               </button>
+             )}
+           </div>
+         )}
+
+         {/* All Options Section (Visible if not suggested or if showAllColors is true) */}
+         {(showAllColors || !suggested) && (
+           <div className="animate-in fade-in slide-in-from-top-2 duration-500">
+             {suggested && <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">All available finishes</div>}
+             <div className="flex flex-wrap gap-2">
+               {otherShell.map((color: string, i: number) => (
+                 <div key={`o-shell-${i}`} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase">{color}</div>
+               ))}
+               {otherCabinet.map((color: string, i: number) => (
+                 <div key={`o-cab-${i}`} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase italic">{color}</div>
+               ))}
+             </div>
+             {showAllColors && (
+                <button 
+                onClick={() => setShowAllColors(false)}
+                className="mt-4 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors"
+              >
+                Show suggested only
+              </button>
+             )}
+           </div>
+         )}
+       </div>
+    </div>
+  );
+}
+
 // BRAIN 2.0 - INLINED GROUNDED Q&A COMPONENT
 interface AskTheBrainProps {
   productId?: string;
@@ -386,98 +513,7 @@ export default function ProductDetailView({
                 ))}
              </div>
              {/* COLOR EXPLORER */}
-             {(product.shellColors || product.cabinetColors) && (() => {
-               const [showAllColors, setShowAllColors] = useState(false);
-               const shellColors = typeof product.shellColors === 'string' ? JSON.parse(product.shellColors) : (Array.isArray(product.shellColors) ? product.shellColors : []);
-               const cabinetColors = typeof product.cabinetColors === 'string' ? JSON.parse(product.cabinetColors) : (Array.isArray(product.cabinetColors) ? product.cabinetColors : []);
-               
-               const seriesName = product.seriesName || product.series?.name || '';
-               const seriesKey = seriesName.toLowerCase().includes('crown') ? 'crown' : (seriesName.toLowerCase().includes('vector') ? 'vector' : null);
-               const aestheticKey = preferences?.aesthetic;
-               
-               const suggested = seriesKey && aestheticKey ? AESTHETIC_MAPPINGS[seriesKey]?.[aestheticKey] : null;
-
-               const suggestedShell = suggested ? shellColors.filter((c: string) => suggested.shell.includes(c)) : [];
-               const otherShell = suggested ? shellColors.filter((c: string) => !suggested.shell.includes(c)) : shellColors;
-               
-               const suggestedCabinet = suggested ? cabinetColors.filter((c: string) => suggested.cabinet.includes(c)) : [];
-               const otherCabinet = suggested ? cabinetColors.filter((c: string) => !suggested.cabinet.includes(c)) : cabinetColors;
-
-               return (
-                 <div className="mt-8 border-t border-slate-100 pt-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-2">
-                        <Palette className="w-3 h-3" />
-                        Curated Finishes
-                      </div>
-                      {suggested && (
-                        <div className="px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
-                          <Sparkles className="w-3 h-3" />
-                          Suggested for {getAestheticTitle(aestheticKey)}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="space-y-6">
-                      {/* Suggested Section */}
-                      {suggested && (suggestedShell.length > 0 || suggestedCabinet.length > 0) && (
-                        <div className="space-y-4">
-                          <div className="flex flex-wrap gap-2">
-                            {suggestedShell.map((color: string, i: number) => (
-                              <div key={`s-shell-${i}`} className="group relative px-4 py-2 bg-white border-2 border-emerald-200 rounded-2xl text-[11px] font-black text-slate-800 uppercase shadow-sm hover:border-emerald-400 transition-all cursor-default">
-                                <span className="relative z-10">{color}</span>
-                                <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-                                  <Check className="w-2 h-2 text-white" />
-                                </div>
-                              </div>
-                            ))}
-                            {suggestedCabinet.map((color: string, i: number) => (
-                              <div key={`s-cab-${i}`} className="group relative px-4 py-2 bg-slate-50 border-2 border-emerald-200 rounded-2xl text-[11px] font-black text-slate-800 uppercase shadow-sm hover:border-emerald-400 transition-all cursor-default">
-                                <span className="relative z-10">{color}</span>
-                                <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-                                  <Check className="w-2 h-2 text-white" />
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                          
-                          {!showAllColors && (
-                            <button 
-                              onClick={() => setShowAllColors(true)}
-                              className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors group/link"
-                            >
-                              Explore all color options <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
-                            </button>
-                          )}
-                        </div>
-                      )}
-
-                      {/* All Options Section (Visible if not suggested or if showAllColors is true) */}
-                      {(showAllColors || !suggested) && (
-                        <div className="animate-in fade-in slide-in-from-top-2 duration-500">
-                          {suggested && <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">All available finishes</div>}
-                          <div className="flex flex-wrap gap-2">
-                            {otherShell.map((color: string, i: number) => (
-                              <div key={`o-shell-${i}`} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase">{color}</div>
-                            ))}
-                            {otherCabinet.map((color: string, i: number) => (
-                              <div key={`o-cab-${i}`} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase italic">{color}</div>
-                            ))}
-                          </div>
-                          {showAllColors && (
-                             <button 
-                             onClick={() => setShowAllColors(false)}
-                             className="mt-4 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors"
-                           >
-                             Show suggested only
-                           </button>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                 </div>
-               );
-             })()}
+             <ColorExplorer product={product} preferences={preferences} />
           </div>
        </div>
 
