@@ -165,7 +165,7 @@ function parseModelPage(htmlPath: string, seriesName: string, category: string):
     standardFeatures,
     optionalFeatures,
     shellColors: ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
-    cabinetColors: ["Granite", "Timber"],
+    cabinetColors: seriesName.includes('Vector') ? ["Barnwood", "Chestnut", "Black DuraCovers®", "Black Weathershield"] : ["Granite", "Timber", "Island Tropical", "Black DuraCovers®", "Black Weathershield"],
     usageTags: []
   };
 }
