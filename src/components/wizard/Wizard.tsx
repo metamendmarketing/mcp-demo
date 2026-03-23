@@ -973,10 +973,17 @@ export default function Wizard() {
                   </div>
                )}
 
-               {/* Confirmation Bullets */}
-               <div className="space-y-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/50">
-                  <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3">Therapy Objective</div>
-                  <p className="text-sm text-slate-700 font-bold leading-relaxed mb-4 italic">"{product.therapySummary}"</p>
+                {/* Confirmation Bullets */}
+                <div className="space-y-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/50">
+                   <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3">Therapy Objective</div>
+                   <p className="text-sm text-slate-700 font-bold leading-relaxed mb-4 italic">
+                     "{product.therapySummary || (
+                       product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
+                       product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
+                       product.series?.name === 'Marquis Elite' ? 'High-performance hydrotherapy combined with exceptional durability for a professional-grade home spa experience.' :
+                       'A balanced, engineering-focused hydrotherapy experience designed for daily wellness and relaxation.'
+                     )}"
+                   </p>
                   
                   <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3 border-t border-blue-100 pt-4">Expert Reasoning</div>
                   {reasons.slice(0, 3).map((r, i) => (
