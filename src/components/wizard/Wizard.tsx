@@ -1020,7 +1020,7 @@ export default function Wizard() {
                       <div>
                         <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Capacity</div>
                         <div className="text-sm font-black italic uppercase text-slate-700">
-                          {product.seatsMax ? (
+                          {product.seatsMax !== null && product.seatsMax !== undefined ? (
                             <>
                               {product.seatsMin && product.seatsMin !== product.seatsMax ? `${product.seatsMin}-${product.seatsMax}` : product.seatsMax} Adults
                             </>
