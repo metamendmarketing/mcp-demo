@@ -171,19 +171,6 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
               </p>
             </div>
 
-            {response.citedFeatures && response.citedFeatures.length > 0 && (
-              <div className="pt-8 border-t border-slate-100">
-                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Cited Features & Concepts</div>
-                <div className="flex flex-wrap gap-2">
-                  {response.citedFeatures.map((feat, i) => (
-                    <div key={i} className="px-4 py-2 bg-marquis-blue/5 border border-marquis-blue/10 rounded-xl text-xs font-black text-marquis-blue uppercase flex items-center gap-2">
-                      <ChevronRight className="w-3 h-3" />
-                      {feat}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         )}
 
