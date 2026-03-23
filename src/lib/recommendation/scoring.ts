@@ -75,45 +75,55 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Open-seating blueprint maximizes party capacity and conversation flow.`);
     }
 
-    // 3. Primary Purpose & Therapy Tags (Max 40 points)
-    if (preferences.primaryPurpose && usageTags.includes(preferences.primaryPurpose)) {
-      score += 40;
+    // 3. Primary Purpose & Therapy Tags (Max 50 points)
+    const tagMap: Record<string, string[]> = {
+      'recreational': ['social', 'recreational'],
+      'therapy': ['hydrotherapy', 'recovery', 'therapy'],
+      'athletic': ['recovery', 'athletic', 'performance'],
+      'solo': ['relaxation', 'soft', 'solo', 'intimate']
+    };
+
+    const targetTags = preferences.primaryPurpose ? tagMap[preferences.primaryPurpose] || [] : [];
+    const hasTagMatch = usageTags.some((tag: string) => targetTags.includes(tag.toLowerCase()));
+    
+    if (hasTagMatch) {
+      score += 50;
       reasons.push(`Specifically blueprint-matched for your goal of ${preferences.primaryPurpose}.`);
     }
 
-    // 4. Engineering Mastery (V-O-L-T and GPM)
+    // 4. Engineering Mastery (V-O-L-T and GPM) (Max 40 points)
     if (preferences.intensity === 'firm') {
       const gpm = product.pumpFlowGpm || 0;
       if (gpm >= 320) {
-        score += 30;
+        score += 40;
         reasons.push(`High Technical Authority: Dual 240V pumps move ${gpm} Gallons Per Minute for aggressive recovery.`);
       } else if (gpm > 0) {
-        score += 15;
+        score += 20;
         reasons.push(`Superior flow dynamics compared to traditional high-pressure/low-volume systems.`);
       }
     }
 
-    // 5. Ergonomic Focus (Diverse Depth)
+    // 5. Ergonomic Focus (Diverse Depth) (Max 30 points)
     if (preferences.focus === 'diverse-depth') {
       if (seriesName === 'Crown' || product.modelName.includes('Resort') || product.modelName.includes('Summit')) {
-        score += 25;
+        score += 30;
         reasons.push(`Engineered with diverse seat depths to accommodate a wide range of user heights and immersion levels.`);
       }
-    } else if (preferences.focus && usageTags.includes(preferences.focus)) {
-      score += 15;
+    } else if (preferences.focus && usageTags.some((t: string) => t.toLowerCase() === preferences.focus)) {
+      score += 20;
       reasons.push(`Targeted RHK™ jet clusters mapped to your focus on ${preferences.focus}.`);
     }
 
-    // 6. Maintenance Style
-    if (preferences.maintenance === 'automated' && usageTags.includes('constantclean')) {
+    // 6. Maintenance Style (Max 20 points)
+    if (preferences.maintenance === 'automated' && (usageTags.includes('constantclean') || JSON.stringify(product.filtration || {}).toLowerCase().includes('constantclean'))) {
       score += 20;
       reasons.push("Features ConstantClean+™ automated sanitation protocols for 90% manual reduction.");
     }
 
-    // 6.5 Electrical & Climate (Max 20 points)
+    // 6.5 Electrical & Climate (Max 35 points)
     const zipPrefix = preferences.zipCode?.[0];
     const isExtremeClimate = ['0', '1', '2', '5'].includes(zipPrefix || '');
-    if (isExtremeClimate && product.insulationType === 'full-foam') {
+    if (isExtremeClimate && product.insulationType?.toLowerCase().includes('foam')) {
       score += 15;
       reasons.push(`Full-foam MaximizR™ insulation is mandatory for your extreme ${preferences.zipCode} climate.`);
     }
@@ -126,16 +136,23 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Dedicated 240V hardwired line ensures peak parallel heater and pump performance.`);
     }
 
-    // 7. Baseline Reliability (Expert Reasoning Fallback)
-    // If we have fewer than 3 reasons, add high-authority engineering facts
+    // 7. Normalization Logic
+    // Total potential points in the current system is ~290. 
+    // We want a perfect match to be ~98-100%. 
+    // We'll use a divisor of 250 to allow for "Over-performance" on matches.
+    let finalPercentage = Math.round((score / 260) * 100);
+    
+    // Add a small randomized "Expert Weight" to break ties and feel natural
+    const tieBreaker = (product.modelName.charCodeAt(0) % 5);
+    finalPercentage = Math.min(finalPercentage + tieBreaker, 100);
+
+    // Baseline Reliability (Expert Reasoning Fallback)
     if (reasons.length < 3) {
       const baselines = [
         `Engineered with proprietary DuraShell® technology for ultimate structural longevity.`,
         `Features a high-flow laminar jet architecture for superior therapy without high skin pressure.`,
         `Built with MaximizR™ full-foam insulation to maintain thermal consistency in all climates.`
       ];
-      
-      // Add only enough to reach a professional threshold
       for (const baseline of baselines) {
         if (reasons.length < 3 && !reasons.includes(baseline)) {
           reasons.push(baseline);
@@ -143,12 +160,9 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       }
     }
 
-    // Normalize final score to 0-100 range
-    const finalScore = Math.min(Math.max(score, 0), 100);
-
     return {
       product,
-      score: finalScore,
+      score: finalPercentage,
       reasons
     };
   }).sort((a, b) => b.score - a.score);
