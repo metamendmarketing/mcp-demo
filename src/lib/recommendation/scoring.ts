@@ -66,6 +66,15 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Mathematically aligned with your ${preferences.budget} investment range.`);
     }
 
+    // 2.5 Lounge Preference (Max 15 points)
+    if (preferences.lounge === 'yes' && (product.loungeCount || 0) > 0) {
+      score += 15;
+      reasons.push(`Features a dedicated full-body lounge seat for sequential hydrotherapy.`);
+    } else if (preferences.lounge === 'no' && (product.loungeCount || 0) === 0) {
+      score += 10;
+      reasons.push(`Open-seating blueprint maximizes party capacity and conversation flow.`);
+    }
+
     // 3. Primary Purpose & Therapy Tags (Max 40 points)
     if (preferences.primaryPurpose && usageTags.includes(preferences.primaryPurpose)) {
       score += 40;
@@ -99,6 +108,22 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     if (preferences.maintenance === 'automated' && usageTags.includes('constantclean')) {
       score += 20;
       reasons.push("Features ConstantClean+™ automated sanitation protocols for 90% manual reduction.");
+    }
+
+    // 6.5 Electrical & Climate (Max 20 points)
+    const zipPrefix = preferences.zipCode?.[0];
+    const isExtremeClimate = ['0', '1', '2', '5'].includes(zipPrefix || '');
+    if (isExtremeClimate && product.insulationType === 'full-foam') {
+      score += 15;
+      reasons.push(`Full-foam MaximizR™ insulation is mandatory for your extreme ${preferences.zipCode} climate.`);
+    }
+
+    if (preferences.electrical === '110v' && (product.electricalAmps || 0) <= 20) {
+      score += 20;
+      reasons.push(`Verified "Plug & Play" 110V compatibility for simplified electrical installation.`);
+    } else if (preferences.electrical === '240v' && (product.electricalAmps || 0) >= 30) {
+      score += 10;
+      reasons.push(`Dedicated 240V hardwired line ensures peak parallel heater and pump performance.`);
     }
 
     // 7. Baseline Reliability (Expert Reasoning Fallback)
