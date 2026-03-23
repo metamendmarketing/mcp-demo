@@ -229,6 +229,7 @@ const QUESTIONS: {
   layout: 'grid' | 'split' | 'map' | 'slider' | 'custom-inquiry';
   bgImage?: string;
   options: { label: string; value: string; icon?: React.ReactNode; image?: string; tip?: string }[];
+  skip?: (prefs: UserPreferences) => boolean;
 }[] = [
   {
     id: 'primaryPurpose',
@@ -278,7 +279,8 @@ const QUESTIONS: {
       { value: 'neck-shoulders', label: 'Neck & Shoulders', tip: "Targeted collar jets for tension headaches.", icon: <Activity className="w-10 h-10 mx-auto" /> },
       { value: 'lower-back', label: 'Lower Back Focus', tip: "Deep penetration HK jets for lumbar relief.", icon: <Waves className="w-10 h-10 mx-auto" /> },
       { value: 'full-body', label: 'Full Body Immersion', tip: "Comprehensive sequential massage profile.", icon: <Heart className="w-10 h-10 mx-auto" /> }
-    ]
+    ],
+    skip: (prefs) => prefs.capacity === '2-3' // Intimate tubs have less seat-depth variety than large models
   },
   {
     id: 'intensity',
@@ -303,7 +305,8 @@ const QUESTIONS: {
     options: [
       { value: 'automated', label: 'Automated Integrity', tip: "Utilizes the ConstantClean+™ simplified in-line sanitation system.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
       { value: 'hands-on', label: 'Manual Management', tip: "Standard filtration with traditional chemistry dosing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
-    ]
+    ],
+    skip: (prefs) => prefs.primaryPurpose === 'recreational' // Recreational users almost always prioritize automated maintenance for social ease
   },
   {
     id: 'aesthetic',
@@ -450,16 +453,26 @@ export default function Wizard() {
   };
 
   const nextQuestion = () => {
-    if (currentQuestionIndex < QUESTIONS.length - 1) {
-      setCurrentQuestionIndex(prev => prev + 1);
+    let nextIndex = currentQuestionIndex + 1;
+    while (nextIndex < QUESTIONS.length && QUESTIONS[nextIndex].skip?.(preferences)) {
+      nextIndex++;
+    }
+
+    if (nextIndex < QUESTIONS.length) {
+      setCurrentQuestionIndex(nextIndex);
     } else {
       setStep('blueprint');
     }
   };
 
   const prevQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
+    let prevIndex = currentQuestionIndex - 1;
+    while (prevIndex >= 0 && QUESTIONS[prevIndex].skip?.(preferences)) {
+      prevIndex--;
+    }
+
+    if (prevIndex >= 0) {
+      setCurrentQuestionIndex(prevIndex);
     } else {
       setStep('intro');
     }
