@@ -895,6 +895,7 @@
         "standardFeatures": [],
         "optionalFeatures": [],
         "shellColors": [
+            "Ash",
             "Alba",
             "Midnight Canyon",
             "Glacier",
@@ -903,8 +904,10 @@
             "Winter Solstice"
         ],
         "cabinetColors": [
+            "Harbor",
+            "Hickory",
             "Granite",
-            "Timber"
+            "Black Weathershield"
         ],
         "usageTags": [
             "hydrotherapy",
@@ -960,6 +963,7 @@
         "standardFeatures": [],
         "optionalFeatures": [],
         "shellColors": [
+            "Ash",
             "Alba",
             "Midnight Canyon",
             "Glacier",
@@ -968,8 +972,10 @@
             "Winter Solstice"
         ],
         "cabinetColors": [
+            "Harbor",
+            "Hickory",
             "Granite",
-            "Timber"
+            "Black Weathershield"
         ],
         "usageTags": [
             "hydrotherapy",
@@ -1027,6 +1033,7 @@
         "standardFeatures": [],
         "optionalFeatures": [],
         "shellColors": [
+            "Ash",
             "Alba",
             "Midnight Canyon",
             "Glacier",
@@ -1035,8 +1042,10 @@
             "Winter Solstice"
         ],
         "cabinetColors": [
+            "Harbor",
+            "Hickory",
             "Granite",
-            "Timber"
+            "Black Weathershield"
         ],
         "usageTags": [
             "hydrotherapy",
@@ -1094,6 +1103,7 @@
         "standardFeatures": [],
         "optionalFeatures": [],
         "shellColors": [
+            "Ash",
             "Alba",
             "Midnight Canyon",
             "Glacier",
@@ -1102,8 +1112,10 @@
             "Winter Solstice"
         ],
         "cabinetColors": [
+            "Harbor",
+            "Hickory",
             "Granite",
-            "Timber"
+            "Black Weathershield"
         ],
         "usageTags": [
             "hydrotherapy",
@@ -1161,6 +1173,7 @@
         "standardFeatures": [],
         "optionalFeatures": [],
         "shellColors": [
+            "Ash",
             "Alba",
             "Midnight Canyon",
             "Glacier",
@@ -1169,8 +1182,10 @@
             "Winter Solstice"
         ],
         "cabinetColors": [
+            "Harbor",
+            "Hickory",
             "Granite",
-            "Timber"
+            "Black Weathershield"
         ],
         "usageTags": [
             "hydrotherapy",
@@ -1226,6 +1241,7 @@
         "standardFeatures": [],
         "optionalFeatures": [],
         "shellColors": [
+            "Ash",
             "Alba",
             "Midnight Canyon",
             "Glacier",
@@ -1234,8 +1250,10 @@
             "Winter Solstice"
         ],
         "cabinetColors": [
+            "Harbor",
+            "Hickory",
             "Granite",
-            "Timber"
+            "Black Weathershield"
         ],
         "usageTags": [
             "hydrotherapy",

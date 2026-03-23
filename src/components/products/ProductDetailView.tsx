@@ -55,7 +55,8 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
   const seriesName = product.seriesName || product.series?.name || '';
   const seriesKey = seriesName.toLowerCase().includes('crown') ? 'crown' : 
                    (seriesName.toLowerCase().includes('vector') ? 'vector' : 
-                   (seriesName.toLowerCase().includes('celebrity') ? 'celebrity' : null));
+                   (seriesName.toLowerCase().includes('celebrity') ? 'celebrity' : 
+                   (seriesName.toLowerCase().includes('elite') ? 'elite' : null)));
   const aestheticKey = preferences?.aesthetic;
   
   const suggested = seriesKey && aestheticKey ? AESTHETIC_MAPPINGS[seriesKey]?.[aestheticKey] : null;

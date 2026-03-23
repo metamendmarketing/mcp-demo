@@ -57,6 +57,24 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
       shell: ['Ash', 'Glacier', 'Sterling Silver'],
       cabinet: ['Ash']
     }
+  },
+  elite: {
+    modern: {
+      shell: ['Midnight Canyon', 'Glacier', 'Winter Solstice', 'Sterling Silver'],
+      cabinet: ['Black Weathershield']
+    },
+    rustic: {
+      shell: ['Tuscan Sun'],
+      cabinet: ['Hickory']
+    },
+    tropical: {
+      shell: ['Alba', 'Tuscan Sun'],
+      cabinet: ['Hickory'] // Hickory or Pecan? User said Hickory is most distinct rustic.
+    },
+    classic: {
+      shell: ['Alba', 'Sterling Silver', 'Glacier'],
+      cabinet: ['Harbor', 'Granite']
+    }
   }
 };
 

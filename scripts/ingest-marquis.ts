@@ -164,9 +164,11 @@ function parseModelPage(htmlPath: string, seriesName: string, category: string):
     therapySummary: null,
     standardFeatures,
     optionalFeatures,
-    shellColors: seriesName.includes('Celebrity') ? ["Ash", "Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"] : ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
+    shellColors: (seriesName.includes('Celebrity') || seriesName.includes('Elite')) ? ["Ash", "Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"] : ["Alba", "Midnight Canyon", "Glacier", "Sterling Silver", "Tuscan Sun", "Winter Solstice"],
     cabinetColors: seriesName.includes('Vector') ? ["Barnwood", "Chestnut", "Black DuraCovers®", "Black Weathershield"] : 
-                  (seriesName.includes('Celebrity') ? ["Ash", "Pecan", "Black Weathershield"] : ["Granite", "Timber", "Island Tropical", "Black DuraCovers®", "Black Weathershield"]),
+                  (seriesName.includes('Celebrity') ? ["Ash", "Pecan", "Black Weathershield"] : 
+                  (seriesName.includes('Elite') ? ["Harbor", "Hickory", "Granite", "Black Weathershield"] : 
+                  ["Granite", "Timber", "Island Tropical", "Black DuraCovers®", "Black Weathershield"])),
     usageTags: []
   };
 }
