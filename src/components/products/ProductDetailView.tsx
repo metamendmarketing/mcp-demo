@@ -229,6 +229,14 @@ export default function ProductDetailView({
   };
 
   const getHeroImage = () => {
+    // If we have a specific heroImageUrl that isn't the generic fallback, use it
+    if (product.heroImageUrl && 
+        !product.heroImageUrl.includes('therapy_premium.png') && 
+        !product.heroImageUrl.includes('placeholder')) {
+      return product.heroImageUrl;
+    }
+
+    // Fallback to slug-based conventions if the DB value is missing or generic
     if (product.slug) {
       const isCrown = product.slug.includes('crown');
       const isJpgVector = product.slug.includes('v65l') || product.slug.includes('v77l');
