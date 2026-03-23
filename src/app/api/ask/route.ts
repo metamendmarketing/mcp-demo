@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     }
 
     // 1. Fetch Grounding Data
-    const [product, marquisBrand] = await Promise.all([
+    const [product, marquisBrand, allProducts] = await Promise.all([
       productId ? (prisma as any).product.findUnique({ 
         where: { id: productId },
         include: { series: true }
@@ -19,8 +19,20 @@ export async function POST(request: Request) {
       (prisma as any).brand.findFirst({
         where: { name: { contains: 'Marquis' } },
         include: { expertise: true, glossary: true }
+      }),
+      (prisma as any).product.findMany({
+        where: { status: 'active' },
+        select: { modelName: true, series: { select: { name: true } } }
       })
     ]);
+
+    // Format catalog by series
+    const catalogSummary = (allProducts as any[]).reduce((acc: any, p: any) => {
+      const sName = p.series?.name || 'Other';
+      if (!acc[sName]) acc[sName] = [];
+      acc[sName].push(p.modelName);
+      return acc;
+    }, {});
 
     const knowledgeBase = {
       product: product ? {
@@ -37,7 +49,8 @@ export async function POST(request: Request) {
       brand: {
         expertise: (marquisBrand as any)?.expertise?.map((e: any) => ({ category: e.category, content: e.content })) || [],
         glossary: (marquisBrand as any)?.glossary?.map((g: any) => ({ term: g.term, explanation: g.consumerExplanation })) || []
-      }
+      },
+      catalog: catalogSummary
     };
 
     // 2. Initialize Gemini
@@ -54,6 +67,8 @@ export async function POST(request: Request) {
     const prompt = `
 You are a helpful and knowledgeable sales expert at a Marquis hot tub dealership. 
 A customer is looking at the ${product ? product.modelName : 'Marquis collection'} and has a question.
+
+You have access to the full Marquis product catalog in the knowledge base (under "catalog"), including all models across the Crown, Vector21, Elite, and Celebrity series. Use this data to answer questions about model availability, collection details, and cross-model comparisons.
 
 Your goal is to answer their question like a professional store expert: 
 - Be helpful and solve their specific question.
