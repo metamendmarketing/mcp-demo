@@ -3,13 +3,13 @@ import { notFound } from 'next/navigation';
 import ProductDetailView from '@/components/products/ProductDetailView';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function ProductPage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const productRes = await prisma.product.findUnique({
     where: { slug },
@@ -24,14 +24,25 @@ export default async function ProductPage({ params }: PageProps) {
 
   const product = productRes as any;
 
-  // Type cast or transform to match Product interface in ProductDetailView
+  // Safe JSON parsing with fallbacks
+  const safeParse = (data: any, fallback: any = []) => {
+    if (typeof data === 'string') {
+      try {
+        return JSON.parse(data);
+      } catch (e) {
+        return fallback;
+      }
+    }
+    return data || fallback;
+  };
+
   const formattedProduct = {
     ...product,
-    usageTags: typeof product.usageTags === 'string' ? JSON.parse(product.usageTags) : product.usageTags,
-    shellColors: typeof product.shellColors === 'string' ? JSON.parse(product.shellColors) : product.shellColors,
-    cabinetColors: typeof product.cabinetColors === 'string' ? JSON.parse(product.cabinetColors) : product.cabinetColors,
-    staticReasons: typeof product.staticReasons === 'string' ? JSON.parse(product.staticReasons) : product.staticReasons,
-    hotspots: typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots,
+    usageTags: safeParse(product.usageTags),
+    shellColors: safeParse(product.shellColors),
+    cabinetColors: safeParse(product.cabinetColors),
+    staticReasons: safeParse(product.staticReasons),
+    hotspots: safeParse(product.hotspots),
     series: product.series ? {
       name: product.series.name,
       positioningTier: product.positioningTier || undefined
