@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 
 // Use the same adapter setup as src/lib/prisma.ts
-const dbPath = path.resolve('c:/dev2/prisma/dev.db');
+const dbPath = path.resolve(process.cwd(), 'prisma/dev.db');
 const adapter = new PrismaBetterSqlite3({ url: dbPath });
 const prisma = new PrismaClient({ adapter } as any);
 
