@@ -432,7 +432,7 @@ export default function Wizard() {
                         {opt.icon}
                       </div>
                     ) : null}
-                    <div className="text-center mt-auto">
+                    <div className="text-center">
                       <h4 className="text-lg font-black uppercase italic mb-1 text-slate-800 tracking-wide">{opt.label}</h4>
                       {opt.tip && <p className="text-xs text-slate-500 font-medium leading-relaxed">{opt.tip}</p>}
                     </div>
