@@ -107,10 +107,10 @@ const QUESTIONS: {
     },
     layout: 'grid',
     options: [
-      { value: 'diverse-depth', label: 'Diverse Seat Depths', tip: "Varying heights for families with different physical profiles.", icon: <Maximize className="w-10 h-10 mx-auto" /> },
-      { value: 'neck-shoulders', label: 'Neck & Shoulders', tip: "Targeted collar jets for tension headaches.", icon: <Activity className="w-10 h-10 mx-auto" /> },
-      { value: 'lower-back', label: 'Lower Back Focus', tip: "Deep penetration HK jets for lumbar relief.", icon: <Waves className="w-10 h-10 mx-auto" /> },
-      { value: 'full-body', label: 'Full Body Immersion', tip: "Comprehensive sequential massage profile.", icon: <Heart className="w-10 h-10 mx-auto" /> }
+      { value: 'diverse-depth', label: 'Diverse Seat Depths', tip: "Varying heights for families with different physical profiles.", image: '/mcp/demo/assets/hydro_diverse_depths.png' },
+      { value: 'neck-shoulders', label: 'Neck & Shoulders', tip: "Targeted collar jets for tension headaches.", image: '/mcp/demo/assets/hydro_neck_shoulders.png' },
+      { value: 'lower-back', label: 'Lower Back Focus', tip: "Deep penetration HK jets for lumbar relief.", image: '/mcp/demo/assets/hydro_lower_back.png' },
+      { value: 'full-body', label: 'Full Body Immersion', tip: "Comprehensive sequential massage profile.", image: '/mcp/demo/assets/hydro_full_body.png' }
     ],
     skip: (prefs) => prefs.capacity === '2-3'
   },
