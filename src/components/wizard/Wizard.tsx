@@ -554,16 +554,15 @@ export default function Wizard() {
   };
 
   const getHeroImage = (product: Product) => {
-    // If we have a specific heroImageUrl that isn't the generic fallback, use it
-    if (product.heroImageUrl && !product.heroImageUrl.includes('therapy_premium')) return product.heroImageUrl;
-    
-    // Fail-safe: Use the slug-based directory structure
+    // Fail-safe: Use the slug-based directory structure (Database URLs for non-Crown are untrustworthy re: extensions)
     if (product.slug) {
-      // Crown Series uses JPG, all others (Vector, Elite, Celebrity) use high-res PNGs
       const isCrown = product.slug.includes('crown');
       const ext = isCrown ? 'jpg' : 'png';
       return `/mcp/demo/assets/products/${product.slug}/hero.${ext}`;
     }
+
+    // Fallback if no slug
+    if (product.heroImageUrl && !product.heroImageUrl.includes('therapy_premium')) return product.heroImageUrl;
     
     return '/mcp/demo/assets/therapy_premium.png';
   };

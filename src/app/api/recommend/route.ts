@@ -70,7 +70,7 @@ ${JSON.stringify(top8Candidates.map(c => ({
   name: c.product.modelName, 
   series: c.product.series?.name, 
   tier: c.product.positioningTier,
-  score: c.product.score,
+  score: c.score,
   gpm: c.product.pumpFlowGpm,
   jets: c.product.jetCount,
   specs: c.product.marketingSummary,
@@ -115,9 +115,16 @@ Output strictly valid JSON (no markdown):
       }).filter(Boolean);
 
       if (finalResults.length > 0) {
+        // 4. Final Relative Re-scaling (Ensures the top AI pick is ALWAYS 100%)
+        const maxScore = Math.max(...finalResults.map((r: any) => r.score || 0));
+        const anchoredResults = finalResults.map((r: any) => ({
+          ...r,
+          score: maxScore > 0 ? Math.round(((r.score || 0) / maxScore) * 100) : 100
+        }));
+
         // Sort by score descending to ensure UI consistency
-        finalResults.sort((a: any, b: any) => (b.score || 0) - (a.score || 0));
-        return NextResponse.json({ results: finalResults });
+        anchoredResults.sort((a: any, b: any) => (b.score || 0) - (a.score || 0));
+        return NextResponse.json({ results: anchoredResults });
       }
     } catch (aiError) {
       console.error('[API] AI Refinement failed:', aiError);
