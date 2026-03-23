@@ -225,7 +225,7 @@ const QUESTIONS: {
   id: PreferenceKey;
   question: string;
   subtext: string;
-  expertTip: string;
+  expertTip: (prefs: UserPreferences) => string;
   layout: 'grid' | 'split' | 'map' | 'slider' | 'custom-inquiry';
   bgImage?: string;
   options: { label: string; value: string; icon?: React.ReactNode; image?: string; tip?: string }[];
@@ -235,7 +235,7 @@ const QUESTIONS: {
     id: 'primaryPurpose',
     question: "What is your primary goal?",
     subtext: "Your intention dictates the flow management and jet configurations we recommend.",
-    expertTip: "The physical architecture of a Marquis spa changes based on your answer. Therapy-focused models utilize our proprietary V-O-L-T™ flow system to drive massive, low-pressure water volume for deep tissue penetration. Conversely, recreational models prioritize open-concept seating, ambient waterline lighting, and spacious footwells for group entertaining.",
+    expertTip: () => "The physical architecture of a Marquis spa changes based on your answer. Therapy-focused models utilize our proprietary V-O-L-T™ flow system to drive massive, low-pressure water volume for deep tissue penetration. Conversely, recreational models prioritize open-concept seating, ambient waterline lighting, and spacious footwells for group entertaining.",
     layout: 'grid',
     options: [
       { value: 'therapy', label: 'Deep Hydrotherapy', tip: "Focused relief for chronic pain, athletic recovery, and targeted muscle tension.", image: '/mcp/demo/assets/therapy_premium.png' },
@@ -247,7 +247,10 @@ const QUESTIONS: {
     id: 'capacity',
     question: "What seating capacity fits your lifestyle?",
     subtext: "Determine your footprint. Remember, larger tubs offer more varied seat depths.",
-    expertTip: "Capacity isn't solely about how many people you plan to host. A 6+ person model offers a significantly larger interior footprint, providing diverse jet patterns and varying seat depths. This is crucial if your family has significant height differences. For solo or couples therapy, a 2-3 person blueprint maximizes efficiency without sacrificing power.",
+    expertTip: (prefs) => {
+      if (prefs.primaryPurpose === 'recreational') return "Since you're looking for social entertainment, remember that larger 6+ person models offer a massive interior footprint, allowing for diverse jet patterns without sacrificing open seating space. For a more intimate social setting, 4-5 person models are the industry standard.";
+      return "Capacity isn't solely about how many people you plan to host. A 6+ person model offers a significantly larger interior footprint, providing diverse jet patterns and varying seat depths. This is crucial if your family has significant height differences.";
+    },
     layout: 'grid',
     options: [
       { value: '2-3', label: '2-3 Adults', tip: "Intimate, highly efficient footprint perfect for smaller patios.", image: '/mcp/demo/assets/capacity_intimate_1774075207167.png' },
@@ -259,7 +262,10 @@ const QUESTIONS: {
     id: 'lounge',
     question: "Do you prefer a dedicated lounge seat?",
     subtext: "A fully reclined seat designed for intense, full-body immersion.",
-    expertTip: "Loungers provide the absolute best full-body hydrotherapy sequence, targeting your neck down to your calves simultaneously. However, a lounge seat consumes the footprint of approximately two standard upright seats. If your goal is maximizing headcount for parties, we recommend an open-seating model.",
+    expertTip: (prefs) => {
+      if (prefs.primaryPurpose === 'recreational') return "In a social-first spa, remember that a lounge seat consumes the footprint of approximately two standard upright seats. If you plan on hosting large groups, an open-seating blueprint is usually the professional recommendation.";
+      return "Loungers provide the absolute best full-body hydrotherapy sequence, targeting your neck down to your calves simultaneously. If your goal is solo recovery, a lounge is essential.";
+    },
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_lounge_1774075579221.png',
     options: [
@@ -272,7 +278,10 @@ const QUESTIONS: {
     id: 'focus',
     question: "Select your primary hydrotherapy profile.",
     subtext: "Diverse seat depths allow for a variety of body types and immersion levels.",
-    expertTip: "The Crown Series is engineered with 'The Big 3'—High Flow, ConstantClean, and Diverse Seating. By selecting 'Depth Variety,' we prioritize models like the Crown Resort, which features deep bucket seats for back therapy alongside shallower seating for diverse family heights. If you prefer a consistent soak, our Elite and Celebrity series offer stable, uniform seating heights.",
+    expertTip: (prefs) => {
+      if (prefs.capacity === '4-5') return "For a 4-5 person family, 'Diverse Seating' is critical. It ensures that everyone—from kids to tall adults—has a seat depth that provides comfortable immersion without being overwhelmed by the water line.";
+      return "The Crown Series is engineered with 'The Big 3'—High Flow, ConstantClean, and Diverse Seating. By selecting 'Depth Variety,' we prioritize models like the Crown Resort, which features deep bucket seats for back therapy alongside shallower seating for diverse family heights.";
+    },
     layout: 'grid',
     options: [
       { value: 'diverse-depth', label: 'Diverse Seat Depths', tip: "Varying heights for families with different physical profiles.", icon: <Maximize className="w-10 h-10 mx-auto" /> },
@@ -286,7 +295,10 @@ const QUESTIONS: {
     id: 'intensity',
     question: "Preferred Hydrotherapy Intensity?",
     subtext: "High-Volume, Low-Pressure (HVLP) is the Marquis difference.",
-    expertTip: "Marquis utilizes the V-O-L-T™ system to drive massive water volume (GPM) rather than just high pressure (PSI). If you select 'Firm', we will recommend models with dual-speed 240V pumps that move up to 480 Gallons Per Minute. For 'Gentle', we prioritize broad-distribution jets that soothe without the stinging sensation of standard high-pressure systems.",
+    expertTip: (prefs) => {
+      if (prefs.focus === 'lower-back') return "For targeted lumbar relief, the V-O-L-T™ system is essential. It moves massive water volume (GPM) rather than just pressure, allowing for deep-tissue penetration that relaxes the muscles without the sting of high-pressure 'needle' jets.";
+      return "Marquis utilizes the V-O-L-T™ system to drive massive water volume (GPM) rather than just high pressure (PSI). High-flow systems are the key to effective hydrotherapy that doesn't irritate the skin.";
+    },
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_intensity_1774073882614.png',
     options: [
@@ -299,20 +311,22 @@ const QUESTIONS: {
     id: 'maintenance',
     question: "Desired Water Management Style?",
     subtext: "Integrity of water care defines the lifetime of the spa.",
-    expertTip: "Our ConstantClean+™ system is the gold standard of the industry. By selecting 'Automated Integrity,' we equip your model with dual-sanitation (Ozone + In-line) which manages 90% of the ritual for you. If you prefer to manually manage your chemistry, our standard filtration system remains one of the most efficient in the world.",
+    expertTip: (prefs) => {
+      if (prefs.primaryPurpose === 'recreational') return "Since social hospitality is your goal, we prioritize the ConstantClean+™ system. It manages 90% of the sanitation ritual automatically, so you can focus on your guests rather than the chemistry.";
+      return "Our ConstantClean+™ system is the gold standard of the industry. By selecting 'Automated Integrity,' we equip your model with dual-sanitation (Ozone + In-line) for nearly maintenance-free water care.";
+    },
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_maintenance_1774073867138.png',
     options: [
       { value: 'automated', label: 'Automated Integrity', tip: "Utilizes the ConstantClean+™ simplified in-line sanitation system.", icon: <Settings className="w-8 h-8 text-marquis-blue" /> },
       { value: 'hands-on', label: 'Manual Management', tip: "Standard filtration with traditional chemistry dosing.", icon: <Wrench className="w-8 h-8 text-slate-400" /> }
     ],
-    skip: (prefs) => prefs.primaryPurpose === 'recreational' // Recreational users almost always prioritize automated maintenance for social ease
   },
   {
     id: 'aesthetic',
     question: "What is your backyard's aesthetic design?",
     subtext: "We will harmonize the spa's exterior cabinet and shell colors.",
-    expertTip: "A hot tub is a massive visual focal point. We want it to blend seamlessly into your architecture. 'Sleek & Modern' homes pair perfectly with our stark Midnight Canyon shells and monochromatic Slate cabinets. For a 'Warm Rustic' environment, we lean toward Tuscan Sun acrylics layered against natural wood-grain textures.",
+    expertTip: () => "A hot tub is a massive visual focal point. We want it to blend seamlessly into your architecture. 'Sleek & Modern' homes pair perfectly with our stark Midnight Canyon shells and monochromatic Slate cabinets. For a 'Warm Rustic' environment, we lean toward Tuscan Sun acrylics layered against natural wood-grain textures.",
     layout: 'grid',
     options: [
       { value: 'modern', label: 'Sleek & Modern', tip: "Monochrome, glass, stark lines.", image: '/mcp/demo/assets/aesthetic_modern_1774073072031.png' },
@@ -325,7 +339,10 @@ const QUESTIONS: {
     id: 'ownership',
     question: "Is this a first spa discovery or a forever upgrade?",
     subtext: "The duration of ownership dictates the engineering specs we prioritize.",
-    expertTip: "If this is your 'Forever Spa', we will bias toward our Crown and Vector21 Series, which feature full-foam MaximizR™ insulation and solid-state engineering that outlasts standard industry builds. If you are 'Discovering' for a short-term residence, our Celebrity series provides the famous Marquis quality at a high-value entry point.",
+    expertTip: (prefs) => {
+      if (prefs.primaryPurpose === 'therapy') return "If this is your 'Forever Spa' for chronic therapy, we bias toward our Crown Series. For a first-time 'Discovery' at a high-value entry point, our Celebrity series provides the famous Marquis quality.";
+      return "If this is your 'Forever Spa', we will bias toward our Crown and Vector21 Series. If you are 'Discovering' for a short-term residence, our Celebrity series provides the famous Marquis quality at a high-value entry point.";
+    },
     layout: 'split',
     options: [
       { value: 'upgrade', label: 'Forever Spa Upgrade', tip: "I want the highest engineering specs and longevity (Crown/Vector).", icon: <Gem className="w-8 h-8 text-amber-500" /> },
@@ -336,7 +353,7 @@ const QUESTIONS: {
     id: 'zipCode',
     question: "Delivery Zip/Postal Code?",
     subtext: "Precisely calculating local sunrise and climate stress.",
-    expertTip: "Elevation and climate are the primary drivers of energy cost. We cross-reference your Zip/Postal code with local heating index data to ensure the insulation package (standard vs MaximizR™) is appropriate for your region.",
+    expertTip: () => "Elevation and climate are the primary drivers of energy cost. We cross-reference your Zip/Postal code with local heating index data to ensure the insulation package (standard vs MaximizR™) is appropriate for your region.",
     layout: 'map',
     options: []
   },
@@ -344,7 +361,10 @@ const QUESTIONS: {
     id: 'sunExposure',
     question: "What is the typical sun exposure for the site?",
     subtext: "Understanding UV load dictates cover specifications.",
-    expertTip: "Direct sunlight accelerates UV degradation on standard vinyl. In high-sun scenarios, we mandate the **DuraCover®** or **WeatherShield™** fabric upgrades, which are specifically designed to double the lifespan of the cover in intense UV environments.",
+    expertTip: (prefs) => {
+      if (prefs.placement === 'ground') return "In high-sun ground-level scenarios, we mandate the **DuraCover®** upgrade. Direct sunlight accelerates UV degradation on standard vinyl; DuraCover® is specifically designed to double the lifespan in intense environments.";
+      return "Direct sunlight accelerates UV degradation on standard vinyl. In high-sun scenarios, we mandate the **DuraCover®** or **WeatherShield™** fabric upgrades, which are specifically designed to double the lifespan of the cover in intense UV environments.";
+    },
     layout: 'grid',
     options: [
       { value: 'morning', label: 'Morning Sun Only', tip: "Gentle warmth; cooler in the evenings.", icon: <Sun className="w-10 h-10 text-amber-500 mx-auto" /> },
@@ -357,7 +377,10 @@ const QUESTIONS: {
     id: 'electrical',
     question: "Confirmed electrical capacity?",
     subtext: "Determining the parallel performance of pumps and heaters.",
-    expertTip: "For 100% therapy performance, a 240V dedicated line allows the heater and high-flow pumps to run simultaneously. If you select 110V, the heater will pause when the jets are on High to protect your household circuit. In colder climates, 240V is always the professional recommendation.",
+    expertTip: (prefs) => {
+      if (prefs.capacity === '2-3') return "For smaller 2-3 person models, 110V 'Plug & Play' is a highly efficient choice. However, for 100% therapy performance where heater and pumps run in parallel, a 240V dedicated line is the professional recommendation.";
+      return "For 100% therapy performance, a 240V dedicated line allows the heater and high-flow pumps to run simultaneously. If you select 110V, the heater will pause when the jets are on High to protect your household circuit. In colder climates, 240V is always the professional recommendation.";
+    },
     layout: 'split',
     bgImage: '/mcp/demo/assets/bg_electrical_night_1774075976736.png',
     options: [
@@ -370,7 +393,10 @@ const QUESTIONS: {
     id: 'placement',
     question: "Where will the hot tub be placed?",
     subtext: "Site preparation dictates the structural requirements.",
-    expertTip: "A filled hot tub commands a massive structural load—often exceeding 4,000 lbs. Ground installations require a leveled crushed rock base or a poured concrete pad (minimum 4 inches thick). If you select 'Wood Deck', you must have a structural engineer verify that your joists can support 150 lbs. per square foot.",
+    expertTip: (prefs) => {
+       if (prefs.capacity === '6+') return "A filled 6+ person hot tub commands a massive structural load—often exceeding 5,000 lbs. Ground installations require a leveled crushed rock base or a poured concrete pad (minimum 4 inches thick). Decks require structural verification.";
+       return "A filled hot tub commands a massive structural load—often exceeding 4,000 lbs. Ground installations require a leveled crushed rock base or a poured concrete pad (minimum 4 inches thick). If you select 'Wood Deck', you must have a structural engineer verify load-bearing.";
+    },
     layout: 'grid',
     options: [
       { value: 'deck', label: 'Wood/Composite Deck', tip: "Requires joist load-bearing verification.", image: '/mcp/demo/assets/placement_deck_1774073130622.png' },
@@ -383,7 +409,10 @@ const QUESTIONS: {
     id: 'budget',
     question: "What is your comfortable investment range?",
     subtext: "Market conditions vary; we help you find the absolute best value.",
-    expertTip: "Initial sticker price is only one part of the equation. We help you balance upfront costs against the lifetime efficiency of the **MaximizR™** insulation and the **ConstantClean™** sanitization suite. A premium tier Marquis often pays for itself via lower monthly utility bills.",
+    expertTip: (prefs) => {
+      if (prefs.ownership === 'upgrade') return "Since this is your 'Forever Upgrade', balancing upfront costs against the lifetime efficiency of **MaximizR™** insulation is key. A premium tier Marquis often pays for itself via lower monthly utility bills over 10-15 years.";
+      return "Initial sticker price is only one part of the equation. We help you balance upfront costs against the lifetime efficiency of the **MaximizR™** insulation and the **ConstantClean™** sanitization suite.";
+    },
     layout: 'grid',
     options: [
       { value: 'entry', label: 'Entry Tier', tip: "$5,000 - $8,000. Marquis quality in a standard equipment package.", icon: <Wallet className="w-10 h-10 mx-auto" /> },
@@ -396,7 +425,10 @@ const QUESTIONS: {
     id: 'delivery',
     question: "Describe your delivery access.",
     subtext: "We need 40 inches of clearance to walk a spa into position.",
-    expertTip: "Logistics are managed via specialized 'Spa Dollies'. If your gates or path are narrower than 40 inches, or if you have steep stairs, we may need to coordinate a crane lift. We will factors these complexities into our model recommendations.",
+    expertTip: (prefs) => {
+      if (prefs.placement === 'deck') return "Delivering to a wood deck often requires specialized 'Spa Dollies' and a minimum 40-inch clearance. If your gates are narrower or stairs are involved, we may need to coordinate a crane lift for precise positioning.";
+      return "Logistics are managed via specialized 'Spa Dollies'. If your gates or path are narrower than 40 inches, or if you have steep stairs, we may need to coordinate a crane lift. We will factors these complexities into our model recommendations.";
+    },
     layout: 'split',
     options: [
       { value: 'easy', label: 'Wide Open Access', tip: "Double-wide gates or zero steps. Standard delivery.", icon: <Truck className="w-8 h-8" /> },
@@ -601,7 +633,7 @@ export default function Wizard() {
                 <div>
                   <h4 className="text-sm font-bold uppercase tracking-widest text-marquis-blue mb-1">Expert Insight</h4>
                   <p className="text-sm md:text-base text-slate-600 font-medium leading-relaxed italic">
-                    "{q.expertTip}"
+                    "{q.expertTip(preferences)}"
                   </p>
                 </div>
               </div>
@@ -687,7 +719,7 @@ export default function Wizard() {
                       "text-lg font-medium leading-relaxed italic",
                       q.bgImage ? "text-white" : "text-slate-700"
                     )}>
-                      "{q.expertTip}"
+                      "{q.expertTip(preferences)}"
                     </p>
                   </div>
                 </div>
@@ -990,16 +1022,16 @@ export default function Wizard() {
                )}
 
                 {/* Confirmation Bullets */}
-                <div className="space-y-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/50">
-                   <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3">Therapy Objective</div>
-                   <p className="text-sm text-slate-700 font-bold leading-relaxed mb-4 italic">
-                     "{product.therapySummary || (
-                       product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
-                       product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
-                       product.series?.name === 'Marquis Elite' ? 'High-performance hydrotherapy combined with exceptional durability for a professional-grade home spa experience.' :
-                       'A balanced, engineering-focused hydrotherapy experience designed for daily wellness and relaxation.'
-                     )}"
-                   </p>
+                 <div className="space-y-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/50">
+                    <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3">Therapy Objective</div>
+                    <p className="text-sm text-slate-700 font-bold leading-relaxed italic">
+                      "{product.therapySummary || (
+                        product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
+                        product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
+                        product.series?.name === 'Marquis Elite' ? 'High-performance hydrotherapy combined with exceptional durability for a professional-grade home spa experience.' :
+                        'A balanced, engineering-focused hydrotherapy experience designed for daily wellness and relaxation.'
+                      )}"
+                    </p>
                   
                   <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3 border-t border-blue-100 pt-4">Expert Reasoning</div>
                   {reasons.slice(0, 3).map((r, i) => (
