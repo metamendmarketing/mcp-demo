@@ -378,6 +378,23 @@ export default function Wizard() {
     }
   };
 
+  const handleSelectResult = (res: ScoredProduct) => {
+    setSelectedResult(res);
+    setStep('details');
+    window.scrollTo(0, 0);
+    if (!aiNarrative || aiNarrative.productSlug !== res.product.slug) {
+      setNarrativeLoading(true);
+      fetch('/mcp/demo/api/narrative', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ preferences, product: res.product }),
+      })
+        .then(n => n.json())
+        .then(data => setAiNarrative({ ...data, productSlug: res.product.slug }))
+        .finally(() => setNarrativeLoading(false));
+    }
+  };
+
   const getHeroImage = (product: Product) => {
     if (product.slug) {
       const isCrown = product.slug.includes('crown');
@@ -534,7 +551,14 @@ export default function Wizard() {
         <div className="p-6 md:p-10 flex-grow overflow-y-auto">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
              {results && results.slice(0, 4).map((res, i) => (
-                  <div key={res.product.id} className={cn("bg-white rounded-3xl overflow-hidden shadow-md flex flex-col border transition-all duration-700", i === 0 ? "border-amber-400 ring-4 ring-amber-400/20 shadow-2xl scale-[1.02] z-10" : "border-slate-100")}>
+                  <div 
+                    key={res.product.id} 
+                    onClick={() => handleSelectResult(res)}
+                    className={cn(
+                      "bg-white rounded-3xl overflow-hidden shadow-md flex flex-col border transition-all duration-700 cursor-pointer hover:shadow-xl", 
+                      i === 0 ? "border-amber-400 ring-4 ring-amber-400/20 shadow-2xl scale-[1.02] z-10" : "border-slate-100"
+                    )}
+                  >
                     <div className="w-full h-64 relative bg-slate-100 overflow-hidden group shrink-0">
                        <img src={getHeroImage(res.product)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={res.product.modelName} />
                        <div className={cn(
@@ -550,7 +574,7 @@ export default function Wizard() {
                              {res.product.seriesName || res.product.series?.name || 'Marquis'} | {res.product.positioningTier?.toUpperCase() || 'ELITE'}
                           </div>
                           <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed text-sm font-medium">{res.naturalNarrative || res.product.marketingSummary}</p>
-                          <button onClick={() => { setSelectedResult(res); setStep('details'); window.scrollTo(0,0); if(!aiNarrative || aiNarrative.productSlug !== res.product.slug) { setNarrativeLoading(true); fetch('/mcp/demo/api/narrative', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ preferences, product: res.product }) }).then(n => n.json()).then(data => setAiNarrative({ ...data, productSlug: res.product.slug })).finally(() => setNarrativeLoading(false)); } }} className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20">Explore this option</button>
+                          <div className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20 text-center">Explore this option</div>
                     </div>
                   </div>
              ))}

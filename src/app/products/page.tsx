@@ -70,7 +70,7 @@ export default async function ProductsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {seriesProducts.map((p: any) => (
-                <div key={p.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 flex flex-col group">
+                <Link key={p.id} href={`/products/${p.slug}`} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 flex flex-col group cursor-pointer">
                   <div className="aspect-[16/10] overflow-hidden relative bg-slate-100">
                     <img 
                       src={p.heroImageUrl || '/mcp/demo/assets/therapy_premium.png'} 
@@ -101,15 +101,12 @@ export default async function ProductsPage() {
                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                          {p.lengthIn}x{p.widthIn}x{p.depthIn}"
                        </span>
-                       <Link 
-                         href={`/products/${p.slug}`}
-                         className="text-marquis-blue text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 group/btn"
-                       >
+                       <div className="text-marquis-blue text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 group/btn">
                          Details <ChevronRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
-                       </Link>
+                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
