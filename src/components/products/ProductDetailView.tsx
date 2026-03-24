@@ -142,17 +142,17 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
          {/* Suggested Section */}
          {suggested && (
            <div className="flex flex-col md:flex-row flex-wrap gap-10 p-6 bg-slate-50/50 rounded-3xl border border-slate-100">
-             {renderGroup("Interior - DuraShell® Collection", suggestedShell, "s-shell")}
-             {renderGroup("Exterior - Cabinet Collection", suggestedCabinet, "s-cab")}
-             {renderGroup("Top - Cover Collection", suggestedCover, "s-cover")}
+             {renderGroup("Interior - DuraShell®", suggestedShell, "s-shell")}
+             {renderGroup("Exterior - Cabinet", suggestedCabinet, "s-cab")}
+             {renderGroup("Top - Cover", suggestedCover, "s-cover")}
            </div>
          )}
 
          {/* Static Preview (when not influenced) */}
          {!suggested && !showAllColors && (
            <div className="flex flex-wrap gap-12">
-             {renderGroup("Interior - DuraShell® Collection", shellColors.slice(0, 2), "p-shell")}
-             {renderGroup("Exterior - Cabinet Collection", cabinetColors.filter((c: string) => !isCover(c)).slice(0, 1), "p-cab")}
+             {renderGroup("Interior - DuraShell®", shellColors.slice(0, 2), "p-shell")}
+             {renderGroup("Exterior - Cabinet", cabinetColors.filter((c: string) => !isCover(c)).slice(0, 1), "p-cab")}
            </div>
          )}
          
@@ -176,10 +176,10 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
                </button>
              </div>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-               {renderGroup("Interior - DuraShell® Collection", shellColors, "all-shell")}
+               {renderGroup("Interior - DuraShell®", shellColors, "all-shell")}
                <div className="space-y-8">
-                 {renderGroup("Exterior - Cabinet Collection", cabinetColors.filter((c: string) => !isCover(c)), "all-cab")}
-                 {renderGroup("Top - Cover Collection", cabinetColors.filter((c: string) => isCover(c)), "all-cover")}
+                 {renderGroup("Exterior - Cabinet", cabinetColors.filter((c: string) => !isCover(c)), "all-cab")}
+                 {renderGroup("Top - Cover", cabinetColors.filter((c: string) => isCover(c)), "all-cover")}
                </div>
              </div>
            </div>
