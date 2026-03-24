@@ -1,78 +1,67 @@
 export interface AestheticMapping {
-  shell: string[];
-  cabinet: string[];
+  shell?: string[];
+  cabinet?: string[];
+  cover?: string[];
 }
 
 export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>> = {
   crown: {
     modern: {
-      shell: ['Midnight Canyon', 'Glacier', 'Winter Solstice', 'Sterling Silver', 'Granite'],
-      cabinet: ['Black DuraCovers®', 'Black Weathershield (Optional)', 'Granite']
+      shell: ['Midnight Canyon', 'Glacier', 'Winter Solstice', 'Sterling Silver'],
+      cover: ['Black DuraCovers® (Standard)', 'Black Weathershield (Optional)']
     },
     rustic: {
-      shell: ['Tuscan Sun'],
-      cabinet: ['Timber', 'Island Tropical']
+      cabinet: ['Timber'],
+      shell: ['Tuscan Sun']
     },
     tropical: {
-      shell: ['Tuscan Sun', 'Alba'],
-      cabinet: ['Timber']
+      shell: ['Alba']
     },
     classic: {
-      shell: ['Alba', 'Sterling Silver', 'Granite'],
       cabinet: ['Granite']
     }
   },
   vector: {
     modern: {
       shell: ['Midnight Canyon', 'Glacier', 'Winter Solstice', 'Sterling Silver'],
-      cabinet: ['Black DuraCovers®', 'Black Weathershield (Optional)']
+      cover: ['Black DuraCovers® (Standard)', 'Black Weathershield (Optional)']
     },
     rustic: {
-      shell: ['Tuscan Sun'],
-      cabinet: ['Barnwood', 'Chestnut']
+      cabinet: ['Barnwood', 'Chestnut'],
+      shell: ['Tuscan Sun']
     },
     tropical: {
-      shell: ['Tuscan Sun', 'Alba'],
-      cabinet: ['Barnwood', 'Chestnut']
+      shell: ['Alba']
     },
-    classic: {
-      shell: ['Alba', 'Sterling Silver', 'Glacier'],
-      cabinet: ['Barnwood', 'Chestnut']
-    }
+    classic: {} // No primary classic cabinet
   },
   celebrity: {
     modern: {
       shell: ['Midnight Canyon', 'Glacier', 'Sterling Silver'],
-      cabinet: ['Black Weathershield (Optional)']
+      cover: ['Black Weathershield (Optional)']
     },
     rustic: {
-      shell: ['Tuscan Sun'],
-      cabinet: ['Pecan']
+      cabinet: ['Pecan'],
+      shell: ['Tuscan Sun']
     },
-    tropical: {
-      shell: ['Tuscan Sun'],
-      cabinet: ['Pecan']
-    },
+    tropical: {}, // No primary matches
     classic: {
-      shell: ['Glacier', 'Sterling Silver'],
       cabinet: ['Ash']
     }
   },
   elite: {
     modern: {
       shell: ['Midnight Canyon', 'Glacier', 'Winter Solstice', 'Sterling Silver'],
-      cabinet: ['Black Weathershield (Optional)']
+      cover: ['Black Weathershield (Optional)']
     },
     rustic: {
-      shell: ['Tuscan Sun'],
-      cabinet: ['Hickory']
+      cabinet: ['Hickory'],
+      shell: ['Tuscan Sun']
     },
     tropical: {
-      shell: ['Alba', 'Tuscan Sun'],
-      cabinet: ['Hickory']
+      shell: ['Alba']
     },
     classic: {
-      shell: ['Alba', 'Sterling Silver', 'Glacier'],
       cabinet: ['Harbor', 'Granite']
     }
   }
@@ -100,6 +89,7 @@ export const FINISH_IMAGE_MAP: Record<string, string> = {
   'Timber': '/mcp/demo/assets/finishes/timber.jpg',
   'Island Tropical': '/mcp/demo/assets/finishes/timber.jpg',
   'Black DuraCovers®': '/mcp/demo/assets/finishes/black-duracovers.jpg',
+  'Black DuraCovers® (Standard)': '/mcp/demo/assets/finishes/black-duracovers.jpg',
   'Black Weathershield': '/mcp/demo/assets/finishes/black-weathershield.jpg',
   'Black Weathershield (Optional)': '/mcp/demo/assets/finishes/black-weathershield.jpg',
   'Barnwood': '/mcp/demo/assets/finishes/barnwood.jpg',

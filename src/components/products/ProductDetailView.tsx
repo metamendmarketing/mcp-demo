@@ -27,7 +27,7 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
   const [showAllColors, setShowAllColors] = useState(false);
   const [persistedPreferences, setPersistedPreferences] = useState<any>(null);
 
-  // Sync preferences with localStorage for deep linking/direct page loads
+  // Sync preferences
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       if (initialPreferences) {
@@ -59,38 +59,36 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
                    (seriesName.toLowerCase().includes('celebrity') ? 'celebrity' : 
                    (seriesName.toLowerCase().includes('elite') ? 'elite' : null)));
                    
-  // In static mode, we don't automatically suggest based on user aesthetic unless they've clicked through
   const aestheticKey = (mode === 'influenced') ? preferences?.aesthetic : null;
-  
   const suggested = seriesKey && aestheticKey ? AESTHETIC_MAPPINGS[seriesKey]?.[aestheticKey] : null;
 
-  // Use case-insensitive matching for robustness
-  const isMatch = (color: string, suggestedList: string[]) => {
+  // Case-insensitive matching
+  const isMatch = (color: string, suggestedList?: string[]) => {
+    if (!suggestedList) return false;
     const normalizedColor = color.toLowerCase().trim().replace('®', '');
     return suggestedList.some(s => s.toLowerCase().trim().replace('®', '') === normalizedColor);
   };
 
-  const suggestedShell = suggested ? shellColors.filter((c: string) => isMatch(c, suggested.shell)) : [];
-  const otherShell = suggested ? shellColors.filter((c: string) => !isMatch(c, suggested.shell)) : shellColors;
-  
-  const suggestedCabinet = suggested ? cabinetColors.filter((c: string) => isMatch(c, suggested.cabinet)) : [];
-  const otherCabinet = suggested ? cabinetColors.filter((c: string) => !isMatch(c, suggested.cabinet)) : cabinetColors;
+  const isCover = (color: string) => color.toLowerCase().includes('cover') || color.toLowerCase().includes('weathershield');
 
-  const hasSuggestions = suggestedShell.length > 0 || suggestedCabinet.length > 0;
+  // Grouping logic for Suggested
+  const suggestedShell = suggested?.shell ? shellColors.filter((c: string) => isMatch(c, suggested.shell)) : [];
+  const suggestedCabinet = suggested?.cabinet ? cabinetColors.filter((c: string) => isMatch(c, suggested.cabinet) && !isCover(c)) : [];
+  const suggestedCover = suggested?.cover ? [
+    ...cabinetColors.filter((c: string) => isMatch(c, suggested.cover)),
+    ...suggested.cover.filter((sc: string) => !cabinetColors.some((cc: string) => isMatch(cc, [sc]))) // Fallback for covers not in cabinet list
+  ] : (suggested?.cabinet?.filter((c: string) => isCover(c)) || []);
 
-  // For static mode "preview"
-  const staticPreviewShell = shellColors.slice(0, 2);
-  const staticPreviewCabinet = cabinetColors.slice(0, 1);
+  const hasSuggestions = suggestedShell.length > 0 || suggestedCabinet.length > 0 || suggestedCover.length > 0;
 
-  const renderColorSwatch = (color: string, isSuggested: boolean, isCabinet: boolean) => {
+  const renderColorSwatch = (color: string, groupKey: string) => {
     const imageUrl = FINISH_IMAGE_MAP[color] || FINISH_IMAGE_MAP[color.replace('®', '')];
     
     return (
       <div 
-        key={`${isSuggested ? 's' : 'o'}-${isCabinet ? 'cab' : 'shell'}-${color}`}
+        key={`${groupKey}-${color}`}
         className="group relative flex flex-col items-center gap-2 transition-all duration-300"
       >
-        {/* Swatch Circle */}
         <div className={cn(
           "relative w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
         )}>
@@ -102,13 +100,9 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
             </div>
           )}
         </div>
-
-        {/* Color Name */}
         <div className="text-[9px] font-black uppercase tracking-tighter text-center max-w-[64px] leading-tight transition-colors text-slate-500 group-hover:text-slate-800">
           {color}
         </div>
-
-        {/* Hover Full Preview */}
         {imageUrl && (
           <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 w-48 h-48 rounded-2xl overflow-hidden border-4 border-white shadow-2xl opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none z-50">
             <img src={imageUrl} alt={`${color} full size`} className="w-full h-full object-cover" />
@@ -121,58 +115,74 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
     );
   };
 
+  const renderGroup = (title: string, subtitle: string, colors: string[], groupKey: string) => {
+    if (colors.length === 0) return null;
+    return (
+      <div className="space-y-4">
+        <div className="flex flex-col">
+          <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">{title}</span>
+          <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">{subtitle}</span>
+        </div>
+        <div className="flex flex-wrap gap-6">
+          {colors.map(color => renderColorSwatch(color, groupKey))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="mt-8 border-t border-slate-100 pt-8">
-       <div className="flex items-center justify-between mb-6">
+       <div className="flex items-center justify-between mb-8">
          <div className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-2">
            <Palette className="w-3 h-3" />
-           {suggested ? `Recommended finishes for a ${getAestheticTitle(aestheticKey).toLowerCase()} feel` : "Available Finishes"}
+           {suggested ? `Recommended finishes for a ${getAestheticTitle(aestheticKey).toLowerCase()} feel` : "Explore Available Finishes"}
          </div>
        </div>
 
-       <div className="space-y-8">
-         {/* Suggested Section / Static Preview */}
-         {(suggested || (!suggested && !showAllColors)) && (
-           <div className="space-y-6">
-             <div className="flex flex-wrap gap-6">
-               {suggested ? (
-                 <>
-                   {suggestedShell.map((color: string) => renderColorSwatch(color, true, false))}
-                   {suggestedCabinet.map((color: string) => renderColorSwatch(color, true, true))}
-                 </>
-               ) : (
-                 <>
-                   {staticPreviewShell.map((color: string) => renderColorSwatch(color, false, false))}
-                   {staticPreviewCabinet.map((color: string) => renderColorSwatch(color, false, true))}
-                 </>
-               )}
-             </div>
-             
-             {!showAllColors && (
-               <button 
-                 onClick={() => setShowAllColors(true)}
-                 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors group/link"
-               >
-                 {suggested ? "Explore all color options" : "Show all available finishes"} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
-               </button>
-             )}
+       <div className="space-y-10">
+         {/* Suggested Section */}
+         {suggested && (
+           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 p-6 bg-slate-50/50 rounded-3xl border border-slate-100">
+             {renderGroup("DuraShell®", "Interior Finish", suggestedShell, "s-shell")}
+             {renderGroup("Cabinet", "Exterior look", suggestedCabinet, "s-cab")}
+             {renderGroup("Cover", "Top finish", suggestedCover, "s-cover")}
            </div>
          )}
 
-         {/* All Options Section (Full Grid) */}
-         {showAllColors && (
-           <div className="animate-in fade-in slide-in-from-top-2 duration-500">
-             {suggested && <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">All available finishes</div>}
-             <div className="flex flex-wrap gap-5">
-               {(suggested ? otherShell : shellColors).map((color: string) => renderColorSwatch(color, false, false))}
-               {(suggested ? otherCabinet : cabinetColors).map((color: string) => renderColorSwatch(color, false, true))}
+         {/* Static Preview (when not influenced) */}
+         {!suggested && !showAllColors && (
+           <div className="flex flex-wrap gap-8">
+             {renderGroup("DuraShell®", "Interior", shellColors.slice(0, 2), "p-shell")}
+             {renderGroup("Cabinet", "Exterior", cabinetColors.filter((c: string) => !isCover(c)).slice(0, 1), "p-cab")}
+           </div>
+         )}
+         
+         {/* Show All Logic */}
+         {!showAllColors ? (
+           <button 
+             onClick={() => setShowAllColors(true)}
+             className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors group/link px-2"
+           >
+             {suggested ? "Explore all color options" : "Show all available finishes"} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+           </button>
+         ) : (
+           <div className="animate-in fade-in slide-in-from-top-2 duration-500 space-y-8 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+             <div className="flex items-center justify-between mb-2">
+               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Full Collection</div>
+               <button 
+                 onClick={() => setShowAllColors(false)}
+                 className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-1"
+               >
+                 Close full gallery
+               </button>
              </div>
-             <button 
-               onClick={() => setShowAllColors(false)}
-               className="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors"
-             >
-               Show {suggested ? "suggested" : "preview"} only
-             </button>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+               {renderGroup("DuraShell® Collection", "Available interior shell colors", shellColors, "all-shell")}
+               <div className="space-y-8">
+                 {renderGroup("Cabinet Collection", "Exterior cladding options", cabinetColors.filter((c: string) => !isCover(c)), "all-cab")}
+                 {renderGroup("Cover Collection", "Coordinated top finishes", cabinetColors.filter((c: string) => isCover(c)), "all-cover")}
+               </div>
+             </div>
            </div>
          )}
        </div>
