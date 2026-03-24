@@ -50,8 +50,8 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
 
   if (!product.shellColors && !product.cabinetColors) return null;
 
-  const shellColors = Array.isArray(product.shellColors) ? product.shellColors : [];
-  const cabinetColors = Array.isArray(product.cabinetColors) ? product.cabinetColors : [];
+  const shellColors = Array.from(new Set(Array.isArray(product.shellColors) ? (product.shellColors as string[]) : [])) as string[];
+  const cabinetColors = Array.from(new Set(Array.isArray(product.cabinetColors) ? (product.cabinetColors as string[]) : [])) as string[];
   
   const seriesName = product.seriesName || product.series?.name || '';
   const seriesKey = seriesName.toLowerCase().includes('crown') ? 'crown' : 

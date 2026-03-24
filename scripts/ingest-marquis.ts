@@ -61,54 +61,67 @@ function parseModelPage(htmlPath: string, seriesName: string, category: string):
   const summaryMatch = content.match(/<section class="spotlight lightText padd">[\s\S]*?<p>([\s\S]*?)<\/p>/);
   const marketingSummary = summaryMatch ? summaryMatch[1].replace(/<[^>]*>?/gm, '').trim() : null;
 
-  // Specs Table Extraction
+  // Specs Table Extraction (Robust version)
   const getSpec = (labels: string[]) => {
     for (const label of labels) {
-      const searchIndex = content.toLowerCase().indexOf(label.toLowerCase());
-      if (searchIndex !== -1) {
-        const remaining = content.substring(searchIndex);
-        const tdMatch = remaining.match(/<td>([\s\S]*?)<\/td>/i);
-        if (tdMatch) return tdMatch[1].replace(/<[^>]*>?/gm, '').trim();
+      // Look for <td><strong>Label[:]</strong></td> <td>Value</td>
+      // This handles various nesting and optional colons
+      const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`<td[^>]*>\\s*(?:<strong>)?\\s*${escapedLabel}\\s*:?\\s*(?:<\\/strong>)?\\s*<\\/td>\\s*<td[^>]*>([\\s\\S]*?)<\\/td>`, "i");
+      const match = content.match(regex);
+      if (match) return match[1].replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
+      
+      // Fallback: search for label text anywhere in a TD, then get next TD
+      const fallbackRegex = new RegExp(`<td[^>]*>[^<]*${escapedLabel}[^<]*<\\/td>\\s*<td[^>]*>([\\s\\S]*?)<\\/td>`, "i");
+      const fallbackMatch = content.match(fallbackRegex);
+      if (fallbackMatch) {
+         const val = fallbackMatch[1].replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
+         if (val.toLowerCase() !== label.toLowerCase() && val.length > 0) return val;
       }
     }
     return null;
   };
 
-  const dimensions = getSpec(['size']);
+  const dimensions = getSpec(['size', 'dimensions']);
   const jetsStr = getSpec(['jets']);
-  const jetCount = jetsStr ? parseInt(jetsStr) : null;
-  const seatsStr = getSpec(['Massage Seats', 'capacity/seating', 'seating capacity']);
+  const jetCount = jetsStr ? parseInt(jetsStr.replace(/[^\d]/g, '')) : null;
+  const seatsStr = getSpec(['Massage Seats', 'capacity/seating', 'seating capacity', 'seating']);
   
-  // Parse formats like "5/5" or "3-4" or just "6"
-  let seatsMax = null;
-  let seatsMin = null;
+  let seatsMax: number | null = null;
+  let seatsMin: number | null = null;
   if (seatsStr) {
     const parts = seatsStr.split(/[\-\/]/);
     if (parts.length > 1) {
-      seatsMin = parseInt(parts[0].trim());
-      seatsMax = parseInt(parts[parts.length - 1].trim());
+      seatsMin = parseInt(parts[0].trim().replace(/[^\d]/g, ''));
+      seatsMax = parseInt(parts[parts.length - 1].trim().replace(/[^\d]/g, ''));
     } else {
-      seatsMax = parseInt(seatsStr.trim());
-      seatsMin = seatsMax;
+      const match = seatsStr.match(/\d+/);
+      if (match) {
+        seatsMax = parseInt(match[0]);
+        seatsMin = seatsMax;
+      }
     }
   }
   
   const capacityStr = getSpec(['water capacity']);
   const capacityGallons = capacityStr ? parseInt(capacityStr.replace(/[^\d]/g, '')) : null;
   
-  const weightStr = getSpec(['weight dry\/full']);
-  let dryWeightLbs = null;
-  let fullWeightLbs = null;
+  const weightStr = getSpec(['weight dry\/full', 'weight dry and full']);
+  let dryWeightLbs: number | null = null;
+  let fullWeightLbs: number | null = null;
   if (weightStr) {
-    const parts = weightStr.split('/');
+    const parts = weightStr.split(/[\/]/);
     dryWeightLbs = parseInt(parts[0].replace(/[^\d]/g, ''));
-    if (parts[1]) fullWeightLbs = parseInt(parts[1].replace(/[^\d]/g, ''));
+    if (parts.length > 1) {
+      fullWeightLbs = parseInt(parts[1].replace(/[^\d]/g, ''));
+    }
   }
 
   // Dimensions parsing
-  let lengthIn = null, widthIn = null, depthIn = null;
+  let lengthIn: number | null = null, widthIn: number | null = null, depthIn: number | null = null;
   if (dimensions) {
-    const dParts = dimensions.match(/(\d+)"?\s*[xX]\s*(\d+)"?\s*[xX]\s*(\d+)"?/);
+    // Handle formats like 90 x 90 x 36 or 77" x 77" x 36"
+    const dParts = dimensions.match(/([\d\.]+)"?\s*[xX]\s*([\d\.]+)"?\s*[xX]\s*([\d\.]+)"?/);
     if (dParts) {
       lengthIn = parseFloat(dParts[1]);
       widthIn = parseFloat(dParts[2]);
