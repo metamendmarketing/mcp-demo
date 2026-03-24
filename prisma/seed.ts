@@ -83,12 +83,16 @@ async function main() {
   for (const sName of seriesNames) {
     let series = await prisma.series.findFirst({ where: { name: sName, brandId: marquis.id } });
     if (!series) {
+      // Find the first product in this series to get its positioning tier from JSON if available
+      const firstProduct = productsRaw.find((p: any) => p.seriesName === sName);
+      const jsonTier = firstProduct?.series?.positioningTier || firstProduct?.positioningTier;
+
       series = await prisma.series.create({
         data: {
           brandId: marquis.id,
           name: sName,
           category: (sName.toLowerCase().includes('swim') || sName.toLowerCase().includes('atv')) ? 'swim_spa' : 'hot_tub',
-          positioningTier: sName.includes('Crown') ? 'luxury' : (sName.includes('Elite') || sName.includes('Vector') ? 'premium' : 'value'),
+          positioningTier: jsonTier || (sName.includes('Crown') ? 'luxury' : (sName.includes('Elite') || sName.includes('Vector') ? 'premium' : 'value')),
           description: `${sName} by Marquis.`
         }
       });
@@ -97,10 +101,15 @@ async function main() {
   }
 
   const calculateModelTier = (p: any) => {
+    // If positioningTier is explicitly set in JSON, respect it
+    if (p.positioningTier && p.positioningTier !== 'value') {
+       return { tier: p.positioningTier, score: p.score || 85 };
+    }
+
     let score = 0;
     
     // 1. Base Series Score
-    if (p.seriesName.includes('Crown')) score += 50;
+    if (p.seriesName.includes('Crown') || p.seriesName.includes('ATV')) score += 50;
     else if (p.seriesName.includes('Vector')) score += 35;
     else if (p.seriesName.includes('Elite')) score += 20;
     else if (p.seriesName.includes('Celebrity')) score += 0;
@@ -116,7 +125,7 @@ async function main() {
 
     // 4. Calibration
     let tier = 'value';
-    if (score >= 80) tier = 'luxury';
+    if (score >= 80 || p.seriesName.includes('ATV')) tier = 'luxury';
     else if (score >= 60) tier = 'premium';
     else if (score >= 35) tier = 'mid';
 
