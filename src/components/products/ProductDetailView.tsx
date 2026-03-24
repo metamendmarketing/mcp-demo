@@ -732,7 +732,7 @@ export default function ProductDetailView({
              
              {[
                { feature: "Market Positioning", desc: "Tiered Engineering Level", marquis: `${product.positioningTier?.toUpperCase() || 'ELITE'}`, comp: "Entry / Mid-Range" },
-               { feature: "Engineering Score", desc: "Quantified Feature Density", marquis: `${product.score || 85}/100`, comp: "60-65/100" },
+               { feature: "Therapy Performance", desc: "Hydro-Kinetic Precision", marquis: "Professional Grade", comp: "Consumer Standard" },
                { feature: "Hydraulic Efficiency", desc: "Total system flow rate (GPM)", marquis: `${product.pumpFlowGpm || 480} GPM (Velocity-Optimized)`, comp: "Standard 160-220 GPM" },
                { feature: "Jet Architecture", desc: "Proprietary laminar flow tech", marquis: `${product.jetCount} Velocity-Treated Jets`, comp: "Standard Multi-Stage Jets" },
                { feature: "Sanitation Logic", desc: "Advanced water care automation", marquis: "ConstantClean+™ System", comp: "Basic Filtration Cycles" },
