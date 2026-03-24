@@ -1,4 +1,5 @@
 'use client';
+// DEPLOYMENT TRIGGER: Reverting to stable design 0121f3b
 
 import React, { useState } from 'react';
 import { 
