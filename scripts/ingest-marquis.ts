@@ -126,6 +126,14 @@ function parseModelPage(htmlPath: string, seriesName: string, category: string):
       lengthIn = parseFloat(dParts[1]);
       widthIn = parseFloat(dParts[2]);
       depthIn = parseFloat(dParts[3]);
+    } else {
+      // Handle round models like 80" dia x 36"
+      const diaParts = dimensions.match(/([\d\.]+)"?\s*dia\s*[xX]\s*([\d\.]+)"?/i);
+      if (diaParts) {
+        lengthIn = parseFloat(diaParts[1]);
+        widthIn = parseFloat(diaParts[1]);
+        depthIn = parseFloat(diaParts[2]);
+      }
     }
   }
 
