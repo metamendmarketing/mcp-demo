@@ -131,15 +131,8 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
   };
 
   return (
-    <div className="mt-8 border-t border-slate-100 pt-8">
-       <div className="flex items-center justify-between mb-8">
-         <div className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-2">
-           <Palette className="w-3 h-3" />
-           {suggested ? `Recommended finishes for a ${getAestheticTitle(aestheticKey).toLowerCase()} feel` : "Explore Available Finishes"}
-         </div>
-       </div>
-
-       <div className="space-y-8">
+    <div className="mt-2">
+       <div className="space-y-6">
          {/* Suggested Section */}
          {suggested && (
            <div className="flex flex-col md:flex-row flex-wrap gap-10 p-6 bg-slate-50/50 rounded-3xl border border-slate-100">
@@ -549,8 +542,8 @@ export default function ProductDetailView({
           </div>
        </div>
 
-        {/* NEW INTERACTION ROW - DECOUPLED COLUMN HEIGHTS */}
-        <div className="flex flex-col lg:flex-row gap-8 mb-12 items-start">
+        {/* NEW INTERACTION ROW - DECOUPLED COLUMN HEIGHTS - COMPACT */}
+        <div className="flex flex-col lg:flex-row gap-6 mb-10 items-start">
             
             {/* LEFT: THERAPY OBJECTIVE & EXPERT REASONING */}
             <div className="lg:w-1/2 bg-blue-50/40 p-8 rounded-[32px] border border-blue-100/50 shadow-sm flex flex-col">
