@@ -419,8 +419,10 @@ export default function Wizard() {
        }
     }
     
-    // hit 100 and transition immediately
+    // hit 100 and wait a tiny bit so the user actually SEES it reach 100%
     setProgress(100);
+    setLoadingMessage("Complete.");
+    await new Promise(r => setTimeout(r, 600)); // Deliberate pause at 100%
 
     // transition
     setResults(recommendationData || []);
@@ -587,10 +589,7 @@ export default function Wizard() {
               <div className="w-20 h-20 bg-marquis-blue rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                 <Sparkles className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-none">AI Blueprint <br/><span className="text-marquis-blue">{loading ? 'Synthesizing...' : 'Generated.'}</span></h2>
-              <p className="text-slate-400 text-lg">
-                {loading ? loadingMessage : "Synthesized from your 14 data points into a personalized profile."}
-              </p>
+              <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-tight text-white">AI Product <br/><span className="text-marquis-blue">Matchmaking</span></h2>
            </div>
            
            {loading ? (
@@ -600,15 +599,15 @@ export default function Wizard() {
                    {progress}<span className="text-xl md:text-2xl ml-1 text-marquis-blue opacity-50">%</span>
                 </div>
 
-                <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden mb-6 border border-white/5 shadow-inner">
+                <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden mb-8 border border-white/5 shadow-inner">
                    <div 
                      className="h-full bg-marquis-blue shadow-[0_0_20px_rgba(59,130,246,0.6)] transition-all duration-300 ease-out" 
                      style={{ width: `${progress}%` }}
                    />
                 </div>
 
-                {/* Status Message Below */}
-                <div className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-marquis-blue animate-pulse min-h-[1em]">
+                {/* Status Message Below - Styled to match premium "Expert Analysis" feel */}
+                <div className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-marquis-blue animate-pulse min-h-[1.5em] text-center">
                   {loadingMessage}
                 </div>
              </div>
