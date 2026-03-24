@@ -544,33 +544,53 @@ export default function ProductDetailView({
                    </p>
                 </div>
              )}
-
-              {/* Confirmation Bullets */}
-               <div className="space-y-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/50">
-                  <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3">Therapy Objective</div>
-                  <p className="text-sm text-slate-700 font-bold leading-relaxed italic">
-                    "{product.therapySummary || (
-                      product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
-                      product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
-                      product.series?.name === 'Marquis Elite' ? 'High-performance hydrotherapy combined with exceptional durability for a professional-grade home spa experience.' :
-                      'A balanced, engineering-focused hydrotherapy experience designed for daily wellness and relaxation.'
-                    )}"
-                  </p>
-                
-                <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-3 border-t border-blue-100 pt-4">
-                  {mode === 'influenced' ? 'Expert Reasoning' : 'Key Features'}
-                </div>
-                {displayReasons.slice(0, 4).map((r: string, i: number) => (
-                  <div key={i} className="flex gap-3 items-start">
-                    <div className="bg-marquis-blue text-white rounded-full p-1 mt-0.5"><Check className="w-3 h-3" /></div>
-                    <p className="text-sm text-slate-700 font-semibold leading-snug">{r}</p>
-                  </div>
-                ))}
-             </div>
-             {/* COLOR EXPLORER */}
-             <ColorExplorer product={product} preferences={preferences} mode={mode} />
           </div>
        </div>
+
+        {/* NEW INTERACTION ROW - DUAL COLUMN - SHORTENS HERO SECTION */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+            
+            {/* LEFT: THERAPY OBJECTIVE & EXPERT REASONING */}
+            <div className="bg-blue-50/40 p-8 rounded-[32px] border border-blue-100/50 shadow-sm flex flex-col h-full">
+               <div className="flex items-center gap-3 mb-6">
+                 <Heart className="w-5 h-5 text-marquis-blue" />
+                 <h4 className="text-xl font-black italic uppercase text-slate-800">Therapy Objective</h4>
+               </div>
+               
+               <p className="text-sm md:text-base text-slate-700 font-bold leading-relaxed italic mb-8">
+                 "{product.therapySummary || (
+                   product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
+                   product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
+                   product.series?.name === 'Marquis Elite' ? 'High-performance hydrotherapy combined with exceptional durability for a professional-grade home spa experience.' :
+                   'A balanced, engineering-focused hydrotherapy experience designed for daily wellness and relaxation.'
+                 )}"
+               </p>
+               
+               <div className="mt-auto pt-6 border-t border-blue-100">
+                  <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-4">
+                    {mode === 'influenced' ? 'Expert Reasoning' : 'Key Engineering Features'}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {displayReasons.slice(0, 4).map((r: string, i: number) => (
+                      <div key={i} className="flex gap-2 items-start">
+                        <div className="bg-marquis-blue text-white rounded-full p-0.5 mt-0.5 flex-shrink-0"><Check className="w-2.5 h-2.5" /></div>
+                        <p className="text-xs text-slate-700 font-semibold leading-snug">{r}</p>
+                      </div>
+                    ))}
+                  </div>
+               </div>
+            </div>
+
+            {/* RIGHT: INTERIOR & EXTERIOR FINISHES */}
+            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex flex-col h-full">
+               <div className="flex items-center gap-3 mb-8">
+                 <Palette className="w-5 h-5 text-marquis-blue" />
+                 <h4 className="text-xl font-black italic uppercase text-slate-800">Shell & Cabinet Finishes</h4>
+               </div>
+               <ColorExplorer product={product} preferences={preferences} mode={mode} />
+            </div>
+
+        </div>
 
 
         {/* INTERACTIVE HOTSPOTS - FULL WIDTH */}
