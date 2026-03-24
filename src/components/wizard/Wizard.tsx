@@ -290,6 +290,8 @@ export default function Wizard() {
   const [selectedResult, setSelectedResult] = useState<ScoredProduct | null>(null);
   const [aiNarrative, setAiNarrative] = useState<any>(null);
   const [narrativeLoading, setNarrativeLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [loadingMessage, setLoadingMessage] = useState("");
 
   const updatePreference = (key: PreferenceKey, value: string) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
@@ -323,6 +325,27 @@ export default function Wizard() {
 
   const handleRecommend = async () => {
     setLoading(true);
+    setProgress(0);
+    setLoadingMessage("Analyzing user preferences...");
+    
+    // Start simulation
+    const simulationTask = (async () => {
+      for (let i = 0; i <= 100; i++) {
+        setProgress(i);
+        if (i < 25) setLoadingMessage("Analyzing user preferences...");
+        else if (i < 50) setLoadingMessage("Reviewing model specifications...");
+        else if (i < 75) setLoadingMessage("Identifying suitable options...");
+        else setLoadingMessage("Finalizing matches...");
+
+        // Velocity: Fast start (0-30), slow mid (30-70), fast finish (70-100)
+        let delay = 20;
+        if (i >= 30 && i <= 70) delay = 60;
+        else delay = 10;
+        
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    })();
+
     try {
       const res = await fetch('/mcp/demo/api/recommend', {
         method: 'POST',
@@ -330,6 +353,10 @@ export default function Wizard() {
         body: JSON.stringify({ preferences }),
       });
       const data = await res.json();
+      
+      // Wait for simulation to finish if it's still running
+      await simulationTask;
+
       const safeParse = (data: any, fallback: any = []) => {
         if (typeof data === 'string') {
           try {
@@ -364,7 +391,7 @@ export default function Wizard() {
             body: JSON.stringify({ preferences, product: formattedResults[0].product }),
           });
           const narData = await narRes.json();
-          setAiNarrative(narData);
+          setAiNarrative({ ...narData, productSlug: formattedResults[0].product.slug });
         } catch (e) {
           console.error('Narrative failed', e);
         } finally {
@@ -532,13 +559,38 @@ export default function Wizard() {
   if (step === 'blueprint') {
     return (
       <div className="flex flex-col h-full bg-slate-900 text-white animate-slick-reveal overflow-hidden">
-        <div className="flex-grow flex flex-col items-center justify-center p-10 text-center max-w-4xl mx-auto space-y-10">
+        <div className="flex-grow flex flex-col items-center justify-center p-10 text-center max-w-4xl mx-auto space-y-12">
            <div className="space-y-4">
-              <div className="w-20 h-20 bg-marquis-blue rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)]"><Sparkles className="w-10 h-10 text-white" /></div>
-              <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-none">AI Blueprint <br/><span className="text-marquis-blue">Generated.</span></h2>
-              <p className="text-slate-400 text-lg">Synthesized from your 14 data points into a personalized profile.</p>
+              <div className="w-20 h-20 bg-marquis-blue rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)]">
+                {loading ? <div className="text-2xl font-black italic">{progress}%</div> : <Sparkles className="w-10 h-10 text-white" />}
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-none">AI Blueprint <br/><span className="text-marquis-blue">{loading ? 'Synthesizing...' : 'Generated.'}</span></h2>
+              <p className="text-slate-400 text-lg">
+                {loading ? loadingMessage : "Synthesized from your 14 data points into a personalized profile."}
+              </p>
            </div>
-           <button onClick={handleRecommend} disabled={loading} className="btn-marquis-premium px-16 py-5 rounded-2xl text-xl font-black italic uppercase shadow-[0_0_50px_rgba(59,130,246,0.3)] animate-pulse">{loading ? 'Synthesizing Match...' : 'Reveal My Perfection'}</button>
+           
+           {loading ? (
+             <div className="w-full max-w-md space-y-4">
+                <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                   <div 
+                     className="h-full bg-marquis-blue shadow-[0_0_15px_rgba(59,130,246,0.8)] transition-all duration-300 ease-out" 
+                     style={{ width: `${progress}%` }}
+                   />
+                </div>
+                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-marquis-blue animate-pulse">
+                  System Processing...
+                </div>
+             </div>
+           ) : (
+             <button 
+               onClick={handleRecommend} 
+               disabled={loading} 
+               className="btn-marquis-premium px-16 py-5 rounded-2xl text-xl font-black italic uppercase shadow-[0_0_50px_rgba(59,130,246,0.3)] hover:scale-105 transition-transform"
+             >
+               Find my match!
+             </button>
+           )}
         </div>
       </div>
     );
