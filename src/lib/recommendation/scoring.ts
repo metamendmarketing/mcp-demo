@@ -139,6 +139,15 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Dedicated 240V hardwired line ensures peak parallel heater and pump performance.`);
     }
 
+    // 6.6 Delivery Logistics (Max 20 points)
+    if (preferences.delivery === 'tight' && (product.lengthIn || 0) <= 84 && (product.widthIn || 0) <= 84) {
+      score += 20;
+      reasons.push(`Optimized 84-inch footprint explicitly selected to facilitate maneuverability through your restricted access path.`);
+    } else if (preferences.delivery === 'easy' && (product.lengthIn || 0) > 90) {
+      score += 10;
+      reasons.push(`Exploiting your wide-open delivery access to accommodate this high-capacity flagship blueprint.`);
+    }
+
     // 6.6 Precision Tie-Breakers (0-10 small points)
     if (seriesName === 'Crown') score += 5;
     else if (seriesName.includes('Vector')) score += 3;
