@@ -389,25 +389,27 @@ export default function Wizard() {
        
        if (i < 25) setLoadingMessage("Analyzing user preferences...");
        else if (i < 50) setLoadingMessage("Reviewing model specifications...");
-       else if (i < 75) setLoadingMessage("Identifying suitable options...");
+       else if (i < 80) setLoadingMessage("Identifying suitable options...");
        else setLoadingMessage("Finalizing matches...");
 
-       // Velocity: Start fast (0-30), very slow mid (30-85), fast finish (85-100)
        let delay = 25;
-       if (i >= 30 && i <= 85) {
-         delay = 140; 
-         // If data is ready, we can speed up the middle slightly, but let's keep it meaty
-         if (recommendationReady && i > 60) delay = 70;
-       } else {
-         delay = 15;
-       }
        
-       // Hold at 99 if data not ready
-       if (i === 99 && !recommendationReady) {
-         setLoadingMessage("Calibrating expert selection...");
-         while (!recommendationReady) {
-           await new Promise(r => setTimeout(r, 200));
+       if (i >= 30 && i <= 85) {
+         // Middle - Analytical slow-down
+         delay = 140; 
+         // If data is ready early, we can speed it up a bit but keep it premium
+         if (recommendationReady && i > 60) delay = 50;
+       } else if (i > 85 && i < 100) {
+         // Final stretch
+         if (recommendationReady) {
+           delay = 10; // "Sprint" to 100 once data is in!
+         } else {
+           // If data is late, don't stop! Keep it crawling forward
+           delay = 400; // 0.4s per % so it move slowly but steadily
          }
+       } else {
+         // Early phase
+         delay = 15;
        }
        
        await new Promise(resolve => setTimeout(resolve, delay));
