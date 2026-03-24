@@ -344,11 +344,7 @@ export default function Wizard() {
         
         const safeParse = (data: any, fallback: any = []) => {
           if (typeof data === 'string') {
-            try {
-              return JSON.parse(data);
-            } catch (e) {
-              return fallback;
-            }
+            try { return JSON.parse(data); } catch (e) { return fallback; }
           }
           return data || fallback;
         };
@@ -364,22 +360,22 @@ export default function Wizard() {
           }
         }));
         
-        if (recommendationData && recommendationData.length > 0) {
-          try {
-            const narRes = await fetch('/mcp/demo/api/narrative', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ preferences, product: recommendationData[0].product }),
-            });
-            narrativeData = await narRes.json();
-          } catch (e) {
-            console.error('Narrative prefetch failed', e);
-          }
-        }
         recommendationReady = true;
+
+        // Start pre-fetch of narrative in the background, but DON'T block the transition based on it
+        if (recommendationData && recommendationData.length > 0) {
+          fetch('/mcp/demo/api/narrative', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ preferences, product: recommendationData[0].product }),
+          }).then(n => n.json()).then(data => {
+            narrativeData = data;
+            setAiNarrative({ ...data, productSlug: recommendationData[0].product.slug });
+          }).catch(e => console.error('Background narrative failed', e));
+        }
       } catch (err) {
         console.error('Recommendation failed', err);
-        recommendationReady = true; // Still allow progress to finish
+        recommendationReady = true; 
       }
     })();
 
@@ -414,20 +410,20 @@ export default function Wizard() {
        await new Promise(resolve => setTimeout(resolve, delay));
     }
 
-    // Ensure we actually HAVE the data before setting 100 and transitioning
+    // Ensure we actually HAVE the data (results) before setting 100 and transitioning
     if (!recommendationReady) {
        setLoadingMessage("Synthesizing expert selection...");
-       await fetchTask; // Wait for it to finish if it's really slow
+       // Don't just await fetchTask (it might wait for narrative)
+       while (!recommendationReady) {
+          await new Promise(r => setTimeout(r, 100));
+       }
     }
     
-    // Now that we have data, hit 100 and transition immediately
+    // hit 100 and transition immediately
     setProgress(100);
 
-    // Now that 100 is reached, apply results and transition
+    // transition
     setResults(recommendationData || []);
-    if (narrativeData) {
-      setAiNarrative({ ...narrativeData, productSlug: recommendationData[0].product.slug });
-    }
     setStep('results');
     setLoading(false);
   };
