@@ -115,15 +115,14 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
     );
   };
 
-  const renderGroup = (title: string, subtitle: string, colors: string[], groupKey: string) => {
+  const renderGroup = (title: string, colors: string[], groupKey: string) => {
     if (colors.length === 0) return null;
     return (
-      <div className="space-y-4">
-        <div className="flex flex-col">
-          <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">{title}</span>
-          <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">{subtitle}</span>
+      <div className="flex flex-col gap-3 min-w-fit">
+        <div className="text-[10px] font-black text-slate-900 uppercase tracking-widest border-b border-slate-100 pb-1.5">
+          {title}
         </div>
-        <div className="flex flex-wrap gap-6">
+        <div className="flex flex-wrap gap-4">
           {colors.map(color => renderColorSwatch(color, groupKey))}
         </div>
       </div>
@@ -139,21 +138,21 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
          </div>
        </div>
 
-       <div className="space-y-10">
+       <div className="space-y-8">
          {/* Suggested Section */}
          {suggested && (
-           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 p-6 bg-slate-50/50 rounded-3xl border border-slate-100">
-             {renderGroup("DuraShell®", "Interior Finish", suggestedShell, "s-shell")}
-             {renderGroup("Cabinet", "Exterior look", suggestedCabinet, "s-cab")}
-             {renderGroup("Cover", "Top finish", suggestedCover, "s-cover")}
+           <div className="flex flex-col md:flex-row flex-wrap gap-10 p-6 bg-slate-50/50 rounded-3xl border border-slate-100">
+             {renderGroup("Interior - DuraShell® Collection", suggestedShell, "s-shell")}
+             {renderGroup("Exterior - Cabinet Collection", suggestedCabinet, "s-cab")}
+             {renderGroup("Top - Cover Collection", suggestedCover, "s-cover")}
            </div>
          )}
 
          {/* Static Preview (when not influenced) */}
          {!suggested && !showAllColors && (
-           <div className="flex flex-wrap gap-8">
-             {renderGroup("DuraShell®", "Interior", shellColors.slice(0, 2), "p-shell")}
-             {renderGroup("Cabinet", "Exterior", cabinetColors.filter((c: string) => !isCover(c)).slice(0, 1), "p-cab")}
+           <div className="flex flex-wrap gap-12">
+             {renderGroup("Interior - DuraShell® Collection", shellColors.slice(0, 2), "p-shell")}
+             {renderGroup("Exterior - Cabinet Collection", cabinetColors.filter((c: string) => !isCover(c)).slice(0, 1), "p-cab")}
            </div>
          )}
          
@@ -177,10 +176,10 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
                </button>
              </div>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-               {renderGroup("DuraShell® Collection", "Available interior shell colors", shellColors, "all-shell")}
+               {renderGroup("Interior - DuraShell® Collection", shellColors, "all-shell")}
                <div className="space-y-8">
-                 {renderGroup("Cabinet Collection", "Exterior cladding options", cabinetColors.filter((c: string) => !isCover(c)), "all-cab")}
-                 {renderGroup("Cover Collection", "Coordinated top finishes", cabinetColors.filter((c: string) => isCover(c)), "all-cover")}
+                 {renderGroup("Exterior - Cabinet Collection", cabinetColors.filter((c: string) => !isCover(c)), "all-cab")}
+                 {renderGroup("Top - Cover Collection", cabinetColors.filter((c: string) => isCover(c)), "all-cover")}
                </div>
              </div>
            </div>
