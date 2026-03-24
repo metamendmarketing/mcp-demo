@@ -328,81 +328,98 @@ export default function Wizard() {
     setProgress(0);
     setLoadingMessage("Analyzing user preferences...");
     
-    // Start simulation
-    const simulationTask = (async () => {
-      for (let i = 0; i <= 100; i++) {
-        setProgress(i);
-        if (i < 25) setLoadingMessage("Analyzing user preferences...");
-        else if (i < 50) setLoadingMessage("Reviewing model specifications...");
-        else if (i < 75) setLoadingMessage("Identifying suitable options...");
-        else setLoadingMessage("Finalizing matches...");
+    // Start fetch in background
+    let recommendationData: any = null;
+    let narrativeData: any = null;
+    let recommendationReady = false;
 
-        // Velocity: Fast start (0-30), slow mid (30-80), fast finish (80-100)
-        let delay = 30; 
-        if (i >= 30 && i <= 80) delay = 120; // Much slower in the middle
-        else delay = 15;
+    const fetchTask = (async () => {
+      try {
+        const res = await fetch('/mcp/demo/api/recommend', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ preferences }),
+        });
+        const data = await res.json();
         
-        await new Promise(resolve => setTimeout(resolve, delay));
+        const safeParse = (data: any, fallback: any = []) => {
+          if (typeof data === 'string') {
+            try {
+              return JSON.parse(data);
+            } catch (e) {
+              return fallback;
+            }
+          }
+          return data || fallback;
+        };
+
+        recommendationData = data.results?.map((r: any) => ({
+          ...r,
+          product: {
+            ...r.product,
+            usageTags: safeParse(r.product.usageTags),
+            shellColors: safeParse(r.product.shellColors),
+            cabinetColors: safeParse(r.product.cabinetColors),
+            hotspots: safeParse(r.product.hotspots)
+          }
+        }));
+        
+        if (recommendationData && recommendationData.length > 0) {
+          try {
+            const narRes = await fetch('/mcp/demo/api/narrative', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ preferences, product: recommendationData[0].product }),
+            });
+            narrativeData = await narRes.json();
+          } catch (e) {
+            console.error('Narrative prefetch failed', e);
+          }
+        }
+        recommendationReady = true;
+      } catch (err) {
+        console.error('Recommendation failed', err);
+        recommendationReady = true; // Still allow progress to finish
       }
     })();
 
-    try {
-      const res = await fetch('/mcp/demo/api/recommend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ preferences }),
-      });
-      const data = await res.json();
-      
-      // Wait for simulation to finish if it's still running
-      await simulationTask;
+    // Simulation controls the flow
+    for (let i = 0; i <= 100; i++) {
+       setProgress(i);
+       
+       if (i < 25) setLoadingMessage("Analyzing user preferences...");
+       else if (i < 50) setLoadingMessage("Reviewing model specifications...");
+       else if (i < 75) setLoadingMessage("Identifying suitable options...");
+       else setLoadingMessage("Finalizing matches...");
 
-      const safeParse = (data: any, fallback: any = []) => {
-        if (typeof data === 'string') {
-          try {
-            return JSON.parse(data);
-          } catch (e) {
-            return fallback;
-          }
-        }
-        return data || fallback;
-      };
-
-      const formattedResults = data.results?.map((r: any) => ({
-        ...r,
-        product: {
-          ...r.product,
-          usageTags: safeParse(r.product.usageTags),
-          shellColors: safeParse(r.product.shellColors),
-          cabinetColors: safeParse(r.product.cabinetColors),
-          hotspots: safeParse(r.product.hotspots)
-        }
-      }));
-      setResults(formattedResults || []);
-      setStep('results');
-
-      if (formattedResults && formattedResults.length > 0) {
-        // Pre-fetch narrative for top match
-        setNarrativeLoading(true);
-        try {
-          const narRes = await fetch('/mcp/demo/api/narrative', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ preferences, product: formattedResults[0].product }),
-          });
-          const narData = await narRes.json();
-          setAiNarrative({ ...narData, productSlug: formattedResults[0].product.slug });
-        } catch (e) {
-          console.error('Narrative failed', e);
-        } finally {
-          setNarrativeLoading(false);
-        }
-      }
-    } catch (err) {
-      console.error('Recommendation failed', err);
-    } finally {
-      setLoading(false);
+       // Velocity: Start fast (0-30), very slow mid (30-85), fast finish (85-100)
+       let delay = 25;
+       if (i >= 30 && i <= 85) {
+         delay = 140; 
+         // If data is ready, we can speed up the middle slightly, but let's keep it meaty
+         if (recommendationReady && i > 60) delay = 70;
+       } else {
+         delay = 15;
+       }
+       
+       // Hold at 99 if data not ready
+       if (i === 99 && !recommendationReady) {
+         setLoadingMessage("Calibrating expert selection...");
+         while (!recommendationReady) {
+           await new Promise(r => setTimeout(r, 200));
+         }
+       }
+       
+       await new Promise(resolve => setTimeout(resolve, delay));
     }
+
+    // Now that 100 is reached, apply results and transition
+    setResults(recommendationData || []);
+    if (narrativeData) {
+      setAiNarrative({ ...narrativeData, productSlug: recommendationData[0].product.slug });
+    }
+    setStep('results');
+    setLoading(false);
   };
 
   const handleSelectResult = (res: ScoredProduct) => {
@@ -571,15 +588,15 @@ export default function Wizard() {
            </div>
            
            {loading ? (
-             <div className="w-full max-w-md flex flex-col items-center">
-                {/* Large Slider-Style Percentage */}
-                <div className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl mb-6">
-                   {progress}<span className="text-2xl md:text-3xl ml-1 text-marquis-blue opacity-50">%</span>
+             <div className="w-full max-w-md flex flex-col items-center translate-y-4">
+                {/* Large Slider-Style Percentage - Halved */}
+                <div className="text-4xl md:text-5xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl mb-8">
+                   {progress}<span className="text-xl md:text-2xl ml-1 text-marquis-blue opacity-50">%</span>
                 </div>
 
-                <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden mb-6 border border-white/5">
+                <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden mb-6 border border-white/5 shadow-inner">
                    <div 
-                     className="h-full bg-marquis-blue shadow-[0_0_25px_rgba(59,130,246,0.8)] transition-all duration-300 ease-out" 
+                     className="h-full bg-marquis-blue shadow-[0_0_20px_rgba(59,130,246,0.6)] transition-all duration-300 ease-out" 
                      style={{ width: `${progress}%` }}
                    />
                 </div>
