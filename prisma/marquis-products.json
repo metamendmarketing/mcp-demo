@@ -23,18 +23,15 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Ash",
       "Pecan",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -62,18 +59,15 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Ash",
       "Pecan",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -101,18 +95,15 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Ash",
       "Pecan",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -140,18 +131,15 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Ash",
       "Pecan",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -179,18 +167,15 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Ash",
       "Pecan",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -218,18 +203,15 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Ash",
       "Pecan",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -269,7 +251,7 @@
       "Timber",
       "Island Tropical",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -309,7 +291,7 @@
       "Timber",
       "Island Tropical",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -349,7 +331,7 @@
       "Timber",
       "Island Tropical",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -389,7 +371,7 @@
       "Timber",
       "Island Tropical",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -429,7 +411,7 @@
       "Timber",
       "Island Tropical",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -469,7 +451,7 @@
       "Timber",
       "Island Tropical",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -509,7 +491,7 @@
       "Timber",
       "Island Tropical",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -549,7 +531,7 @@
       "Timber",
       "Island Tropical",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -577,19 +559,16 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Harbor",
       "Hickory",
       "Granite",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -617,19 +596,16 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Harbor",
       "Hickory",
       "Granite",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -657,19 +633,16 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Harbor",
       "Hickory",
       "Granite",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -697,19 +670,16 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Harbor",
       "Hickory",
       "Granite",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -737,19 +707,16 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Harbor",
       "Hickory",
       "Granite",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -777,19 +744,16 @@
     "standardFeatures": [],
     "optionalFeatures": [],
     "shellColors": [
-      "Ash",
-      "Alba",
       "Midnight Canyon",
       "Glacier",
       "Sterling Silver",
-      "Tuscan Sun",
-      "Winter Solstice"
+      "Tuscan Sun"
     ],
     "cabinetColors": [
       "Harbor",
       "Hickory",
       "Granite",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -828,7 +792,7 @@
       "Barnwood",
       "Chestnut",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -867,7 +831,7 @@
       "Barnwood",
       "Chestnut",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -906,7 +870,7 @@
       "Barnwood",
       "Chestnut",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -945,7 +909,7 @@
       "Barnwood",
       "Chestnut",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -984,7 +948,7 @@
       "Barnwood",
       "Chestnut",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -1023,7 +987,7 @@
       "Barnwood",
       "Chestnut",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   },
@@ -1062,7 +1026,7 @@
       "Barnwood",
       "Chestnut",
       "Black DuraCovers®",
-      "Black Weathershield"
+      "Black Weathershield (Optional)"
     ],
     "usageTags": []
   }

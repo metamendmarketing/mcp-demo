@@ -480,7 +480,7 @@ export default function ProductDetailView({
                             {product.seatsMin && product.seatsMin !== product.seatsMax ? `${product.seatsMin}-${product.seatsMax}` : product.seatsMax} Adults
                           </>
                         ) : (
-                          "Expert Spec"
+                          "Marquis Signature"
                         )}
                       </div>
                     </div>
