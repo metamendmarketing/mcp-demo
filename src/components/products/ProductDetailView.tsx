@@ -424,13 +424,20 @@ export default function ProductDetailView({
   const heroImg = getHeroImage();
   const displayReasons = mode === 'influenced' ? (reasons || []) : (product.staticReasons ? (typeof product.staticReasons === 'string' ? JSON.parse(product.staticReasons) : product.staticReasons) : []);
   
-  const displayNarrative = {
-    heroTitle: mode === 'influenced' ? (aiNarrative?.heroTitle || product.modelName) : (product.staticHeroTitle || product.modelName),
-    hydrotherapy: mode === 'influenced' ? aiNarrative?.hydrotherapy : product.staticHydrotherapy,
-    climate: mode === 'influenced' ? aiNarrative?.climate : product.staticClimate,
-    design: mode === 'influenced' ? aiNarrative?.design : product.staticDesign,
-    efficiency: mode === 'influenced' ? aiNarrative?.efficiency : product.staticEfficiency,
-    designConsideration: mode === 'influenced' ? aiNarrative?.designConsideration : product.staticDesignConsideration
+  const displayNarrative = mode === 'influenced' ? {
+    heroTitle: aiNarrative?.heroTitle || product.modelName,
+    hydrotherapy: aiNarrative?.hydrotherapy || "Synthesizing your personalized profile...",
+    climate: aiNarrative?.climate || "Synthesizing your personalized profile...",
+    design: aiNarrative?.design || "Synthesizing your personalized profile...",
+    efficiency: aiNarrative?.efficiency || "Synthesizing your personalized profile...",
+    designConsideration: aiNarrative?.designConsideration
+  } : {
+    heroTitle: product.staticHeroTitle || product.modelName,
+    hydrotherapy: product.staticHydrotherapy,
+    climate: product.staticClimate,
+    design: product.staticDesign,
+    efficiency: product.staticEfficiency,
+    designConsideration: product.staticDesignConsideration
   };
 
   return (
@@ -663,16 +670,21 @@ export default function ProductDetailView({
                     </div>
                  </div>
                  <div className="md:w-2/3 md:pl-2">
-                   {isLoading ? (
+                   {mode === 'influenced' && isLoading ? (
                      <div className="space-y-3 animate-pulse pt-1">
                        <div className="h-3 bg-slate-200/60 rounded w-full"></div>
                        <div className="h-3 bg-slate-200/60 rounded w-5/6"></div>
                        <div className="h-3 bg-slate-200/60 rounded w-4/6"></div>
                      </div>
-                   ) : (aiNarrative as any)?.error ? (
+                   ) : (mode === 'influenced' && (aiNarrative as any)?.error) ? (
                      <div className="text-red-500 text-sm font-medium">Generation Failed: {(aiNarrative as any).error}</div>
                    ) : (
-                     <div className="text-sm md:text-base text-slate-600 leading-relaxed font-semibold prose prose-slate" dangerouslySetInnerHTML={{ __html: (displayNarrative as any)?.[mod.id] || "Synthesizing your personalized profile..." }} />
+                     <div 
+                       className="text-sm md:text-base text-slate-600 leading-relaxed font-semibold prose prose-slate" 
+                       dangerouslySetInnerHTML={{ 
+                         __html: (displayNarrative as any)?.[mod.id] || (mode === 'static' ? "Technical specifications currently being updated." : "Synthesizing your personalized profile...")
+                       }} 
+                     />
                    )}
                  </div>
                </div>
