@@ -390,17 +390,17 @@ export default function Wizard() {
 
        let delay = 25;
        
-       if (i >= 30 && i <= 85) {
+       if (i >= 30 && i <= 75) {
          // Middle - Analytical slow-down
          delay = 140; 
-         if (recommendationReady && i > 60) delay = 50;
-       } else if (i > 85) {
-         // Final stretch before 100
+         if (recommendationReady && i > 50) delay = 50;
+       } else if (i > 75) {
+         // Final stretch - "Spread out" the wait so it doesn't just hit 99 and stop
          if (recommendationReady) {
-           delay = 15; // Accelerate once we have data
+           delay = 15; 
          } else {
-           // If data is late, don't stop! Keep it crawling forward
-           delay = 450; 
+           // Crawl slower (650ms per %) to soak up the API time!
+           delay = 650; 
          }
        } else {
          // Early phase
@@ -412,15 +412,15 @@ export default function Wizard() {
 
     // Ensure we actually HAVE the data (results) before setting 100 and transitioning
     if (!recommendationReady) {
-       setLoadingMessage("Synthesizing expert selection...");
-       // Don't just await fetchTask (it might wait for narrative)
+       setLoadingMessage("Finalizing matches...");
        while (!recommendationReady) {
-          await new Promise(r => setTimeout(r, 100));
+          await new Promise(r => setTimeout(r, 150));
        }
     }
     
     // Subtle 150ms pause at 100% just to ensure it's visually registered before the jump
     setProgress(100);
+    setLoadingMessage("Finalizing matches...");
     await new Promise(r => setTimeout(r, 150)); 
 
     // transition
