@@ -731,7 +731,7 @@ export default function ProductDetailView({
              </div>
              
              {[
-               { feature: "Market Positioning", desc: "Tiered Engineering Level", marquis: `${product.positioningTier?.toUpperCase() || 'ELITE'}`, comp: "Entry / Mid-Range" },
+               { feature: "Market Positioning", desc: "Engineering & Performance Tier", marquis: `${product.series?.name?.toUpperCase() || 'MARQUIS'} | ${product.positioningTier?.toUpperCase() || 'ELITE'}`, comp: "Entry / Mid-Range" },
                { feature: "Therapy Performance", desc: "Hydro-Kinetic Precision", marquis: "Professional Grade", comp: "Consumer Standard" },
                { feature: "Hydraulic Efficiency", desc: "Total system flow rate (GPM)", marquis: `${product.pumpFlowGpm || 480} GPM (Velocity-Optimized)`, comp: "Standard 160-220 GPM" },
                { feature: "Jet Architecture", desc: "Proprietary laminar flow tech", marquis: `${product.jetCount} Velocity-Treated Jets`, comp: "Standard Multi-Stage Jets" },

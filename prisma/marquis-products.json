@@ -129,8 +129,8 @@
       "lounge",
       "soft"
     ],
-    "positioningTier": "value",
-    "score": 10,
+    "positioningTier": "mid",
+    "score": 40,
     "estimatedMsrp": 8495,
     "sourceUrl": null,
     "sourceLastSeenAt": null,
@@ -371,8 +371,8 @@
       "social",
       "soft"
     ],
-    "positioningTier": "value",
-    "score": 10,
+    "positioningTier": "mid",
+    "score": 40,
     "estimatedMsrp": 8495,
     "sourceUrl": null,
     "sourceLastSeenAt": null,
@@ -451,8 +451,8 @@
       "lounge",
       "firm"
     ],
-    "positioningTier": "value",
-    "score": 20,
+    "positioningTier": "mid",
+    "score": 55,
     "estimatedMsrp": 9495,
     "sourceUrl": null,
     "sourceLastSeenAt": null,
