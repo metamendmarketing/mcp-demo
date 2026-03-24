@@ -88,15 +88,11 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
     return (
       <div 
         key={`${isSuggested ? 's' : 'o'}-${isCabinet ? 'cab' : 'shell'}-${color}`}
-        className={cn(
-          "group relative flex flex-col items-center gap-2 transition-all duration-300",
-          isSuggested ? "scale-105 z-10" : "opacity-80 hover:opacity-100"
-        )}
+        className="group relative flex flex-col items-center gap-2 transition-all duration-300"
       >
         {/* Swatch Circle */}
         <div className={cn(
-          "relative w-12 h-12 rounded-full overflow-hidden border-2 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg",
-          isSuggested ? "border-emerald-400 shadow-md" : "border-slate-200"
+          "relative w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
         )}>
           {imageUrl ? (
             <img src={imageUrl} alt={color} className="w-full h-full object-cover" />
@@ -105,20 +101,10 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
               <Palette className="w-4 h-4 text-slate-400" />
             </div>
           )}
-          
-          {/* Suggested Indicator */}
-          {isSuggested && (
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm z-10">
-              <Check className="w-2 h-2 text-white" />
-            </div>
-          )}
         </div>
 
         {/* Color Name */}
-        <div className={cn(
-          "text-[9px] font-black uppercase tracking-tighter text-center max-w-[64px] leading-tight transition-colors",
-          isSuggested ? "text-slate-800" : "text-slate-500"
-        )}>
+        <div className="text-[9px] font-black uppercase tracking-tighter text-center max-w-[64px] leading-tight transition-colors text-slate-500 group-hover:text-slate-800">
           {color}
         </div>
 
@@ -140,14 +126,8 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
        <div className="flex items-center justify-between mb-6">
          <div className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-2">
            <Palette className="w-3 h-3" />
-           {suggested ? "Curated Finishes" : "Available Finishes"}
+           {suggested ? `Recommended finishes for a ${getAestheticTitle(aestheticKey).toLowerCase()} feel` : "Available Finishes"}
          </div>
-         {suggested && (
-           <div className="px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
-             <Sparkles className="w-3 h-3" />
-             Suggested for {getAestheticTitle(aestheticKey)}
-           </div>
-         )}
        </div>
 
        <div className="space-y-8">
