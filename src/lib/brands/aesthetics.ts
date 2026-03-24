@@ -7,7 +7,7 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
   crown: {
     modern: {
       shell: ['Midnight Canyon', 'Glacier', 'Winter Solstice', 'Sterling Silver', 'Granite'],
-      cabinet: ['Black DuraCovers®', 'Black Weathershield', 'Granite']
+      cabinet: ['Black DuraCovers®', 'Black Weathershield (Optional)', 'Granite']
     },
     rustic: {
       shell: ['Tuscan Sun'],
@@ -25,7 +25,7 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
   vector: {
     modern: {
       shell: ['Midnight Canyon', 'Glacier', 'Winter Solstice', 'Sterling Silver'],
-      cabinet: ['Black DuraCovers®', 'Black Weathershield']
+      cabinet: ['Black DuraCovers®', 'Black Weathershield (Optional)']
     },
     rustic: {
       shell: ['Tuscan Sun'],
@@ -43,7 +43,7 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
   celebrity: {
     modern: {
       shell: ['Midnight Canyon', 'Glacier', 'Sterling Silver'],
-      cabinet: ['Black Weathershield']
+      cabinet: ['Black Weathershield (Optional)']
     },
     rustic: {
       shell: ['Tuscan Sun'],
@@ -54,14 +54,14 @@ export const AESTHETIC_MAPPINGS: Record<string, Record<string, AestheticMapping>
       cabinet: ['Pecan']
     },
     classic: {
-      shell: ['Ash', 'Glacier', 'Sterling Silver'],
+      shell: ['Glacier', 'Sterling Silver'],
       cabinet: ['Ash']
     }
   },
   elite: {
     modern: {
       shell: ['Midnight Canyon', 'Glacier', 'Winter Solstice', 'Sterling Silver'],
-      cabinet: ['Black Weathershield']
+      cabinet: ['Black Weathershield (Optional)']
     },
     rustic: {
       shell: ['Tuscan Sun'],
@@ -101,6 +101,7 @@ export const FINISH_IMAGE_MAP: Record<string, string> = {
   'Island Tropical': '/mcp/demo/assets/finishes/timber.jpg',
   'Black DuraCovers®': '/mcp/demo/assets/finishes/black-duracovers.jpg',
   'Black Weathershield': '/mcp/demo/assets/finishes/black-weathershield.jpg',
+  'Black Weathershield (Optional)': '/mcp/demo/assets/finishes/black-weathershield.jpg',
   'Barnwood': '/mcp/demo/assets/finishes/barnwood.jpg',
   'Chestnut': '/mcp/demo/assets/finishes/chestnut.jpg',
   'Pecan': '/mcp/demo/assets/finishes/pecan.png',
