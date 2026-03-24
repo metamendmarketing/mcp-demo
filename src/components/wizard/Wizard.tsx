@@ -337,10 +337,10 @@ export default function Wizard() {
         else if (i < 75) setLoadingMessage("Identifying suitable options...");
         else setLoadingMessage("Finalizing matches...");
 
-        // Velocity: Fast start (0-30), slow mid (30-70), fast finish (70-100)
-        let delay = 20;
-        if (i >= 30 && i <= 70) delay = 60;
-        else delay = 10;
+        // Velocity: Fast start (0-30), slow mid (30-80), fast finish (80-100)
+        let delay = 30; 
+        if (i >= 30 && i <= 80) delay = 120; // Much slower in the middle
+        else delay = 15;
         
         await new Promise(resolve => setTimeout(resolve, delay));
       }
@@ -562,7 +562,7 @@ export default function Wizard() {
         <div className="flex-grow flex flex-col items-center justify-center p-10 text-center max-w-4xl mx-auto space-y-12">
            <div className="space-y-4">
               <div className="w-20 h-20 bg-marquis-blue rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)]">
-                {loading ? <div className="text-2xl font-black italic">{progress}%</div> : <Sparkles className="w-10 h-10 text-white" />}
+                <Sparkles className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-none">AI Blueprint <br/><span className="text-marquis-blue">{loading ? 'Synthesizing...' : 'Generated.'}</span></h2>
               <p className="text-slate-400 text-lg">
@@ -572,14 +572,17 @@ export default function Wizard() {
            
            {loading ? (
              <div className="w-full max-w-md space-y-4">
+                <div className="flex justify-between items-end mb-1">
+                  <div className="text-[10px] font-black uppercase tracking-[0.3em] text-marquis-blue animate-pulse">
+                    System Processing...
+                  </div>
+                  <div className="text-xl font-black italic text-white leading-none">{progress}%</div>
+                </div>
                 <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
                    <div 
                      className="h-full bg-marquis-blue shadow-[0_0_15px_rgba(59,130,246,0.8)] transition-all duration-300 ease-out" 
                      style={{ width: `${progress}%` }}
                    />
-                </div>
-                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-marquis-blue animate-pulse">
-                  System Processing...
                 </div>
              </div>
            ) : (
