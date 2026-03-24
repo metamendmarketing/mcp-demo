@@ -62,22 +62,41 @@ function parseModelPage(htmlPath: string, seriesName: string, category: string):
   const marketingSummary = summaryMatch ? summaryMatch[1].replace(/<[^>]*>?/gm, '').trim() : null;
 
   // Specs Table Extraction
-  const getSpec = (label: string) => {
-    const regex = new RegExp(`<td><strong>${label}:?<\/strong><\/td>\\s*<td>(.*?)<\/td>`, 'i');
-    const match = content.match(regex);
-    return match ? match[1].trim() : null;
+  const getSpec = (labels: string[]) => {
+    for (const label of labels) {
+      const searchIndex = content.toLowerCase().indexOf(label.toLowerCase());
+      if (searchIndex !== -1) {
+        const remaining = content.substring(searchIndex);
+        const tdMatch = remaining.match(/<td>([\s\S]*?)<\/td>/i);
+        if (tdMatch) return tdMatch[1].replace(/<[^>]*>?/gm, '').trim();
+      }
+    }
+    return null;
   };
 
-  const dimensions = getSpec('size');
-  const jetsStr = getSpec('jets');
+  const dimensions = getSpec(['size']);
+  const jetsStr = getSpec(['jets']);
   const jetCount = jetsStr ? parseInt(jetsStr) : null;
-  const seatsStr = getSpec('Massage Seats');
-  const seatsMax = seatsStr ? parseInt(seatsStr) : null;
+  const seatsStr = getSpec(['Massage Seats', 'capacity/seating', 'seating capacity']);
   
-  const capacityStr = getSpec('water capacity');
+  // Parse formats like "5/5" or "3-4" or just "6"
+  let seatsMax = null;
+  let seatsMin = null;
+  if (seatsStr) {
+    const parts = seatsStr.split(/[\-\/]/);
+    if (parts.length > 1) {
+      seatsMin = parseInt(parts[0].trim());
+      seatsMax = parseInt(parts[parts.length - 1].trim());
+    } else {
+      seatsMax = parseInt(seatsStr.trim());
+      seatsMin = seatsMax;
+    }
+  }
+  
+  const capacityStr = getSpec(['water capacity']);
   const capacityGallons = capacityStr ? parseInt(capacityStr.replace(/[^\d]/g, '')) : null;
   
-  const weightStr = getSpec('weight dry\/full');
+  const weightStr = getSpec(['weight dry\/full']);
   let dryWeightLbs = null;
   let fullWeightLbs = null;
   if (weightStr) {
