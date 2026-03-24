@@ -384,7 +384,7 @@ export default function Wizard() {
     })();
 
     // Simulation controls the flow
-    for (let i = 0; i <= 100; i++) {
+    for (let i = 0; i < 100; i++) {
        setProgress(i);
        
        if (i < 25) setLoadingMessage("Analyzing user preferences...");
@@ -397,15 +397,14 @@ export default function Wizard() {
        if (i >= 30 && i <= 85) {
          // Middle - Analytical slow-down
          delay = 140; 
-         // If data is ready early, we can speed it up a bit but keep it premium
          if (recommendationReady && i > 60) delay = 50;
-       } else if (i > 85 && i < 100) {
-         // Final stretch
+       } else if (i > 85) {
+         // Final stretch before 100
          if (recommendationReady) {
-           delay = 10; // "Sprint" to 100 once data is in!
+           delay = 15; // Accelerate once we have data
          } else {
            // If data is late, don't stop! Keep it crawling forward
-           delay = 400; // 0.4s per % so it move slowly but steadily
+           delay = 450; 
          }
        } else {
          // Early phase
@@ -414,6 +413,15 @@ export default function Wizard() {
        
        await new Promise(resolve => setTimeout(resolve, delay));
     }
+
+    // Ensure we actually HAVE the data before setting 100 and transitioning
+    if (!recommendationReady) {
+       setLoadingMessage("Synthesizing expert selection...");
+       await fetchTask; // Wait for it to finish if it's really slow
+    }
+    
+    // Now that we have data, hit 100 and transition immediately
+    setProgress(100);
 
     // Now that 100 is reached, apply results and transition
     setResults(recommendationData || []);
