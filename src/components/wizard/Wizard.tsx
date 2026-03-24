@@ -419,10 +419,9 @@ export default function Wizard() {
        }
     }
     
-    // hit 100 and wait a tiny bit so the user actually SEES it reach 100%
+    // Subtle 150ms pause at 100% just to ensure it's visually registered before the jump
     setProgress(100);
-    setLoadingMessage("Complete.");
-    await new Promise(r => setTimeout(r, 600)); // Deliberate pause at 100%
+    await new Promise(r => setTimeout(r, 150)); 
 
     // transition
     setResults(recommendationData || []);
@@ -589,7 +588,7 @@ export default function Wizard() {
               <div className="w-20 h-20 bg-marquis-blue rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                 <Sparkles className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-tight text-white">AI Product <br/><span className="text-marquis-blue">Matchmaking</span></h2>
+              <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-tight text-white italic">AI <span className="text-marquis-blue">Blueprint</span></h2>
            </div>
            
            {loading ? (
