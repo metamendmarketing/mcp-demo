@@ -330,11 +330,25 @@ export default function Wizard() {
         body: JSON.stringify({ preferences }),
       });
       const data = await res.json();
+      const safeParse = (data: any, fallback: any = []) => {
+        if (typeof data === 'string') {
+          try {
+            return JSON.parse(data);
+          } catch (e) {
+            return fallback;
+          }
+        }
+        return data || fallback;
+      };
+
       const formattedResults = data.results?.map((r: any) => ({
         ...r,
         product: {
           ...r.product,
-          usageTags: typeof r.product.usageTags === 'string' ? JSON.parse(r.product.usageTags) : r.product.usageTags
+          usageTags: safeParse(r.product.usageTags),
+          shellColors: safeParse(r.product.shellColors),
+          cabinetColors: safeParse(r.product.cabinetColors),
+          hotspots: safeParse(r.product.hotspots)
         }
       }));
       setResults(formattedResults || []);

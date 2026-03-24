@@ -20,9 +20,10 @@ function cn(...inputs: ClassValue[]) {
 interface ColorExplorerProps {
   product: any;
   preferences?: any;
+  mode?: 'static' | 'influenced';
 }
 
-function ColorExplorer({ product, preferences: initialPreferences }: ColorExplorerProps) {
+function ColorExplorer({ product, preferences: initialPreferences, mode = 'static' }: ColorExplorerProps) {
   const [showAllColors, setShowAllColors] = useState(false);
   const [persistedPreferences, setPersistedPreferences] = useState<any>(null);
 
@@ -57,7 +58,9 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
                    (seriesName.toLowerCase().includes('vector') ? 'vector' : 
                    (seriesName.toLowerCase().includes('celebrity') ? 'celebrity' : 
                    (seriesName.toLowerCase().includes('elite') ? 'elite' : null)));
-  const aestheticKey = preferences?.aesthetic;
+                   
+  // In static mode, we don't automatically suggest based on user aesthetic unless they've clicked through
+  const aestheticKey = (mode === 'influenced') ? preferences?.aesthetic : null;
   
   const suggested = seriesKey && aestheticKey ? AESTHETIC_MAPPINGS[seriesKey]?.[aestheticKey] : null;
 
@@ -74,6 +77,10 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
   const otherCabinet = suggested ? cabinetColors.filter((c: string) => !isMatch(c, suggested.cabinet)) : cabinetColors;
 
   const hasSuggestions = suggestedShell.length > 0 || suggestedCabinet.length > 0;
+
+  // For static mode "preview"
+  const staticPreviewShell = shellColors.slice(0, 2);
+  const staticPreviewCabinet = cabinetColors.slice(0, 1);
 
   const renderColorSwatch = (color: string, isSuggested: boolean, isCabinet: boolean) => {
     const imageUrl = FINISH_IMAGE_MAP[color] || FINISH_IMAGE_MAP[color.replace('®', '')];
@@ -133,7 +140,7 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
        <div className="flex items-center justify-between mb-6">
          <div className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-2">
            <Palette className="w-3 h-3" />
-           Curated Finishes
+           {suggested ? "Curated Finishes" : "Available Finishes"}
          </div>
          {suggested && (
            <div className="px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
@@ -144,12 +151,21 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
        </div>
 
        <div className="space-y-8">
-         {/* Suggested Section */}
-         {suggested && (suggestedShell.length > 0 || suggestedCabinet.length > 0) && (
+         {/* Suggested Section / Static Preview */}
+         {(suggested || (!suggested && !showAllColors)) && (
            <div className="space-y-6">
              <div className="flex flex-wrap gap-6">
-               {suggestedShell.map((color: string) => renderColorSwatch(color, true, false))}
-               {suggestedCabinet.map((color: string) => renderColorSwatch(color, true, true))}
+               {suggested ? (
+                 <>
+                   {suggestedShell.map((color: string) => renderColorSwatch(color, true, false))}
+                   {suggestedCabinet.map((color: string) => renderColorSwatch(color, true, true))}
+                 </>
+               ) : (
+                 <>
+                   {staticPreviewShell.map((color: string) => renderColorSwatch(color, false, false))}
+                   {staticPreviewCabinet.map((color: string) => renderColorSwatch(color, false, true))}
+                 </>
+               )}
              </div>
              
              {!showAllColors && (
@@ -157,28 +173,26 @@ function ColorExplorer({ product, preferences: initialPreferences }: ColorExplor
                  onClick={() => setShowAllColors(true)}
                  className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors group/link"
                >
-                 Explore all color options <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+                 {suggested ? "Explore all color options" : "Show all available finishes"} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
                </button>
              )}
            </div>
          )}
 
-         {/* All Options Section (Visible if not suggested, if showAllColors is true, or if suggestions are unexpectedly empty) */}
-         {(showAllColors || !suggested || !hasSuggestions) && (
+         {/* All Options Section (Full Grid) */}
+         {showAllColors && (
            <div className="animate-in fade-in slide-in-from-top-2 duration-500">
              {suggested && <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">All available finishes</div>}
              <div className="flex flex-wrap gap-5">
-               {otherShell.map((color: string) => renderColorSwatch(color, false, false))}
-               {otherCabinet.map((color: string) => renderColorSwatch(color, false, true))}
+               {(suggested ? otherShell : shellColors).map((color: string) => renderColorSwatch(color, false, false))}
+               {(suggested ? otherCabinet : cabinetColors).map((color: string) => renderColorSwatch(color, false, true))}
              </div>
-             {showAllColors && (
-                <button 
-                onClick={() => setShowAllColors(false)}
-                className="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors"
-              >
-                Show suggested only
-              </button>
-             )}
+             <button 
+               onClick={() => setShowAllColors(false)}
+               className="mt-8 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors"
+             >
+               Show {suggested ? "suggested" : "preview"} only
+             </button>
            </div>
          )}
        </div>
@@ -557,7 +571,7 @@ export default function ProductDetailView({
                 ))}
              </div>
              {/* COLOR EXPLORER */}
-             <ColorExplorer product={product} preferences={preferences} />
+             <ColorExplorer product={product} preferences={preferences} mode={mode} />
           </div>
        </div>
 
