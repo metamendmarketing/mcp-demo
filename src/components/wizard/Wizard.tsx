@@ -571,18 +571,22 @@ export default function Wizard() {
            </div>
            
            {loading ? (
-             <div className="w-full max-w-md space-y-4">
-                <div className="flex justify-between items-end mb-1">
-                  <div className="text-[10px] font-black uppercase tracking-[0.3em] text-marquis-blue animate-pulse">
-                    System Processing...
-                  </div>
-                  <div className="text-xl font-black italic text-white leading-none">{progress}%</div>
+             <div className="w-full max-w-md flex flex-col items-center">
+                {/* Large Slider-Style Percentage */}
+                <div className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl mb-6">
+                   {progress}<span className="text-2xl md:text-3xl ml-1 text-marquis-blue opacity-50">%</span>
                 </div>
-                <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+
+                <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden mb-6 border border-white/5">
                    <div 
-                     className="h-full bg-marquis-blue shadow-[0_0_15px_rgba(59,130,246,0.8)] transition-all duration-300 ease-out" 
+                     className="h-full bg-marquis-blue shadow-[0_0_25px_rgba(59,130,246,0.8)] transition-all duration-300 ease-out" 
                      style={{ width: `${progress}%` }}
                    />
+                </div>
+
+                {/* Status Message Below */}
+                <div className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-marquis-blue animate-pulse min-h-[1em]">
+                  {loadingMessage}
                 </div>
              </div>
            ) : (
