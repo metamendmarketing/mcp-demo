@@ -26,14 +26,27 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Ash\",\"Pecan\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Ash",
+      "Pecan",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Broadway features a versatile seating layout, including a wraparound seat, a deep Director’s Chair with focused leg therapy, another deep seat for back therapy, and two more seats at different heights. A built-in waterfall adds a calming touch. The 120-volt plug-and-play system allows for easy setup almost anywhere, with an optional 240V Performance Upgrade for enhanced hydrotherapy.*",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"soft\",\"recovery\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "soft",
+      "recovery"
+    ],
     "positioningTier": "value",
     "score": 10,
     "estimatedMsrp": 7495,
@@ -93,14 +106,29 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Ash\",\"Pecan\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Ash",
+      "Pecan",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Hollywood seats six and features a full-body lounge, two deep therapy seats, two bucket seats, and a higher seat for cooling down. A built-in waterfall enhances the relaxing atmosphere.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"social\",\"relaxation\",\"lounge\",\"soft\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "relaxation",
+      "lounge",
+      "soft"
+    ],
     "positioningTier": "value",
     "score": 10,
     "estimatedMsrp": 8495,
@@ -160,14 +188,28 @@
     "pumpConfig": null,
     "filtration": "{}",
     "insulationType": null,
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Ash\",\"Pecan\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Ash",
+      "Pecan",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Monaco seats up to five and features a classic round design. It includes a spacious lounge with jets from neck to feet, two deep therapy seats for full-back massage, and two bucket seats. The 120-volt plug-and-play system offers easy placement, with an optional 240V Performance Upgrade available for added power and performance.*",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"soft\",\"recovery\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
     "positioningTier": "value",
     "score": 10,
     "estimatedMsrp": 16995,
@@ -227,14 +269,28 @@
     "pumpConfig": null,
     "filtration": "{}",
     "insulationType": null,
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Ash\",\"Pecan\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Ash",
+      "Pecan",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "The Nashville is a compact three-person hot tub designed for comfort and simplicity. It includes a full-body lounge, a deep therapy seat, and a cool-down seat, offering a variety of seating options in a small design. The 120-volt plug-and-play system allows for easy setup, while an optional 240V Performance Upgrade provides increased power for a stronger massage.* Ideal for smaller spaces, the Nashville combines efficient design with reliable performance.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"soft\",\"recovery\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
     "positioningTier": "value",
     "score": 10,
     "estimatedMsrp": 6495,
@@ -294,14 +350,27 @@
     "pumpConfig": null,
     "filtration": "{}",
     "insulationType": null,
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Ash\",\"Pecan\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Ash",
+      "Pecan",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Vegas comfortably seats six and includes two deep therapy seats, two side seats, a mid-level seat, a super-deep soak seat for full-body immersion, and a convenient entry step.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"social\",\"soft\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "soft"
+    ],
     "positioningTier": "value",
     "score": 10,
     "estimatedMsrp": 8495,
@@ -361,14 +430,27 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Ash\",\"Pecan\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Ash",
+      "Pecan",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Woodstock offers seating for seven, making it ideal for groups. The full-body lounge provides complete hydrotherapy from neck to feet, while a deep therapy seat targets the thighs and calves. With five additional seats, it delivers a versatile and satisfying spa experience for everyone.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "firm"
+    ],
     "positioningTier": "value",
     "score": 20,
     "estimatedMsrp": 9495,
@@ -428,14 +510,53 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Full Foam",
-    "hotspots": "[{\"id\":\"social-seating\",\"x\":50,\"y\":20,\"label\":\"Open Social Seating\",\"description\":\"The non-lounge layout maximizes space for conversation while ensuring everyone has a dedicated therapy seat.\"},{\"id\":\"hot-zone-foot\",\"x\":50,\"y\":80,\"label\":\"Foot H.O.T. Zone\",\"description\":\"Targeted high-output therapy for tired feet, a favorite for athletes and active families.\"},{\"id\":\"massage-seats\",\"x\":20,\"y\":50,\"label\":\"Specialized Massage Seats\",\"description\":\"Versatile hydrotherapy for every guest.\",\"imageUrl\":\"/mcp/demo/assets/products/marquis-crown-destiny/details/massage-seats.jpg\"}]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\",\"Island Tropical\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [
+      {
+        "id": "social-seating",
+        "x": 50,
+        "y": 20,
+        "label": "Open Social Seating",
+        "description": "The non-lounge layout maximizes space for conversation while ensuring everyone has a dedicated therapy seat."
+      },
+      {
+        "id": "hot-zone-foot",
+        "x": 50,
+        "y": 80,
+        "label": "Foot H.O.T. Zone",
+        "description": "Targeted high-output therapy for tired feet, a favorite for athletes and active families."
+      },
+      {
+        "id": "massage-seats",
+        "x": 20,
+        "y": 50,
+        "label": "Specialized Massage Seats",
+        "description": "Versatile hydrotherapy for every guest.",
+        "imageUrl": "/mcp/demo/assets/products/marquis-crown-destiny/details/massage-seats.jpg"
+      }
+    ],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber",
+      "Island Tropical",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Crown Series Destiny offers a spacious and comfortable setting with seven hydromassage seats. Two deep seats provide targeted Lumbar and Shoulder H.O.T. Zone relief, while a mid-height therapy seat features a broad cluster of jets to soothe the back. Equipped with a Regal Whitewater-4 jet, the spa offers a total of four H.O.T. Zones. Its varied seating heights ensure everyone can find their ideal comfort level.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ],
     "positioningTier": "luxury",
     "score": 100,
     "estimatedMsrp": 17995,
@@ -495,14 +616,53 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Full Foam",
-    "hotspots": "[{\"id\":\"adirondack\",\"x\":25,\"y\":25,\"label\":\"Adirondack Chair\",\"description\":\"A deeply sculpted seat providing full-body support and deep, targeted relief from neck to feet.\"},{\"id\":\"geyser\",\"x\":75,\"y\":75,\"label\":\"Geyser Seat\",\"description\":\"Strategically designed to surround you in warmth while focusing therapy on the neck, shoulders, and spine.\"},{\"id\":\"massage-seats\",\"x\":50,\"y\":50,\"label\":\"Specialized Massage Seats\",\"description\":\"Experience a variety of sensations for all-in-one therapy.\",\"imageUrl\":\"/mcp/demo/assets/products/marquis-crown-epic/details/massage-seats.jpg\"}]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\",\"Island Tropical\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [
+      {
+        "id": "adirondack",
+        "x": 25,
+        "y": 25,
+        "label": "Adirondack Chair",
+        "description": "A deeply sculpted seat providing full-body support and deep, targeted relief from neck to feet."
+      },
+      {
+        "id": "geyser",
+        "x": 75,
+        "y": 75,
+        "label": "Geyser Seat",
+        "description": "Strategically designed to surround you in warmth while focusing therapy on the neck, shoulders, and spine."
+      },
+      {
+        "id": "massage-seats",
+        "x": 50,
+        "y": 50,
+        "label": "Specialized Massage Seats",
+        "description": "Experience a variety of sensations for all-in-one therapy.",
+        "imageUrl": "/mcp/demo/assets/products/marquis-crown-epic/details/massage-seats.jpg"
+      }
+    ],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber",
+      "Island Tropical",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Crown Series Epic is designed for a premium hydrotherapy experience. It features sculpted, multilevel seating for six, including a full-body Adirondack Chair that delivers deep, targeted relief from neck to feet. A deep soak seat surrounds you in warmth while focusing on the neck, shoulders, and spine, and with five H.O.T. Zones - including Lumbar, Shoulder, and Foot therapy, plus the powerful Regal Whitewater-4 jet.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ],
     "positioningTier": "luxury",
     "score": 110,
     "estimatedMsrp": 21995,
@@ -562,14 +722,54 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Full Foam",
-    "hotspots": "[{\"id\":\"deep-therapy\",\"x\":20,\"y\":20,\"label\":\"Deep Therapy Seats\",\"description\":\"Side-by-side therapy seats offer a comprehensive full-body massage without feeling crowded.\"},{\"id\":\"whitewater\",\"x\":50,\"y\":50,\"label\":\"Regal Whitewater-4\",\"description\":\"Centrally located to provide massive volumes of water for powerful leg and foot therapy in every seat.\"},{\"id\":\"massage-seats\",\"x\":80,\"y\":20,\"label\":\"Specialized Massage Seats\",\"description\":\"The ultimate shared relaxation experience.\",\"imageUrl\":\"/mcp/demo/assets/products/marquis-crown-euphoria/details/massage-seats.jpg\"}]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\",\"Island Tropical\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [
+      {
+        "id": "deep-therapy",
+        "x": 20,
+        "y": 20,
+        "label": "Deep Therapy Seats",
+        "description": "Side-by-side therapy seats offer a comprehensive full-body massage without feeling crowded."
+      },
+      {
+        "id": "whitewater",
+        "x": 50,
+        "y": 50,
+        "label": "Regal Whitewater-4",
+        "description": "Centrally located to provide massive volumes of water for powerful leg and foot therapy in every seat."
+      },
+      {
+        "id": "massage-seats",
+        "x": 80,
+        "y": 20,
+        "label": "Specialized Massage Seats",
+        "description": "The ultimate shared relaxation experience.",
+        "imageUrl": "/mcp/demo/assets/products/marquis-crown-euphoria/details/massage-seats.jpg"
+      }
+    ],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber",
+      "Island Tropical",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Crown Series Euphoria is designed for shared relaxation and balanced comfort. Its symmetrical layout includes seven multilevel seats, with two deep therapy seats side-by-side for full-body massage. Each seat offers access to the powerful Regal Whitewater-4 jet for effective leg and foot therapy, while five H.O.T. Zones provide targeted relief for every guest.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"relaxation\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "firm"
+    ],
     "positioningTier": "luxury",
     "score": 100,
     "estimatedMsrp": 17995,
@@ -629,14 +829,53 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Full Foam",
-    "hotspots": "[{\"id\":\"adirondack-1\",\"x\":20,\"y\":30,\"label\":\"Adirondack Chair\",\"description\":\"Features Lumbar H.O.T. Zone jets for targeted relief in a supportive, relaxed posture.\"},{\"id\":\"adirondack-2\",\"x\":70,\"y\":30,\"label\":\"Adirondack Chair\",\"description\":\"Features Shoulder H.O.T. Zone jets to melt away upper-body tension after a long day.\"},{\"id\":\"massage-seats\",\"x\":45,\"y\":75,\"label\":\"Specialized Massage Seats\",\"description\":\"A resort-style experience in your own backyard.\",\"imageUrl\":\"/mcp/demo/assets/products/marquis-crown-resort/details/massage-seats.jpg\"}]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\",\"Island Tropical\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [
+      {
+        "id": "adirondack-1",
+        "x": 20,
+        "y": 30,
+        "label": "Adirondack Chair",
+        "description": "Features Lumbar H.O.T. Zone jets for targeted relief in a supportive, relaxed posture."
+      },
+      {
+        "id": "adirondack-2",
+        "x": 70,
+        "y": 30,
+        "label": "Adirondack Chair",
+        "description": "Features Shoulder H.O.T. Zone jets to melt away upper-body tension after a long day."
+      },
+      {
+        "id": "massage-seats",
+        "x": 45,
+        "y": 75,
+        "label": "Specialized Massage Seats",
+        "description": "A resort-style experience in your own backyard.",
+        "imageUrl": "/mcp/demo/assets/products/marquis-crown-resort/details/massage-seats.jpg"
+      }
+    ],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber",
+      "Island Tropical",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Crown Series Resort’s curvaceous design offers multilevel seating for five, including dual Adirondack Chairs—one with targeted Lumbar H.O.T. Zone jets and the other with Shoulder H.O.T. Zone jets—both equipped with powerful leg and foot jets. Two deep therapy seats and a dedicated entry/cooldown seat complete the configuration. A Regal Whitewater-4 jet adds to the three H.O.T. Zones, delivering comprehensive therapeutic coverage.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ],
     "positioningTier": "luxury",
     "score": 100,
     "estimatedMsrp": 19995,
@@ -696,14 +935,54 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Full Foam",
-    "hotspots": "[{\"id\":\"lounge\",\"x\":30,\"y\":50,\"label\":\"Therapy Lounge\",\"description\":\"A soothing full-body lounge with dedicated Shoulder H.O.T. Zone jets for targeted tension relief.\"},{\"id\":\"cooldown\",\"x\":85,\"y\":15,\"label\":\"Elevated Seat\",\"description\":\"An ideal spot for warming up or cooling down, also serving as an easy entry/exit point.\"},{\"id\":\"massage-seats\",\"x\":60,\"y\":60,\"label\":\"Specialized Massage Seats\",\"description\":\"A peaceful location to re-center and relax.\",\"imageUrl\":\"/mcp/demo/assets/products/marquis-crown-spirit/details/massage-seats.jpg\"}]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\",\"Island Tropical\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [
+      {
+        "id": "lounge",
+        "x": 30,
+        "y": 50,
+        "label": "Therapy Lounge",
+        "description": "A soothing full-body lounge with dedicated Shoulder H.O.T. Zone jets for targeted tension relief."
+      },
+      {
+        "id": "cooldown",
+        "x": 85,
+        "y": 15,
+        "label": "Elevated Seat",
+        "description": "An ideal spot for warming up or cooling down, also serving as an easy entry/exit point."
+      },
+      {
+        "id": "massage-seats",
+        "x": 60,
+        "y": 60,
+        "label": "Specialized Massage Seats",
+        "description": "A peaceful location to re-center and relax.",
+        "imageUrl": "/mcp/demo/assets/products/marquis-crown-spirit/details/massage-seats.jpg"
+      }
+    ],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber",
+      "Island Tropical",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Crown Series Spirit’s curved front entry offers an elegant approach, with four hydromassage seats for up to three people. The soothing lounge with Shoulder H.O.T. Zone jets delivers full-body therapy. The deep therapy seat with Lumbar H.O.T. Zone jets works all your back muscles. Plus, a cooldown seat lifts your heart above the waterline, and makes for easier entry and exit.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"soft\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft"
+    ],
     "positioningTier": "luxury",
     "score": 90,
     "estimatedMsrp": 15995,
@@ -763,14 +1042,61 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Full Foam",
-    "hotspots": "[{\"id\":\"hot-zone-leg\",\"x\":50,\"y\":75,\"label\":\"Whitewater-4 Jet\",\"description\":\"This monster jet in the footwell provides incredible leg and foot therapy, moving massive volumes of water without the sting.\"},{\"id\":\"hot-zone-back\",\"x\":15,\"y\":15,\"label\":\"H.O.T. Zone\",\"description\":\"High Output Therapy zones target the back and shoulders with concentrated precision.\"},{\"id\":\"controls\",\"x\":92,\"y\":50,\"label\":\"MQTouch Control\",\"description\":\"The color touch-screen interface allows you to orchestrate your entire spa experience with a tap.\"},{\"id\":\"massage-seats\",\"x\":30,\"y\":30,\"label\":\"Specialized Massage Seats\",\"description\":\"Flexible and varied massage options for any mood.\",\"imageUrl\":\"/mcp/demo/assets/products/marquis-crown-summit/details/massage-seats.jpg\"}]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\",\"Island Tropical\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [
+      {
+        "id": "hot-zone-leg",
+        "x": 50,
+        "y": 75,
+        "label": "Whitewater-4 Jet",
+        "description": "This monster jet in the footwell provides incredible leg and foot therapy, moving massive volumes of water without the sting."
+      },
+      {
+        "id": "hot-zone-back",
+        "x": 15,
+        "y": 15,
+        "label": "H.O.T. Zone",
+        "description": "High Output Therapy zones target the back and shoulders with concentrated precision."
+      },
+      {
+        "id": "controls",
+        "x": 92,
+        "y": 50,
+        "label": "MQTouch Control",
+        "description": "The color touch-screen interface allows you to orchestrate your entire spa experience with a tap."
+      },
+      {
+        "id": "massage-seats",
+        "x": 30,
+        "y": 30,
+        "label": "Specialized Massage Seats",
+        "description": "Flexible and varied massage options for any mood.",
+        "imageUrl": "/mcp/demo/assets/products/marquis-crown-summit/details/massage-seats.jpg"
+      }
+    ],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber",
+      "Island Tropical",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Crown Series Summit is designed as a spacious, comfortable retreat to relax and recharge. Three side-by-side Adirondack Chairs provide full-body support, while four additional hydromassage seats offer targeted relief and direct access to the powerful Regal Whitewater-4™ jet. With four H.O.T. Zones and an open layout, it delivers flexible, effective therapy with plenty of room to stretch out.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"relaxation\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "relaxation",
+      "firm"
+    ],
     "positioningTier": "luxury",
     "score": 110,
     "estimatedMsrp": 23995,
@@ -830,14 +1156,54 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Full Foam",
-    "hotspots": "[{\"id\":\"full-body-lounge\",\"x\":30,\"y\":60,\"label\":\"Body Lounge\",\"description\":\"Sculpted to cradles your body from head to toe, delivering sustained, multi-point pressure relief.\"},{\"id\":\"cooldown\",\"x\":80,\"y\":20,\"label\":\"Cooldown Seat\",\"description\":\"Avoid overheating by using this slightly elevated seat during longer social sessions.\"},{\"id\":\"massage-seats\",\"x\":50,\"y\":50,\"label\":\"Specialized Massage Seats\",\"description\":\"Intimate and effective hydrotherapy.\",\"imageUrl\":\"/mcp/demo/assets/products/marquis-crown-wish/details/massage-seats.jpg\"}]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\",\"Island Tropical\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [
+      {
+        "id": "full-body-lounge",
+        "x": 30,
+        "y": 60,
+        "label": "Body Lounge",
+        "description": "Sculpted to cradles your body from head to toe, delivering sustained, multi-point pressure relief."
+      },
+      {
+        "id": "cooldown",
+        "x": 80,
+        "y": 20,
+        "label": "Cooldown Seat",
+        "description": "Avoid overheating by using this slightly elevated seat during longer social sessions."
+      },
+      {
+        "id": "massage-seats",
+        "x": 50,
+        "y": 50,
+        "label": "Specialized Massage Seats",
+        "description": "Intimate and effective hydrotherapy.",
+        "imageUrl": "/mcp/demo/assets/products/marquis-crown-wish/details/massage-seats.jpg"
+      }
+    ],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber",
+      "Island Tropical",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Crown Series Wish is designed with four multilevel seats to accommodate a variety of body types, including an elevated seat ideal for warming up or cooling down. It features a spacious full-body lounge with Lumbar H.O.T. Zone jets and a deep therapy seat with Shoulder H.O.T. Zone jets. Two additional seats and a cooldown seat also offer access to the powerful Regal Whitewater-4 jet on the 2-pump model. A portion of each Wish sale supports Make-A-Wish®, helping grant wishes for children with critical health conditions.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"soft\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft"
+    ],
     "positioningTier": "luxury",
     "score": 90,
     "estimatedMsrp": 16495,
@@ -897,14 +1263,27 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Harbor\",\"Hickory\",\"Granite\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Harbor",
+      "Hickory",
+      "Granite",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Broadway Elite features a unique seating layout with room for five, including a wraparound seat, a deep seat with strong leg therapy, a full-back therapy seat, and two additional seats at varying heights. A soothing waterfall and Twilight™ LED lighting enhance the atmosphere.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"soft\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "soft"
+    ],
     "positioningTier": "mid",
     "score": 40,
     "estimatedMsrp": 10495,
@@ -964,14 +1343,29 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Harbor\",\"Hickory\",\"Granite\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Harbor",
+      "Hickory",
+      "Granite",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "The Hollywood Elite seats six and offers a variety of comfortable options, including a full-body lounge with jets from neck to feet, two deep therapy seats, two bucket seats, and a high therapy seat. The powerful Whitewater-4™ jet delivers intense leg and foot massage, while Twilight™ LED lighting creates a colorful, customizable ambiance.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"social\",\"lounge\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "lounge",
+      "firm"
+    ],
     "positioningTier": "mid",
     "score": 50,
     "estimatedMsrp": 12795,
@@ -1031,14 +1425,29 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Harbor\",\"Hickory\",\"Granite\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Harbor",
+      "Hickory",
+      "Granite",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "The Monaco Elite is a round hot tub that seats five, featuring a full-body lounge, two deep therapy seats, and two bucket seats. Its 120-volt plug-and-play system makes it easy to place almost anywhere. Standard features include stainless steel jet faces, foam-over-plumbing insulation, Twilight™ LED lighting, and ConstantClean+. Optional upgrades include full-foam insulation, Motown™ audio with Bluetooth, and a 240V Performance Upgrade.*",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"soft\",\"recovery\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
     "positioningTier": "mid",
     "score": 40,
     "estimatedMsrp": 9995,
@@ -1098,14 +1507,29 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Harbor\",\"Hickory\",\"Granite\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Harbor",
+      "Hickory",
+      "Granite",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Nashville Elite is a three-person hot tub designed for comfort and convenience. It features a lounge seat, a deep therapy seat, and a cool-down seat in a compact layout. The 120-volt plug-and-play system allows for easy setup in a variety of spaces. Standard features include stainless steel jet faces, foam-over-plumbing insulation, Twilight™ LED lighting, and ConstantClean+. Optional upgrades include full-foam insulation, Bluetooth audio, and a 240V Performance Upgrade.*",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"soft\",\"recovery\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
     "positioningTier": "mid",
     "score": 40,
     "estimatedMsrp": 9495,
@@ -1165,14 +1589,27 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Harbor\",\"Hickory\",\"Granite\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Harbor",
+      "Hickory",
+      "Granite",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Vegas Elite’s unique seating positions provide comfort for six people, including two deep therapy seats, two side seats, a mid-level seat, a super-deep soak seat, and a bonus entry step. Its standout feature is the powerful Whitewater-4 jet, delivering intense leg therapy alongside a striking water wall. Stainless steel jet faces and foam over plumbing insulation come standard.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "firm"
+    ],
     "positioningTier": "mid",
     "score": 50,
     "estimatedMsrp": 11995,
@@ -1232,14 +1669,28 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\"]",
-    "cabinetColors": "[\"Harbor\",\"Hickory\",\"Granite\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun"
+    ],
+    "cabinetColors": [
+      "Harbor",
+      "Hickory",
+      "Granite",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Woodstock Elite offers seating for seven, making it well-suited for larger groups. The lounge provides full-body hydrotherapy from neck to feet, while a deep therapy seat targets the thighs and calves. With five additional seating options and the Whitewater-4™ jet water wall, it delivers a versatile and comfortable spa experience.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "firm"
+    ],
     "positioningTier": "mid",
     "score": 50,
     "estimatedMsrp": 13495,
@@ -1299,14 +1750,31 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Barnwood\",\"Chestnut\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Barnwood",
+      "Chestnut",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "The V65L is a compact three-person hot tub designed to fit into smaller spaces without sacrificing comfort. It includes a full Commander’s Lounge for extended relaxation and 22 Jetpods for effective muscle therapy. The 120-volt plug-and-play system lets you locate it anywhere.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"soft\",\"recovery\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "soft",
+      "recovery"
+    ],
     "positioningTier": "premium",
     "score": 65,
     "estimatedMsrp": 14995,
@@ -1366,14 +1834,31 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Barnwood\",\"Chestnut\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Barnwood",
+      "Chestnut",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "The V77L five-person hot tub offers a spacious layout with multiple seating options and room to move, making it ideal for relaxed, everyday use. The full-body Commander’s Lounge allows you to fully stretch out, while 27 Jetpods powered by the V-O-L-T system provide a targeted, therapeutic massage. Three V3 Throttle Control valves offer easy, adjustable control.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"social\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "social",
+      "firm"
+    ],
     "positioningTier": "premium",
     "score": 65,
     "estimatedMsrp": 16495,
@@ -1433,14 +1918,30 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Barnwood\",\"Chestnut\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Barnwood",
+      "Chestnut",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "The V84 six-person hot tub is designed for year-round relaxation and performance. A raised seat offers full exposure to the powerful Whitewater-4 jet, while 36 Jetpods paired with the V-O-L-T system deliver a fully customized massage experience. Five V3 Throttle Control valves allow for precise adjustment, letting you target specific areas for focused hydrotherapy.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"social\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "firm"
+    ],
     "positioningTier": "premium",
     "score": 65,
     "estimatedMsrp": null,
@@ -1500,14 +2001,68 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[{\"id\":\"swedish-lounge\",\"x\":78,\"y\":22,\"label\":\"Swedish Massage Lounge\",\"description\":\"Focused on long, soothing strokes and total body relaxation. Uses massive water volume for a deep, rhythmic soak.\"},{\"id\":\"relaxation-seat\",\"x\":88,\"y\":50,\"label\":\"Relaxation Massage Seat\",\"description\":\"A gentle yet firm massage designed to reduce stress and improve circulation in the upper and lower back.\"},{\"id\":\"shiatsu-seat\",\"x\":74,\"y\":78,\"label\":\"Shiatsu Massage Seat\",\"description\":\"Utilizes targeted high-pressure points to release deep muscle tension and stimulate vital pressure points.\"},{\"id\":\"deep-tissue-seat\",\"x\":22,\"y\":76,\"label\":\"Deep-Tissue Massage Seat\",\"description\":\"Aggressive jet configuration for intense muscle recovery and lactic acid breakdown after physical exertion.\"},{\"id\":\"massage-seats\",\"x\":45,\"y\":45,\"label\":\"Vector Optimized Therapy\",\"description\":\"Proprietary V-O-L-T™ system delivers more water with less turbulence.\",\"imageUrl\":\"/mcp/demo/assets/products/marquis-crown-euphoria/details/massage-seats.jpg\"}]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Barnwood\",\"Chestnut\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [
+      {
+        "id": "swedish-lounge",
+        "x": 78,
+        "y": 22,
+        "label": "Swedish Massage Lounge",
+        "description": "Focused on long, soothing strokes and total body relaxation. Uses massive water volume for a deep, rhythmic soak."
+      },
+      {
+        "id": "relaxation-seat",
+        "x": 88,
+        "y": 50,
+        "label": "Relaxation Massage Seat",
+        "description": "A gentle yet firm massage designed to reduce stress and improve circulation in the upper and lower back."
+      },
+      {
+        "id": "shiatsu-seat",
+        "x": 74,
+        "y": 78,
+        "label": "Shiatsu Massage Seat",
+        "description": "Utilizes targeted high-pressure points to release deep muscle tension and stimulate vital pressure points."
+      },
+      {
+        "id": "deep-tissue-seat",
+        "x": 22,
+        "y": 76,
+        "label": "Deep-Tissue Massage Seat",
+        "description": "Aggressive jet configuration for intense muscle recovery and lactic acid breakdown after physical exertion."
+      },
+      {
+        "id": "massage-seats",
+        "x": 45,
+        "y": 45,
+        "label": "Vector Optimized Therapy",
+        "description": "Proprietary V-O-L-T™ system delivers more water with less turbulence.",
+        "imageUrl": "/mcp/demo/assets/products/marquis-crown-euphoria/details/massage-seats.jpg"
+      }
+    ],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Barnwood",
+      "Chestnut",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "The V84L is a high-performance hot tub designed for five, featuring a range of therapy seats and a full-body Commander’s Lounge for complete relaxation. With 35 Jetpods, a powerful Whitewater-4 jet, and four V3  Throttle Control valves, it delivers targeted, adjustable hydrotherapy exactly where you need it. Engineered for both comfort and control, it’s a dynamic spa experience built for everyday rejuvenation.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"social\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "social",
+      "firm"
+    ],
     "positioningTier": "premium",
     "score": 75,
     "estimatedMsrp": 17997,
@@ -1567,14 +2122,30 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Barnwood\",\"Chestnut\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Barnwood",
+      "Chestnut",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "Looking for a spacious hot tub? The V94 accommodates seven, offering a generous 94-inch square layout. Its Whitewater-4 jet provides powerful, invigorating therapy, while 40 Jetpods and two dual-speed pumps deliver dynamic performance designed to handle any gathering.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"social\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "social",
+      "firm"
+    ],
     "positioningTier": "premium",
     "score": 75,
     "estimatedMsrp": 19197,
@@ -1634,14 +2205,31 @@
     "pumpConfig": null,
     "filtration": "{\"type\":\"ConstantClean+\",\"cyclesPerDay\":51}",
     "insulationType": "Icynene® foam over plumbing",
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\",\"Sterling Silver\",\"Tuscan Sun\",\"Winter Solstice\"]",
-    "cabinetColors": "[\"Barnwood\",\"Chestnut\",\"Black DuraCovers® (Standard)\",\"Black Weathershield (Optional)\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier",
+      "Sterling Silver",
+      "Tuscan Sun",
+      "Winter Solstice"
+    ],
+    "cabinetColors": [
+      "Barnwood",
+      "Chestnut",
+      "Black DuraCovers® (Standard)",
+      "Black Weathershield (Optional)"
+    ],
     "marketingSummary": "V94L is a seven person hot tub with a full-body Commander’s Lounge. Whitewater-4 jet delivers a volcanic eruption of exhilarating therapy, especially to your legs and feet. With 44 Jetpods, two dual-speed pumps and five V3 Throttle Control valves, your V-O-L-T system creates vitalizing therapy with customized control.",
     "therapySummary": null,
-    "usageTags": "[\"hydrotherapy\",\"lounge\",\"social\",\"firm\"]",
+    "usageTags": [
+      "hydrotherapy",
+      "lounge",
+      "social",
+      "firm"
+    ],
     "positioningTier": "premium",
     "score": 75,
     "estimatedMsrp": 19897,
@@ -1701,14 +2289,25 @@
     "pumpConfig": null,
     "filtration": "{}",
     "insulationType": null,
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
     "marketingSummary": "The V150P (Party Vessel) is a high-volume aquatic trainer and social sanctuary. Engineered with a 950-gallon capacity and a dual-pump 320 GPM mechanical suite, it delivers professional swim resistance alongside elite therapeutic seating for up to eight adults.",
     "therapySummary": null,
-    "usageTags": "[\"social\",\"exercise\",\"performance\"]",
+    "usageTags": [
+      "social",
+      "exercise",
+      "performance"
+    ],
     "positioningTier": "value",
     "score": 30,
     "estimatedMsrp": 29995,
@@ -1768,14 +2367,25 @@
     "pumpConfig": null,
     "filtration": "{}",
     "insulationType": null,
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
     "marketingSummary": "The V150W is a versatile aquatic training vessel engineered for uncompromising fitness and recovery. With a 1000-gallon capacity and a reinforced swim lane, it provides a stable environment for swimming, rowing, and low-impact aquatic conditioning.",
     "therapySummary": null,
-    "usageTags": "[\"exercise\",\"performance\",\"recovery\"]",
+    "usageTags": [
+      "exercise",
+      "performance",
+      "recovery"
+    ],
     "positioningTier": "value",
     "score": 30,
     "estimatedMsrp": 31995,
@@ -1835,14 +2445,25 @@
     "pumpConfig": null,
     "filtration": "{}",
     "insulationType": null,
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
     "marketingSummary": "The V174S (Sport/Splash) is a 174-inch aquatic training vessel designed for serious athletes. With a 1,300-gallon volume and a dual-pump 320 GPM system, it provides a professional-grade swim lane alongside dedicated high-flow therapy seating.",
     "therapySummary": null,
-    "usageTags": "[\"exercise\",\"performance\",\"recovery\"]",
+    "usageTags": [
+      "exercise",
+      "performance",
+      "recovery"
+    ],
     "positioningTier": "value",
     "score": 20,
     "estimatedMsrp": 34995,
@@ -1902,14 +2523,25 @@
     "pumpConfig": null,
     "filtration": "{}",
     "insulationType": null,
-    "hotspots": "[]",
-    "standardFeatures": "[]",
-    "optionalFeatures": "[]",
-    "shellColors": "[\"Alba\",\"Midnight Canyon\",\"Glacier\"]",
-    "cabinetColors": "[\"Granite\",\"Timber\"]",
+    "hotspots": [],
+    "standardFeatures": [],
+    "optionalFeatures": [],
+    "shellColors": [
+      "Alba",
+      "Midnight Canyon",
+      "Glacier"
+    ],
+    "cabinetColors": [
+      "Granite",
+      "Timber"
+    ],
     "marketingSummary": "The V174K (Kona) is the flagship aquatic training vessel in the ATV series. Engineered for maximum resistance and capacity (1,400 gallons), it features our most powerful swim current system alongside dual orthopedic therapy seats for elite athletic recovery.",
     "therapySummary": null,
-    "usageTags": "[\"exercise\",\"high-performance\",\"elite-recovery\"]",
+    "usageTags": [
+      "exercise",
+      "high-performance",
+      "elite-recovery"
+    ],
     "positioningTier": "value",
     "score": 20,
     "estimatedMsrp": 36995,
