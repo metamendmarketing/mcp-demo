@@ -440,6 +440,8 @@ export default function ProductDetailView({
     efficiency: product.staticEfficiency,
     designConsideration: product.staticDesignConsideration
   };
+  
+  const categoryLabel = getAestheticTitle(preferences?.aesthetic) || 'Aesthetic';
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 animate-slick-reveal">
@@ -547,11 +549,11 @@ export default function ProductDetailView({
           </div>
        </div>
 
-        {/* NEW INTERACTION ROW - DUAL COLUMN - SHORTENS HERO SECTION */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+        {/* NEW INTERACTION ROW - DECOUPLED COLUMN HEIGHTS */}
+        <div className="flex flex-col lg:flex-row gap-8 mb-12 items-start">
             
             {/* LEFT: THERAPY OBJECTIVE & EXPERT REASONING */}
-            <div className="bg-blue-50/40 p-8 rounded-[32px] border border-blue-100/50 shadow-sm flex flex-col h-full">
+            <div className="lg:w-1/2 bg-blue-50/40 p-8 rounded-[32px] border border-blue-100/50 shadow-sm flex flex-col">
                <div className="flex items-center gap-3 mb-6">
                  <Heart className="w-5 h-5 text-marquis-blue" />
                  <h4 className="text-xl font-black italic uppercase text-slate-800">Therapy Objective</h4>
@@ -581,11 +583,11 @@ export default function ProductDetailView({
                </div>
             </div>
 
-            {/* RIGHT: INTERIOR & EXTERIOR FINISHES */}
-            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex flex-col h-full">
+            {/* RIGHT: INTERIOR & EXTERIOR FINISHES (DYNAMIC HEADER) */}
+            <div className="lg:w-1/2 bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex flex-col">
                <div className="flex items-center gap-3 mb-8">
                  <Palette className="w-5 h-5 text-marquis-blue" />
-                 <h4 className="text-xl font-black italic uppercase text-slate-800">Shell & Cabinet Finishes</h4>
+                 <h4 className="text-xl font-black italic uppercase text-slate-800">Finishes for a {categoryLabel.toLowerCase()} feel</h4>
                </div>
                <ColorExplorer product={product} preferences={preferences} mode={mode} />
             </div>
