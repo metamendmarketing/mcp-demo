@@ -268,7 +268,7 @@ export default function Wizard() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [preferences, setPreferences] = useState<UserPreferences>({
     primaryPurpose: null,
-    capacity: null,
+    capacity: '5',
     lounge: null,
     electrical: null,
     zipCode: '',
