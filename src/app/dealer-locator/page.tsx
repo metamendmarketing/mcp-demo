@@ -201,7 +201,7 @@ const LocatorContent = () => {
               ) : dealers.length > 0 ? (
                 <div className="space-y-4">
                   <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">
-                    {dealers.length} {dealers.length === 1 ? 'Station' : 'Stations'} Found
+                    {dealers.length} {dealers.length === 1 ? 'Dealer' : 'Dealers'} Found
                   </div>
                   {dealers.map((dealer) => (
                     <DealerCard 
@@ -224,7 +224,7 @@ const LocatorContent = () => {
                 </div>
               ) : (
                 <div className="text-center py-20 px-4">
-                  <h3 className="text-sm font-black uppercase text-slate-900 mb-2">Find Your Nearest Station</h3>
+                  <h3 className="text-sm font-black uppercase text-slate-900 mb-2">Find Your Nearest Dealer</h3>
                   <p className="text-xs text-slate-500 font-medium leading-relaxed mb-8">
                     Enter your location to reveal the nearest Marquis authorized service and sales centers.
                   </p>

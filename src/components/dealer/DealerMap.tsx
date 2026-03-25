@@ -69,16 +69,18 @@ export const DealerMap: React.FC<DealerMapProps> = ({
           {userLocation && (
             <Marker
               position={userLocation}
-              label={{ text: "YOU", color: 'white', fontWeight: 'bold' }}
+              label={{ text: "YOU", color: 'white', fontWeight: 'bold', fontSize: '10px' }}
               title="Your Searched Location"
+              icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
             />
           )}
 
-          {dealers.map((dealer) => (
+          {dealers.map((dealer, index) => (
             dealer.lat && dealer.lng && (
               <Marker
                 key={dealer.id}
                 position={{ lat: dealer.lat, lng: dealer.lng }}
+                icon={index === 0 ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" : "http://maps.google.com/mapfiles/ms/icons/red-dot.png"}
                 onClick={() => {
                   setOpenId(dealer.id);
                   if (onDealerSelect) onDealerSelect(dealer.id);
