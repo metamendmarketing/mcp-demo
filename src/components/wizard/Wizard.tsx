@@ -6,7 +6,7 @@ import {
   Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
   Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin,
   Check, CaretRight, CaretLeft, Sparkle, ArrowRight, Info, NavigationArrow, CircleNotch, Target,
-  Sun, CloudSun, Flame, Tree
+  Sun, CloudSun, Flame, Tree, Crosshair
 } from '@phosphor-icons/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -15,6 +15,13 @@ import ProductDetailView, { type Product, type ScoredProduct } from '../products
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+// Helper to format AI narrative text (bolding phrases with ** to <strong> and making them darker)
+const formatRichText = (text: string) => {
+  if (!text) return '';
+  // Replace **text** with <strong class="text-slate-900 font-black">text</strong>
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900 font-black">$1</strong>');
+};
 
 export type PreferenceKey = 
   | 'primaryPurpose' 
@@ -30,7 +37,9 @@ export type PreferenceKey =
   | 'intensity' 
   | 'budget' 
   | 'delivery'
-  | 'ownership';
+  | 'ownership'
+  | 'lat'
+  | 'lng';
 
 export interface UserPreferences {
   primaryPurpose: string | null;
@@ -47,6 +56,8 @@ export interface UserPreferences {
   budget: string | null;
   delivery: string | null;
   ownership: string | null;
+  lat?: number | null;
+  lng?: number | null;
 }
 
 const QUESTIONS: {
@@ -280,7 +291,9 @@ export default function Wizard() {
     intensity: null,
     budget: null,
     delivery: null,
-    ownership: null
+    ownership: null,
+    lat: null,
+    lng: null
   });
 
   const [results, setResults] = useState<ScoredProduct[] | null>(null);
@@ -299,13 +312,25 @@ export default function Wizard() {
       async (position) => {
         try {
           const { latitude, longitude } = position.coords;
+          updatePreference('lat' as any, latitude);
+          updatePreference('lng' as any, longitude);
+          
           // Note: Marquis API Key is hardcoded here for the prototype as requested
           const apiKey = 'AIzaSyBJTMfCxb6VFz1vIK_7Jb52JZuDj_J2tks';
           const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`);
           const data = await res.json();
-          const zip = data.results[0]?.address_components.find((c: any) => c.types.includes('postal_code'))?.long_name;
-          if (zip) {
-            updatePreference('zipCode', zip);
+          
+          const result = data.results[0];
+          if (result) {
+            const city = result.address_components.find((c: any) => c.types.includes('locality'))?.long_name;
+            const state = result.address_components.find((c: any) => c.types.includes('administrative_area_level_1'))?.short_name;
+            const zip = result.address_components.find((c: any) => c.types.includes('postal_code'))?.long_name;
+            
+            if (city && state) {
+              updatePreference('zipCode', `${city}, ${state}`);
+            } else if (zip) {
+              updatePreference('zipCode', zip);
+            }
           }
         } catch (e) {
           console.error('Location detection failed', e);
@@ -320,7 +345,7 @@ export default function Wizard() {
     );
   };
 
-  const updatePreference = (key: PreferenceKey, value: string) => {
+  const updatePreference = (key: PreferenceKey, value: any) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
   };
 
@@ -353,165 +378,119 @@ export default function Wizard() {
   const handleRecommend = async () => {
     setLoading(true);
     setProgress(0);
-    setLoadingMessage("Analyzing user preferences...");
+    setLoadingMessage("Meticulously analyzing your criteria...");
     
-    // Start fetch in background
-    let recommendationData: any = null;
-    let narrativeData: any = null;
-    let recommendationReady = false;
-
-    const fetchTask = (async () => {
-      try {
-        const res = await fetch('/mcp/demo/api/recommend', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ preferences }),
-        });
-        const data = await res.json();
-        
-        const safeParse = (data: any, fallback: any = []) => {
-          if (typeof data === 'string') {
-            try { return JSON.parse(data); } catch (e) { return fallback; }
-          }
-          return data || fallback;
-        };
-
-        recommendationData = data.results?.map((r: any) => ({
-          ...r,
-          product: {
-            ...r.product,
-            usageTags: safeParse(r.product.usageTags),
-            shellColors: safeParse(r.product.shellColors),
-            cabinetColors: safeParse(r.product.cabinetColors),
-            hotspots: safeParse(r.product.hotspots)
-          }
-        }));
-        
-        recommendationReady = true;
-
-        // Start pre-fetch of narrative in the background, but DON'T block the transition based on it
-        if (recommendationData && recommendationData.length > 0) {
-          fetch('/mcp/demo/api/narrative', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ preferences, product: recommendationData[0].product }),
-          }).then(n => n.json()).then(data => {
-            narrativeData = data;
-            setAiNarrative({ ...data, productSlug: recommendationData[0].product.slug });
-          }).catch(e => console.error('Background narrative failed', e));
+    // Smooth progress simulation
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 98) {
+          clearInterval(interval);
+          return 98;
         }
-      } catch (err) {
-        console.error('Recommendation failed', err);
-        recommendationReady = true; 
-      }
-    })();
+        return prev + Math.floor(Math.random() * 5) + 1;
+      });
+    }, 200);
 
-    // Simulation controls the flow
-    for (let i = 0; i < 100; i++) {
-       setProgress(i);
-       
-       if (i < 25) setLoadingMessage("Analyzing user preferences...");
-       else if (i < 50) setLoadingMessage("Reviewing model specifications...");
-       else if (i < 80) setLoadingMessage("Identifying suitable options...");
-       else setLoadingMessage("Finalizing matches...");
-
-       let delay = 25;
-       
-       if (i >= 30 && i <= 75) {
-         // Middle - Analytical slow-down
-         delay = 140; 
-         if (recommendationReady && i > 50) delay = 50;
-       } else if (i > 75) {
-         // Final stretch - "Spread out" the wait so it doesn't just hit 99 and stop
-         if (recommendationReady) {
-           delay = 15; 
-         } else {
-           // Crawl slower (650ms per %) to soak up the API time!
-           delay = 650; 
-         }
-       } else {
-         // Early phase
-         delay = 15;
-       }
-       
-       await new Promise(resolve => setTimeout(resolve, delay));
-    }
-
-    // Ensure we actually HAVE the data (results) before setting 100 and transitioning
-    if (!recommendationReady) {
-       setLoadingMessage("Finalizing matches...");
-       while (!recommendationReady) {
-          await new Promise(r => setTimeout(r, 150));
-       }
-    }
+    const messages = [
+      "Benchmarking hydro-flow dynamics...",
+      "Matching shell aesthetics to your landscape...",
+      "Optimizing thermal matrix for your climate...",
+      "Synthesizing your Marquis Blueprint..."
+    ];
     
-    // Subtle 150ms pause at 100% just to ensure it's visually registered before the jump
-    setProgress(100);
-    setLoadingMessage("Finalizing matches...");
-    await new Promise(r => setTimeout(r, 150)); 
+    let msgIndex = 0;
+    const msgInterval = setInterval(() => {
+      setLoadingMessage(messages[msgIndex]);
+      msgIndex = (msgIndex + 1) % messages.length;
+    }, 1500);
 
-    // transition
-    setResults(recommendationData || []);
-    setStep('results');
-    setLoading(false);
-  };
-
-  const handleSelectResult = (res: ScoredProduct) => {
-    setSelectedResult(res);
-    setStep('details');
-    window.scrollTo(0, 0);
-    if (!aiNarrative || aiNarrative.productSlug !== res.product.slug) {
-      setNarrativeLoading(true);
-      fetch('/mcp/demo/api/narrative', {
+    try {
+      const res = await fetch('/mcp/demo/api/recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ preferences, product: res.product }),
-      })
-        .then(n => n.json())
-        .then(data => setAiNarrative({ ...data, productSlug: res.product.slug }))
-        .finally(() => setNarrativeLoading(false));
+        body: JSON.stringify(preferences),
+      });
+
+      if (!res.ok) throw new Error('Recommendation failed');
+      const data = await res.json();
+      
+      clearInterval(interval);
+      clearInterval(msgInterval);
+      setProgress(100);
+      setLoadingMessage("Matching complete.");
+      
+      setTimeout(() => {
+        setResults(data.scoredProducts);
+        setStep('results');
+        setLoading(false);
+      }, 500);
+    } catch (err) {
+      console.error(err);
+      clearInterval(interval);
+      clearInterval(msgInterval);
+      setLoading(false);
+    }
+  };
+
+  const handleSelectResult = async (res: ScoredProduct) => {
+    setSelectedResult(res);
+    setStep('details');
+    setNarrativeLoading(true);
+    
+    try {
+      const narrativeRes = await fetch('/mcp/demo/api/narrative', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product: res.product, preferences }),
+      });
+
+      if (!narrativeRes.ok) throw new Error('Narrative failed');
+      const narrativeData = await narrativeRes.json();
+      setAiNarrative(narrativeData);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setNarrativeLoading(false);
     }
   };
 
   const getHeroImage = (product: Product) => {
+    if (product.heroImageUrl && 
+        !product.heroImageUrl.includes('therapy_premium.png') && 
+        !product.heroImageUrl.includes('placeholder')) {
+      return product.heroImageUrl;
+    }
     if (product.slug) {
       const isCrown = product.slug.includes('crown');
-      const isJpgVector = product.slug.includes('v65l') || product.slug.includes('v77l');
-      const ext = (isCrown || isJpgVector) ? 'jpg' : 'png';
+      const ext = isCrown ? 'jpg' : 'png';
       return `/mcp/demo/assets/products/${product.slug}/hero.${ext}`;
     }
     return product.heroImageUrl || '/mcp/demo/assets/therapy_premium.png';
   };
 
-  const StepHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-    <div className="bg-gradient-to-r from-marquis-light-blue to-marquis-blue w-full py-6 px-6 text-center shadow-md relative overflow-hidden text-white shrink-0">
-      <div className="relative z-10 space-y-1">
-        <h3 className="text-xs font-bold tracking-[0.2em] text-white/70 uppercase">The Ultimate Hot Tub Experience®</h3>
-        <h2 className="text-xl md:text-2xl font-black italic uppercase leading-none drop-shadow-sm">{title}</h2>
-        {subtitle && <p className="text-sm font-medium text-white/90 mt-1">{subtitle}</p>}
-      </div>
-      <div className="absolute bottom-0 left-0 h-1 bg-marquis-green transition-all duration-500 ease-out" style={{ width: `${((currentQuestionIndex + 1) / QUESTIONS.length) * 100}%` }} />
-    </div>
-  );
-
   if (step === 'intro') {
     return (
-      <div className="flex flex-col h-full bg-[url('/mcp/demo/assets/intro_bg.png')] bg-cover bg-center relative overflow-hidden animate-slick-reveal">
-         <div className="absolute inset-0 bg-slate-900/50" />
-         <div className="p-8 pb-16 md:p-16 flex flex-col items-center justify-center text-center relative z-10 flex-grow min-h-[500px]">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase text-white mb-6 leading-[1.1] drop-shadow-xl max-w-2xl">
-               Expertly Matched.
-            </h1>
-            <p className="text-white/90 text-lg md:text-xl leading-relaxed max-w-2xl mb-10 font-medium drop-shadow-md">
-               Discover Marquis models thoughtfully selected to match your lifestyle, powered by your personal preferences.
-            </p>
-            <button 
-              onClick={() => setStep('question')}
-              className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group hover:scale-105 transition-transform flex items-center gap-3"
-            >
-              Get Started <CaretRight className="w-6 h-6" weight="bold" />
-            </button>
-         </div>
+      <div className="flex flex-col h-full bg-white animate-slick-reveal overflow-hidden relative">
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
+          <img src="/mcp/demo/assets/bg_pattern.png" className="w-full h-full object-cover" alt="" />
+        </div>
+        <div className="flex-grow flex flex-col items-center justify-center p-8 md:p-12 text-center max-w-4xl mx-auto relative z-10">
+           <div className="w-16 h-16 md:w-20 md:h-20 bg-slate-100 rounded-[2rem] border-2 border-slate-200 flex items-center justify-center mb-8 shadow-sm">
+              <Sparkle className="w-8 h-8 md:w-10 md:h-10 text-marquis-blue" weight="fill" />
+           </div>
+           <h1 className="text-5xl md:text-7xl font-black italic uppercase leading-[0.9] text-slate-800 tracking-tighter mb-6">
+             The Marquis <span className="text-marquis-blue">Selector</span>
+           </h1>
+           <p className="text-lg md:text-2xl text-slate-500 font-medium leading-relaxed max-w-2xl mb-12 italic">
+              Experience the absolute pinnacle of hydrotherapy matching. Our algorithmic engine pairs your lifestyle with over 40 years of Marquis engineering.
+           </p>
+           <button onClick={() => setStep('question')} className="btn-marquis-premium px-12 md:px-16 py-5 md:py-6 rounded-2xl text-xl md:text-2xl font-black italic uppercase shadow-2xl hover:scale-105 transition-transform group">
+              Get Started <CaretRight className="inline-block w-6 h-6 md:w-8 md:h-8 ml-2 group-hover:translate-x-1 transition-transform" weight="bold" />
+           </button>
+        </div>
+        <div className="p-8 border-t border-slate-100 text-center relative z-10">
+           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Engineering Fact-Based Matching | Est. 1980</p>
+        </div>
       </div>
     );
   }
@@ -519,16 +498,27 @@ export default function Wizard() {
   if (step === 'question') {
     const q = QUESTIONS[currentQuestionIndex];
     return (
-      <div className="flex flex-col h-full bg-slate-50 animate-slick-reveal overflow-hidden">
-        <StepHeader title={q.question} subtitle={q.subtext} />
-        <div className="flex-grow overflow-y-auto px-6 py-8 md:p-10">
-          <div className="max-w-6xl mx-auto">
-            {q.layout !== 'split' && q.expertTip && (
-              <div className="mb-8 p-6 bg-blue-50/50 border border-blue-100/50 rounded-2xl flex items-start gap-4">
+      <div className="flex flex-col h-full bg-white animate-slick-reveal overflow-hidden">
+        <div className="bg-slate-50 p-6 md:p-10 border-b border-slate-200 shrink-0">
+           <div className="max-w-4xl mx-auto">
+             <div className="flex items-center gap-4 mb-3">
+               <div className="w-10 h-10 bg-marquis-blue text-white rounded-xl flex items-center justify-center font-black italic shadow-lg">{currentQuestionIndex + 1}</div>
+               <h2 className="text-3xl md:text-4xl font-black italic uppercase text-slate-800 tracking-tight leading-none">{q.question}</h2>
+             </div>
+             <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] md:text-xs ml-14">{q.subtext}</p>
+           </div>
+        </div>
+        <div className="flex-grow overflow-y-auto p-4 md:p-10">
+          <div className="max-w-5xl mx-auto">
+            {!q.bgImage && (
+              <div className="flex items-start gap-4 mb-10 bg-blue-50/50 p-6 rounded-3xl border border-blue-100/50 max-w-2xl mx-auto">
                 <div className="p-2 bg-white rounded-xl shadow-sm shrink-0"><Info className="w-5 h-5 text-marquis-blue" weight="bold" /></div>
                 <div>
                   <h4 className="text-sm font-bold uppercase tracking-widest text-marquis-blue mb-1">Expert Insight</h4>
-                  <p className="text-sm md:text-base text-slate-600 font-medium leading-relaxed italic">"{q.expertTip(preferences)}"</p>
+                  <p 
+                    className="text-sm md:text-base text-slate-600 font-medium leading-relaxed italic"
+                    dangerouslySetInnerHTML={{ __html: `"${formatRichText(q.expertTip(preferences))}"` }}
+                  />
                 </div>
               </div>
             )}
@@ -558,7 +548,10 @@ export default function Wizard() {
                 {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-slate-900/20 z-10" /></>}
                 <div className="lg:col-span-5 relative z-20">
                   <div className={cn("p-8 rounded-3xl border shadow-sm", q.bgImage ? "bg-white/10 backdrop-blur-md border-white/20 text-white" : "bg-white border-slate-100")}>
-                    <p className="text-lg font-medium leading-relaxed italic">"{q.expertTip(preferences)}"</p>
+                    <div 
+                      className="text-lg font-medium leading-relaxed italic"
+                      dangerouslySetInnerHTML={{ __html: `"${formatRichText(q.expertTip(preferences))}"` }}
+                    />
                   </div>
                 </div>
                 <div className="lg:col-span-7 space-y-4 relative z-20">
@@ -584,7 +577,7 @@ export default function Wizard() {
                 {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" /></>}
                 <div className="relative z-20 w-full max-w-2xl text-center space-y-12">
                    <h3 className="text-7xl md:text-9xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl">{preferences[q.id] || '5'}<span className="text-3xl md:text-4xl ml-2 text-blue-300">Adults</span></h3>
-                   <input type="range" min="1" max="10" step="1" value={preferences[q.id] || '5'} onChange={(e) => updatePreference(q.id, e.target.value)} className="w-full h-4 bg-white rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/90 transition-all border border-white/40" />
+                   <input type="range" min="1" max="10" step="1" value={preferences[q.id] || '5'} onChange={(e) => updatePreference(q.id, e.target.value)} className="w-full h-4 bg-white/40 rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/50 transition-all border border-white/20" />
                    <button onClick={nextQuestion} className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group">Confirm Capacity <CaretRight className="inline-block w-6 h-6 ml-2" weight="bold" /></button>
                 </div>
               </div>
@@ -598,7 +591,7 @@ export default function Wizard() {
                   <input 
                     type="text" 
                     placeholder="Enter ZIP/Postal Code" 
-                    className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-16 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all" 
+                    className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-24 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all" 
                     value={preferences.zipCode || ''}
                     onChange={(e) => updatePreference('zipCode', e.target.value)} 
                     onKeyDown={(e) => e.key === 'Enter' && preferences.zipCode && nextQuestion()} 
@@ -607,12 +600,12 @@ export default function Wizard() {
                     onClick={handleDetectLocation}
                     disabled={detectingLocation}
                     title="Use My Current Location"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-marquis-blue transition-all disabled:opacity-50"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-slate-50 border border-slate-200 hover:bg-white hover:border-marquis-blue hover:shadow-md rounded-xl text-slate-400 hover:text-marquis-blue transition-all disabled:opacity-50 group/loc"
                   >
                     {detectingLocation ? (
                       <CircleNotch className="w-5 h-5 animate-spin" />
                     ) : (
-                      <Target className="w-6 h-6" weight="bold" />
+                      <Crosshair className="w-6 h-6 group-hover/loc:scale-110 transition-transform" weight="bold" />
                     )}
                   </button>
                 </div>
@@ -684,7 +677,11 @@ export default function Wizard() {
   if (step === 'results') {
     return (
       <div className="flex flex-col h-full bg-slate-50 animate-slick-reveal">
-        <StepHeader title="Your Personalized Selection" subtitle="Meticulously matched based on your 14 expert criteria." />
+        <div className="bg-slate-900 p-8 md:p-12 text-center relative overflow-hidden shrink-0">
+          <div className="absolute inset-0 bg-marquis-blue/10 pointer-events-none" />
+          <h2 className="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tight mb-2">Your Personalized Selection</h2>
+          <p className="text-slate-400 font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs">Meticulously matched based on your 14 expert criteria</p>
+        </div>
         <div className="p-6 md:p-10 flex-grow overflow-y-auto">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
              {results && results.slice(0, 4).map((res, i) => (
