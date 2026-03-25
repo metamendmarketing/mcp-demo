@@ -36,6 +36,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { brandId, postalCode, lat, lng, radius = 100 } = body;
 
+    console.log('[DEALER_SEARCH]', { brandId, postalCode, lat, lng, radius });
+
     // Fetch all active dealers for the brand
     const dealers = await prisma.dealer.findMany({
       where: {
@@ -43,6 +45,8 @@ export async function POST(req: NextRequest) {
         active: true,
       },
     });
+
+    console.log(`[DEALER_SEARCH] Total dealers in DB for brand: ${dealers.length}`);
 
     let results = dealers.map(dealer => {
       let distanceMiles: number | null = null;
@@ -54,8 +58,15 @@ export async function POST(req: NextRequest) {
 
     // Sort by distance if coordinates provided
     if (lat && lng) {
+      console.log(`[DEALER_SEARCH] Filtering by radius: ${radius} miles`);
       results = results
-        .filter(d => d.distanceMiles !== null && d.distanceMiles <= radius)
+        .filter(d => {
+          const keep = d.distanceMiles !== null && d.distanceMiles <= radius;
+          if (!keep && d.distanceMiles !== null) {
+             // console.log(`[DEALER_SEARCH] Filtering out ${d.dealerName} (dist: ${d.distanceMiles})`);
+          }
+          return keep;
+        })
         .sort((a, b) => (a.distanceMiles || 0) - (b.distanceMiles || 0));
     } else if (postalCode) {
       // Fallback to simple postal code prefix matching

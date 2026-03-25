@@ -31,10 +31,18 @@ const LocatorContent = () => {
     try {
       // If no coords but query exists, geocode it first to ensure map updates
       if (!searchCoords && query) {
+        console.log(`[LOCATOR] Geocoding query: ${query}`);
         const geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(query)}&key=${GOOGLE_MAPS_API_KEY}`);
         const geoData = await geoRes.json();
-        if (geoData.results && geoData.results.length > 0) {
+        
+        console.log(`[LOCATOR] Geocode status: ${geoData.status}`, geoData);
+
+        if (geoData.status === 'OK' && geoData.results && geoData.results.length > 0) {
           searchCoords = geoData.results[0].geometry.location;
+          console.log(`[LOCATOR] Resolved coords:`, searchCoords);
+        } else {
+          console.warn(`[LOCATOR] Geocoding failed for: ${query}`);
+          if (geoData.error_message) console.error(geoData.error_message);
         }
       }
 
