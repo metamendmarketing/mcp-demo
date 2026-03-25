@@ -4,12 +4,10 @@ import React, { useState } from 'react';
 import { 
   FirstAidKit, UsersThree, Wind, CornersOut, Users, ArrowsInCardinal, 
   Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
-  Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin
+  Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin,
+  Check, CaretRight, CaretLeft, Sparkle, ArrowRight, Info, NavigationArrow, CircleNotch, Target,
+  Sun, CloudSun, Flame, Tree
 } from '@phosphor-icons/react';
-import { 
-  Check, ChevronRight, Zap, Sparkles, ArrowRight, Info, ChevronLeft,
-  Sun, Sunset, Flame, TreePine, Navigation, Loader2, Target, ChevronRight as ChevronRightIcon
-} from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import ProductDetailView, { type Product, type ScoredProduct } from '../products/ProductDetailView';
@@ -194,10 +192,10 @@ const QUESTIONS: {
     },
     layout: 'grid',
     options: [
-      { value: 'morning', label: 'Morning Sun Only', tip: "Gentle warmth; cooler in the evenings.", icon: <Sun className="w-10 h-10 text-amber-500 mx-auto" /> },
-      { value: 'afternoon', label: 'Afternoon / Late Sun', tip: "Intense heat during the peak of the day.", icon: <Sunset className="w-10 h-10 text-orange-500 mx-auto" /> },
-      { value: 'direct', label: 'Direct Sun All Day', tip: "Maximum solar gain; require DuraCover®.", icon: <Flame className="w-10 h-10 text-red-500 mx-auto" /> },
-      { value: 'shaded', label: 'Heavy Shade / Covered', tip: "Under a roof, pergola, or dense trees.", icon: <TreePine className="w-10 h-10 text-slate-400 mx-auto" /> }
+      { value: 'morning', label: 'Morning Sun Only', tip: "Gentle warmth; cooler in the evenings.", icon: <Sun className="w-10 h-10 text-amber-500 mx-auto" weight="fill" /> },
+      { value: 'afternoon', label: 'Afternoon / Late Sun', tip: "Intense heat during the peak of the day.", icon: <CloudSun className="w-10 h-10 text-orange-500 mx-auto" weight="fill" /> },
+      { value: 'direct', label: 'Direct Sun All Day', tip: "Maximum solar gain; require DuraCover®.", icon: <Flame className="w-10 h-10 text-red-500 mx-auto" weight="fill" /> },
+      { value: 'shaded', label: 'Heavy Shade / Covered', tip: "Under a roof, pergola, or dense trees.", icon: <Tree className="w-10 h-10 text-slate-400 mx-auto" weight="fill" /> }
     ]
   },
   {
@@ -511,7 +509,7 @@ export default function Wizard() {
               onClick={() => setStep('question')}
               className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group hover:scale-105 transition-transform flex items-center gap-3"
             >
-              Get Started <ChevronRightIcon className="w-6 h-6" />
+              Get Started <CaretRight className="w-6 h-6" weight="bold" />
             </button>
          </div>
       </div>
@@ -527,7 +525,7 @@ export default function Wizard() {
           <div className="max-w-6xl mx-auto">
             {q.layout !== 'split' && q.expertTip && (
               <div className="mb-8 p-6 bg-blue-50/50 border border-blue-100/50 rounded-2xl flex items-start gap-4">
-                <div className="p-2 bg-white rounded-xl shadow-sm shrink-0"><Info className="w-5 h-5 text-marquis-blue" /></div>
+                <div className="p-2 bg-white rounded-xl shadow-sm shrink-0"><Info className="w-5 h-5 text-marquis-blue" weight="bold" /></div>
                 <div>
                   <h4 className="text-sm font-bold uppercase tracking-widest text-marquis-blue mb-1">Expert Insight</h4>
                   <p className="text-sm md:text-base text-slate-600 font-medium leading-relaxed italic">"{q.expertTip(preferences)}"</p>
@@ -574,7 +572,7 @@ export default function Wizard() {
                         </div>
                       </div>
                       <div className={cn("w-10 h-10 rounded-full flex items-center justify-center border-2", preferences[q.id] === opt.value ? "bg-marquis-blue border-marquis-blue text-white" : "bg-transparent border-slate-200")}>
-                         {preferences[q.id] === opt.value ? <Check className="w-5 h-5" /> : <div className="w-2.5 h-2.5 rounded-full bg-current" />}
+                         {preferences[q.id] === opt.value ? <Check className="w-5 h-5" weight="bold" /> : <div className="w-2.5 h-2.5 rounded-full bg-current" />}
                       </div>
                     </button>
                   ))}
@@ -587,7 +585,7 @@ export default function Wizard() {
                 <div className="relative z-20 w-full max-w-2xl text-center space-y-12">
                    <h3 className="text-7xl md:text-9xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl">{preferences[q.id] || '5'}<span className="text-3xl md:text-4xl ml-2 text-blue-300">Adults</span></h3>
                    <input type="range" min="1" max="10" step="1" value={preferences[q.id] || '5'} onChange={(e) => updatePreference(q.id, e.target.value)} className="w-full h-4 bg-white/40 rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/50 transition-all border border-white/20" />
-                   <button onClick={nextQuestion} className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group">Confirm Capacity <ChevronRight className="inline-block w-6 h-6 ml-2" /></button>
+                   <button onClick={nextQuestion} className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group">Confirm Capacity <CaretRight className="inline-block w-6 h-6 ml-2" weight="bold" /></button>
                 </div>
               </div>
             )}
@@ -612,9 +610,9 @@ export default function Wizard() {
                     className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-marquis-blue transition-all disabled:opacity-50"
                   >
                     {detectingLocation ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <CircleNotch className="w-5 h-5 animate-spin" />
                     ) : (
-                      <Target className="w-6 h-6" />
+                      <Target className="w-6 h-6" weight="bold" />
                     )}
                   </button>
                 </div>
@@ -631,7 +629,7 @@ export default function Wizard() {
           </div>
         </div>
         <div className="p-6 bg-white border-t border-slate-200 flex justify-between items-center shrink-0">
-          <button onClick={prevQuestion} className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-marquis-blue px-4 py-2 transition-colors"><ChevronLeft className="w-5 h-5" /> Back</button>
+          <button onClick={prevQuestion} className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-marquis-blue px-4 py-2 transition-colors"><CaretLeft className="w-5 h-5" weight="bold" /> Back</button>
           <div className="flex gap-1">{QUESTIONS.map((_, i) => (<div key={i} className={cn("w-1.5 h-1.5 rounded-full transition-all", i === currentQuestionIndex ? "bg-marquis-blue w-6" : "bg-slate-200")} />))}</div>
           <div className="text-xs font-black uppercase text-slate-400 tracking-widest">Step {currentQuestionIndex + 1} of {QUESTIONS.length}</div>
         </div>
@@ -645,7 +643,7 @@ export default function Wizard() {
         <div className="flex-grow flex flex-col items-center justify-center p-10 text-center max-w-4xl mx-auto space-y-12">
            <div className="space-y-4">
               <div className="w-20 h-20 bg-marquis-blue rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)]">
-                <Sparkles className="w-10 h-10 text-white" />
+                <Sparkle className="w-10 h-10 text-white" weight="fill" />
               </div>
               <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-tight text-white italic">AI <span className="text-marquis-blue">Blueprint</span></h2>
            </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { MapPin, Search, Navigation, ChevronLeft, Loader2, Sparkles } from 'lucide-react';
+import { MapPin, MagnifyingGlass, NavigationArrow, CaretLeft, CircleNotch, Sparkle } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { DealerCard } from '@/components/dealer/DealerCard';
 import { DealerMap } from '@/components/dealer/DealerMap';
@@ -160,7 +160,7 @@ const LocatorContent = () => {
               </div>
               
               <div className="relative group mb-4">
-                <input
+                 <input
                   type="text"
                   placeholder="Enter City or Zip Code"
                   className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 pl-12 pr-28 text-sm font-bold uppercase tracking-wider outline-none focus:border-marquis-blue transition-all"
@@ -168,12 +168,12 @@ const LocatorContent = () => {
                   onChange={(e) => setZip(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && performSearch(zip)}
                 />
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-marquis-blue transition-colors" />
+                <MagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-marquis-blue transition-colors" weight="bold" />
                 <button 
                   onClick={() => performSearch(zip)}
                   className="absolute right-2 top-2 bottom-2 bg-marquis-blue text-white px-4 rounded-xl text-[10px] font-black uppercase italic hover:bg-slate-800 transition-all flex items-center justify-center min-w-[80px]"
                 >
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'SEARCH'}
+                  {loading ? <CircleNotch className="w-4 h-4 animate-spin" weight="bold" /> : 'SEARCH'}
                 </button>
               </div>
 
@@ -181,7 +181,7 @@ const LocatorContent = () => {
                 onClick={handleUseMyLocation}
                 className="w-full py-3 bg-slate-50 hover:bg-slate-100 rounded-xl flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 transition-all"
               >
-                <Navigation className="w-3 h-3" />
+                <NavigationArrow className="w-3 h-3" weight="fill" />
                 Use My Location
               </button>
             </div>
@@ -195,7 +195,7 @@ const LocatorContent = () => {
 
               {loading && dealers.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-slate-400">
-                  <Loader2 className="w-12 h-12 animate-spin mb-4" />
+                  <CircleNotch className="w-12 h-12 animate-spin mb-4" weight="bold" />
                   <p className="text-xs font-bold uppercase tracking-widest">Searching nearby...</p>
                 </div>
               ) : dealers.length > 0 ? (

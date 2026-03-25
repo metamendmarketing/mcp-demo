@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Phone, Mail, Globe, MapPin, Clock, ChevronDown, ChevronUp, Navigation } from 'lucide-react';
+import { Phone, Envelope, Globe, MapPin, Clock, CaretDown, CaretUp, NavigationArrow } from '@phosphor-icons/react';
 import { clsx } from 'clsx';
 
 interface Dealer {
@@ -57,7 +57,7 @@ export const DealerCard: React.FC<DealerCardProps> = ({ dealer, isSelected, onSe
           className="p-3 bg-slate-900 text-white rounded-full hover:bg-slate-800 transition-colors"
           onClick={(e) => e.stopPropagation()}
         >
-          <Navigation className="w-5 h-5" />
+          <NavigationArrow className="w-5 h-5" weight="fill" />
         </a>
       </div>
 
@@ -76,7 +76,7 @@ export const DealerCard: React.FC<DealerCardProps> = ({ dealer, isSelected, onSe
             className="flex items-center gap-3 text-sm text-slate-600 hover:text-slate-900 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            <Phone className="w-5 h-5 text-slate-400" />
+            <Phone className="w-5 h-5 text-slate-400" weight="bold" />
             {dealer.phone}
           </a>
         )}
@@ -87,7 +87,7 @@ export const DealerCard: React.FC<DealerCardProps> = ({ dealer, isSelected, onSe
             className="flex items-center gap-3 text-sm text-slate-600 hover:text-slate-900 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            <Mail className="w-5 h-5 text-slate-400" />
+            <Envelope className="w-5 h-5 text-slate-400" weight="bold" />
             {dealer.email}
           </a>
         )}
@@ -100,7 +100,7 @@ export const DealerCard: React.FC<DealerCardProps> = ({ dealer, isSelected, onSe
             className="flex items-center gap-3 text-sm text-slate-600 hover:text-slate-900 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            <Globe className="w-5 h-5 text-slate-400" />
+            <Globe className="w-5 h-5 text-slate-400" weight="bold" />
             Visit Website
           </a>
         )}
@@ -116,10 +116,10 @@ export const DealerCard: React.FC<DealerCardProps> = ({ dealer, isSelected, onSe
             className="flex items-center justify-between w-full text-xs font-bold text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors"
           >
             <span className="flex items-center gap-2">
-              <Clock className="w-4 h-4" />
+              <Clock className="w-4 h-4" weight="bold" />
               View Store Hours
             </span>
-            {showHours ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            {showHours ? <CaretUp className="w-4 h-4" weight="bold" /> : <CaretDown className="w-4 h-4" weight="bold" />}
           </button>
           
           {showHours && (

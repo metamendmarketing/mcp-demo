@@ -4,11 +4,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
-  Check, ChevronLeft, Zap, Users, Heart, Maximize, Star, BookOpen, Scale,
-  MessageSquare, MapPin, Waves, Palette, Settings, BatteryCharging, 
-  Box, Thermometer, Plus, Sparkles, Send, Loader2, CheckCircle2, ChevronRight, Info,
-  Activity, ArrowRight
-} from 'lucide-react';
+  Check, CaretLeft, Lightning, Users, Heart, CornersOut, Star, BookOpen, Scales,
+  ChatCircleDots, MapPin, Waves, Palette, Gear, BatteryCharging, 
+  Package, Thermometer, Plus, Sparkle, PaperPlaneRight, CircleNotch, CheckCircle, CaretRight, Info,
+  Heartbeat, ArrowRight
+} from '@phosphor-icons/react';
 import { twMerge } from 'tailwind-merge';
 import { clsx, type ClassValue } from 'clsx';
 import { AESTHETIC_MAPPINGS, getAestheticTitle, FINISH_IMAGE_MAP } from '@/lib/brands/aesthetics';
@@ -157,7 +157,7 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
              onClick={() => setShowAllColors(true)}
              className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors group/link px-2"
            >
-             {suggested ? "Explore all color options" : "Show all available finishes"} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+             {suggested ? "Explore all color options" : "Show all available finishes"} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" weight="bold" />
            </button>
          ) : (
            <div className="animate-in fade-in slide-in-from-top-2 duration-500 space-y-8 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
@@ -229,7 +229,7 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="bg-marquis-blue p-4 rounded-2xl shadow-lg">
-              <MessageSquare className="w-6 h-6 text-white" />
+              <ChatCircleDots className="w-6 h-6 text-white" weight="bold" />
             </div>
             <div>
               <h3 className="text-2xl font-black italic uppercase text-white leading-none mb-2">Question? Ask us.</h3>
@@ -237,7 +237,7 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
             </div>
           </div>
           <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 backdrop-blur-sm">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <Sparkle className="w-4 h-4 text-emerald-400" weight="fill" />
             <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Engineering Verified</span>
           </div>
         </div>
@@ -257,7 +257,7 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
             disabled={!question.trim() || loading}
             className="absolute right-3 top-3 bottom-3 aspect-square bg-marquis-blue text-white rounded-2xl flex items-center justify-center hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group/btn"
           >
-            {loading ? <Loader2 className="w-6 h-6 animate-spin text-white" /> : <Send className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" />}
+            {loading ? <CircleNotch className="w-6 h-6 animate-spin text-white" weight="bold" /> : <PaperPlaneRight className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" weight="bold" />}
           </button>
         </form>
 
@@ -297,8 +297,8 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
         {response && (
           <div className="animate-in fade-in slide-in-from-top-4 duration-500">
             <div className="flex items-center gap-2 mb-6 text-emerald-600">
-              <CheckCircle2 className="w-5 h-5" />
-              <span className="text-xs font-black uppercase tracking-widest">Response:</span>
+              <CheckCircle className="w-5 h-5" weight="bold" />
+              <span className="text-[10px] font-black uppercase tracking-widest">Response:</span>
             </div>
 
             <div className="prose prose-slate max-w-none">
@@ -445,12 +445,12 @@ export default function ProductDetailView({
        <div className="flex justify-between items-center mb-6">
           {onBack && (
             <button onClick={onBack} className="text-slate-500 hover:text-marquis-blue flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-colors">
-              <ChevronLeft className="w-4 h-4" /> {mode === 'influenced' ? 'Back to Selection' : 'Back'}
+              <CaretLeft className="w-4 h-4" weight="bold" /> {mode === 'influenced' ? 'Back to Selection' : 'Back'}
             </button>
           )}
           {!onBack && (
                <a href="/mcp/demo/products" className="text-slate-500 hover:text-marquis-blue flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-colors">
-               <ChevronLeft className="w-4 h-4" /> Back to Catalog
+               <CaretLeft className="w-4 h-4" weight="bold" /> Back to Catalog
              </a>
           )}
           <div className="flex gap-2 sm:gap-4">
@@ -483,13 +483,13 @@ export default function ProductDetailView({
           <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
              <h2 className="text-2xl md:text-3xl font-black italic uppercase text-slate-800 tracking-tight flex items-center gap-3 mb-8 border-b border-slate-100 pb-6">
                 {isLoading ? "Expert Analysis..." : displayNarrative.heroTitle} 
-                <Sparkles className="w-6 h-6 text-marquis-blue flex-shrink-0" />
+                <Sparkle className="w-6 h-6 text-marquis-blue flex-shrink-0" weight="fill" />
              </h2>
              
               {/* At a glance boxes */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <Maximize className="w-6 h-6 text-marquis-blue/80" />
+                    <CornersOut className="w-6 h-6 text-marquis-blue/80" weight="bold" />
                     <div>
                       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Footprint</div>
                       <div className="text-sm font-black italic uppercase text-slate-700">{product.lengthIn}x{product.widthIn}x{product.depthIn}"</div>
@@ -511,7 +511,7 @@ export default function ProductDetailView({
                     </div>
                  </div>
                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <Zap className="w-6 h-6 text-amber-500" />
+                    <Lightning className="w-6 h-6 text-amber-500" weight="fill" />
                     <div>
                       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hydro-Flow</div>
                       <div className="text-sm font-black italic uppercase text-slate-700">{product.pumpFlowGpm || 160} GPM</div>
@@ -525,7 +525,7 @@ export default function ProductDetailView({
                     </div>
                  </div>
                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <Box className="w-6 h-6 text-slate-400" />
+                    <Package className="w-6 h-6 text-slate-400" weight="bold" />
                     <div>
                       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Weight (Full)</div>
                       <div className="text-sm font-black italic uppercase text-slate-700">{product.fullWeightLbs || 4500} lbs</div>
@@ -605,7 +605,7 @@ export default function ProductDetailView({
         {product.overheadImageUrl && (
           <section className="mb-12">
              <div className="flex items-center gap-3 mb-6 px-2">
-               <Settings className="w-6 h-6 text-marquis-blue" />
+               <Gear className="w-6 h-6 text-marquis-blue" weight="bold" />
                <h4 className="text-2xl font-black italic uppercase text-slate-800">Interactive Feature Explorer</h4>
              </div>
              <div 
@@ -686,10 +686,10 @@ export default function ProductDetailView({
            
            <div className="space-y-4">
              {[
-               { id: 'hydrotherapy', title: 'Hydrotherapy & Wellness', bg: 'bg-indigo-50/30', border: 'border-indigo-100', iconBg: 'bg-indigo-100 text-indigo-600', icon: <Activity className="w-6 h-6" /> },
-               { id: 'climate', title: 'Climate & Surroundings', bg: 'bg-sky-50/30', border: 'border-sky-100', iconBg: 'bg-sky-100 text-sky-600', icon: <Thermometer className="w-6 h-6" /> },
-               { id: 'design', title: 'Design & Capacity', bg: 'bg-amber-50/30', border: 'border-amber-100', iconBg: 'bg-amber-100 text-amber-600', icon: <Users className="w-6 h-6" /> },
-               { id: 'efficiency', title: 'Power & Maintenance', bg: 'bg-emerald-50/30', border: 'border-emerald-100', iconBg: 'bg-emerald-100 text-emerald-600', icon: <Zap className="w-6 h-6" /> }
+               { id: 'hydrotherapy', title: 'Hydrotherapy & Wellness', bg: 'bg-indigo-50/30', border: 'border-indigo-100', iconBg: 'bg-indigo-100 text-indigo-600', icon: <Heartbeat className="w-6 h-6" weight="bold" /> },
+               { id: 'climate', title: 'Climate & Surroundings', bg: 'bg-sky-50/30', border: 'border-sky-100', iconBg: 'bg-sky-100 text-sky-600', icon: <Thermometer className="w-6 h-6" weight="bold" /> },
+               { id: 'design', title: 'Design & Capacity', bg: 'bg-amber-50/30', border: 'border-amber-100', iconBg: 'bg-amber-100 text-amber-600', icon: <Users className="w-6 h-6" weight="bold" /> },
+               { id: 'efficiency', title: 'Power & Maintenance', bg: 'bg-emerald-50/30', border: 'border-emerald-100', iconBg: 'bg-emerald-100 text-emerald-600', icon: <Lightning className="w-6 h-6" weight="fill" /> }
              ].map((mod, i) => (
                <div key={i} className={`flex flex-col md:flex-row gap-6 p-6 md:p-8 rounded-[32px] border shadow-sm transition-all hover:shadow-md ${mod.bg} ${mod.border}`}>
                  <div className="md:w-1/3 flex items-start gap-5 border-b md:border-b-0 md:border-r border-slate-200/50 pb-4 md:pb-0 md:pr-6">
@@ -724,7 +724,7 @@ export default function ProductDetailView({
         {/* COMPARISON TABLE */}
        <section className="mb-14">
           <div className="flex items-center gap-3 mb-6 px-2">
-            <Scale className="w-6 h-6 text-marquis-blue" />
+            <Scales className="w-6 h-6 text-marquis-blue" weight="bold" />
             <h4 className="text-2xl font-black italic uppercase text-slate-800">Competitive Edge</h4>
           </div>
           

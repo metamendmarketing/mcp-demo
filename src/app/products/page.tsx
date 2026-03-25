@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { ChevronRight, Home, Users, Zap, Maximize } from 'lucide-react';
+import { CaretRight, House, Users, Lightning, CornersOut } from '@phosphor-icons/react';
 
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
@@ -42,8 +42,8 @@ export default async function ProductsPage() {
       {/* Breadcrumbs */}
       <div className="w-full bg-white/80 backdrop-blur-sm border-b border-slate-200 py-6">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center gap-3 italic">
-          <Link href="/" className="hover:text-marquis-blue transition-colors">Home</Link>
-          <ChevronRight className="w-3 h-3 text-slate-300" />
+          <House className="w-3 h-3 text-slate-300" weight="bold" />
+          <CaretRight className="w-3 h-3 text-slate-300" weight="bold" />
           <span className="text-marquis-blue">All Products</span>
         </div>
       </div>
@@ -80,11 +80,11 @@ export default async function ProductsPage() {
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-6">
                       <div className="flex justify-between items-center text-white">
                         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
-                          <Users className="w-3 h-3 text-marquis-blue" />
+                          <Users className="w-3 h-3 text-marquis-blue" weight="bold" />
                           {p.seatsMax} Seats
                         </div>
                         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
-                          <Zap className="w-3 h-3 text-marquis-blue" />
+                          <Lightning className="w-3 h-3 text-marquis-blue" weight="fill" />
                           {p.jetCount} Jets
                         </div>
                       </div>
@@ -102,7 +102,7 @@ export default async function ProductsPage() {
                          {p.lengthIn}x{p.widthIn}x{p.depthIn}"
                        </span>
                        <div className="text-marquis-blue text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 group/btn">
-                         Details <ChevronRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                         Details <CaretRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" weight="bold" />
                        </div>
                     </div>
                   </div>
