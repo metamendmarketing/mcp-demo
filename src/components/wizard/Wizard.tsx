@@ -8,7 +8,7 @@ import {
 } from '@phosphor-icons/react';
 import { 
   Check, ChevronRight, Zap, Sparkles, ArrowRight, Info, ChevronLeft,
-  Sun, Sunset, Flame, TreePine, Navigation, Loader2
+  Sun, Sunset, Flame, TreePine, Navigation, Loader2, Target, ChevronRight as ChevronRightIcon
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -509,9 +509,9 @@ export default function Wizard() {
             </p>
             <button 
               onClick={() => setStep('question')}
-              className="btn-marquis-premium px-12 py-4 rounded-full text-base font-bold flex items-center gap-3 shadow-2xl hover:scale-105 transition-transform"
+              className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group hover:scale-105 transition-transform flex items-center gap-3"
             >
-              Get Started <ArrowRight className="w-5 h-5" />
+              Get Started <ChevronRightIcon className="w-6 h-6" />
             </button>
          </div>
       </div>
@@ -586,39 +586,38 @@ export default function Wizard() {
                 {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" /></>}
                 <div className="relative z-20 w-full max-w-2xl text-center space-y-12">
                    <h3 className="text-7xl md:text-9xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl">{preferences[q.id] || '5'}<span className="text-3xl md:text-4xl ml-2 text-blue-300">Adults</span></h3>
-                   <input type="range" min="1" max="10" step="1" value={preferences[q.id] || '5'} onChange={(e) => updatePreference(q.id, e.target.value)} className="w-full h-4 bg-white/20 rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/30 transition-all border border-white/10" />
+                   <input type="range" min="1" max="10" step="1" value={preferences[q.id] || '5'} onChange={(e) => updatePreference(q.id, e.target.value)} className="w-full h-4 bg-white/40 rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/50 transition-all border border-white/20" />
                    <button onClick={nextQuestion} className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group">Confirm Capacity <ChevronRight className="inline-block w-6 h-6 ml-2" /></button>
                 </div>
               </div>
             )}
             {q.layout === 'map' && (
-              <div className="max-w-md mx-auto space-y-6 text-center py-10">
+              <div className="max-w-md mx-auto space-y-8 text-center py-10">
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
                     <MapPin className="w-6 h-6 text-marquis-blue group-focus-within:animate-bounce transition-all" />
                   </div>
                   <input 
                     type="text" 
-                    placeholder="Enter Delivery Zip Code" 
-                    className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-6 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all" 
+                    placeholder="Enter ZIP/Postal Code" 
+                    className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-16 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all" 
                     value={preferences.zipCode || ''}
                     onChange={(e) => updatePreference('zipCode', e.target.value)} 
                     onKeyDown={(e) => e.key === 'Enter' && preferences.zipCode && nextQuestion()} 
                   />
+                  <button 
+                    onClick={handleDetectLocation}
+                    disabled={detectingLocation}
+                    title="Use My Current Location"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-marquis-blue transition-all disabled:opacity-50"
+                  >
+                    {detectingLocation ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Target className="w-6 h-6" />
+                    )}
+                  </button>
                 </div>
-                
-                <button 
-                  onClick={handleDetectLocation}
-                  disabled={detectingLocation}
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold uppercase tracking-wider transition-all disabled:opacity-50"
-                >
-                  {detectingLocation ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <Navigation className="w-5 h-5 text-marquis-blue" />
-                  )}
-                  {detectingLocation ? 'Detecting...' : 'Use My Current Location'}
-                </button>
 
                 <button 
                   onClick={nextQuestion} 
