@@ -57,7 +57,7 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       'entry': ['value'],
       'mid': ['value', 'mid'],
       'premium': ['mid', 'premium'],
-      'luxury': ['premium', 'luxury']
+      'luxury': ['luxury']
     };
     
     // Ownership Intent Bias
@@ -70,9 +70,13 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Efficiency-first engineering delivers the highest value-to-performance ratio in its class.`);
     }
 
-    if (preferences.budget && budgetMap[preferences.budget]?.includes(positioningTier)) {
+    if (preferences.budget === 'luxury' && positioningTier === 'luxury') {
+      score += 40;
+      reasons.push(`High-end structural investment matches your target for a flagship-tier ownership experience.`);
+    } else if (preferences.budget === 'luxury' && positioningTier === 'premium') {
+      score += 20;
+    } else if (preferences.budget && budgetMap[preferences.budget]?.includes(positioningTier)) {
       score += 30;
-      // Already covered by intent usually, but adding a specific budget match reasoning if needed
     }
 
     // 3. Primary Purpose (Max 50 points)
@@ -93,9 +97,13 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     }
 
     // 4. Engineering Mastery (V-O-L-T and GPM) (Max 40 points)
-    if (product.pumpFlowGpm && product.pumpFlowGpm >= 320) {
+    const flow = product.pumpFlowGpm || 0;
+    if (flow >= 450) {
+      score += 40;
+      reasons.push(`Mastery-tier ${flow} GPM high-volume delivery system (Crown/Vector exclusive) provides unmatched hydrotherapy intensity.`);
+    } else if (flow >= 320) {
       score += 25;
-      reasons.push(`High-flow ${product.pumpFlowGpm} GPM plumbing system provides professional-grade hydrotherapy intensity.`);
+      reasons.push(`High-flow ${flow} GPM plumbing system provides professional-grade hydrotherapy intensity.`);
     }
 
     if (JSON.stringify(product.techFeatures || []).includes('VOLT')) {
@@ -114,7 +122,7 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
 
     // 6. Aesthetic (Max 25 points)
     const userAesthetic = preferences.aesthetic || 'modern';
-    const isCurved = product.modelName?.includes('Crown') || product.modelName?.includes('Spirit') || product.modelName?.includes('Epic');
+    const isCurved = seriesName.includes('Crown') || seriesName.includes('Spirit') || seriesName.includes('Epic');
     if (userAesthetic === 'curved' && isCurved) {
       score += 25;
       reasons.push(`Organic, curved architectural lines complement your preferred modern outdoor aesthetic.`);
@@ -148,10 +156,11 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Exploiting your wide-open delivery access to accommodate this high-capacity flagship blueprint.`);
     }
 
-    // 6.6 Precision Tie-Breakers (0-10 small points)
-    if (seriesName === 'Crown') score += 5;
-    else if (seriesName.includes('Vector')) score += 3;
-    else if (seriesName === 'Marquis Elite') score += 1;
+    // 6.6 Precision Tie-Breakers (0-15 small points)
+    if (seriesName.includes('Crown')) score += 15;
+    else if (seriesName.includes('Vector')) score += 8;
+    else if (seriesName.includes('Elite')) score += 3;
+    else if (seriesName.includes('Celebrity')) score += 1;
 
     if ((product.jetCount || 0) > 50) score += 2;
     if ((product.pumpFlowGpm || 0) > 350) score += 2;
