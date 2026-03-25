@@ -561,8 +561,8 @@ export default function Wizard() {
               </div>
             )}
             {q.layout === 'split' && (
-              <div className={cn("grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative", q.bgImage ? "p-10 rounded-[40px] overflow-hidden shadow-2xl" : "")}>
-                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-slate-900/20 z-10" /></>}
+              <div className={cn("grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative", q.bgImage ? "p-10 rounded-[40px] overflow-hidden shadow-2xl min-h-[550px]" : "")}>
+                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover object-center z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-slate-900/20 z-10" /></>}
                 <div className="lg:col-span-5 relative z-20">
                   <div className={cn("p-8 rounded-3xl border shadow-sm", q.bgImage ? "bg-white/10 backdrop-blur-md border-white/20 text-white" : "bg-white border-slate-100")}>
                     <p className="text-lg font-medium leading-relaxed italic">"{q.expertTip(preferences)}"</p>
@@ -587,8 +587,8 @@ export default function Wizard() {
               </div>
             )}
             {q.layout === 'slider' && (
-              <div className="relative p-10 rounded-[40px] overflow-hidden shadow-2xl min-h-[450px] flex items-center justify-center">
-                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" /></>}
+              <div className="relative p-10 rounded-[40px] overflow-hidden shadow-2xl min-h-[550px] flex items-center justify-center">
+                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover object-center z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" /></>}
                 <div className="relative z-20 w-full max-w-2xl text-center space-y-12">
                    <h3 className="text-7xl md:text-9xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl">{preferences[q.id] || '5'}<span className="text-3xl md:text-4xl ml-2 text-blue-300">Adults</span></h3>
                    <input type="range" min="1" max="10" step="1" value={preferences[q.id] || '5'} onChange={(e) => updatePreference(q.id, e.target.value)} className="w-full h-4 bg-white/20 rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/30 transition-all border border-white/20" />
@@ -597,8 +597,8 @@ export default function Wizard() {
               </div>
             )}
             {q.layout === 'map' && (
-              <div className={cn("relative p-10 rounded-[40px] overflow-hidden shadow-2xl flex flex-col items-center justify-center min-h-[450px]", q.bgImage ? "w-full" : "max-w-md mx-auto space-y-8 text-center py-10")}>
-                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" /></>}
+              <div className={cn("relative p-10 rounded-[40px] overflow-hidden shadow-2xl flex flex-col items-center justify-center min-h-[600px]", q.bgImage ? "w-full" : "max-w-md mx-auto space-y-8 text-center py-10")}>
+                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover object-center z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" /></>}
                 <div className="relative z-20 w-full max-w-md space-y-8 text-center">
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
