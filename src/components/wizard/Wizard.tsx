@@ -584,7 +584,7 @@ export default function Wizard() {
                 {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" /></>}
                 <div className="relative z-20 w-full max-w-2xl text-center space-y-12">
                    <h3 className="text-7xl md:text-9xl font-black italic uppercase text-white tracking-tighter drop-shadow-2xl">{preferences[q.id] || '5'}<span className="text-3xl md:text-4xl ml-2 text-blue-300">Adults</span></h3>
-                   <input type="range" min="1" max="10" step="1" value={preferences[q.id] || '5'} onChange={(e) => updatePreference(q.id, e.target.value)} className="w-full h-4 bg-white rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/90 transition-all border border-white/40" />
+                   <input type="range" min="1" max="10" step="1" value={preferences[q.id] || '5'} onChange={(e) => updatePreference(q.id, e.target.value)} className="w-full h-4 bg-white/40 rounded-full appearance-none cursor-pointer accent-marquis-blue hover:bg-white/50 transition-all border border-white/20" />
                    <button onClick={nextQuestion} className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group">Confirm Capacity <CaretRight className="inline-block w-6 h-6 ml-2" weight="bold" /></button>
                 </div>
               </div>
