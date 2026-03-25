@@ -300,7 +300,7 @@ export default function Wizard() {
         try {
           const { latitude, longitude } = position.coords;
           // Note: Marquis API Key is hardcoded here for the prototype as requested
-          const apiKey = 'AIzaSyBJTMfCxb6VFz1vIK_7Jb52JZuDj_J2tks';
+          const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
           const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`);
           const data = await res.json();
           const components = data.results[0]?.address_components || [];

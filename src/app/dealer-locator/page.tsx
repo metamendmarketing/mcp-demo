@@ -8,7 +8,7 @@ import { DealerCard } from '@/components/dealer/DealerCard';
 import { DealerMap } from '@/components/dealer/DealerMap';
 import { clsx } from 'clsx';
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyBJTMfCxb6VFz1vIK_7Jb52JZuDj_J2tks';
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
 
 const LocatorContent = () => {
   const searchParams = useSearchParams();
