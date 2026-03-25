@@ -101,7 +101,7 @@ export const DealerCard: React.FC<DealerCardProps> = ({ dealer, isSelected, onSe
             onClick={(e) => e.stopPropagation()}
           >
             <Globe className="w-5 h-5 text-slate-400" />
-            Vist Website
+            Visit Website
           </a>
         )}
       </div>
