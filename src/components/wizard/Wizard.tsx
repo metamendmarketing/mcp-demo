@@ -506,7 +506,7 @@ export default function Wizard() {
          <div className="absolute inset-0 bg-slate-900/50" />
          <div className="p-8 pb-16 md:p-16 flex flex-col items-center justify-center text-center relative z-10 flex-grow min-h-[500px]">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase text-white mb-6 leading-[1.1] drop-shadow-xl max-w-2xl">
-               Expertly Matched.
+               Expertly <span className="text-marquis-blue">Matched.</span>
             </h1>
             <p className="text-white/90 text-lg md:text-xl leading-relaxed max-w-2xl mb-10 font-medium drop-shadow-md">
                Discover Marquis models thoughtfully selected to match your lifestyle, powered by your personal preferences.
