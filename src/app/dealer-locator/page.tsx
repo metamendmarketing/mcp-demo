@@ -147,7 +147,7 @@ const LocatorContent = () => {
       </div>
 
       <div className="max-w-7xl mx-auto w-full px-6 lg:px-12 py-10 flex-1 flex flex-col min-h-0">
-        <div className="bg-white rounded-[40px] shadow-2xl overflow-hidden border border-slate-100 flex flex-col md:flex-row flex-1 min-h-0">
+        <div className="bg-white rounded-[40px] shadow-2xl md:overflow-hidden overflow-visible border border-slate-100 flex flex-col md:flex-row flex-1 min-h-0">
           
           {/* Results Side */}
           <aside className="w-full md:w-[450px] flex flex-col border-r border-slate-100 bg-white">
@@ -249,7 +249,7 @@ const LocatorContent = () => {
           </aside>
 
           {/* Map Side */}
-          <main className="flex-1 relative bg-slate-100 flex flex-col min-h-[600px]">
+          <main className="w-full md:flex-1 h-[500px] md:h-auto relative bg-slate-100 flex flex-col">
             <DealerMap 
               dealers={dealers} 
               apiKey={GOOGLE_MAPS_API_KEY} 
