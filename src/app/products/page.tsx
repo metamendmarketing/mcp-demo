@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { CaretRight, House, Users, Lightning, CornersOut } from '@phosphor-icons/react';
+import { CaretRight, House, Users, Lightning, CornersOut } from '@/components/icons';
 
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
