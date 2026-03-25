@@ -646,20 +646,18 @@ export default function Wizard() {
   if (step === 'blueprint') {
     return (
       <div className="flex flex-col h-full relative overflow-hidden animate-slick-reveal">
-        {/* Luxury Night Background - More vibrant overlay */}
+        {/* Sharp High-End Background */}
         <div 
-          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-[1.02] opacity-90"
-          style={{ backgroundImage: "url('/mcp/demo/assets/intro_bg.png')" }}
+          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-100 opacity-90"
+          style={{ backgroundImage: "url('/mcp/demo/assets/epic_beauty.jpg')" }}
         />
-        <div className="absolute inset-0 bg-[#0f172a]/50 backdrop-blur-[1px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f172a]/20 to-[#0f172a]/80" />
+        <div className="absolute inset-0 bg-[#0f172a]/40 backdrop-blur-[1px]" />
         
         <div className="flex-grow flex flex-col items-center justify-center p-6 md:p-10 relative z-10 text-center">
-           {/* New "Luxury Blue" Glass Card */}
-           <div className="w-full max-w-2xl rounded-[40px] p-8 md:p-14 flex flex-col items-center space-y-10 shadow-[0_30px_100px_rgba(0,0,0,0.6)] border border-white/5 bg-slate-900/40 backdrop-blur-2xl">
+           <div className="bg-slate-900/40 backdrop-blur-2xl w-full max-w-3xl rounded-[40px] p-8 md:p-14 flex flex-col items-center space-y-10 shadow-[0_30px_100px_rgba(0,0,0,0.6)] border border-white/5">
               
-              {/* Perfectly Cropped & Centered Logo - 5.53:1 aspect ratio math */}
-              <div className="w-full max-w-[480px] aspect-[1024/185] overflow-hidden flex items-start justify-center">
+              {/* Refined Logo with "Pop" */}
+              <div className="w-full max-w-[400px] aspect-[1024/185] overflow-hidden flex items-start justify-center drop-shadow-[0_0_20px_rgba(255,255,255,0.25)]">
                 <img 
                   src="/mcp/demo/assets/marquis-logo-full.png" 
                   className="w-full h-auto object-cover object-top scale-[1.05]" 
@@ -668,33 +666,50 @@ export default function Wizard() {
               </div>
 
               <div className="space-y-4">
-                 <h2 className="text-2xl md:text-4xl font-black italic uppercase text-white tracking-tight leading-[1.1]">
+                 <h2 className="text-2xl md:text-3xl font-black italic uppercase text-white tracking-tight leading-tight">
                     Engineering your <br/>
-                    <span className="text-marquis-blue drop-shadow-[0_0_20px_rgba(48,103,151,0.6)]">Personalized Match.</span>
+                    <span className="text-marquis-blue drop-shadow-[0_0_15px_rgba(48,103,151,0.5)]">Personalized Match.</span>
                  </h2>
-                 <p className="text-white/50 text-xs md:text-sm font-black uppercase tracking-[0.3em] max-w-sm mx-auto italic opacity-80">
-                    Proprietary recommendation engine active
-                 </p>
+              </div>
+
+              {/* Restored Preference Confirmation Boxes */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-2xl px-4">
+                 {[
+                   { id: 'capacity', label: 'Capacity', suffix: ' Adults' },
+                   { id: 'aesthetic', label: 'Environment' },
+                   { id: 'budget', label: 'Investment' },
+                   { id: 'primaryPurpose', label: 'Primary Goal' }
+                 ].map((box) => {
+                   const val = preferences[box.id as keyof UserPreferences];
+                   if (!val) return null;
+                   const label = QUESTIONS.find(q => q.id === box.id)?.options.find(o => o.value === val)?.label || val;
+                   return (
+                     <div key={box.id} className="bg-[#1e293b]/60 backdrop-blur-md border border-white/10 rounded-2xl p-3 md:p-4 text-left shadow-lg">
+                        <div className="text-[8px] md:text-[9px] font-black uppercase text-marquis-blue tracking-[0.2em] mb-1">{box.label}</div>
+                        <div className="text-white font-black text-[10px] md:text-xs uppercase italic truncate">
+                          {label}{box.id === 'capacity' ? box.suffix : ''}
+                        </div>
+                     </div>
+                   );
+                 })}
               </div>
               
               {loading ? (
-                <div className="w-full flex flex-col items-center pt-4">
-                   {/* High-Contrast Progress */}
-                   <div className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter mb-10 drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">
-                      {progress}<span className="text-3xl ml-1 text-marquis-blue">%</span>
+                <div className="w-full flex flex-col items-center">
+                   {/* Refined Percentage Size */}
+                   <div className="text-4xl md:text-5xl font-black italic uppercase text-white tracking-tighter mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                      {progress}<span className="text-xl ml-1 text-marquis-blue font-black">%</span>
                    </div>
 
-                   <div className="w-full max-w-md h-3.5 bg-white/5 rounded-full overflow-hidden mb-10 border border-white/10 group">
+                   <div className="w-full max-w-md h-2 bg-white/5 rounded-full overflow-hidden mb-8 border border-white/10">
                       <div 
-                        className="h-full bg-linear-to-r from-marquis-blue to-blue-400 shadow-[0_0_30px_rgba(48,103,151,1)] transition-all duration-300 ease-out relative" 
+                        className="h-full bg-marquis-blue shadow-[0_0_20px_rgba(48,103,151,0.8)] transition-all duration-300 ease-out" 
                         style={{ width: `${progress}%` }}
-                      >
-                         <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                      </div>
+                      />
                    </div>
 
-                   {/* Status Message */}
-                   <div className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-blue-100/80 animate-pulse min-h-[1.5em] italic">
+                   {/* Standard White Status Message */}
+                   <div className="text-xs md:text-sm font-medium text-white min-h-[1.5em] tracking-wide">
                      {loadingMessage}
                    </div>
                 </div>
@@ -702,7 +717,7 @@ export default function Wizard() {
                 <button 
                   onClick={handleRecommend} 
                   disabled={loading} 
-                  className="btn-marquis-premium px-24 py-7 rounded-2xl text-2xl font-black italic uppercase shadow-[0_25px_60px_rgba(48,103,151,0.5)] hover:scale-105 active:scale-95 transition-all"
+                  className="btn-marquis-premium px-20 py-6 rounded-2xl text-2xl font-black italic uppercase shadow-[0_20px_40px_rgba(48,103,151,0.4)] hover:scale-105 active:scale-95 transition-all"
                 >
                   Find my match!
                 </button>
