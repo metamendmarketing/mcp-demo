@@ -46,7 +46,8 @@ const LocatorContent = () => {
         setSearchedLocation(searchCoords);
       }
 
-      const res = await fetch('/api/dealer', {
+      // Explicitly include basePath for domain-absolute API call
+      const res = await fetch('/mcp/demo/api/dealer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,9 +59,18 @@ const LocatorContent = () => {
         })
       });
 
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`API Error (${res.status}): ${errorText.substring(0, 100)}`);
+      }
 
+      const contentType = res.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await res.text();
+        throw new Error(`Invalid Response: Expected JSON but got ${contentType || 'text'}. Content: ${text.substring(0, 50)}...`);
+      }
+
+      const data = await res.json();
       setDealers(data.dealers);
     } catch (err: any) {
       console.error('[LOCATOR] Search Error:', err);
