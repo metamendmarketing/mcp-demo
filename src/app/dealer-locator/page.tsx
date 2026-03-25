@@ -215,7 +215,7 @@ const LocatorContent = () => {
                   <div className="space-y-3">
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Try Demo Locations:</p>
                     <div className="flex flex-wrap justify-center gap-2">
-                      {['90210', 'Portland', 'Chicago', 'Miami'].map(loc => (
+                      {['Beaverton, OR', 'Camarillo, CA', 'Austin, TX', 'West Palm Beach, FL'].map(loc => (
                         <button 
                           key={loc}
                           onClick={() => { setZip(loc); performSearch(loc); }}
