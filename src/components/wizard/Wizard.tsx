@@ -647,12 +647,14 @@ export default function Wizard() {
     return (
       <div className="flex flex-col h-full bg-slate-900 text-white animate-slick-reveal overflow-hidden">
         <div className="flex-grow flex flex-col items-center justify-center p-10 text-center max-w-4xl mx-auto space-y-12">
-           <div className="mb-4">
-              <img 
-                src="/mcp/demo/assets/marquis-logo.png" 
-                className="w-64 md:w-80 mx-auto filter drop-shadow-2xl" 
-                alt="Marquis" 
-              />
+           <div className="mb-8 flex justify-center">
+              <div className="w-72 md:w-96 overflow-hidden max-h-28 md:max-h-36 flex items-start justify-center">
+                <img 
+                  src="/mcp/demo/assets/marquis-logo-full.png" 
+                  className="w-full h-auto object-contain -translate-y-[5%]" 
+                  alt="Marquis" 
+                />
+              </div>
            </div>
            
            {loading ? (
