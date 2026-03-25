@@ -565,7 +565,7 @@ export default function ProductDetailView({
                  <h4 className="text-xl font-black italic uppercase text-slate-800">Therapy Objective</h4>
                </div>
                
-               <p className="text-sm md:text-base text-slate-700 font-bold leading-relaxed italic mb-8">
+               <p className="text-sm md:text-base text-slate-600 font-semibold leading-relaxed italic mb-8">
                  "{product.therapySummary || (
                    product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
                    product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
