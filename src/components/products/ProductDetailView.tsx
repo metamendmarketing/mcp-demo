@@ -2,6 +2,7 @@
 // DEPLOYMENT TRIGGER: Reverting to stable design 0121f3b
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { 
   Check, ChevronLeft, Zap, Users, Heart, Maximize, Star, BookOpen, Scale,
   MessageSquare, MapPin, Waves, Palette, Settings, BatteryCharging, 
@@ -370,6 +371,7 @@ export interface ProductDetailViewProps {
   preferences?: any;
   onBack?: () => void;
   isLoading?: boolean;
+  zip?: string;
 }
 
 export default function ProductDetailView({ 
@@ -379,7 +381,8 @@ export default function ProductDetailView({
   reasons, 
   preferences, 
   onBack,
-  isLoading = false 
+  isLoading = false,
+  zip 
 }: ProductDetailViewProps) {
   // Magnifier state
   const [showMagnifier, setShowMagnifier] = useState(false);
@@ -451,8 +454,18 @@ export default function ProductDetailView({
              </a>
           )}
           <div className="flex gap-2 sm:gap-4">
-             <button className="hidden sm:block bg-white text-marquis-blue border-2 border-marquis-blue px-6 py-2 rounded-xl text-sm font-black italic uppercase hover:bg-marquis-blue/5 transition-all">Find Dealer</button>
-             <button className="bg-marquis-blue text-white px-6 py-2 rounded-xl text-sm font-black italic uppercase shadow-xl hover:bg-blue-700 transition-all">Get Pricing</button>
+             <Link 
+               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+               className="hidden sm:block bg-white text-marquis-blue border-2 border-marquis-blue px-6 py-2 rounded-xl text-sm font-black italic uppercase hover:bg-marquis-blue/5 transition-all text-center"
+             >
+               Find Dealer
+             </Link>
+             <Link 
+               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+               className="bg-marquis-blue text-white px-6 py-2 rounded-xl text-sm font-black italic uppercase shadow-xl hover:bg-blue-700 transition-all text-center flex items-center justify-center"
+             >
+               Get Pricing
+             </Link>
           </div>
        </div>
        
@@ -777,8 +790,18 @@ export default function ProductDetailView({
           <h3 className="text-3xl md:text-5xl font-black italic uppercase text-white mb-6 relative z-10 leading-none">Your Sanctuary<br/>Awaits.</h3>
           <p className="text-slate-300 mb-10 max-w-xl mx-auto font-medium text-base md:text-lg relative z-10">Lock in your {mode === 'influenced' ? 'personalized blueprint' : 'official'} {product.modelName} spec sheet by contacting an Authorized Marquis Dealer.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-             <button className="bg-white text-marquis-blue px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all">Find Nearest Dealer</button>
-             <button className="bg-marquis-blue border-2 border-marquis-blue text-white px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-xl hover:bg-transparent transition-all">Get Local Pricing</button>
+             <Link 
+               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+               className="bg-white text-marquis-blue px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-center"
+             >
+               Find Nearest Dealer
+             </Link>
+             <Link 
+               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+               className="bg-marquis-blue border-2 border-marquis-blue text-white px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-xl hover:bg-transparent transition-all text-center flex items-center justify-center border-white/20"
+             >
+               Get Local Pricing
+             </Link>
           </div>
        </div>
     </div>

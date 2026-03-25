@@ -119,6 +119,8 @@ model Dealer {
   phone         String?
   email         String?
   website       String?
+  hours         Json?
+  isServiceOnly Boolean  @default(false)
   source        String?
   active        Boolean  @default(true)
   createdAt     DateTime @default(now())

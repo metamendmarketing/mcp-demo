@@ -6,10 +6,14 @@ interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{
+    zip?: string;
+  }>;
 }
 
-export default async function ProductPage({ params }: PageProps) {
+export default async function ProductPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const { zip } = await searchParams;
 
   const productRes = await prisma.product.findUnique({
     where: { slug },
@@ -54,6 +58,7 @@ export default async function ProductPage({ params }: PageProps) {
       <ProductDetailView 
         product={formattedProduct as any} 
         mode="static" 
+        zip={zip}
       />
     </main>
   );

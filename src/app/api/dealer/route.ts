@@ -18,35 +18,58 @@ import { prisma } from '@/lib/prisma';
  * TODO: Integrate with external dealer directory APIs if available
  * TODO: Add crane/delivery service locator for installation logistics
  */
+// Helper for Haversine distance calculation
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 3958.8; // Earth's radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { brandId, postalCode, lat, lng } = body;
+    const { brandId, postalCode, lat, lng, radius = 100 } = body;
 
-    if (!postalCode && (!lat || !lng)) {
-      return NextResponse.json(
-        { error: 'A postal code or coordinates are required to find dealers.' },
-        { status: 400 }
-      );
-    }
-
-    // Phase 1: Simple postal code prefix matching
-    // Phase 2: Replace with Haversine distance calculation using lat/lng
+    // Fetch all active dealers for the brand
     const dealers = await prisma.dealer.findMany({
       where: {
-        brandId: brandId || undefined,
+        brandId: brandId || 'marquis',
         active: true,
-        ...(postalCode ? { postalCode: { startsWith: postalCode.substring(0, 3) } } : {}),
       },
-      orderBy: { dealerName: 'asc' },
-      take: 10,
     });
 
+    let results = dealers.map(dealer => {
+      let distanceMiles: number | null = null;
+      if (lat && lng && dealer.lat && dealer.lng) {
+        distanceMiles = calculateDistance(lat, lng, dealer.lat, dealer.lng);
+      }
+      return { ...dealer, distanceMiles };
+    });
+
+    // Sort by distance if coordinates provided
+    if (lat && lng) {
+      results = results
+        .filter(d => d.distanceMiles !== null && d.distanceMiles <= radius)
+        .sort((a, b) => (a.distanceMiles || 0) - (b.distanceMiles || 0));
+    } else if (postalCode) {
+      // Fallback to simple postal code prefix matching
+      const prefix = postalCode.substring(0, 3).toUpperCase();
+      results = results.filter(d => d.postalCode.toUpperCase().startsWith(prefix));
+      results.sort((a, b) => a.dealerName.localeCompare(b.dealerName));
+    }
+
     return NextResponse.json({
-      dealers,
-      totalFound: dealers.length,
+      dealers: results,
+      totalFound: results.length,
       searchedPostalCode: postalCode || null,
       searchedCoordinates: lat && lng ? { lat, lng } : null,
+      radiusMiles: radius,
     });
 
   } catch (error: any) {

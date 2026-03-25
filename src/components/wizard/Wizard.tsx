@@ -8,7 +8,7 @@ import {
 } from '@phosphor-icons/react';
 import { 
   Check, ChevronRight, Zap, Sparkles, ArrowRight, Info, ChevronLeft,
-  Sun, Sunset, Flame, TreePine
+  Sun, Sunset, Flame, TreePine, Navigation, Loader2
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -292,6 +292,35 @@ export default function Wizard() {
   const [narrativeLoading, setNarrativeLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState("");
+  const [detectingLocation, setDetectingLocation] = useState(false);
+
+  const handleDetectLocation = () => {
+    if (!navigator.geolocation) return;
+    setDetectingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          // Note: Marquis API Key is hardcoded here for the prototype as requested
+          const apiKey = 'AIzaSyBJTMfCxb6VFz1vIK_7Jb52JZuDj_J2tks';
+          const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`);
+          const data = await res.json();
+          const zip = data.results[0]?.address_components.find((c: any) => c.types.includes('postal_code'))?.long_name;
+          if (zip) {
+            updatePreference('zipCode', zip);
+          }
+        } catch (e) {
+          console.error('Location detection failed', e);
+        } finally {
+          setDetectingLocation(false);
+        }
+      },
+      (err) => {
+        console.error('Geolocation error', err);
+        setDetectingLocation(false);
+      }
+    );
+  };
 
   const updatePreference = (key: PreferenceKey, value: string) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
@@ -563,10 +592,41 @@ export default function Wizard() {
               </div>
             )}
             {q.layout === 'map' && (
-              <div className="max-w-md mx-auto space-y-8 text-center py-10">
-                <MapPin className="w-20 h-20 text-marquis-blue mx-auto animate-bounce" />
-                <input type="text" placeholder="Enter Delivery Zip Code" className="w-full bg-white border-2 border-slate-200 rounded-2xl px-6 py-5 text-2xl font-black italic uppercase text-center outline-none" onChange={(e) => updatePreference('zipCode', e.target.value)} onKeyDown={(e) => e.key === 'Enter' && nextQuestion()} />
-                <button onClick={nextQuestion} className="btn-marquis-premium w-full py-4 rounded-2xl text-lg font-black italic uppercase shadow-xl">Confirm Location</button>
+              <div className="max-w-md mx-auto space-y-6 text-center py-10">
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+                    <MapPin className="w-6 h-6 text-marquis-blue group-focus-within:animate-bounce transition-all" />
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Enter Delivery Zip Code" 
+                    className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-6 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all" 
+                    value={preferences.zipCode || ''}
+                    onChange={(e) => updatePreference('zipCode', e.target.value)} 
+                    onKeyDown={(e) => e.key === 'Enter' && preferences.zipCode && nextQuestion()} 
+                  />
+                </div>
+                
+                <button 
+                  onClick={handleDetectLocation}
+                  disabled={detectingLocation}
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold uppercase tracking-wider transition-all disabled:opacity-50"
+                >
+                  {detectingLocation ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Navigation className="w-5 h-5 text-marquis-blue" />
+                  )}
+                  {detectingLocation ? 'Detecting...' : 'Use My Current Location'}
+                </button>
+
+                <button 
+                  onClick={nextQuestion} 
+                  disabled={!preferences.zipCode}
+                  className="btn-marquis-premium w-full py-5 rounded-2xl text-xl font-black italic uppercase shadow-xl disabled:opacity-50 disabled:grayscale transition-all"
+                >
+                  Confirm Location
+                </button>
               </div>
             )}
           </div>

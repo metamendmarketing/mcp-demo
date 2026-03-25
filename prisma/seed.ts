@@ -56,6 +56,7 @@ async function main() {
   // Clear existing data for a clean seed
   await prisma.product.deleteMany({ where: { brandId: 'marquis' } });
   await prisma.series.deleteMany({ where: { brandId: 'marquis' } });
+  await prisma.dealer.deleteMany({ where: { brandId: 'marquis' } });
   
   // Find or create the Marquis brand
   let marquis = await prisma.brand.findFirst({ where: { domain: 'marquisspas.com' } });
@@ -293,6 +294,198 @@ async function main() {
   }
 
   console.log(`Seed completed. Populated ${productsRaw.length} products, specialized glossary, and brand expertise.`);
+
+  // Seed Demo Dealers
+  const demoDealers = [
+    {
+      dealerName: "Marquis Spas Corporate Store",
+      address: "1700 S Pacific Hwy",
+      city: "Woodburn",
+      stateProvince: "OR",
+      postalCode: "97071",
+      country: "USA",
+      lat: 45.138,
+      lng: -122.847,
+      phone: "503-981-5412",
+      email: "info@marquisspas.com",
+      website: "https://www.marquisspas.com",
+      hours: {
+        mon: "9:00 AM - 6:00 PM",
+        tue: "9:00 AM - 6:00 PM",
+        wed: "9:00 AM - 6:00 PM",
+        thu: "9:00 AM - 6:00 PM",
+        fri: "9:00 AM - 6:00 PM",
+        sat: "10:00 AM - 5:00 PM",
+        sun: "Closed"
+      }
+    },
+    {
+      dealerName: "Aqua Quip Bellevue",
+      address: "14207 NE 20th St",
+      city: "Bellevue",
+      stateProvince: "WA",
+      postalCode: "98007",
+      country: "USA",
+      lat: 47.628,
+      lng: -122.151,
+      phone: "425-454-7908",
+      email: "bellevue@aquaquip.com",
+      website: "https://www.aquaquip.com",
+      hours: {
+        mon: "10:00 AM - 6:00 PM",
+        tue: "10:00 AM - 6:00 PM",
+        wed: "10:00 AM - 6:00 PM",
+        thu: "10:00 AM - 6:00 PM",
+        fri: "10:00 AM - 6:00 PM",
+        sat: "10:00 AM - 5:00 PM",
+        sun: "11:00 AM - 4:00 PM"
+      }
+    },
+    {
+      dealerName: "California Hot Tubs",
+      address: "2110 Wilshire Blvd",
+      city: "Santa Monica",
+      stateProvince: "CA",
+      postalCode: "90403",
+      country: "USA",
+      lat: 34.032,
+      lng: -118.477,
+      phone: "310-453-0600",
+      email: "sales@calhottubs.com",
+      website: "https://www.calhottubs.com",
+      hours: {
+        mon: "9:00 AM - 7:00 PM",
+        tue: "9:00 AM - 7:00 PM",
+        wed: "9:00 AM - 7:00 PM",
+        thu: "9:00 AM - 7:00 PM",
+        fri: "9:00 AM - 7:00 PM",
+        sat: "10:00 AM - 6:00 PM",
+        sun: "11:00 AM - 5:00 PM"
+      }
+    },
+    {
+      dealerName: "Rocky Mountain Hot Springs",
+      address: "1205 S Platte River Dr",
+      city: "Denver",
+      stateProvince: "CO",
+      postalCode: "80223",
+      country: "USA",
+      lat: 39.694,
+      lng: -105.004,
+      phone: "303-722-1205",
+      email: "info@rockymountainhottubs.com",
+      website: "https://www.rockymountainhottubs.com",
+      hours: {
+        mon: "9:30 AM - 6:00 PM",
+        tue: "9:30 AM - 6:00 PM",
+        wed: "9:30 AM - 6:00 PM",
+        thu: "9:30 AM - 6:00 PM",
+        fri: "9:30 AM - 6:00 PM",
+        sat: "10:00 AM - 5:00 PM",
+        sun: "Closed"
+      }
+    },
+    {
+      dealerName: "Texas Hot Tubs & Spas",
+      address: "12800 Preston Rd",
+      city: "Dallas",
+      stateProvince: "TX",
+      postalCode: "75230",
+      country: "USA",
+      lat: 32.923,
+      lng: -96.804,
+      phone: "972-233-1200",
+      email: "sales@texashottubs.com",
+      website: "https://www.texashottubs.com",
+      hours: {
+        mon: "10:00 AM - 6:00 PM",
+        tue: "10:00 AM - 6:00 PM",
+        wed: "10:00 AM - 6:00 PM",
+        thu: "10:00 AM - 6:00 PM",
+        fri: "10:00 AM - 6:00 PM",
+        sat: "10:00 AM - 5:00 PM",
+        sun: "12:00 AM - 5:00 PM"
+      }
+    },
+    {
+      dealerName: "Miami Spa Loft",
+      address: "2600 NW 77th Ave",
+      city: "Miami",
+      stateProvince: "FL",
+      postalCode: "33122",
+      country: "USA",
+      lat: 25.799,
+      lng: -80.322,
+      phone: "305-592-1200",
+      email: "info@miamispaloft.com",
+      website: "https://www.miamispaloft.com",
+      hours: {
+        mon: "10:00 AM - 6:00 PM",
+        tue: "10:00 AM - 6:00 PM",
+        wed: "10:00 AM - 6:00 PM",
+        thu: "10:00 AM - 6:00 PM",
+        fri: "10:00 AM - 6:00 PM",
+        sat: "10:00 AM - 4:00 PM",
+        sun: "Closed"
+      }
+    },
+    {
+      dealerName: "Chicago Spa & Pool",
+      address: "1560 N Route 59",
+      city: "Naperville",
+      stateProvince: "IL",
+      postalCode: "60563",
+      country: "USA",
+      lat: 41.789,
+      lng: -88.204,
+      phone: "630-355-1201",
+      email: "naperville@chicagospa.com",
+      website: "https://www.chicagospa.com",
+      hours: {
+        mon: "10:00 AM - 8:00 PM",
+        tue: "10:00 AM - 8:00 PM",
+        wed: "10:00 AM - 8:00 PM",
+        thu: "10:00 AM - 8:00 PM",
+        fri: "10:00 AM - 6:00 PM",
+        sat: "10:00 AM - 5:00 PM",
+        sun: "11:00 AM - 4:00 PM"
+      }
+    },
+    {
+      dealerName: "New York Hot Tubs",
+      address: "522 Route 110",
+      city: "Huntington Station",
+      stateProvince: "NY",
+      postalCode: "11746",
+      country: "USA",
+      lat: 40.803,
+      lng: -73.411,
+      phone: "631-421-1202",
+      email: "sales@nyhottubs.com",
+      website: "https://www.nyhottubs.com",
+      hours: {
+        mon: "9:00 AM - 6:00 PM",
+        tue: "9:00 AM - 6:00 PM",
+        wed: "9:00 AM - 6:00 PM",
+        thu: "9:00 AM - 6:00 PM",
+        fri: "9:00 AM - 6:00 PM",
+        sat: "10:00 AM - 5:00 PM",
+        sun: "12:00 AM - 4:00 PM"
+      }
+    }
+  ];
+
+  for (const dealer of demoDealers) {
+    await prisma.dealer.create({
+      data: {
+        brandId: marquis.id,
+        ...dealer,
+        source: 'seed-demo'
+      }
+    });
+  }
+
+  console.log(`Seeded ${demoDealers.length} demo dealers.`);
 }
 
 main()
