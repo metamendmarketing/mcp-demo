@@ -646,46 +646,55 @@ export default function Wizard() {
   if (step === 'blueprint') {
     return (
       <div className="flex flex-col h-full relative overflow-hidden animate-slick-reveal">
+        {/* Luxury Night Background - More vibrant overlay */}
         <div 
-          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-[1.02]"
+          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-[1.02] opacity-90"
           style={{ backgroundImage: "url('/mcp/demo/assets/intro_bg.png')" }}
         />
-        <div className="absolute inset-0 bg-slate-900/75 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-[#0f172a]/50 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f172a]/20 to-[#0f172a]/80" />
         
         <div className="flex-grow flex flex-col items-center justify-center p-6 md:p-10 relative z-10 text-center">
-           <div className="premium-glass w-full max-w-2xl rounded-[48px] p-10 md:p-16 flex flex-col items-center space-y-12 shadow-2xl border border-white/10">
-              <div className="w-64 md:w-80 h-16 md:h-20 overflow-hidden flex items-start justify-center">
+           {/* New "Luxury Blue" Glass Card */}
+           <div className="w-full max-w-2xl rounded-[40px] p-8 md:p-14 flex flex-col items-center space-y-10 shadow-[0_30px_100px_rgba(0,0,0,0.6)] border border-white/5 bg-slate-900/40 backdrop-blur-2xl">
+              
+              {/* Perfectly Cropped & Centered Logo - 5.53:1 aspect ratio math */}
+              <div className="w-full max-w-[480px] aspect-[1024/185] overflow-hidden flex items-start justify-center">
                 <img 
                   src="/mcp/demo/assets/marquis-logo-full.png" 
-                  className="w-full h-auto object-contain scale-[1.15] -translate-y-1" 
+                  className="w-full h-auto object-cover object-top scale-[1.05]" 
                   alt="Marquis" 
                 />
               </div>
 
               <div className="space-y-4">
-                 <h2 className="text-2xl md:text-3xl font-black italic uppercase text-white tracking-tight leading-tight">
+                 <h2 className="text-2xl md:text-4xl font-black italic uppercase text-white tracking-tight leading-[1.1]">
                     Engineering your <br/>
-                    <span className="text-marquis-blue drop-shadow-[0_0_15px_rgba(48,103,151,0.5)]">Personalized Match.</span>
+                    <span className="text-marquis-blue drop-shadow-[0_0_20px_rgba(48,103,151,0.6)]">Personalized Match.</span>
                  </h2>
-                 <p className="text-white/60 text-sm md:text-base font-medium max-w-sm mx-auto italic leading-relaxed">
-                    Analyzing our elite 29-model portfolio against your expert criteria...
+                 <p className="text-white/50 text-xs md:text-sm font-black uppercase tracking-[0.3em] max-w-sm mx-auto italic opacity-80">
+                    Proprietary recommendation engine active
                  </p>
               </div>
               
               {loading ? (
-                <div className="w-full flex flex-col items-center">
-                   <div className="text-5xl md:text-7xl font-black italic uppercase text-white tracking-tighter mb-8 drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-                      {progress}<span className="text-2xl ml-1 text-marquis-blue opacity-80">%</span>
+                <div className="w-full flex flex-col items-center pt-4">
+                   {/* High-Contrast Progress */}
+                   <div className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter mb-10 drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">
+                      {progress}<span className="text-3xl ml-1 text-marquis-blue">%</span>
                    </div>
 
-                   <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden mb-10 border border-white/10 shadow-inner">
+                   <div className="w-full max-w-md h-3.5 bg-white/5 rounded-full overflow-hidden mb-10 border border-white/10 group">
                       <div 
-                        className="h-full bg-marquis-blue shadow-[0_0_30px_rgba(48,103,151,0.9)] transition-all duration-300 ease-out" 
+                        className="h-full bg-linear-to-r from-marquis-blue to-blue-400 shadow-[0_0_30px_rgba(48,103,151,1)] transition-all duration-300 ease-out relative" 
                         style={{ width: `${progress}%` }}
-                      />
+                      >
+                         <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                      </div>
                    </div>
 
-                   <div className="text-sm md:text-lg font-medium text-white animate-pulse min-h-[1.5em] tracking-wide">
+                   {/* Status Message */}
+                   <div className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-blue-100/80 animate-pulse min-h-[1.5em] italic">
                      {loadingMessage}
                    </div>
                 </div>
@@ -693,7 +702,7 @@ export default function Wizard() {
                 <button 
                   onClick={handleRecommend} 
                   disabled={loading} 
-                  className="btn-marquis-premium px-20 py-6 rounded-2xl text-2xl font-black italic uppercase shadow-[0_20px_50px_rgba(48,103,151,0.6)] hover:scale-105 transition-transform"
+                  className="btn-marquis-premium px-24 py-7 rounded-2xl text-2xl font-black italic uppercase shadow-[0_25px_60px_rgba(48,103,151,0.5)] hover:scale-105 active:scale-95 transition-all"
                 >
                   Find my match!
                 </button>
