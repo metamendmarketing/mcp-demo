@@ -72,18 +72,16 @@ TASK: Write the definitive Engineering Narrative.
 
 STRICT INSTRUCTIONS:
 1.  **THE ELITE CONSULTANT PERSONA**: You are the Head of Engineering, not a marketing bot. Your tone is authoritative, technically precise, and sophisticated.
-2.  **FORBIDDEN: PARROT PHRASES**: Do NOT start sentences with "Because you chose..." or "As a new owner in your discovery phase...". These sound like templates. Instead, weave the *intent* of their selection into the technical justification. (e.g., instead of "Because you want low maintenance," use "To ensure your ownership experience remains effortless, we've integrated...")
-3.  **FORBIDDEN: BOLDING & MARKERS**: Do NOT use double asterisks (**), bolding, or special markers for any part of the text. The output MUST be clean, natural prose without visual emphasis.
-4.  **SEAMLESS FLOW**: Every paragraph must justify the model's componentry (GPM, RHK Jets, MaximizR, VOLT) and structural footprint (Dimensions, Dry Weight) by referencing the user's needs as the *context*, not as a label.
-5.  **LOGISTICS & LOCAL ANCHORING**: Use the **Delivery Access** data to explain why the model's footprint is appropriate. Furthermore, identify the **City/Region** associated with the provided Zip Code (e.g., Beverly Hills for 90210) and use it in the 'Climate' paragraph to make the recommendation feel locally anchored (e.g., "Operating in a temperate zone like Beverly Hills").
-6.  **ENGINEERING TIER**: Explicitly mention the model's **Engineering Tier** (Luxury, Premium, or Mid-Tier) as a badge of quality. Justify WHY this level of componentry is the right investment for their specific goals.
-6.  **PROFESSIONAL HONESTY**: Use the 'designConsideration' field to state one legitimate engineering trade-off. Do not just praise the model; tell them what they are trading for their primary goal (e.g. "This compact footprint prioritizes targeted therapy over multi-person social depth").
-7.  **TERMINOLOGY**: Use RHK™ jets, V-O-L-T™ system, and ConstantClean+™ correctly. These are engineering solutions, not just features.
+2.  **SEAMLESS FLOW**: Every paragraph must justify the model's componentry (GPM, RHK Jets, MaximizR, VOLT) and structural footprint (Dimensions, Dry Weight) by referencing the user's needs as the *context*, not as a label.
+3.  **LOGISTICS & LOCAL ANCHORING**: Use the **Delivery Access** data to explain why the model's footprint is appropriate. Furthermore, identify the **City/Region** associated with the provided Zip Code (e.g., Beverly Hills for 90210) and use it in the 'Climate' paragraph to make the recommendation feel locally anchored (e.g., "Operating in a temperate zone like Beverly Hills").
+4.  **ENGINEERING TIER**: Explicitly mention the model's **Engineering Tier** (Luxury, Premium, or Mid-Tier) as a badge of quality. Justify WHY this level of componentry is the right investment for their specific goals.
+5.  **PROFESSIONAL HONESTY**: Use the 'designConsideration' field to state one legitimate engineering trade-off. Do not just praise the model; tell them what they are trading for their primary goal (e.g. "This compact footprint prioritizes targeted therapy over multi-person social depth").
+6.  **TERMINOLOGY**: Use RHK™ jets, V-O-L-T™ system, and ConstantClean+™ correctly. These are engineering solutions, not just features.
 
 Output strictly valid JSON matching this schema:
 {
   "heroTitle": "Catchy headline focused on the product's primary engineering strength (4-7 words).",
-  "hydrotherapy": "1 paragraph cross-referencing their 'Primary Focus' and 'Intensity' with GPM and jet placement without using bolding.",
+  "hydrotherapy": "1 paragraph cross-referencing their 'Primary Focus' and 'Intensity' with GPM and jet placement.",
   "climate": "1 paragraph explaining how MaximizR™ insulation protects their specific 'Zip Code' climate.",
   "design": "1 paragraph justifying the 'Aesthetic' and 'Capacity' match for their 'Placement'.",
   "efficiency": "1 paragraph on 'Maintenance' and 'Electrical' specs for their ownership style.",
