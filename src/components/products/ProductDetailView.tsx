@@ -184,6 +184,13 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
   );
 }
 
+// Helper to format AI narrative text (bolding phrases with ** to <strong> and making them darker)
+const formatRichText = (text: string) => {
+  if (!text) return '';
+  // Replace **text** with <strong class="text-slate-900 font-black">text</strong>
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900 font-black">$1</strong>');
+};
+
 // BRAIN 2.0 - INLINED GROUNDED Q&A COMPONENT
 interface AskTheBrainProps {
   productId?: string;
@@ -301,10 +308,11 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
               <span className="text-[10px] font-black uppercase tracking-widest">Response:</span>
             </div>
 
-            <div className="prose prose-slate max-w-none">
-              <p className="text-xl text-slate-700 font-semibold leading-relaxed mb-8 italic">
-                "{response.answer}"
-              </p>
+            <div className="prose prose-slate max-w-none prose-strong:text-slate-900 prose-strong:font-black">
+              <div 
+                className="text-xl text-slate-700 font-semibold leading-relaxed mb-8 italic"
+                dangerouslySetInnerHTML={{ __html: `"${formatRichText(response.answer)}"` }}
+              />
             </div>
           </div>
         )}
@@ -709,11 +717,11 @@ export default function ProductDetailView({
                      <div className="text-red-500 text-sm font-medium">Generation Failed: {(aiNarrative as any).error}</div>
                    ) : (
                      <div 
-                       className="text-sm md:text-base text-slate-600 leading-relaxed font-semibold prose prose-slate" 
-                       dangerouslySetInnerHTML={{ 
-                         __html: (displayNarrative as any)?.[mod.id] || (mode === 'static' ? "Technical specifications currently being updated." : "Synthesizing your personalized profile...")
-                       }} 
-                     />
+                        className="text-sm md:text-base text-slate-600 leading-relaxed font-semibold prose prose-slate max-w-none prose-strong:text-slate-900 prose-strong:font-black" 
+                        dangerouslySetInnerHTML={{ 
+                          __html: formatRichText((displayNarrative as any)?.[mod.id] || (mode === 'static' ? "Technical specifications currently being updated." : "Synthesizing your personalized profile..."))
+                        }} 
+                      />
                    )}
                  </div>
                </div>
@@ -792,18 +800,16 @@ export default function ProductDetailView({
           <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
              <Link 
                href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
-               className="bg-white text-marquis-blue px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-center"
+               className="bg-marquis-blue text-white px-10 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl hover:bg-blue-700 transition-all flex items-center justify-center gap-3"
              >
-               Find Nearest Dealer
+               Find Nearby Dealer <ArrowRight className="w-6 h-6" weight="bold" />
              </Link>
-             <Link 
-               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
-               className="bg-marquis-blue border-2 border-marquis-blue text-white px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-xl hover:bg-transparent transition-all text-center flex items-center justify-center border-white/20"
-             >
-               Get Local Pricing
-             </Link>
+             <button className="bg-white/10 backdrop-blur-md text-white border-2 border-white/20 px-10 py-5 rounded-2xl text-xl font-black italic uppercase hover:bg-white/20 transition-all flex items-center justify-center gap-3">
+               Download Specs <Package className="w-6 h-6" />
+             </button>
           </div>
        </div>
+
     </div>
   );
 }
