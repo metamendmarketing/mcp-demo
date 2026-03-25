@@ -39,5 +39,6 @@ export {
   Palette,
   Plus,
   PaperPlaneRight,
-  Info
+  Info,
+  Crosshair
 } from '@phosphor-icons/react';

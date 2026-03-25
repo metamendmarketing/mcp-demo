@@ -6,7 +6,7 @@ import {
   Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
   Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin,
   Check, CaretRight, CaretLeft, Sparkle, ArrowRight, Info, NavigationArrow, CircleNotch, Target,
-  Sun, CloudSun, Flame, Tree
+  Sun, CloudSun, Flame, Tree, Crosshair
 } from '@phosphor-icons/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -303,8 +303,14 @@ export default function Wizard() {
           const apiKey = 'AIzaSyBJTMfCxb6VFz1vIK_7Jb52JZuDj_J2tks';
           const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`);
           const data = await res.json();
-          const zip = data.results[0]?.address_components.find((c: any) => c.types.includes('postal_code'))?.long_name;
-          if (zip) {
+          const components = data.results[0]?.address_components || [];
+          const city = components.find((c: any) => c.types.includes('locality'))?.long_name;
+          const state = components.find((c: any) => c.types.includes('administrative_area_level_1'))?.short_name;
+          const zip = components.find((c: any) => c.types.includes('postal_code'))?.long_name;
+          
+          if (city && state) {
+            updatePreference('zipCode', `${city}, ${state}`);
+          } else if (zip) {
             updatePreference('zipCode', zip);
           }
         } catch (e) {
@@ -607,12 +613,12 @@ export default function Wizard() {
                     onClick={handleDetectLocation}
                     disabled={detectingLocation}
                     title="Use My Current Location"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-marquis-blue transition-all disabled:opacity-50"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 bg-slate-50 hover:bg-marquis-blue hover:text-white rounded-xl shadow-sm text-marquis-blue transition-all disabled:opacity-50 group/loc"
                   >
                     {detectingLocation ? (
                       <CircleNotch className="w-5 h-5 animate-spin" />
                     ) : (
-                      <Target className="w-6 h-6" weight="bold" />
+                      <Crosshair className="w-6 h-6 group-hover/loc:rotate-90 transition-transform duration-500" weight="bold" />
                     )}
                   </button>
                 </div>

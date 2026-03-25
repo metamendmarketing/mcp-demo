@@ -47,12 +47,16 @@ export async function POST(request: Request) {
     );
     
     // Derive climate context from Zip Code prefix
-    const safeZip = body.preferences.zipCode || '';
+    const safeZip = (body.preferences.zipCode || '').toUpperCase();
     const zipPrefix = safeZip[0];
+    const isCanada = /^[A-Z]\d[A-Z]/.test(safeZip) || (safeZip.includes(',') && safeZip.split(',')[1]?.trim().length === 2);
+    
+    // Improved climate mapping (e.g., 'V' (Victoria) -> Mild)
     const climateZone = 
-      ['0', '1', '2', '5'].includes(zipPrefix) ? "Deep Freeze / Extreme Cold" :
-      ['8', '9'].includes(zipPrefix) ? "Mild / Temperate West" :
-      ['3', '7'].includes(zipPrefix) ? "Hot / Arid South" : "Standard Variable North";
+      ['0', '1', '2', '5', 'T', 'X', 'Y'].includes(zipPrefix) ? "Deep Freeze / Extreme Cold" :
+      ['8', '9', 'V'].includes(zipPrefix) ? "Mild / Temperate West" :
+      ['3', '7'].includes(zipPrefix) ? "Hot / Arid South" : 
+      "Standard Variable North";
 
     const prompt = `
 You are a Lead Engineering Consultant for Marquis Spas. You have 40 years of brand heritage at your fingertips.
