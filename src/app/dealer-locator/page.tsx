@@ -163,7 +163,7 @@ const LocatorContent = () => {
                 <input
                   type="text"
                   placeholder="Enter City or Zip Code"
-                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold uppercase tracking-wider outline-none focus:border-marquis-blue transition-all"
+                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 pl-12 pr-28 text-sm font-bold uppercase tracking-wider outline-none focus:border-marquis-blue transition-all"
                   value={zip}
                   onChange={(e) => setZip(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && performSearch(zip)}
