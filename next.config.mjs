@@ -3,6 +3,9 @@ const nextConfig = {
   /* config options here */
   basePath: '/mcp/demo',
   assetPrefix: '/mcp/demo',
+  env: {
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+  },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
