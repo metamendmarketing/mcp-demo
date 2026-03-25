@@ -656,38 +656,33 @@ export default function Wizard() {
         <div className="flex-grow flex flex-col items-center justify-center p-6 md:p-10 relative z-10 text-center">
            <div className="bg-slate-900/40 backdrop-blur-2xl w-full max-w-3xl rounded-[40px] p-8 md:p-14 flex flex-col items-center space-y-10 shadow-[0_30px_100px_rgba(0,0,0,0.6)] border border-white/5">
               
-              {/* Refined Logo with "Pop" */}
-              <div className="w-full max-w-[400px] aspect-[1024/185] overflow-hidden flex items-start justify-center drop-shadow-[0_0_20px_rgba(255,255,255,0.25)]">
-                <img 
-                  src="/mcp/demo/assets/marquis-logo-full.png" 
-                  className="w-full h-auto object-cover object-top scale-[1.05]" 
-                  alt="Marquis" 
-                />
+              {/* Stylish Sparkle Icon Replacement */}
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-marquis-blue/20 rounded-full flex items-center justify-center border border-marquis-blue/30 shadow-[0_0_40px_rgba(48,103,151,0.4)] animate-pulse">
+                <Sparkle weight="duotone" className="w-10 h-10 md:w-12 md:h-12 text-white" />
               </div>
 
               <div className="space-y-4">
-                 <h2 className="text-2xl md:text-3xl font-black italic uppercase text-white tracking-tight leading-tight">
-                    Engineering your <br/>
-                    <span className="text-marquis-blue drop-shadow-[0_0_15px_rgba(48,103,151,0.5)]">Personalized Match.</span>
+                 <h2 className="text-2xl md:text-3xl font-black uppercase text-white tracking-[0.15em] leading-tight">
+                    Precision Picks <span className="text-marquis-blue drop-shadow-[0_0_15px_rgba(48,103,151,0.5)]">for Your Life Style.</span>
                  </h2>
               </div>
 
-              {/* Restored Preference Confirmation Boxes */}
+              {/* Short-Text Preference Confirmation Boxes */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-2xl px-4">
                  {[
-                   { id: 'capacity', label: 'Capacity', suffix: ' Adults' },
-                   { id: 'aesthetic', label: 'Environment' },
-                   { id: 'budget', label: 'Investment' },
-                   { id: 'primaryPurpose', label: 'Primary Goal' }
+                   { id: 'capacity', label: 'Capacity', mapping: (v: string) => `${v} Adults` },
+                   { id: 'aesthetic', label: 'Theme', mapping: (v: string) => ({ modern: 'Modern', rustic: 'Rustic', tropical: 'Tropical', classic: 'Classic' }[v] || v) },
+                   { id: 'budget', label: 'Tier', mapping: (v: string) => ({ entry: 'Entry', mid: 'Mid-Level', premium: 'Premium', luxury: 'Luxury' }[v] || v) },
+                   { id: 'primaryPurpose', label: 'Focus', mapping: (v: string) => ({ therapy: 'Therapy', recreational: 'Social', relaxation: 'Relax' }[v] || v) }
                  ].map((box) => {
                    const val = preferences[box.id as keyof UserPreferences];
                    if (!val) return null;
-                   const label = QUESTIONS.find(q => q.id === box.id)?.options.find(o => o.value === val)?.label || val;
+                   const shortLabel = box.mapping(val);
                    return (
                      <div key={box.id} className="bg-[#1e293b]/60 backdrop-blur-md border border-white/10 rounded-2xl p-3 md:p-4 text-left shadow-lg">
                         <div className="text-[8px] md:text-[9px] font-black uppercase text-marquis-blue tracking-[0.2em] mb-1">{box.label}</div>
                         <div className="text-white font-black text-[10px] md:text-xs uppercase italic truncate">
-                          {label}{box.id === 'capacity' ? box.suffix : ''}
+                          {shortLabel}
                         </div>
                      </div>
                    );
@@ -696,7 +691,7 @@ export default function Wizard() {
               
               {loading ? (
                 <div className="w-full flex flex-col items-center">
-                   {/* Refined Percentage Size */}
+                   {/* Percentage */}
                    <div className="text-4xl md:text-5xl font-black italic uppercase text-white tracking-tighter mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                       {progress}<span className="text-xl ml-1 text-marquis-blue font-black">%</span>
                    </div>
