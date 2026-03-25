@@ -19,9 +19,8 @@ const LocatorContent = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [mapCenter, setMapCenter] = useState({ lat: 39.8283, lng: -98.5795 });
+  const [searchedLocation, setSearchedLocation] = useState<{lat: number, lng: number} | null>(null);
   const [searchTriggered, setSearchTriggered] = useState(false);
-
-  const autocompleteInput = useRef<HTMLInputElement>(null);
 
   const performSearch = async (query?: string, coords?: { lat: number, lng: number }) => {
     setLoading(true);
@@ -35,19 +34,16 @@ const LocatorContent = () => {
         const geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(query)}&key=${GOOGLE_MAPS_API_KEY}`);
         const geoData = await geoRes.json();
         
-        console.log(`[LOCATOR] Geocode status: ${geoData.status}`, geoData);
-
         if (geoData.status === 'OK' && geoData.results && geoData.results.length > 0) {
           searchCoords = geoData.results[0].geometry.location;
-          console.log(`[LOCATOR] Resolved coords:`, searchCoords);
         } else {
           console.warn(`[LOCATOR] Geocoding failed for: ${query}`);
-          if (geoData.error_message) console.error(geoData.error_message);
         }
       }
 
       if (searchCoords) {
         setMapCenter(searchCoords);
+        setSearchedLocation(searchCoords);
       }
 
       const res = await fetch('/api/dealer', {
@@ -66,15 +62,12 @@ const LocatorContent = () => {
       if (data.error) throw new Error(data.error);
 
       setDealers(data.dealers);
-      
-      // If no dealers found but we have coords, the map is already centered.
-      // If dealers found, map already centers on the first one or we keep searchCoords.
-      
-      setSearchTriggered(true);
     } catch (err: any) {
-      setError(err.message);
+      console.error('[LOCATOR] Search Error:', err);
+      setError(err.message || 'An unexpected error occurred during search.');
     } finally {
       setLoading(false);
+      setSearchTriggered(true);
     }
   };
 
@@ -184,6 +177,12 @@ const LocatorContent = () => {
             </div>
 
             <div className="flex-1 overflow-y-auto p-8 custom-scrollbar bg-slate-50/30">
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl">
+                  <p className="text-[10px] font-black uppercase text-red-600 tracking-widest">{error}</p>
+                </div>
+              )}
+
               {loading && dealers.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-slate-400">
                   <Loader2 className="w-12 h-12 animate-spin mb-4" />
@@ -247,6 +246,7 @@ const LocatorContent = () => {
               center={mapCenter}
               selectedDealerId={selectedId}
               onDealerSelect={setSelectedId}
+              userLocation={searchedLocation}
             />
           </main>
         </div>

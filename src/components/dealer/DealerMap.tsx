@@ -20,6 +20,7 @@ interface DealerMapProps {
   selectedDealerId?: string | null;
   onDealerSelect?: (id: string) => void;
   apiKey: string;
+  userLocation?: { lat: number; lng: number } | null;
 }
 
 const MapController: React.FC<{ center?: { lat: number; lng: number }; selectedDealer?: Dealer }> = ({ center, selectedDealer }) => {
@@ -32,7 +33,8 @@ const MapController: React.FC<{ center?: { lat: number; lng: number }; selectedD
       map.setZoom(12);
     } else if (center) {
       map.panTo(center);
-      map.setZoom(10);
+      // If we have a center but it's the US center, keep zoom low, otherwise zoom in
+      map.setZoom(center.lat === 39.8283 ? 4 : 10);
     }
   }, [map, selectedDealer, center]);
 
@@ -44,7 +46,8 @@ export const DealerMap: React.FC<DealerMapProps> = ({
   center = { lat: 39.8283, lng: -98.5795 }, // Center of US
   selectedDealerId,
   onDealerSelect,
-  apiKey
+  apiKey,
+  userLocation
 }) => {
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -62,6 +65,15 @@ export const DealerMap: React.FC<DealerMapProps> = ({
         >
           <MapController center={center} selectedDealer={selectedDealer} />
           
+          {/* User Location Marker */}
+          {userLocation && (
+            <Marker
+              position={userLocation}
+              label={{ text: "YOU", color: 'white', fontWeight: 'bold' }}
+              title="Your Searched Location"
+            />
+          )}
+
           {dealers.map((dealer) => (
             dealer.lat && dealer.lng && (
               <Marker
