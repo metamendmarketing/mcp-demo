@@ -604,7 +604,7 @@ export default function Wizard() {
                   <input 
                     type="text" 
                     placeholder="Enter ZIP/Postal Code" 
-                    className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-16 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all" 
+                    className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-16 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all placeholder:text-marquis-blue/30" 
                     value={preferences.zipCode || ''}
                     onChange={(e) => updatePreference('zipCode', e.target.value)} 
                     onKeyDown={(e) => e.key === 'Enter' && preferences.zipCode && nextQuestion()} 
@@ -613,7 +613,7 @@ export default function Wizard() {
                     onClick={handleDetectLocation}
                     disabled={detectingLocation}
                     title="Use My Current Location"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 bg-slate-50 hover:bg-marquis-blue hover:text-white rounded-xl shadow-sm text-marquis-blue transition-all disabled:opacity-50 group/loc"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 border border-marquis-blue/40 hover:bg-marquis-blue hover:text-white rounded-xl shadow-sm text-marquis-blue transition-all disabled:opacity-50 group/loc"
                   >
                     {detectingLocation ? (
                       <CircleNotch className="w-5 h-5 animate-spin" />
@@ -626,7 +626,7 @@ export default function Wizard() {
                 <button 
                   onClick={nextQuestion} 
                   disabled={!preferences.zipCode}
-                  className="btn-marquis-premium w-full py-5 rounded-2xl text-xl font-black italic uppercase shadow-xl disabled:opacity-50 disabled:grayscale transition-all"
+                  className="btn-marquis-premium w-full py-5 rounded-2xl text-xl font-black italic uppercase shadow-xl transition-all"
                 >
                   Confirm Location
                 </button>
