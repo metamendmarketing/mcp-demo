@@ -647,11 +647,12 @@ export default function Wizard() {
     return (
       <div className="flex flex-col h-full bg-slate-900 text-white animate-slick-reveal overflow-hidden">
         <div className="flex-grow flex flex-col items-center justify-center p-10 text-center max-w-4xl mx-auto space-y-12">
-           <div className="space-y-4">
-              <div className="w-20 h-20 bg-marquis-blue rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)]">
-                <Sparkle className="w-10 h-10 text-white" weight="fill" />
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black italic uppercase leading-tight text-white italic">AI <span className="text-marquis-blue">Blueprint</span></h2>
+           <div className="mb-4">
+              <img 
+                src="/mcp/demo/assets/marquis-logo.png" 
+                className="w-64 md:w-80 mx-auto filter drop-shadow-2xl" 
+                alt="Marquis" 
+              />
            </div>
            
            {loading ? (
@@ -669,7 +670,7 @@ export default function Wizard() {
                 </div>
 
                 {/* Status Message Below - Styled to match premium "Expert Analysis" feel */}
-                <div className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-marquis-blue animate-pulse min-h-[1.5em] text-center">
+                <div className="text-sm md:text-base font-medium text-white animate-pulse min-h-[1.5em] text-center">
                   {loadingMessage}
                 </div>
              </div>
