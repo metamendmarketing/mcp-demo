@@ -180,6 +180,7 @@ const QUESTIONS: {
     subtext: "Precisely calculating local sunrise and climate stress.",
     expertTip: () => "Elevation and climate are the primary drivers of energy cost. We cross-reference your Zip/Postal code with local heating index data to ensure the insulation package (standard vs MaximizR™) is appropriate for your region.",
     layout: 'map',
+    bgImage: '/mcp/demo/assets/season_split.png',
     options: []
   },
   {
@@ -596,40 +597,43 @@ export default function Wizard() {
               </div>
             )}
             {q.layout === 'map' && (
-              <div className="max-w-md mx-auto space-y-8 text-center py-10">
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                    <MapPin className="w-6 h-6 text-marquis-blue group-focus-within:animate-bounce transition-all" />
+              <div className={cn("relative p-10 rounded-[40px] overflow-hidden shadow-2xl flex flex-col items-center justify-center min-h-[450px]", q.bgImage ? "w-full" : "max-w-md mx-auto space-y-8 text-center py-10")}>
+                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90 z-10" /></>}
+                <div className="relative z-20 w-full max-w-md space-y-8 text-center">
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+                      <MapPin className="w-6 h-6 text-marquis-blue group-focus-within:animate-bounce transition-all" />
+                    </div>
+                    <input 
+                      type="text" 
+                      placeholder="Enter ZIP/Postal Code" 
+                      className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-16 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all placeholder:text-marquis-blue/30" 
+                      value={preferences.zipCode || ''}
+                      onChange={(e) => updatePreference('zipCode', e.target.value)} 
+                      onKeyDown={(e) => e.key === 'Enter' && preferences.zipCode && nextQuestion()} 
+                    />
+                    <button 
+                      onClick={handleDetectLocation}
+                      disabled={detectingLocation}
+                      title="Use My Current Location"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 border border-marquis-blue/40 hover:bg-marquis-blue hover:text-white rounded-xl shadow-sm text-marquis-blue transition-all disabled:opacity-50 group/loc"
+                    >
+                      {detectingLocation ? (
+                        <CircleNotch className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <Crosshair className="w-6 h-6 group-hover/loc:rotate-90 transition-transform duration-500" weight="bold" />
+                      )}
+                    </button>
                   </div>
-                  <input 
-                    type="text" 
-                    placeholder="Enter ZIP/Postal Code" 
-                    className="w-full bg-white border-2 border-slate-200 focus:border-marquis-blue rounded-2xl pl-16 pr-16 py-5 text-2xl font-black italic uppercase text-center outline-none transition-all placeholder:text-marquis-blue/30" 
-                    value={preferences.zipCode || ''}
-                    onChange={(e) => updatePreference('zipCode', e.target.value)} 
-                    onKeyDown={(e) => e.key === 'Enter' && preferences.zipCode && nextQuestion()} 
-                  />
+
                   <button 
-                    onClick={handleDetectLocation}
-                    disabled={detectingLocation}
-                    title="Use My Current Location"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 border border-marquis-blue/40 hover:bg-marquis-blue hover:text-white rounded-xl shadow-sm text-marquis-blue transition-all disabled:opacity-50 group/loc"
+                    onClick={nextQuestion} 
+                    disabled={!preferences.zipCode}
+                    className="btn-marquis-premium w-full py-5 rounded-2xl text-xl font-black italic uppercase shadow-xl transition-all"
                   >
-                    {detectingLocation ? (
-                      <CircleNotch className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <Crosshair className="w-6 h-6 group-hover/loc:rotate-90 transition-transform duration-500" weight="bold" />
-                    )}
+                    Confirm Location
                   </button>
                 </div>
-
-                <button 
-                  onClick={nextQuestion} 
-                  disabled={!preferences.zipCode}
-                  className="btn-marquis-premium w-full py-5 rounded-2xl text-xl font-black italic uppercase shadow-xl transition-all"
-                >
-                  Confirm Location
-                </button>
               </div>
             )}
           </div>
