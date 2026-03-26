@@ -426,36 +426,42 @@ export default function Wizard() {
       }
     })();
 
-    // Redistributed Timing Simulation
+    // Redistributed Timing Simulation (Paced for ~25-30s backend duration)
+    console.log("[Wizard] Multi-Phase Analytical Simulation Started (v4)");
     for (let i = 0; i <= 99; i++) {
-       if (recommendationReady && i > 80) break; // Zip to end if data arrives during acceleration phase
+       // If data arrives, we allow a "Fast-Forward" but keep SOME movement for satisfaction
+       const shouldAccelerate = recommendationReady;
        
        setProgress(i);
        
-       // Standard Messages
-       if (i < 20) setLoadingMessage("Analyzing user preferences...");
-       else if (i < 50) setLoadingMessage("Reviewing model specifications...");
-       else if (i < 80) setLoadingMessage("Identifying suitable options...");
-       else setLoadingMessage("Finalizing matches...");
+       // Expert Status Messages
+       if (i < 15) setLoadingMessage("Connecting to Marquis engineering hub...");
+       else if (i < 30) setLoadingMessage("Analyzing 29 model specifications...");
+       else if (i < 45) setLoadingMessage("Consulting brand mastery glossary...");
+       else if (i < 60) setLoadingMessage("Cross-referencing climate & energy data...");
+       else if (i < 75) setLoadingMessage("Simulating hydrotherapy jet synergy...");
+       else if (i < 85) setLoadingMessage("Optimizing for delivery logistics...");
+       else if (i < 95) setLoadingMessage("Applying high-fidelity AI refinement...");
+       else setLoadingMessage("Finalizing your expert selection...");
 
-       let delay = 20; // Phase 1: Fast Start (0-30%)
+       let delay = 35; // Phase 1: Engagement (0-30%)
        
-       if (i >= 30 && i < 80) {
-         // Phase 2: Random Middle (30-80%)
-         delay = 70 + Math.random() * 150; 
-         if (recommendationReady) delay = 30; // Real-time speedup if data arrives early
-       } else if (i >= 80) {
-         // Phase 3: Incremental Acceleration (80-99%)
-         delay = Math.max(10, 50 - (i - 80) * 2.5);
+       if (i >= 30 && i < 85) {
+         // Phase 2: Prolonged Random Middle (30-85%)
+         // Paced to soak up ~20-25 seconds (Average 400ms per unit)
+         delay = shouldAccelerate ? 25 : (150 + Math.random() * 550);
+       } else if (i >= 85) {
+         // Phase 3: Accelerated Finish (85-99%)
+         delay = shouldAccelerate ? 15 : Math.max(40, 100 - (i - 85) * 4);
        }
        
        await new Promise(resolve => setTimeout(resolve, delay));
     }
 
-    // Graceful wait if API is exceptionally slow (no "analytical crawl", just a clean wait)
+    // Final check before satisfaction beat
     if (!recommendationReady) {
        while (!recommendationReady) {
-          await new Promise(r => setTimeout(r, 200));
+          await new Promise(r => setTimeout(r, 100));
        }
     }
     
