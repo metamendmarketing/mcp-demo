@@ -1,13 +1,7 @@
-/**
- * ExpertSelectionPass.tsx
- * 
- * A dedicated, high-fidelity print template designed for professional 2-page output.
- * This component remains hidden during browser sessions and only manifests
- * during print operations as a clean, branded "Selection Pass".
- */
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Check, Users, Lightning, Waves, Package, Thermometer, 
   BatteryCharging, CornersOut, Sparkle, MapPin, 
@@ -21,7 +15,15 @@ interface ExpertSelectionPassProps {
 }
 
 export default function ExpertSelectionPass({ preferences, results, currentProduct }: ExpertSelectionPassProps) {
-  // Extract zip for the QR code
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  // Extract variables for the template
   const zip = preferences?.zipCode || '';
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://demos.metamend.ca/mcp/demo/dealer-locator?zip=${encodeURIComponent(zip)}`;
 
@@ -44,7 +46,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
     }
   ];
 
-  return (
+  const content = (
     <div className="expert-pass-root fixed inset-0 z-[-1] invisible print:visible print:static print:z-[auto] bg-white text-slate-900 font-sans p-0 m-0 print:block">
       
       {/* PAGE 1: DISCOVERY & MATCHES */}
@@ -227,4 +229,10 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
       </div>
     </div>
   );
+
+  if (typeof document === 'undefined') return content;
+  const target = document.getElementById('print-root');
+  if (!target) return content;
+
+  return createPortal(content, target);
 }

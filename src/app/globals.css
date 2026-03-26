@@ -107,13 +107,15 @@
     display: none !important;
   }
 
-  /* Strict PDF Isolation: Hide everything except the Expert Pass root */
-  body > *:not(.expert-pass-root):not(script):not(style) {
+  /* Strict PDF Isolation: Hide everything except the Print Portal */
+  body > *:not(#print-root):not(script):not(style) {
     display: none !important;
   }
 
-  header, footer, nav, main, .main-app-content {
-    display: none !important;
+  /* Ensure the portal container is visible and full-width */
+  #print-root {
+    display: block !important;
+    width: 100% !important;
   }
 
   .expert-pass-root {
