@@ -109,6 +109,7 @@ INSTRUCTIONS:
 2. TECHNICAL SELECTION: Prioritize models with specific Hotspots or Features mentioned in the data (like H.O.T. Zones for therapy).
 3. MATCH STRATEGY: 2-4 word technical badge (e.g., "High-Flow Hydrotherapy", "Elite Thermal Integrity").
 4. NARRATIVE: 1 warm, premium paragraph (max 60 words). Cite a specific GLOSSARY TERM or HOTSPOT name from the data to prove authority.
+   STRICT: Do not use markdown bolding, double asterisks (**), or hashtags (#) in the narrative. Output clean, professional text only.
 5. DESIGN CONSIDERATION: 1 professional sentence about a trade-off (size, power requirements, or seating style).
 
 Output strictly valid JSON:
