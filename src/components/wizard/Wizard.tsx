@@ -15,12 +15,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import ExpertSelectionPass from '../shared/ExpertSelectionPass';
 import { 
   FirstAidKit, UsersThree, Wind, CornersOut, Users, ArrowsInCardinal, 
   Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
   Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin,
   Check, CaretRight, CaretLeft, Sparkle, ArrowRight, Info, NavigationArrow, CircleNotch, Target,
-  Sun, CloudSun, Flame, Tree, Crosshair, Plus
+  Sun, CloudSun, Flame, Tree, Crosshair, Plus, Printer, House, Waves, Package, Thermometer, 
+  BatteryCharging
 } from '@phosphor-icons/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -757,6 +759,14 @@ export default function Wizard() {
               <h2 className="text-xl md:text-2xl font-black italic uppercase leading-none drop-shadow-sm">Your Personalized Selection</h2>
               <p className="text-sm font-medium text-white/90 mt-1">Meticulously matched based on your 14 expert criteria.</p>
             </div>
+            <button 
+              onClick={() => window.print()}
+              className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/20 px-6 py-3 rounded-xl flex items-center gap-2 transition-all active:scale-95 group"
+            >
+              <Printer className="w-5 h-5 text-white animate-pulse group-hover:animate-none" weight="bold" />
+              <span className="text-xs font-black uppercase tracking-widest hidden sm:inline">Print / PDF Selection</span>
+              <span className="text-xs font-black uppercase tracking-widest sm:hidden">Print</span>
+            </button>
           </div>
         </div>
 
@@ -792,6 +802,12 @@ export default function Wizard() {
              ))}
            </div>
         </div>
+
+        <ExpertSelectionPass 
+          preferences={preferences} 
+          results={results || []} 
+          currentProduct={results?.[0]?.product ? { ...results[0].product, reasons: results[0].reasons } : null} 
+        />
       </div>
     );
   }

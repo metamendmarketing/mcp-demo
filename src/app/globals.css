@@ -107,6 +107,24 @@
     display: none !important;
   }
 
+  /* Strict PDF Isolation: Hide everything except the Expert Pass root */
+  body > *:not(.expert-pass-root):not(script):not(style) {
+    display: none !important;
+  }
+
+  header, footer, nav, main, .main-app-content {
+    display: none !important;
+  }
+
+  .expert-pass-root {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
   body {
     background: white !important;
     padding: 0 !important;
@@ -124,8 +142,8 @@
   }
 
   @page {
-    margin: 1cm;
-    size: auto;
+    margin: 0;
+    size: letter;
   }
 }
 

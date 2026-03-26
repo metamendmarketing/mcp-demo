@@ -25,7 +25,7 @@ import { twMerge } from 'tailwind-merge';
 import { clsx, type ClassValue } from 'clsx';
 import { AESTHETIC_MAPPINGS, getAestheticTitle, FINISH_IMAGE_MAP } from '@/lib/brands/aesthetics';
 import FeatureExplorer from './FeatureExplorer';
-import PrintLayout from '@/components/shared/PrintLayout';
+import ExpertSelectionPass from '@/components/shared/ExpertSelectionPass';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -792,12 +792,12 @@ export default function ProductDetailView({
            </div>
         </div>
 
-        {/* UNIFIED PRINT PASS (Hidden in Browser) */}
-        <PrintLayout 
-           preferences={preferences} 
-           results={recommendations} 
-           currentProduct={product} 
-        />
-     </div>
-  );
+         {/* UNIFIED PRINT PASS (Hidden in Browser) */}
+         <ExpertSelectionPass 
+            preferences={preferences} 
+            results={recommendations} 
+            currentProduct={{ ...product, reasons }} 
+         />
+      </div>
+   );
 }
