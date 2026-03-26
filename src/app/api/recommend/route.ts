@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
       const knowledgeBase = {
         expertise: marquisBrand?.expertise.map((e: any) => ({ key: e.key, content: e.content })) || [],
@@ -77,10 +77,10 @@ You are a Marquis Hot Tub Advisor. We have a pool of candidates filtered by our 
 Your job: Be the FINAL DECISION MAKER. Select the TOP 4 that best fit their lifestyle and provide a technical "Match Strategy" and a "Natural Narrative".
 
 BRAND KNOWLEDGE:
-${JSON.stringify(knowledgeBase, null, 2)}
+${JSON.stringify(knowledgeBase)}
 
 User Preferences:
-${JSON.stringify(body.preferences, null, 2)}
+${JSON.stringify(body.preferences)}
 
 Candidate Pool (JSON with deep specs):
 ${JSON.stringify(shortList.map(c => ({ 
@@ -96,7 +96,7 @@ ${JSON.stringify(shortList.map(c => ({
   hotspots: typeof c.product.hotspots === 'string' ? JSON.parse(c.product.hotspots) : (c.product.hotspots || []),
   features: typeof c.product.standardFeatures === 'string' ? JSON.parse(c.product.standardFeatures) : (c.product.standardFeatures || []),
   summary: c.product.marketingSummary
-})), null, 2)}
+})))}
 
 INSTRUCTIONS:
 1. ELIMINATION: Use your data insight to eliminate models that technically clash with preferences (e.g. if zip code is extreme cold, prioritize models with high-grade insulation or Crown series).
