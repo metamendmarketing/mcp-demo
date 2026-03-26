@@ -1,0 +1,74 @@
+{
+  "FamilySocial": [
+    {
+      "model": "Vegas",
+      "match": 100
+    },
+    {
+      "model": "V84",
+      "match": 95
+    },
+    {
+      "model": "V94",
+      "match": 89
+    },
+    {
+      "model": "Hollywood",
+      "match": 88
+    }
+  ],
+  "TherapyLuxury": [
+    {
+      "model": "Spirit",
+      "match": 100
+    },
+    {
+      "model": "Wish",
+      "match": 97
+    },
+    {
+      "model": "Resort",
+      "match": 87
+    },
+    {
+      "model": "Epic",
+      "match": 84
+    }
+  ],
+  "SoloWellness": [
+    {
+      "model": "Nashville",
+      "match": 100
+    },
+    {
+      "model": "Broadway",
+      "match": 91
+    },
+    {
+      "model": "V65L",
+      "match": 89
+    },
+    {
+      "model": "Monaco",
+      "match": 80
+    }
+  ],
+  "AthleteExercise": [
+    {
+      "model": "V174S",
+      "match": 100
+    },
+    {
+      "model": "V174K",
+      "match": 100
+    },
+    {
+      "model": "V150P",
+      "match": 92
+    },
+    {
+      "model": "V150W",
+      "match": 92
+    }
+  ]
+}

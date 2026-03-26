@@ -78,9 +78,13 @@ export async function POST(req: NextRequest) {
         glossary: marquisBrand?.glossary.map((g: any) => ({ term: g.term, explanation: g.consumerExplanation })) || []
       };
 
+      const rules = require('@/lib/recommendation/scoring-rules.json');
       const prompt = `
 You are a Marquis Hot Tub Advisor. We have a pool of candidates filtered by our engineering engine.
 Your job: Be the FINAL DECISION MAKER. Select the TOP 4 that best fit their lifestyle and provide a technical "Match Strategy" and a "Natural Narrative".
+
+ENGINEERING CONSTRAINTS & RULES:
+${JSON.stringify(rules)}
 
 BRAND KNOWLEDGE:
 ${JSON.stringify(knowledgeBase)}
@@ -105,7 +109,7 @@ ${JSON.stringify(shortList.map(c => ({
       })))}
 
 INSTRUCTIONS:
-1. ELIMINATION: Use your data insight to eliminate models that technically clash with preferences (e.g. if zip code is extreme cold, prioritize models with high-grade insulation or Crown series).
+1. ELIMINATION: Use the ENGINEERING CONSTRAINTS (JSON) above to eliminate models that technically clash with preferences. For example, if the zip code prefix is in the "cold_prefixes" list, you MUST prioritize models with the "insulation_keyword" in their specs.
 2. TECHNICAL SELECTION: Prioritize models with specific Hotspots or Features mentioned in the data (like H.O.T. Zones for therapy).
 3. MATCH STRATEGY: 2-4 word technical badge (e.g., "High-Flow Hydrotherapy", "Elite Thermal Integrity").
 4. NARRATIVE: 1 warm, premium paragraph (max 60 words). Cite a specific GLOSSARY TERM or HOTSPOT name from the data to prove authority.

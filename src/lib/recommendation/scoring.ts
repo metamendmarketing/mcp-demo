@@ -1,4 +1,4 @@
-import { Product } from '@prisma/client';
+import rules from './scoring-rules.json';
 
 /**
  * Structured user preferences captured from the 15-step Marquis Wizard.
@@ -32,7 +32,7 @@ export type ScoredProduct = {
 
 /**
  * Recursively parses a JSON string or returns the value if already an object/array.
- * Essential for handling SQLite "String" columns that may hold nested JSON data (like hotspots or techFeatures)
+ * Essential for handling SQLite "String" columns that may hold nested JSON data
  * without risking double-encoding errors.
  */
 function safeJsonParse(data: any): any {
@@ -48,10 +48,6 @@ function safeJsonParse(data: any): any {
 /**
  * Core heuristic engine for the Marquis Buying Assistant.
  * Ranks all products against user preferences to find the best lifestyle matches.
- * 
- * @param products - Collection of all Marquis products (hot tubs and swim spas)
- * @param preferences - User-provided wizard responses
- * @returns Sorted collection of products with relative match percentages
  */
 export function scoreProducts(products: any[], preferences: UserPreferences): ScoredProduct[] {
   const scoredRawWeights = products.map(product => {
@@ -63,9 +59,9 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     const techFeatures = safeJsonParse(product.techFeatures) || [];
     
     const series = product.series?.name || product.series || '';
-    const seriesName = typeof series === 'string' ? series : series.name || '';
-    const productCategory = product.category || product.series?.category || 'hot_tub';
-    const positioningTier = product.positioningTier || product.series?.positioningTier || 'value';
+    const seriesName = typeof series === 'string' ? series : (series as any).name || '';
+    const productCategory = product.category || (product.series as any)?.category || 'hot_tub';
+    const positioningTier = product.positioningTier || (product.series as any)?.positioningTier || 'value';
 
     // 1. Capacity Optimization (Max 45 points)
     const targetCapacity = parseInt(preferences.capacity || '5');
@@ -80,18 +76,13 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Highly optimized ${seats}-seat configuration aligns with your ${targetCapacity}-person capacity goal.`);
     } else if (seats > targetCapacity && seats <= targetCapacity + 2) {
       score += 25;
-      reasons.push(`Spacious ${seats}-seat blueprint offers additional seating margin for social versatile.`);
+      reasons.push(`Spacious ${seats}-seat blueprint offers additional seating margin for social versatility.`);
     }
 
     // 2. Budget / Ownership Intent (Max 50 points)
-    const budgetMap: Record<string, string[]> = {
-      'entry': ['value'],
-      'mid': ['value', 'mid'],
-      'premium': ['mid', 'premium'],
-      'luxury': ['luxury']
-    };
-    
+    const budgetMap: Record<string, string[]> = rules.budgets as any;
     const intent = preferences.ownership || 'balanced';
+    
     if (intent === 'upgrade' && (positioningTier === 'luxury' || positioningTier === 'premium')) {
       score += 50;
       reasons.push(`Premium component selection and build quality match your requirement for long-term luxury durability.`);
@@ -103,38 +94,28 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     if (preferences.budget === 'luxury' && positioningTier === 'luxury') {
       score += 40;
       reasons.push(`High-end structural investment matches your target for a flagship-tier ownership experience.`);
-    } else if (preferences.budget && budgetMap[preferences.budget]?.includes(positioningTier)) {
+    } else if (preferences.budget && (budgetMap[preferences.budget] || []).includes(positioningTier)) {
       score += 30;
       reasons.push(`Aligns with your preferred ${preferences.budget} price-to-performance tier.`);
     }
 
     // 3. Primary Purpose & Tag Matching (Max 50 points)
-    const tagMap: Record<string, string[]> = {
-      'recreational': ['social', 'family', 'recreational'],
-      'therapy': ['hydrotherapy', 'recovery', 'therapy'],
-      'wellness': ['relaxation', 'wellness', 'soft'],
-      'solo': ['relaxation', 'soft', 'solo', 'intimate', 'small'],
-      'exercise': ['exercise', 'fitness', 'swim', 'performance'],
-      'athletes': ['recovery', 'performance', 'firm', 'deep']
-    };
-
+    const tagMap: Record<string, string[]> = rules.purposes as any;
     const usageFocus = preferences.primaryPurpose;
     const productTags = (Array.isArray(usageTags) ? usageTags : []).map((t: string) => t.toLowerCase());
-    const matchedTags = usageFocus ? productTags.filter((tag: string) => tagMap[usageFocus]?.includes(tag)) : [];
+    const matchedTags = usageFocus ? productTags.filter((tag: string) => (tagMap[usageFocus] || []).includes(tag)) : [];
     
     if (matchedTags.length > 0) {
       score += 50;
       reasons.push(`Specialized features and configuration are purpose-built for ${usageFocus} utility.`);
     } else if (usageFocus === 'exercise' && productCategory === 'swim_spa') {
-      score += 45; // Category-level match even if specific tags are missing
+      score += 45; 
       reasons.push(`Swim-optimized vessel specifically designed for aquatic fitness and exercise.`);
     }
 
     // 4. Engineering & Fluid Dynamics (Max 40 points)
     let flow = product.pumpFlowGpm || 0;
-    
-    // Default flow weighting for Swim Spas (ATVs) if data is null
-    if (!flow && productCategory === 'swim_spa') flow = 400; // Assume high-output for all ATVs
+    if (!flow && productCategory === 'swim_spa') flow = 400; 
 
     if (flow >= 450) {
       score += 40;
@@ -172,14 +153,32 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       reasons.push(`Sleek, geometric design aligns with contemporary architectural standards.`);
     }
 
-    // 6.5 Precision Tie-Breakers (0-20 points)
-    if (seriesName.includes('Crown')) score += 15;
-    else if (seriesName.includes('ATV') || productCategory === 'swim_spa') score += 12; // Boost ATV visibility
-    else if (seriesName.includes('Vector')) score += 8;
-    else if (seriesName.includes('Elite')) score += 3;
-    else if (seriesName.includes('Celebrity')) score += 1;
+    // 6.5 Climate & Insulation (Max 35 points)
+    const zipPrefix = (preferences.zipCode || '')[0];
+    const isColdClimate = rules.climate.cold_prefixes.includes(zipPrefix);
+    if (isColdClimate && (product.insulationType || '').toLowerCase().includes(rules.climate.insulation_keyword)) {
+      score += rules.climate.score_boost;
+      reasons.push(rules.climate.justification);
+    }
 
-    // Spec density tie-breakers
+    // 6.6 Delivery Logistics (Max 20 points)
+    if (preferences.delivery === 'tight') {
+      const maxDim = rules.delivery.tight.max_dimension;
+      if ((product.lengthIn || 0) <= maxDim && (product.widthIn || 0) <= maxDim) {
+        score += rules.delivery.tight.score_boost;
+        reasons.push(rules.delivery.tight.justification);
+      }
+    } else if (preferences.delivery === 'easy' && (product.lengthIn || 0) > 90) {
+      score += rules.delivery.easy.score_boost;
+      reasons.push(rules.delivery.easy.justification);
+    }
+
+    // 6.7 Precision Tie-Breakers (0-20 points)
+    const seriesWeights: Record<string, number> = rules.series_weights as any;
+    Object.entries(seriesWeights).forEach(([name, weight]) => {
+      if (seriesName.includes(name)) score += weight;
+    });
+
     if ((product.jetCount || 0) > 50) score += 3;
     if (product.positioningTier === 'luxury') score += 2;
 
@@ -190,7 +189,6 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     };
   });
 
-  // 7. Relative Re-scaling (Top match normalized to 100%)
   const maxRawScore = Math.max(...scoredRawWeights.map((s: any) => s.score));
   
   return scoredRawWeights.map((s: any) => {

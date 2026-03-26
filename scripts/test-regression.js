@@ -5,6 +5,8 @@ const fs = require('fs');
 const dbPath = path.resolve(__dirname, '../prisma/dev.db');
 const db = new Database(dbPath);
 
+const rules = require('../src/lib/recommendation/scoring-rules.json');
+
 // ENHANCED SCORING LOGIC (Hardened State)
 function scoreProducts(product, preferences) {
     let score = 0;
@@ -33,27 +35,19 @@ function scoreProducts(product, preferences) {
     else if (seats > targetCapacity && seats <= targetCapacity + 2) score += 25;
 
     // 2. Budget / Ownership
-    const budgetMap = { 'entry': ['value'], 'mid': ['value', 'mid'], 'premium': ['mid', 'premium'], 'luxury': ['luxury'] };
+    const budgetMap = rules.budgets;
     const intent = preferences.ownership || 'balanced';
     if (intent === 'upgrade' && (positioningTier === 'luxury' || positioningTier === 'premium')) score += 50;
     else if (intent === 'discovery' && (positioningTier === 'value' || positioningTier === 'entry')) score += 40;
 
     if (preferences.budget === 'luxury' && positioningTier === 'luxury') score += 40;
-    else if (preferences.budget && budgetMap[preferences.budget]?.includes(positioningTier)) score += 30;
+    else if (preferences.budget && (budgetMap[preferences.budget] || []).includes(positioningTier)) score += 30;
 
     // 3. Primary Purpose
-    const tagMap = {
-      'recreational': ['social', 'family', 'recreational'],
-      'therapy': ['hydrotherapy', 'recovery', 'therapy'],
-      'wellness': ['relaxation', 'wellness', 'soft'],
-      'solo': ['relaxation', 'soft', 'solo', 'intimate', 'small'],
-      'exercise': ['exercise', 'fitness', 'swim', 'performance'],
-      'athletes': ['recovery', 'performance', 'firm', 'deep']
-    };
-
+    const tagMap = rules.purposes;
     const usageFocus = preferences.primaryPurpose;
     const productTags = usageTags.map(tag => tag.toLowerCase());
-    const matchedTags = usageFocus ? productTags.filter(tag => tagMap[usageFocus]?.includes(tag)) : [];
+    const matchedTags = usageFocus ? productTags.filter(tag => (tagMap[usageFocus] || []).includes(tag)) : [];
     
     if (matchedTags.length > 0) score += 50;
     else if (usageFocus === 'exercise' && productCategory === 'swim_spa') score += 45;
@@ -78,12 +72,28 @@ function scoreProducts(product, preferences) {
     if (userAesthetic === 'curved' && isCurved) score += 25;
     else if (userAesthetic === 'modern' && !isCurved) score += 20;
 
+    // 6.5 Electrical & Climate
+    const zipPrefix = (preferences.zipCode || '')[0];
+    const isExtremeClimate = rules.climate.cold_prefixes.includes(zipPrefix);
+    if (isExtremeClimate && (product.insulationType || '').toLowerCase().includes(rules.climate.insulation_keyword)) {
+        score += rules.climate.score_boost;
+    }
+
+    // 6.6 Delivery Logistics
+    if (preferences.delivery === 'tight') {
+        const maxDim = rules.delivery.tight.max_dimension;
+        if ((product.lengthIn || 0) <= maxDim && (product.widthIn || 0) <= maxDim) {
+            score += rules.delivery.tight.score_boost;
+        }
+    } else if (preferences.delivery === 'easy' && (product.lengthIn || 0) > 90) {
+        score += rules.delivery.easy.score_boost;
+    }
+
     // 6.6 Tie-Breakers
-    if (seriesName.includes('Crown')) score += 15;
-    else if (seriesName.includes('ATV') || productCategory === 'swim_spa') score += 12;
-    else if (seriesName.includes('Vector')) score += 8;
-    else if (seriesName.includes('Elite')) score += 3;
-    else if (seriesName.includes('Celebrity')) score += 1;
+    const seriesWeights = rules.series_weights;
+    Object.entries(seriesWeights).forEach(([name, weight]) => {
+      if (seriesName.includes(name)) score += weight;
+    });
 
     return score;
 }
