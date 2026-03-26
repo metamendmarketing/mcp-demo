@@ -34,7 +34,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
   const getConsultationQuestions = () => {
     const questions = [];
     const goal = preferences?.primaryPurpose;
-    const model = currentProduct?.modelName || 'this one';
+    const model = currentProduct?.modelName || 'this model';
     const series = currentProduct?.seriesName || currentProduct?.series?.name || '';
 
     if (goal === 'therapy' || goal === 'athletes') {
@@ -99,49 +99,52 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
       {/* PAGE 1: DISCOVERY & MATCHES */}
       <div className="p-10 flex flex-col overflow-hidden" style={{ height: '10.5in', pageBreakAfter: 'always', boxSizing: 'border-box' }}>
         
-        {/* REBALANCED HEADER */}
-        <div className="flex justify-between items-center border-b-[3px] border-marquis-blue pb-6 mb-8">
+        {/* REBALANCED HEADER - STRENGTHENED LOGO PATH */}
+        <div className="flex justify-between items-center border-b-[3px] border-marquis-blue pb-8 mb-10">
           <div className="flex flex-col gap-1">
-            <h1 className="text-3xl font-black italic uppercase text-marquis-blue tracking-tighter leading-none">Discovery Summary</h1>
-            <div className="text-slate-400 text-[11px] font-bold uppercase tracking-[0.2em]">Marquis® Personal Selection Guide</div>
+            <h1 className="text-4xl font-black italic uppercase text-marquis-blue tracking-tighter leading-none">Discovery Summary</h1>
+            <div className="text-slate-400 text-[12px] font-bold uppercase tracking-[0.2em]">Marquis® Personal Selection Guide</div>
           </div>
           <div className="flex items-center gap-6 shrink-0">
-             <img src="/mcp/demo/assets/marquis-logo-full.png" alt="Marquis" className="h-12 grayscale-0" />
+             <img src="/mcp/demo/assets/marquis-logo-full.png" alt="Marquis" className="h-14 grayscale-0" />
           </div>
         </div>
 
-        {/* SECTION: DISCOVERY CRITERIA - RENAMED ARCHITECTURE TO AESTHETIC */}
-        <section className="mb-8">
-          <div className="bg-slate-50 p-7 rounded-[32px] border border-slate-100/80">
-             <div className="grid grid-cols-3 gap-x-12">
+        {/* SECTION: DISCOVERY CRITERIA - CLEANER PROBE */}
+        <section className="mb-10">
+          <div className="bg-slate-50 p-8 rounded-[40px] border border-slate-100 flex items-center justify-between">
+             <div className="grid grid-cols-3 gap-x-20 flex-1">
                 {[
                   { label: 'Primary Goal', value: preferences?.primaryPurpose || 'Therapy' },
-                  { label: 'Aesthetic', value: preferences?.aesthetic || 'Modern' }, // Renamed from Architecture
+                  { label: 'Aesthetic', value: preferences?.aesthetic || 'Modern' },
                   { label: 'Ownership', value: preferences?.ownership || 'Discovery' }
                 ].map((pref, i) => (
                   <div key={i}>
                     <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{pref.label}</div>
-                    <div className="text-base font-black italic uppercase text-slate-700 leading-none">{pref.value}</div>
+                    <div className="text-xl font-black italic uppercase text-slate-700 leading-none">{pref.value}</div>
                   </div>
                 ))}
              </div>
           </div>
         </section>
 
-        {/* YOUR MATCHES - INCREASED FONT & CONTENT LENGTH */}
+        {/* YOUR MATCHES - LENGTHENED CONTENT & INCREASED FONT SIZE */}
         <section className="flex-1">
-          <h2 className="text-[12px] font-black uppercase tracking-[0.4em] text-slate-400 mb-6 flex items-center gap-3">
+          <h2 className="text-[12px] font-black uppercase tracking-[0.4em] text-slate-400 mb-8 flex items-center gap-2">
              <div className="w-2 h-2 rounded-full bg-marquis-blue" /> Your matches...
           </h2>
           <div className="grid grid-cols-2 gap-6">
             {results.slice(0, 4).map((res, i) => {
               if (!res?.product) return null;
-              const description = res.naturalNarrative || (res.reasons?.length > 1 ? res.reasons[1] : res.reasons?.[0]) || 'Precision-tuned for your life.';
+              
+              const aiText = res.naturalNarrative || '';
+              const reasoning = res.reasons?.length > 1 ? res.reasons[1] : res.reasons?.[0] || '';
+              const description = `${aiText} ${reasoning}`.trim() || 'Precision-tuned for your lifestyle.';
               
               return (
-                <div key={i} className="flex flex-col p-6 rounded-[32px] border border-slate-100 bg-white shadow-sm" style={{ breakInside: 'avoid' }}>
-                   <div className="flex gap-4 mb-4">
-                      <div className="w-20 h-20 bg-slate-50 rounded-xl overflow-hidden shrink-0 border border-slate-100/50">
+                <div key={i} className="flex flex-col p-6 rounded-[32px] border border-slate-100 bg-white" style={{ breakInside: 'avoid' }}>
+                   <div className="flex gap-6 mb-6">
+                      <div className="w-24 h-24 bg-slate-50 rounded-2xl overflow-hidden shrink-0 border border-slate-100/50">
                           <img 
                             src={res.product.heroImageUrl || `/mcp/demo/assets/products/${res.product.slug}/hero.png`} 
                             className="w-full h-full object-cover" 
@@ -149,16 +152,16 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
                           />
                       </div>
                       <div className="flex flex-col justify-center">
-                          <div className="text-marquis-blue font-black uppercase italic text-xl leading-none mb-1">{res.product.modelName}</div>
-                          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{res.product.seriesName || res.product.series?.name || 'Marquis'}</div>
-                          <div className="flex items-center gap-2 text-[11px] font-black text-slate-900 uppercase italic">
+                          <div className="text-marquis-blue font-black uppercase italic text-2xl leading-none mb-1">{res.product.modelName}</div>
+                          <div className="text-slate-400 font-bold uppercase tracking-[0.2em] text-[10px] mb-3">{res.product.seriesName || res.product.series?.name || 'Marquis'}</div>
+                          <div className="flex items-center gap-2 text-[12px] font-black text-slate-800 uppercase italic">
                              <SealCheck className="w-4 h-4 text-marquis-green" weight="fill" />
                              {Math.round(res.score)}% Match
                           </div>
                       </div>
                    </div>
-                   <div className="border-t border-slate-100/50 pt-4">
-                      <p className="text-[11px] text-slate-500 leading-relaxed font-medium italic line-clamp-4">"{description}"</p>
+                   <div className="border-t border-slate-50 pt-4">
+                      <p className="text-[12px] text-slate-600 leading-relaxed font-semibold italic line-clamp-4">"{description}"</p>
                    </div>
                 </div>
               )
@@ -166,9 +169,9 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
           </div>
         </section>
 
-        {/* PAGE 1 FOOTER */}
-        <div className="mt-4 pt-4 border-t border-slate-100 text-center">
-           <p className="text-[9px] text-slate-300 font-bold uppercase tracking-[0.4em]">The Ultimate Hot Tub Experience® | Page 1 of 2</p>
+        {/* FOOTER OF PAGE 1 */}
+        <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+           <p className="text-[10px] text-slate-300 font-bold uppercase tracking-[0.5em]">The Ultimate Hot Tub Experience® | Page 1 of 2</p>
         </div>
       </div>
 
@@ -178,7 +181,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
         {/* HIGH-LEVEL SPECS */}
         <div className="flex-1">
           {currentProduct && (
-            <section className="mb-8 bg-slate-900 rounded-[40px] p-10 text-white relative overflow-hidden" style={{ breakInside: 'avoid' }}>
+            <section className="mb-10 bg-slate-900 rounded-[48px] p-10 text-white relative overflow-hidden" style={{ breakInside: 'avoid' }}>
                <div className="relative z-10">
                  <div className="mb-10 flex justify-between items-end border-b border-white/10 pb-6">
                     <div>
@@ -191,7 +194,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
                     {[
                       { icon: Users, label: 'Capacity', value: `${getSpec(currentProduct.seatsMax, '--')} Adults` },
                       { icon: CornersOut, label: 'Dimensions', value: `${currentProduct.lengthIn || '--'}" x ${currentProduct.widthIn || '--'}"` },
-                      { icon: Lightning, label: 'Jetting', value: `${getSpec(currentProduct.jetCount)} Jets` },
+                      { icon: Lightning, label: 'Jet System', value: `${getSpec(currentProduct.jetCount)} Jets` },
                       { icon: Waves, label: 'Pump Flow', value: `${getSpec(currentProduct.pumpFlowGpm, '160')} GPM` },
                       { icon: Thermometer, label: 'Sanitation', value: 'ConstantClean™' },
                       { icon: BatteryCharging, label: 'Electrical', value: `${getSpec(currentProduct.electricalAmps, '50')}A Connection` }
@@ -206,13 +209,13 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
                     ))}
                  </div>
 
-                 <div className="bg-white/5 rounded-[32px] p-6 border border-white/5">
+                 <div className="bg-white/5 rounded-[32px] p-8 border border-white/5">
                     <div className="text-[10px] font-black uppercase text-marquis-blue tracking-widest mb-3">Why we picked this model...</div>
                     <div className="grid grid-cols-2 gap-x-12 gap-y-4">
-                       {(Array.isArray(currentProduct.reasons) ? currentProduct.reasons : []).slice(1, 5).map((r: string, idx: number) => (
+                       {(Array.isArray(currentProduct.reasons) ? currentProduct.reasons : []).slice(1, 6).map((r: string, idx: number) => (
                           <div key={idx} className="flex gap-3 items-start">
                              <Check className="w-3 h-3 text-marquis-blue mt-0.5 shrink-0" weight="bold" />
-                             <p className="text-[11px] text-white/70 font-semibold leading-relaxed italic">{r}</p>
+                             <p className="text-base text-white/70 font-semibold leading-relaxed italic">{r}</p>
                           </div>
                        ))}
                     </div>
@@ -221,16 +224,16 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
             </section>
           )}
 
-          {/* DEALER CONSULTATION GUIDE - RESTORED FONT STYLES */}
-          <section className="mb-8">
-             <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 mb-6 border-b border-slate-100 pb-4 flex items-center gap-3">
+          {/* RESTORED "OLD STYLE" CONSULTATION GUIDE */}
+          <section className="mb-10">
+             <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 mb-8 border-b border-slate-100 pb-4 flex items-center gap-3">
                <ChatTeardropDots weight="fill" className="w-5 h-5 text-marquis-blue" /> Dealer Consultation Guide
              </h2>
              <div className="grid grid-cols-2 gap-6">
                 {dynamicQuestions.map((item, idx) => (
-                  <div key={idx} className="bg-slate-50/50 p-6 rounded-3xl border border-slate-100 flex flex-col gap-4" style={{ breakInside: 'avoid' }}>
-                     <div className="text-[13px] font-black italic uppercase text-marquis-blue leading-tight">{item.q}</div>
-                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest border-l-2 border-slate-200 pl-4 py-0.5">
+                  <div key={idx} className="bg-slate-50/50 p-6 rounded-[32px] border border-slate-100 flex flex-col gap-5" style={{ breakInside: 'avoid' }}>
+                     <div className="text-[14px] font-black italic uppercase text-marquis-blue leading-tight tracking-tight">{item.q}</div>
+                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest border-l-2 border-slate-200 pl-4 py-1">
                         WHY ASK: {item.reason}
                      </div>
                   </div>
@@ -239,11 +242,11 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
           </section>
         </div>
 
-        {/* FINAL CLOSING & QR */}
-        <div className="bg-marquis-blue rounded-[32px] p-8 flex items-center justify-between text-white relative overflow-hidden" style={{ breakInside: 'avoid' }}>
+        {/* CLOSING & QR SECTION - OPTIMIZED FOR VISIBILITY */}
+        <div className="bg-marquis-blue rounded-[32px] p-8 mt-4 flex items-center justify-between text-white relative overflow-hidden" style={{ breakInside: 'avoid' }}>
           <div className="max-w-lg">
              <h4 className="text-2xl font-black italic uppercase mb-2">Locally Guided Expertise</h4>
-             <p className="text-white/70 text-xs font-medium leading-relaxed italic">
+             <p className="text-white/80 text-xs font-medium leading-relaxed italic">
                Bring this Discovery Summary to your local Marquis® dealership. Your curated matches provide the perfect technical baseline for a customized ownership plan.
              </p>
           </div>
@@ -251,12 +254,12 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
              <div className="bg-slate-50 p-1.5 rounded-xl mb-1">
                 <img src={qrUrl} alt="Locate Dealer" className="w-16 h-16" />
              </div>
-             <div className="text-[8px] font-black uppercase tracking-widest text-marquis-blue">Scan to locate dealer</div>
+             <div className="text-[9px] font-black uppercase tracking-widest text-marquis-blue">Scan to locate dealer</div>
           </div>
         </div>
 
         {/* PAGE 2 FOOTER */}
-        <div className="mt-6 text-center text-slate-300 font-bold uppercase tracking-[0.5em] text-[8px]">
+        <div className="mt-8 text-center text-slate-300 font-bold uppercase tracking-[0.5em] text-[10px]">
            Marquis® Spas | Page 2 of 2
         </div>
       </div>
