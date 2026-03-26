@@ -14,6 +14,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { 
   FirstAidKit, UsersThree, Wind, CornersOut, Users, ArrowsInCardinal, 
   Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
@@ -756,15 +757,26 @@ export default function Wizard() {
               <h2 className="text-xl md:text-2xl font-black italic uppercase leading-none drop-shadow-sm">Your Personalized Selection</h2>
               <p className="text-sm font-medium text-white/90 mt-1">Meticulously matched based on your 14 expert criteria.</p>
             </div>
-            <button 
-              onClick={() => window.print()}
-              className="no-print bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border border-white/30 transition-all flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" /> Print / PDF
-            </button>
           </div>
         </div>
+
         <div className="p-6 md:p-10 flex-grow overflow-y-auto">
+           {/* ACTION BAR */}
+           <div className="max-w-5xl mx-auto mb-10 flex flex-col sm:flex-row justify-center gap-4 no-print">
+              <Link 
+                href={preferences.zipCode ? `/mcp/demo/dealer-locator?zip=${preferences.zipCode}` : '/mcp/demo/dealer-locator'}
+                className="bg-marquis-blue text-white px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-xl hover:bg-slate-800 transition-all text-center flex items-center justify-center gap-2"
+              >
+                <MapPin className="w-5 h-5" weight="bold" /> Find a Dealer
+              </Link>
+              <button 
+                onClick={() => window.print()}
+                className="bg-white border-2 border-marquis-blue text-marquis-blue px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-lg hover:bg-slate-50 transition-all text-center flex items-center justify-center gap-2"
+              >
+                <Plus className="w-5 h-5" weight="bold" /> Download Selection Pass (PDF)
+              </button>
+           </div>
+
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
              {results && results.slice(0, 4).map((res, i) => (
                   <div 

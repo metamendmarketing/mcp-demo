@@ -784,14 +784,6 @@ export default function ProductDetailView({
                 Get Local Pricing
               </Link>
            </div>
-           <div className="mt-8 flex justify-center no-print">
-             <button 
-                onClick={() => window.print()}
-                className="text-white/40 hover:text-white flex items-center gap-2 font-black text-[10px] uppercase tracking-[0.2em] transition-colors"
-             >
-               <Plus className="w-3 h-3" weight="bold" /> Download Selection Pass (PDF)
-             </button>
-           </div>
         </div>
 
         {/* UNIFIED PRINT PASS (Hidden in Browser) */}
