@@ -9,7 +9,7 @@
 import React from 'react';
 import { 
   Plus, Users, Lightning, Waves, Package, Thermometer, 
-  BatteryCharging, CornersOut, Check, Sparkle
+  BatteryCharging, CornersOut, Check, Sparkle, MapPin
 } from '@phosphor-icons/react';
 
 interface PrintLayoutProps {
@@ -68,7 +68,9 @@ export default function PrintLayout({ preferences, results, currentProduct }: Pr
       <section className="mb-12">
         <h4 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500 mb-6 border-b border-slate-100 pb-2">Your Expert Match Set</h4>
         <div className="grid grid-cols-2 gap-6">
-          {results.slice(0, 4).map((res, i) => (
+          {results.slice(0, 4).map((res, i) => {
+            if (!res?.product) return null;
+            return (
             <div key={i} className="flex gap-4 p-4 rounded-xl border border-slate-100 bg-white">
                <div className="w-24 h-24 bg-slate-50 rounded-lg overflow-hidden shrink-0">
                   <img 
@@ -83,7 +85,7 @@ export default function PrintLayout({ preferences, results, currentProduct }: Pr
                   <p className="text-[10px] text-slate-600 leading-relaxed line-clamp-2 font-medium">Matched Strategy: {res.matchStrategy || 'Precision Engineering'}</p>
                </div>
             </div>
-          ))}
+          )})}
         </div>
       </section>
 
