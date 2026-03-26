@@ -41,65 +41,91 @@ export default function FeatureExplorer({
   className
 }: FeatureExplorerProps) {
   const [showMagnifier, setShowMagnifier] = useState(false);
-  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0, relX: 0, relY: 0, width: 0, height: 0 });
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
+  const [imgLayout, setImgLayout] = useState({ width: 0, height: 0, offX: 0, offY: 0, containerW: 0, containerH: 0 });
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  
   const containerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
-  // Handle Mouse Movement for Magnifier
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-    
-    // Viewport relative coordinates for the 'fixed' lens
-    const clientX = e.clientX;
-    const clientY = e.clientY;
+  // Calculate the actual rendered bounds of the image within the object-contain container
+  const updateImageLayout = () => {
+    if (!containerRef.current || !imgRef.current) return;
+    const container = containerRef.current.getBoundingClientRect();
+    const naturalW = imgRef.current.naturalWidth;
+    const naturalH = imgRef.current.naturalHeight;
 
-    // Container relative coordinates for the 'background-position'
-    const relX = ((clientX - left) / width) * 100;
-    const relY = ((clientY - top) / height) * 100;
+    if (!naturalW || !naturalH) return;
 
-    setMagnifierPos({ 
-      x: clientX, 
-      y: clientY, 
-      relX, 
-      relY,
-      width,
-      height
+    const containerRatio = container.width / container.height;
+    const imageRatio = naturalW / naturalH;
+
+    let renderedW, renderedH, offsetX, offsetY;
+    if (imageRatio > containerRatio) {
+      renderedW = container.width;
+      renderedH = container.width / imageRatio;
+      offsetX = 0;
+      offsetY = (container.height - renderedH) / 2;
+    } else {
+      renderedW = container.height * imageRatio;
+      renderedH = container.height;
+      offsetX = (container.width - renderedW) / 2;
+      offsetY = 0;
+    }
+
+    setImgLayout({ 
+      width: renderedW, 
+      height: renderedH, 
+      offX: offsetX, 
+      offY: offsetY,
+      containerW: container.width,
+      containerH: container.height
     });
   };
 
-  // Keyboard accessibility for hotspots
+  useEffect(() => {
+    updateImageLayout();
+    window.addEventListener('resize', updateImageLayout);
+    return () => window.removeEventListener('resize', updateImageLayout);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setMousePos({ 
+      x: e.clientX - rect.left, 
+      y: e.clientY - rect.top 
+    });
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent, id: string) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       setActiveHotspot(activeHotspot === id ? null : id);
     }
-    if (e.key === 'Escape') {
-      setActiveHotspot(null);
-    }
+    if (e.key === 'Escape') setActiveHotspot(null);
   };
 
-  // Tooltip Helper: Determine actual direction with collision handling
   const getSmartDirection = (spot: Hotspot) => {
-    if (!containerRef.current) return spot.direction || 'top';
-    
-    // Basic flip logic: if it's too close to an edge, flip the primary axis
     let dir = spot.direction || 'top';
-    
-    if (spot.y < 20 && dir.includes('top')) dir = dir.replace('top', 'bottom') as any;
-    if (spot.y > 80 && dir.includes('bottom')) dir = dir.replace('bottom', 'top') as any;
-    if (spot.x < 20 && dir.includes('left')) dir = dir.replace('left', 'right') as any;
-    if (spot.x > 80 && dir.includes('right')) dir = dir.replace('right', 'left') as any;
-    
+    if (spot.y < 25 && dir.includes('top')) dir = dir.replace('top', 'bottom') as any;
+    if (spot.y > 75 && dir.includes('bottom')) dir = dir.replace('bottom', 'top') as any;
+    if (spot.x < 25 && dir.includes('left')) dir = dir.replace('left', 'right') as any;
+    if (spot.x > 75 && dir.includes('right')) dir = dir.replace('right', 'left') as any;
     return dir;
   };
+
+  // Image-relative coordinate for the magnifier content
+  // We clamp it to 0-100 of the image content area
+  const imgRelX = Math.max(0, Math.min(100, ((mousePos.x - imgLayout.offX) / imgLayout.width) * 100));
+  const imgRelY = Math.max(0, Math.min(100, ((mousePos.y - imgLayout.offY) / imgLayout.height) * 100));
 
   return (
     <div 
       ref={containerRef}
       className={cn(
         "relative group overflow-hidden bg-slate-50 border border-slate-200 shadow-xl select-none",
-        "cursor-none", // Hide cursor for magnifier
+        showMagnifier && !activeHotspot ? "cursor-none" : "cursor-default",
         aspectRatio,
         className
       )}
@@ -112,53 +138,68 @@ export default function FeatureExplorer({
     >
       {/* Primary Image */}
       <img 
+        ref={imgRef}
         src={src} 
         alt={alt} 
+        onLoad={updateImageLayout}
         className={cn(
           "w-full h-full object-contain transition-opacity duration-500 pointer-events-none",
-          showMagnifier ? "opacity-50" : "opacity-100"
+          showMagnifier ? "opacity-40" : "opacity-100"
         )}
       />
 
       {/* Magnifier Lens (Desktop Only) */}
-      {showMagnifier && !activeHotspot && (
+      {showMagnifier && !activeHotspot && imgLayout.width > 0 && (
         <div 
-          className="absolute pointer-events-none z-[100] w-56 h-56 rounded-full border-4 border-white shadow-[0_0_40px_rgba(0,0,0,0.4)] overflow-hidden bg-white hidden md:block"
+          className="absolute pointer-events-none z-[100] w-64 h-64 rounded-full border-4 border-white shadow-[0_0_50px_rgba(0,0,0,0.4)] overflow-hidden bg-white hidden md:block"
           style={{ 
-            left: `${magnifierPos.relX}%`, 
-            top: `${magnifierPos.relY}%`,
+            left: `${mousePos.x}px`, 
+            top: `${mousePos.y}px`,
             transform: 'translate(-50%, -50%)',
             backgroundImage: `url(${src})`,
-            // Pixel-based positioning for natural 2.0x zoom relative to the container
-            backgroundPosition: `${112 - (magnifierPos.relX / 100) * (magnifierPos.width * 2.0)}px ${112 - (magnifierPos.relY / 100) * (magnifierPos.height * 2.0)}px`,
-            backgroundSize: `${magnifierPos.width * 2.0}px ${magnifierPos.height * 2.0}px`,
+            // Accurate 3.0x Zoom of the image content area
+            backgroundPosition: `${Math.round(128 - (mousePos.x - imgLayout.offX) * 3.0)}px ${Math.round(128 - (mousePos.y - imgLayout.offY) * 3.0)}px`,
+            backgroundSize: `${Math.round(imgLayout.width * 3.0)}px ${Math.round(imgLayout.height * 3.0)}px`,
             backgroundRepeat: 'no-repeat'
           }}
         >
-          {/* Lens center indicator (optional) */}
           <div className="absolute inset-0 flex items-center justify-center opacity-10">
             <div className="w-1 h-1 bg-black rounded-full" />
           </div>
         </div>
       )}
 
-      {/* Hotspots Layer */}
+      {/* Hotspots Layer - Positioned relative to the IMAGE area, not the container */}
       {hotspots.map((spot) => {
         const smartDir = getSmartDirection(spot);
         const isActive = activeHotspot === spot.id;
+
+        // Map percentage to actual container pixels using the calibrated image bounds
+        const spotLeft = imgLayout.offX + (spot.x / 100) * imgLayout.width;
+        const spotTop = imgLayout.offY + (spot.y / 100) * imgLayout.height;
 
         return (
           <div 
             key={spot.id} 
             className="absolute z-20"
-            style={{ left: `${spot.x}%`, top: `${spot.y}%`, transform: 'translate(-50%, -50%)' }}
+            style={{ 
+              left: `${(spotLeft / imgLayout.containerW) * 100}%`, 
+              top: `${(spotTop / imgLayout.containerH) * 100}%`, 
+              transform: 'translate(-50%, -50%)' 
+            }}
           >
             {/* Hotspot Pulse Trigger */}
             <button
               aria-label={`Show details for ${spot.title}`}
               aria-expanded={isActive}
-              onMouseEnter={() => setActiveHotspot(spot.id)}
-              onMouseLeave={() => setActiveHotspot(null)}
+              onMouseEnter={() => {
+                setActiveHotspot(spot.id);
+                setShowMagnifier(false);
+              }}
+              onMouseLeave={() => {
+                setActiveHotspot(null);
+                setShowMagnifier(true);
+              }}
               onKeyDown={(e) => handleKeyDown(e, spot.id)}
               className={cn(
                 "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-white shadow-lg focus:outline-none focus:ring-4 focus:ring-marquis-blue/50",
@@ -174,12 +215,11 @@ export default function FeatureExplorer({
               />
             </button>
 
-            {/* Smart Tooltip Tooltip */}
+            {/* Smart Tooltip Layer */}
             <div 
               className={cn(
-                "absolute w-72 bg-slate-900 text-white rounded-2xl shadow-2xl transition-all duration-300 pointer-events-none z-40 p-0 overflow-hidden border border-white/10",
+                "absolute w-72 bg-slate-900 text-white rounded-2xl shadow-2xl transition-all duration-300 pointer-events-none z-[150] p-0 overflow-hidden border border-white/10",
                 isActive ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 pointer-events-none translate-y-2",
-                // Positioning logic based on 'direction'
                 smartDir === 'top' && "bottom-full mb-6 left-1/2 -translate-x-1/2",
                 smartDir === 'bottom' && "top-full mt-6 left-1/2 -translate-x-1/2",
                 smartDir === 'left' && "right-full mr-6 top-1/2 -translate-y-1/2",
@@ -210,8 +250,6 @@ export default function FeatureExplorer({
                   </div>
                 )}
               </div>
-              
-              {/* Tooltip Tail */}
               <div 
                 className={cn(
                   "absolute w-3 h-3 bg-slate-900 rotate-45 border border-white/10",
@@ -222,16 +260,14 @@ export default function FeatureExplorer({
                   smartDir === 'top-left' && "bottom-[-6px] right-4 border-t-0 border-l-0",
                   smartDir === 'top-right' && "bottom-[-6px] left-4 border-t-0 border-l-0",
                   smartDir === 'bottom-left' && "top-[-6px] right-4 border-b-0 border-r-0",
-                  smartDir === 'bottom-right' && "top-[-6px] left-4 border-b-0 border-r-0"
+                  smartDir === 'bottom-right' && "top-[-6px] left-4 border-b-0 border-r-0",
+                  !isActive && "hidden"
                 )}
               />
             </div>
           </div>
         );
       })}
-
-      {/* Instructional Overlay (Visible initially) */}
-      <div className="absolute inset-0 bg-slate-900/10 pointer-events-none group-hover:bg-transparent transition-colors duration-500" />
     </div>
   );
 }
