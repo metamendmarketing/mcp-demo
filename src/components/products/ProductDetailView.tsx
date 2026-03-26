@@ -24,6 +24,7 @@ import {
 import { twMerge } from 'tailwind-merge';
 import { clsx, type ClassValue } from 'clsx';
 import { AESTHETIC_MAPPINGS, getAestheticTitle, FINISH_IMAGE_MAP } from '@/lib/brands/aesthetics';
+import FeatureExplorer from './FeatureExplorer';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -396,21 +397,6 @@ export default function ProductDetailView({
   isLoading = false,
   zip 
 }: ProductDetailViewProps) {
-  // Magnifier state
-  const [showMagnifier, setShowMagnifier] = useState(false);
-  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0, relX: 0, relY: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = e.pageX - left - window.scrollX;
-    const y = e.pageY - top - window.scrollY;
-    setMagnifierPos({ 
-      x: e.pageX, 
-      y: e.pageY, 
-      relX: (x / width) * 100, 
-      relY: (y / height) * 100 
-    });
-  };
 
   const getHeroImage = () => {
     // If we have a specific heroImageUrl that isn't the generic fallback, use it
@@ -620,68 +606,24 @@ export default function ProductDetailView({
                <Gear className="w-6 h-6 text-marquis-blue" weight="bold" />
                <h4 className="text-2xl font-black italic uppercase text-slate-800">Interactive Feature Explorer</h4>
              </div>
-             <div 
-               className="relative aspect-square md:aspect-video rounded-[32px] bg-[#f8fafc] group shadow-xl border border-slate-100 overflow-hidden cursor-crosshair"
-               onMouseEnter={() => setShowMagnifier(true)}
-               onMouseLeave={() => setShowMagnifier(false)}
-               onMouseMove={handleMouseMove}
-             >
-                <img 
-                  src={product.overheadImageUrl && !product.overheadImageUrl.includes('default') 
-                    ? product.overheadImageUrl 
-                    : `/mcp/demo/assets/products/${product.slug}/overhead.jpg`
-                  } 
-                  className="w-full h-full object-contain p-4 md:p-10 transition-opacity duration-300 group-hover:opacity-40" 
-                  alt="Overhead View" 
-                />
-                
-                {/* Magnifier Lens */}
-                {showMagnifier && (
-                  <div 
-                    className="fixed pointer-events-none z-50 w-48 h-48 rounded-full border-4 border-white shadow-[0_0_20px_rgba(0,0,0,0.3)] overflow-hidden bg-white"
-                    style={{ 
-                      left: magnifierPos.x - 96, 
-                      top: magnifierPos.y - 96,
-                      backgroundImage: `url(${product.overheadImageUrl && !product.overheadImageUrl.includes('default') ? product.overheadImageUrl : `/mcp/demo/assets/products/${product.slug}/overhead.jpg`})`,
-                      backgroundPosition: `${magnifierPos.relX}% ${magnifierPos.relY}%`,
-                      backgroundSize: '400%',
-                      backgroundRepeat: 'no-repeat'
-                    }}
-                  />
-                )}
-
-                {/* Hotspots */}
-                {product.hotspots && (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : product.hotspots).map((spot: any, i: number) => {
-                  const isTop = spot.y < 35;
-                  const isRight = spot.x > 75;
-                  const isLeft = spot.x < 25;
-
-                  return (
-                    <div key={i} className="absolute group/spot transition-all z-20" style={{ top: `${spot.y}%`, left: `${spot.x}%` }}>
-                      <button className="w-8 h-8 md:w-10 md:h-10 bg-marquis-blue text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform animate-pulse border-2 border-white">
-                        <Plus className="w-4 h-4 md:w-5 md:h-5" />
-                      </button>
-                      
-                      {/* Tooltip with Smart Positioning */}
-                      <div className={cn(
-                        "absolute mb-4 w-72 bg-slate-900/95 backdrop-blur-md text-white p-0 overflow-hidden rounded-2xl shadow-2xl opacity-0 group-hover/spot:opacity-100 transition-all pointer-events-none z-30 border border-white/10 translate-y-2 group-hover/spot:translate-y-0",
-                        isTop ? "top-full mt-4" : "bottom-full mb-4",
-                        isRight ? "right-0" : isLeft ? "left-0" : "left-1/2 -translate-x-1/2"
-                      )}>
-                        {spot.imageUrl && (
-                          <div className="w-full h-32 overflow-hidden border-b border-white/10">
-                            <img src={spot.imageUrl} className="w-full h-full object-cover" alt={spot.label} />
-                          </div>
-                        )}
-                        <div className="p-5">
-                          <div className="text-sm font-black uppercase italic text-marquis-blue mb-2 border-b border-marquis-blue/30 pb-2">{spot.label}</div>
-                          <p className="text-xs text-slate-300 leading-relaxed font-medium">{spot.description}</p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-             </div>
+             <FeatureExplorer 
+                src={product.overheadImageUrl && !product.overheadImageUrl.includes('default') 
+                  ? product.overheadImageUrl 
+                  : `/mcp/demo/assets/products/${product.slug}/overhead.jpg`
+                }
+                alt="Feature Explorer"
+                hotspots={(typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : (product.hotspots || [])).map((spot: any, idx: number) => ({
+                  id: `spot-${idx}`,
+                  x: spot.x,
+                  y: spot.y,
+                  title: spot.label,
+                  caption: spot.description,
+                  imageUrl: spot.imageUrl,
+                  direction: spot.direction // Supports legacy or new directional overrides
+                }))}
+                aspectRatio="aspect-square md:aspect-video"
+                className="rounded-[32px] shadow-xl border border-slate-100"
+             />
              <p className="text-center text-xs text-slate-400 mt-4 font-bold uppercase tracking-widest italic animate-pulse">Use the magnifier to inspect jets or hover over hotspots for therapy details</p>
            </section>
          )}
