@@ -761,22 +761,6 @@ export default function Wizard() {
         </div>
 
         <div className="p-6 md:p-10 flex-grow overflow-y-auto">
-           {/* ACTION BAR */}
-           <div className="max-w-5xl mx-auto mb-10 flex flex-col sm:flex-row justify-center gap-4 no-print">
-              <Link 
-                href={preferences.zipCode ? `/mcp/demo/dealer-locator?zip=${preferences.zipCode}` : '/mcp/demo/dealer-locator'}
-                className="bg-marquis-blue text-white px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-xl hover:bg-slate-800 transition-all text-center flex items-center justify-center gap-2"
-              >
-                <MapPin className="w-5 h-5" weight="bold" /> Find a Dealer
-              </Link>
-              <button 
-                onClick={() => window.print()}
-                className="bg-white border-2 border-marquis-blue text-marquis-blue px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-lg hover:bg-slate-50 transition-all text-center flex items-center justify-center gap-2"
-              >
-                <Plus className="w-5 h-5" weight="bold" /> Download Selection Pass (PDF)
-              </button>
-           </div>
-
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
              {results && results.slice(0, 4).map((res, i) => (
                   <div 
