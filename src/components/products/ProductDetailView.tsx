@@ -398,8 +398,23 @@ export default function ProductDetailView({
   onBack,
   isLoading = false,
   zip,
-  results
+  results: initialResults
 }: ProductDetailViewProps) {
+  const [recommendations, setRecommendations] = useState<ScoredProduct[]>(initialResults || []);
+
+  // Safe load of recommendations from localStorage if not provided via props
+  React.useEffect(() => {
+    if (!initialResults && typeof window !== 'undefined') {
+      const stored = localStorage.getItem('marquis_recommendations');
+      if (stored) {
+        try {
+          setRecommendations(JSON.parse(stored));
+        } catch (e) {
+          console.error("Failed to parse recommendations", e);
+        }
+      }
+    }
+  }, [initialResults]);
 
   const getHeroImage = () => {
     // If we have a specific heroImageUrl that isn't the generic fallback, use it
@@ -775,7 +790,7 @@ export default function ProductDetailView({
         {/* UNIFIED PRINT PASS (Hidden in Browser) */}
         <PrintLayout 
            preferences={preferences} 
-           results={results || (typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('marquis_recommendations') || '[]') : [])} 
+           results={recommendations} 
            currentProduct={product} 
         />
      </div>
