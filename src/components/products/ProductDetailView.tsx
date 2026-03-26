@@ -766,29 +766,29 @@ export default function ProductDetailView({
            </div>
            
            <h3 className="text-3xl md:text-4xl font-black italic uppercase text-white mb-4 relative z-10 leading-none">Ready for the Next Step?</h3>
-           <p className="text-white/70 text-base md:text-lg mb-10 max-w-2xl mx-auto relative z-10 font-medium">
-             Connect with your local Marquis expert to experience these features in person and receive final local pricing.
+           <p className="text-white/70 text-base md:text-lg mb-10 max-w-2xl mx-auto relative z-10 font-medium text-center">
+             Download your personalized selection pass and connect with your local Marquis Spas expert to learn more about these features in person.
            </p>
            
             <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10 items-center">
                <button 
                  onClick={() => window.print()}
-                 className="bg-marquis-blue text-white px-8 py-4 rounded-2xl text-xs md:text-sm font-black italic uppercase shadow-lg hover:scale-105 transition-all text-center flex items-center justify-center gap-2"
+                 className="bg-marquis-blue text-white px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-lg hover:scale-105 transition-all text-center flex items-center justify-center gap-2"
                >
-                 <Plus className="w-4 h-4" weight="bold" /> Print Selection Pass
+                 <Plus className="w-4 h-4" weight="bold" /> Print/Download PDF
                </button>
                <Link 
-                 href={zip ? `/mcp/demo/dealer-locator?zip=${zip}` : '/mcp/demo/dealer-locator'}
-                className="bg-white text-marquis-blue px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-center"
-              >
-                Find Nearest Dealer
-              </Link>
-              <Link 
-                href={zip ? `/mcp/demo/dealer-locator?zip=${zip}` : '/mcp/demo/dealer-locator'}
-                className="bg-marquis-blue border-2 border-marquis-blue text-white px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-xl hover:bg-transparent transition-all text-center flex items-center justify-center border-white/20"
-              >
-                Get Local Pricing
-              </Link>
+                 href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+                 className="bg-white text-marquis-blue px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-center"
+               >
+                 Find Nearest Dealer
+               </Link>
+               <Link 
+                 href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+                 className="bg-marquis-blue border-2 border-marquis-blue text-white px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-xl hover:bg-transparent transition-all text-center flex items-center justify-center border-white/20"
+               >
+                 Get Local Pricing
+               </Link>
            </div>
         </div>
 

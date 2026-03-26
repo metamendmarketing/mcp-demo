@@ -807,6 +807,7 @@ export default function Wizard() {
         results={results || undefined}
         onBack={() => setStep('results')}
         isLoading={narrativeLoading}
+        zip={preferences.zipCode || undefined}
       />
     );
   }
