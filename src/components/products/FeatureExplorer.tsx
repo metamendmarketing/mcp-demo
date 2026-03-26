@@ -129,9 +129,9 @@ export default function FeatureExplorer({
             top: `${magnifierPos.relY}%`,
             transform: 'translate(-50%, -50%)',
             backgroundImage: `url(${src})`,
-            // Pixel-based positioning for true 3.0x zoom relative to the container
-            backgroundPosition: `${112 - (magnifierPos.relX / 100) * (magnifierPos.width * 3.0)}px ${112 - (magnifierPos.relY / 100) * (magnifierPos.height * 3.0)}px`,
-            backgroundSize: `${magnifierPos.width * 3.0}px ${magnifierPos.height * 3.0}px`,
+            // Pixel-based positioning for natural 2.0x zoom relative to the container
+            backgroundPosition: `${112 - (magnifierPos.relX / 100) * (magnifierPos.width * 2.0)}px ${112 - (magnifierPos.relY / 100) * (magnifierPos.height * 2.0)}px`,
+            backgroundSize: `${magnifierPos.width * 2.0}px ${magnifierPos.height * 2.0}px`,
             backgroundRepeat: 'no-repeat'
           }}
         >
