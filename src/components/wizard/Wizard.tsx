@@ -27,7 +27,6 @@ import {
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import ProductDetailView, { type Product, type ScoredProduct } from '../products/ProductDetailView';
-import PrintLayout from '@/components/shared/PrintLayout';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -535,13 +534,6 @@ export default function Wizard() {
               Get Started <CaretRight className="w-6 h-6" weight="bold" />
             </button>
          </div>
-         {/* UNIFIED PRINT PASS (Hidden in Browser) */}
-         {results && (
-           <PrintLayout 
-              preferences={preferences} 
-              results={results}
-           />
-         )}
       </div>
     );
   }
