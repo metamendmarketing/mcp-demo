@@ -32,16 +32,16 @@ export async function POST(req: NextRequest) {
     if (allProducts.length === 0) {
       return NextResponse.json({ results: [], error: "Database empty" });
     }
-    
+
     // 2. Rank using heuristic engine and expand pool
     const heuristicResults = scoreProducts(allProducts, body.preferences);
-    
+
     // Inclusive Selection Strategy: Start with Top 12
     let shortList = heuristicResults.slice(0, 12);
 
     // Force-Inject Category Matches (Ensures ATVs/Swim Spas always reach AI when relevant)
     if (body.preferences.primaryPurpose === 'exercise' || body.preferences.primaryPurpose === 'athletes') {
-      const categoryMatches = heuristicResults.filter(r => 
+      const categoryMatches = heuristicResults.filter(r =>
         (r.product.category === 'swim_spa' || r.product.series?.name?.includes('ATV')) &&
         !shortList.find(s => s.product.id === r.product.id)
       );
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       console.warn("[API] GEMINI_API_KEY missing. Falling back to heuristic Top 4.");
-      return NextResponse.json({ 
+      return NextResponse.json({
         results: shortList.slice(0, 4).map(r => ({
           ...r,
           matchStrategy: "Expert Heuristic",
@@ -67,6 +67,12 @@ export async function POST(req: NextRequest) {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
+      // Fetch Brand Context
+      const marquisBrand = await (prisma as any).brand.findFirst({
+        where: { name: { contains: 'Marquis' } },
+        include: { expertise: true, glossary: true }
+      });
+
       const knowledgeBase = {
         expertise: marquisBrand?.expertise.map((e: any) => ({ key: e.key, content: e.content })) || [],
         glossary: marquisBrand?.glossary.map((g: any) => ({ term: g.term, explanation: g.consumerExplanation })) || []
@@ -77,26 +83,26 @@ You are a Marquis Hot Tub Advisor. We have a pool of candidates filtered by our 
 Your job: Be the FINAL DECISION MAKER. Select the TOP 4 that best fit their lifestyle and provide a technical "Match Strategy" and a "Natural Narrative".
 
 BRAND KNOWLEDGE:
-${JSON.stringify(knowledgeBase, null, 2)}
+${JSON.stringify(knowledgeBase)}
 
 User Preferences:
-${JSON.stringify(body.preferences, null, 2)}
+${JSON.stringify(body.preferences)}
 
 Candidate Pool (JSON with deep specs):
-${JSON.stringify(shortList.map(c => ({ 
-  id: String(c.product.id), 
-  name: c.product.modelName, 
-  series: c.product.series?.name, 
-  category: c.product.category,
-  tier: c.product.positioningTier,
-  score: c.score,
-  gpm: c.product.pumpFlowGpm,
-  jets: c.product.jetCount,
-  dims: `${c.product.lengthIn}x${c.product.widthIn}x${c.product.depthIn}`,
-  hotspots: typeof c.product.hotspots === 'string' ? JSON.parse(c.product.hotspots) : (c.product.hotspots || []),
-  features: typeof c.product.standardFeatures === 'string' ? JSON.parse(c.product.standardFeatures) : (c.product.standardFeatures || []),
-  summary: c.product.marketingSummary
-})), null, 2)}
+${JSON.stringify(shortList.map(c => ({
+        id: String(c.product.id),
+        name: c.product.modelName,
+        series: c.product.series?.name,
+        category: c.product.category,
+        tier: c.product.positioningTier,
+        score: c.score,
+        gpm: c.product.pumpFlowGpm,
+        jets: c.product.jetCount,
+        dims: `${c.product.lengthIn}x${c.product.widthIn}x${c.product.depthIn}`,
+        hotspots: typeof c.product.hotspots === 'string' ? JSON.parse(c.product.hotspots) : (c.product.hotspots || []),
+        features: typeof c.product.standardFeatures === 'string' ? JSON.parse(c.product.standardFeatures) : (c.product.standardFeatures || []),
+        summary: c.product.marketingSummary
+      })))}
 
 INSTRUCTIONS:
 1. ELIMINATION: Use your data insight to eliminate models that technically clash with preferences (e.g. if zip code is extreme cold, prioritize models with high-grade insulation or Crown series).
@@ -116,7 +122,7 @@ Output strictly valid JSON:
       const result = await model.generateContent(prompt);
       const response = await result.response;
       let text = response.text();
-      
+
       text = text.replace(/```json/g, '').replace(/```/g, '').trim();
       const refinedData = JSON.parse(text);
       console.log(`[API] AI refined ${refinedData.refinement?.length} products from pool.`);
@@ -148,7 +154,7 @@ Output strictly valid JSON:
     }
 
     // Final Fallback: Shortlist Top 4
-    return NextResponse.json({ 
+    return NextResponse.json({
       results: shortList.slice(0, 4).map(r => ({
         ...r,
         matchStrategy: "Expert Selection",

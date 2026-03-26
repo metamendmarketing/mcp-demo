@@ -426,37 +426,36 @@ export default function Wizard() {
       }
     })();
 
-    // Simulation controls the flow with "Excitement-Driven" logic
-    for (let i = 0; i < 100; i++) {
-       if (recommendationReady && i > 60) break; // Exit loop early if data is ready to jump to 100%
+    // Redistributed Timing Simulation
+    for (let i = 0; i <= 99; i++) {
+       if (recommendationReady && i > 80) break; // Zip to end if data arrives during acceleration phase
        
        setProgress(i);
        
-       if (i < 25) setLoadingMessage("Analyzing user preferences...");
+       // Standard Messages
+       if (i < 20) setLoadingMessage("Analyzing user preferences...");
        else if (i < 50) setLoadingMessage("Reviewing model specifications...");
        else if (i < 80) setLoadingMessage("Identifying suitable options...");
        else setLoadingMessage("Finalizing matches...");
 
-       let delay = 20; // Default Fast (Excitement)
+       let delay = 20; // Phase 1: Fast Start (0-30%)
        
-       if (i >= 40 && i <= 85) {
-         // Phase 2: Randomly varied slowing ("Analytical Depth")
-         delay = 60 + Math.random() * 140; 
-         if (recommendationReady) delay = 30; // Speed up if data arrives during middle
-       } else if (i > 85) {
-         // Phase 3: Accelerated finish
-         delay = 30;
+       if (i >= 30 && i < 80) {
+         // Phase 2: Random Middle (30-80%)
+         delay = 70 + Math.random() * 150; 
+         if (recommendationReady) delay = 30; // Real-time speedup if data arrives early
+       } else if (i >= 80) {
+         // Phase 3: Incremental Acceleration (80-99%)
+         delay = Math.max(10, 50 - (i - 80) * 2.5);
        }
        
        await new Promise(resolve => setTimeout(resolve, delay));
     }
 
-    // Capture the moment of completion
+    // Graceful wait if API is exceptionally slow (no "analytical crawl", just a clean wait)
     if (!recommendationReady) {
-       setLoadingMessage("Finalizing matches...");
-       // Graceful crawl if still waiting
        while (!recommendationReady) {
-          await new Promise(r => setTimeout(r, 100));
+          await new Promise(r => setTimeout(r, 200));
        }
     }
     
