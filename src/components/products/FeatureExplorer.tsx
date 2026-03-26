@@ -41,7 +41,7 @@ export default function FeatureExplorer({
   className
 }: FeatureExplorerProps) {
   const [showMagnifier, setShowMagnifier] = useState(false);
-  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0, relX: 0, relY: 0 });
+  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0, relX: 0, relY: 0, width: 0, height: 0 });
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -62,7 +62,9 @@ export default function FeatureExplorer({
       x: clientX, 
       y: clientY, 
       relX, 
-      relY 
+      relY,
+      width,
+      height
     });
   };
 
@@ -97,6 +99,7 @@ export default function FeatureExplorer({
       ref={containerRef}
       className={cn(
         "relative group overflow-hidden bg-slate-50 border border-slate-200 shadow-xl select-none",
+        "cursor-none", // Hide cursor for magnifier
         aspectRatio,
         className
       )}
@@ -112,13 +115,13 @@ export default function FeatureExplorer({
         src={src} 
         alt={alt} 
         className={cn(
-          "w-full h-full object-contain transition-opacity duration-500",
+          "w-full h-full object-contain transition-opacity duration-500 pointer-events-none",
           showMagnifier ? "opacity-50" : "opacity-100"
         )}
       />
 
       {/* Magnifier Lens (Desktop Only) */}
-      {showMagnifier && (
+      {showMagnifier && !activeHotspot && (
         <div 
           className="absolute pointer-events-none z-[100] w-56 h-56 rounded-full border-4 border-white shadow-[0_0_40px_rgba(0,0,0,0.4)] overflow-hidden bg-white hidden md:block"
           style={{ 
@@ -126,8 +129,9 @@ export default function FeatureExplorer({
             top: `${magnifierPos.relY}%`,
             transform: 'translate(-50%, -50%)',
             backgroundImage: `url(${src})`,
-            backgroundPosition: `${magnifierPos.relX}% ${magnifierPos.relY}%`,
-            backgroundSize: '450%', // 4.5x zoom
+            // Pixel-based positioning for true 4.5x zoom relative to the container
+            backgroundPosition: `${112 - (magnifierPos.relX / 100) * (magnifierPos.width * 4.5)}px ${112 - (magnifierPos.relY / 100) * (magnifierPos.height * 4.5)}px`,
+            backgroundSize: `${magnifierPos.width * 4.5}px ${magnifierPos.height * 4.5}px`,
             backgroundRepeat: 'no-repeat'
           }}
         >
