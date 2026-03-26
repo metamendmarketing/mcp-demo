@@ -30,14 +30,13 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
   // Safe spec extraction
   const getSpec = (val: any, fallback: string = '--') => (val !== null && val !== undefined) ? val : fallback;
 
-  // REFINED Human-Centric Consultation Questions
+  // Human-Centric Consultation Questions
   const getConsultationQuestions = () => {
     const questions = [];
     const goal = preferences?.primaryPurpose;
     const model = currentProduct?.modelName || 'this one';
     const series = currentProduct?.seriesName || currentProduct?.series?.name || '';
 
-    // 1. Warm Goal question
     if (goal === 'therapy' || goal === 'athletes') {
       questions.push({
         q: `How do the H.O.T. Zone jets help with recovery?`,
@@ -55,7 +54,6 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
       });
     }
 
-    // 2. Warm Preference question
     if (preferences?.lounge === 'yes') {
       questions.push({
         q: `Is the Adirondack Chair right for my height?`,
@@ -68,7 +66,6 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
       });
     }
 
-    // 3. Warm Technical/Series question
     if (series.includes('Crown')) {
       questions.push({
         q: "What makes the DuraShell® so durable?",
@@ -86,7 +83,6 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
       });
     }
 
-    // 4. Practical question
     questions.push({
       q: `What base preparation do I need?`,
       reason: "Ensures your backyard is perfectly ready for a seamless installation day."
@@ -101,55 +97,49 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
     <div className="expert-pass-root fixed inset-0 z-[-1] invisible print:visible print:static print:z-[auto] bg-white text-slate-800 font-sans p-0 m-0 print:block">
       
       {/* PAGE 1: DISCOVERY & MATCHES */}
-      <div className="p-8 pb-4 flex flex-col overflow-hidden" style={{ height: '10.5in', pageBreakAfter: 'always', boxSizing: 'border-box' }}>
+      <div className="p-10 flex flex-col overflow-hidden" style={{ height: '10.5in', pageBreakAfter: 'always', boxSizing: 'border-box' }}>
         
-        {/* CORRECTED LOGO PATH & BALANCED HEADER */}
+        {/* REBALANCED HEADER */}
         <div className="flex justify-between items-center border-b-[3px] border-marquis-blue pb-6 mb-8">
           <div className="flex flex-col gap-1">
             <h1 className="text-3xl font-black italic uppercase text-marquis-blue tracking-tighter leading-none">Discovery Summary</h1>
-            <div className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">Marquis® Personal Selection Guide</div>
+            <div className="text-slate-400 text-[11px] font-bold uppercase tracking-[0.2em]">Marquis® Personal Selection Guide</div>
           </div>
           <div className="flex items-center gap-6 shrink-0">
              <img src="/mcp/demo/assets/marquis-logo-full.png" alt="Marquis" className="h-12 grayscale-0" />
           </div>
         </div>
 
-        {/* SECTION: DISCOVERY CRITERIA */}
-        <section className="mb-6">
-          <div className="bg-slate-50 p-6 rounded-[32px] border border-slate-100 flex items-center justify-between">
-            <div className="flex-1">
-               <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-marquis-blue mb-4 flex items-center gap-3">
-                 <Sparkle weight="fill" className="w-4 h-4" /> Discovery Criteria
-               </h2>
-               <div className="grid grid-cols-4 gap-y-4 gap-x-12">
-                  {[
-                    { label: 'Primary Goal', value: preferences?.primaryPurpose || 'Therapy' },
-                    { label: 'Architecture', value: preferences?.aesthetic || 'Modern' },
-                    { label: 'Ownership', value: preferences?.ownership || 'Discovery' },
-                    { label: 'Region', value: zip || 'Local' }
-                  ].map((pref, i) => (
-                    <div key={i}>
-                      <div className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">{pref.label}</div>
-                      <div className="text-sm font-black italic uppercase text-slate-700">{pref.value}</div>
-                    </div>
-                  ))}
-               </div>
-            </div>
+        {/* SECTION: DISCOVERY CRITERIA - RENAMED ARCHITECTURE TO AESTHETIC */}
+        <section className="mb-8">
+          <div className="bg-slate-50 p-7 rounded-[32px] border border-slate-100/80">
+             <div className="grid grid-cols-3 gap-x-12">
+                {[
+                  { label: 'Primary Goal', value: preferences?.primaryPurpose || 'Therapy' },
+                  { label: 'Aesthetic', value: preferences?.aesthetic || 'Modern' }, // Renamed from Architecture
+                  { label: 'Ownership', value: preferences?.ownership || 'Discovery' }
+                ].map((pref, i) => (
+                  <div key={i}>
+                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{pref.label}</div>
+                    <div className="text-base font-black italic uppercase text-slate-700 leading-none">{pref.value}</div>
+                  </div>
+                ))}
+             </div>
           </div>
         </section>
 
-        {/* YOUR MATCHES - RE-REFINED */}
+        {/* YOUR MATCHES - INCREASED FONT & CONTENT LENGTH */}
         <section className="flex-1">
-          <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 mb-6 flex items-center gap-2">
-             <div className="w-1.5 h-1.5 rounded-full bg-marquis-blue" /> Your matches...
+          <h2 className="text-[12px] font-black uppercase tracking-[0.4em] text-slate-400 mb-6 flex items-center gap-3">
+             <div className="w-2 h-2 rounded-full bg-marquis-blue" /> Your matches...
           </h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-6">
             {results.slice(0, 4).map((res, i) => {
               if (!res?.product) return null;
-              const description = res.naturalNarrative || (res.reasons?.length > 1 ? res.reasons[1] : res.reasons?.[0]) || 'Precision-tuned for your lifestyle.';
+              const description = res.naturalNarrative || (res.reasons?.length > 1 ? res.reasons[1] : res.reasons?.[0]) || 'Precision-tuned for your life.';
               
               return (
-                <div key={i} className="flex flex-col p-5 rounded-[28px] border border-slate-100 bg-white" style={{ breakInside: 'avoid' }}>
+                <div key={i} className="flex flex-col p-6 rounded-[32px] border border-slate-100 bg-white shadow-sm" style={{ breakInside: 'avoid' }}>
                    <div className="flex gap-4 mb-4">
                       <div className="w-20 h-20 bg-slate-50 rounded-xl overflow-hidden shrink-0 border border-slate-100/50">
                           <img 
@@ -160,15 +150,15 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
                       </div>
                       <div className="flex flex-col justify-center">
                           <div className="text-marquis-blue font-black uppercase italic text-xl leading-none mb-1">{res.product.modelName}</div>
-                          <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">{res.product.seriesName || res.product.series?.name || 'Marquis'}</div>
-                          <div className="flex items-center gap-2 text-[10px] font-black text-slate-900 uppercase italic">
+                          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{res.product.seriesName || res.product.series?.name || 'Marquis'}</div>
+                          <div className="flex items-center gap-2 text-[11px] font-black text-slate-900 uppercase italic">
                              <SealCheck className="w-4 h-4 text-marquis-green" weight="fill" />
                              {Math.round(res.score)}% Match
                           </div>
                       </div>
                    </div>
-                   <div className="border-t border-slate-50 pt-3">
-                      <p className="text-[10px] text-slate-500 leading-normal font-medium italic line-clamp-3">"{description}"</p>
+                   <div className="border-t border-slate-100/50 pt-4">
+                      <p className="text-[11px] text-slate-500 leading-relaxed font-medium italic line-clamp-4">"{description}"</p>
                    </div>
                 </div>
               )
@@ -176,53 +166,53 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
           </div>
         </section>
 
-        {/* FOOTER OF PAGE 1 */}
+        {/* PAGE 1 FOOTER */}
         <div className="mt-4 pt-4 border-t border-slate-100 text-center">
-           <p className="text-[7px] text-slate-300 font-bold uppercase tracking-[0.4em]">Marquis® Spas | Precision Discovery | Page 1 of 2</p>
+           <p className="text-[9px] text-slate-300 font-bold uppercase tracking-[0.4em]">The Ultimate Hot Tub Experience® | Page 1 of 2</p>
         </div>
       </div>
 
       {/* PAGE 2: SPECS & CONSULTATION GUIDE */}
-      <div className="p-8 pb-4 flex flex-col justify-between overflow-hidden" style={{ height: '10.5in', boxSizing: 'border-box' }}>
+      <div className="p-10 flex flex-col justify-between overflow-hidden" style={{ height: '10.5in', boxSizing: 'border-box' }}>
         
         {/* HIGH-LEVEL SPECS */}
         <div className="flex-1">
           {currentProduct && (
-            <section className="mb-6 bg-slate-900 rounded-[32px] p-8 text-white relative overflow-hidden" style={{ breakInside: 'avoid' }}>
+            <section className="mb-8 bg-slate-900 rounded-[40px] p-10 text-white relative overflow-hidden" style={{ breakInside: 'avoid' }}>
                <div className="relative z-10">
-                 <div className="mb-8 flex justify-between items-end border-b border-white/10 pb-4">
+                 <div className="mb-10 flex justify-between items-end border-b border-white/10 pb-6">
                     <div>
                        <h2 className="text-3xl font-black italic uppercase text-white leading-none mb-1">High-Level Specs</h2>
-                       <p className="text-marquis-blue text-[9px] font-black uppercase tracking-[0.3em] font-mono">{currentProduct.modelName} Profile</p>
+                       <p className="text-marquis-blue text-[10px] font-black uppercase tracking-[0.3em] font-mono">{currentProduct.modelName} Profile</p>
                     </div>
                  </div>
 
-                 <div className="grid grid-cols-3 gap-y-6 gap-x-8 mb-6">
+                 <div className="grid grid-cols-3 gap-y-10 gap-x-12 mb-10">
                     {[
                       { icon: Users, label: 'Capacity', value: `${getSpec(currentProduct.seatsMax, '--')} Adults` },
                       { icon: CornersOut, label: 'Dimensions', value: `${currentProduct.lengthIn || '--'}" x ${currentProduct.widthIn || '--'}"` },
-                      { icon: Lightning, label: 'Jet System', value: `${getSpec(currentProduct.jetCount)} Jets` },
+                      { icon: Lightning, label: 'Jetting', value: `${getSpec(currentProduct.jetCount)} Jets` },
                       { icon: Waves, label: 'Pump Flow', value: `${getSpec(currentProduct.pumpFlowGpm, '160')} GPM` },
                       { icon: Thermometer, label: 'Sanitation', value: 'ConstantClean™' },
-                      { icon: BatteryCharging, label: 'Electrical', value: `${getSpec(currentProduct.electricalAmps, '50')}A` }
+                      { icon: BatteryCharging, label: 'Electrical', value: `${getSpec(currentProduct.electricalAmps, '50')}A Connection` }
                     ].map((spec, idx) => (
-                      <div key={idx} className="flex gap-3">
-                         <div className="bg-white/10 p-2 rounded-xl h-fit shrink-0"><spec.icon className="w-4 h-4 text-marquis-blue" /></div>
+                      <div key={idx} className="flex gap-4">
+                         <div className="bg-white/10 p-3 rounded-2xl h-fit shrink-0"><spec.icon className="w-5 h-5 text-marquis-blue" /></div>
                          <div>
-                            <div className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">{spec.label}</div>
-                            <div className="text-[10px] font-black uppercase">{spec.value}</div>
+                            <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-1">{spec.label}</div>
+                            <div className="text-xs font-black uppercase tracking-tight">{spec.value}</div>
                          </div>
                       </div>
                     ))}
                  </div>
 
-                 <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                    <div className="text-[8px] font-black uppercase text-marquis-blue tracking-widest mb-3">Why we picked this model...</div>
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                 <div className="bg-white/5 rounded-[32px] p-6 border border-white/5">
+                    <div className="text-[10px] font-black uppercase text-marquis-blue tracking-widest mb-3">Why we picked this model...</div>
+                    <div className="grid grid-cols-2 gap-x-12 gap-y-4">
                        {(Array.isArray(currentProduct.reasons) ? currentProduct.reasons : []).slice(1, 5).map((r: string, idx: number) => (
-                          <div key={idx} className="flex gap-2 items-start">
-                             <Check className="w-2.5 h-2.5 text-marquis-blue mt-0.5 shrink-0" weight="bold" />
-                             <p className="text-[9px] text-white/70 font-semibold leading-tight italic">{r}</p>
+                          <div key={idx} className="flex gap-3 items-start">
+                             <Check className="w-3 h-3 text-marquis-blue mt-0.5 shrink-0" weight="bold" />
+                             <p className="text-[11px] text-white/70 font-semibold leading-relaxed italic">{r}</p>
                           </div>
                        ))}
                     </div>
@@ -231,18 +221,17 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
             </section>
           )}
 
-          {/* REFINED HUMAN DEALER CONSULTATION GUIDE */}
-          <section className="mb-6">
-             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-5 border-b border-slate-100 pb-3 flex items-center gap-2">
-               <ChatTeardropDots weight="fill" className="w-4 h-4 text-marquis-blue" /> Dealer Consultation Guide
+          {/* DEALER CONSULTATION GUIDE - RESTORED FONT STYLES */}
+          <section className="mb-8">
+             <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 mb-6 border-b border-slate-100 pb-4 flex items-center gap-3">
+               <ChatTeardropDots weight="fill" className="w-5 h-5 text-marquis-blue" /> Dealer Consultation Guide
              </h2>
-             <div className="grid grid-cols-2 gap-4">
+             <div className="grid grid-cols-2 gap-6">
                 {dynamicQuestions.map((item, idx) => (
-                  <div key={idx} className="bg-slate-50/50 p-4 rounded-2xl border border-slate-100 flex flex-col gap-2" style={{ breakInside: 'avoid' }}>
-                     <div className="text-xs font-black italic uppercase text-marquis-blue leading-tight">{item.q}</div>
-                     <div className="text-[8px] font-semibold text-slate-500 italic pb-1">
-                        <span className="text-marquis-blue font-black uppercase not-italic mr-1">WHY ASK:</span> 
-                        {item.reason}
+                  <div key={idx} className="bg-slate-50/50 p-6 rounded-3xl border border-slate-100 flex flex-col gap-4" style={{ breakInside: 'avoid' }}>
+                     <div className="text-[13px] font-black italic uppercase text-marquis-blue leading-tight">{item.q}</div>
+                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest border-l-2 border-slate-200 pl-4 py-0.5">
+                        WHY ASK: {item.reason}
                      </div>
                   </div>
                 ))}
@@ -250,25 +239,25 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
           </section>
         </div>
 
-        {/* RESTORED FINAL CLOSING & QR SECTION */}
-        <div className="bg-marquis-blue rounded-[32px] p-6 flex items-center justify-between text-white relative overflow-hidden" style={{ breakInside: 'avoid' }}>
-          <div className="max-w-md">
-             <h4 className="text-xl font-black italic uppercase mb-1">Your next step is locally guided</h4>
-             <p className="text-white/70 text-[10px] font-medium leading-relaxed italic">
-               Bring this Discovery Summary to your local Marquis® dealership. Your curated selections provide the perfect baseline for a customized ownership plan.
+        {/* FINAL CLOSING & QR */}
+        <div className="bg-marquis-blue rounded-[32px] p-8 flex items-center justify-between text-white relative overflow-hidden" style={{ breakInside: 'avoid' }}>
+          <div className="max-w-lg">
+             <h4 className="text-2xl font-black italic uppercase mb-2">Locally Guided Expertise</h4>
+             <p className="text-white/70 text-xs font-medium leading-relaxed italic">
+               Bring this Discovery Summary to your local Marquis® dealership. Your curated matches provide the perfect technical baseline for a customized ownership plan.
              </p>
           </div>
-          <div className="text-center bg-white p-2.5 rounded-2xl shrink-0 ml-8 shadow-xl">
-             <div className="bg-slate-50 p-1 rounded-lg mb-1">
-                <img src={qrUrl} alt="Locate Dealer" className="w-14 h-14" />
+          <div className="text-center bg-white p-3 rounded-3xl shrink-0 ml-8 shadow-2xl">
+             <div className="bg-slate-50 p-1.5 rounded-xl mb-1">
+                <img src={qrUrl} alt="Locate Dealer" className="w-16 h-16" />
              </div>
-             <div className="text-[7px] font-black uppercase tracking-widest text-marquis-blue">Scan to locate dealer</div>
+             <div className="text-[8px] font-black uppercase tracking-widest text-marquis-blue">Scan to locate dealer</div>
           </div>
         </div>
 
         {/* PAGE 2 FOOTER */}
-        <div className="mt-4 text-center">
-           <p className="text-[7px] text-slate-300 font-bold uppercase tracking-[0.4em]">Marquis® Spas | Precision Engineering Through Discovery | Page 2 of 2</p>
+        <div className="mt-6 text-center text-slate-300 font-bold uppercase tracking-[0.5em] text-[8px]">
+           Marquis® Spas | Page 2 of 2
         </div>
       </div>
     </div>
