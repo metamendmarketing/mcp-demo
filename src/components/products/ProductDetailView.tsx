@@ -1,5 +1,17 @@
+/**
+ * ProductDetailView.tsx
+ * 
+ * The comprehensive Product Detail Page (PDP) component for Marquis models.
+ * Renders technical specifications, hydrotherapy narratives, and an 
+ * interactive "Feature Explorer" (Hotspots) for a deeply immersive buyer experience.
+ * 
+ * Features:
+ * - Dynamic "Match Strategy" badges based on recommendation focus.
+ * - Interactive Hotspots with detailed spec-based descriptions.
+ * - Climate & Efficiency sections tailored to user-provided zip code data.
+ * - Aesthetic-influenced color explorer using brand-specific mapping.
+ */
 'use client';
-// DEPLOYMENT TRIGGER: Reverting to stable design 0121f3b
 
 import React, { useState } from 'react';
 import Link from 'next/link';

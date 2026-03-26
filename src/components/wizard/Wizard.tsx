@@ -1,3 +1,16 @@
+/**
+ * Wizard.tsx
+ * 
+ * The primary interactive driver of the Marquis Buying Assistant.
+ * This component manages a 15-step immersive discovery process, capturing 
+ * user lifestyle preferences, technical requirements, and aesthetic tastes.
+ * 
+ * Features:
+ * - Real-time "Expert Tips" based on current user selections.
+ * - Dynamic layouts (Grid, Split, Slider, Map) for engaging interactions.
+ * - High-Fidelity API integration for heuristic/AI recommendations.
+ * - Responsive, premium design with framer-motion transitions.
+ */
 'use client';
 
 import React, { useState } from 'react';

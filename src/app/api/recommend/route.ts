@@ -5,7 +5,13 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 /**
  * POST /api/recommend
- * Accepts user preferences, heuristics filters top 8, and Gemini picks Top 4 + Narratives.
+ * 
+ * The core intelligence endpoint for the Marquis Buying Assistant.
+ * It performs a multi-stage recommendation process:
+ * 1. Heuristic Scoring: Ranks all 29 models against 15+ user preference vectors.
+ * 2. Inclusive Filtering: Expands the candidate pool to ensure specialized models (e.g. ATVs) are included.
+ * 3. AI Refinement: Gemini 1.5 Flash performs the final "elimination" and picks the Top 4, 
+ *    generating technical match strategies and narratives based on deep product specs.
  */
 export async function POST(req: NextRequest) {
   try {
@@ -22,19 +28,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ results: [], error: "Database empty" });
     }
     
-    // 2. Rank using heuristic engine to find Top 8 candidates
+    // 2. Rank using heuristic engine and expand pool
     const heuristicResults = scoreProducts(allProducts, body.preferences);
-    const top8Candidates = heuristicResults.slice(0, 8);
-    console.log(`[API] Heuristic Shortlist: ${top8Candidates.map(c => c.product.modelName).join(', ')}`);
+    
+    // Inclusive Selection Strategy: Start with Top 12
+    let shortList = heuristicResults.slice(0, 12);
+
+    // Force-Inject Category Matches (Ensures ATVs/Swim Spas always reach AI when relevant)
+    if (body.preferences.primaryPurpose === 'exercise' || body.preferences.primaryPurpose === 'athletes') {
+      const categoryMatches = heuristicResults.filter(r => 
+        (r.product.category === 'swim_spa' || r.product.series?.name?.includes('ATV')) &&
+        !shortList.find(s => s.product.id === r.product.id)
+      );
+      shortList = [...shortList, ...categoryMatches].slice(0, 16); // Cap at 16 for context window
+    }
+
+    console.log(`[API] Candidate Pool: ${shortList.map(c => c.product.modelName).join(', ')}`);
 
     // 3. AI Refinement (Gemini)
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.warn("[API] GEMINI_API_KEY missing. Falling back to heuristic.");
+      console.warn("[API] GEMINI_API_KEY missing. Falling back to heuristic Top 4.");
       return NextResponse.json({ 
-        results: top8Candidates.slice(0, 4).map(r => ({
+        results: shortList.slice(0, 4).map(r => ({
           ...r,
-          matchStrategy: "Heuristic Match",
+          matchStrategy: "Expert Heuristic",
           naturalNarrative: r.product.marketingSummary
         }))
       });
@@ -44,6 +62,7 @@ export async function POST(req: NextRequest) {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
+      // Fetch Brand Context
       const marquisBrand = await (prisma as any).brand.findFirst({
         where: { name: { contains: 'Marquis' } },
         include: { expertise: true, glossary: true }
@@ -55,8 +74,8 @@ export async function POST(req: NextRequest) {
       };
 
       const prompt = `
-You are a Marquis Hot Tub Advisor. We have filtered 8 candidates for a customer. 
-Your job: select the TOP 4 that best fit their preferences and provide a "Match Strategy" and a "Natural Narrative".
+You are a Marquis Hot Tub Advisor. We have a pool of candidates filtered by our engineering engine.
+Your job: Be the FINAL DECISION MAKER. Select the TOP 4 that best fit their lifestyle and provide a technical "Match Strategy" and a "Natural Narrative".
 
 BRAND KNOWLEDGE:
 ${JSON.stringify(knowledgeBase, null, 2)}
@@ -64,26 +83,30 @@ ${JSON.stringify(knowledgeBase, null, 2)}
 User Preferences:
 ${JSON.stringify(body.preferences, null, 2)}
 
-Top 8 Candidates (JSON):
-${JSON.stringify(top8Candidates.map(c => ({ 
+Candidate Pool (JSON with deep specs):
+${JSON.stringify(shortList.map(c => ({ 
   id: String(c.product.id), 
   name: c.product.modelName, 
   series: c.product.series?.name, 
+  category: c.product.category,
   tier: c.product.positioningTier,
   score: c.score,
   gpm: c.product.pumpFlowGpm,
   jets: c.product.jetCount,
-  specs: c.product.marketingSummary,
-  therapy: c.product.therapySummary
+  dims: `${c.product.lengthIn}x${c.product.widthIn}x${c.product.depthIn}`,
+  hotspots: typeof c.product.hotspots === 'string' ? JSON.parse(c.product.hotspots) : (c.product.hotspots || []),
+  features: typeof c.product.standardFeatures === 'string' ? JSON.parse(c.product.standardFeatures) : (c.product.standardFeatures || []),
+  summary: c.product.marketingSummary
 })), null, 2)}
 
 INSTRUCTIONS:
-1. TECHNICAL SELECTION: Prioritize models with higher GPM (>300) and RHK™ jets for "Firm" intensity.
-2. MATCH STRATEGY: 2-4 word technical badge (e.g., "High-Flow Therapy", "Elite Efficiency").
-3. NARRATIVE: 1 warm, premium paragraph (max 60 words). Enforce technical authority—mention a specific glossary term or spec from the data.
-4. DESIGN CONSIDERATION: 1 professional sentence about a trade-off.
+1. ELIMINATION: Use your data insight to eliminate models that technically clash with preferences (e.g. if zip code is extreme cold, prioritize models with high-grade insulation or Crown series).
+2. TECHNICAL SELECTION: Prioritize models with specific Hotspots or Features mentioned in the data (like H.O.T. Zones for therapy).
+3. MATCH STRATEGY: 2-4 word technical badge (e.g., "High-Flow Hydrotherapy", "Elite Thermal Integrity").
+4. NARRATIVE: 1 warm, premium paragraph (max 60 words). Cite a specific GLOSSARY TERM or HOTSPOT name from the data to prove authority.
+5. DESIGN CONSIDERATION: 1 professional sentence about a trade-off (size, power requirements, or seating style).
 
-Output strictly valid JSON (no markdown):
+Output strictly valid JSON:
 {
   "refinement": [
     { "id": "...", "matchStrategy": "...", "naturalNarrative": "...", "designConsiderations": "..." }
@@ -95,17 +118,13 @@ Output strictly valid JSON (no markdown):
       const response = await result.response;
       let text = response.text();
       
-      // Clean potential markdown blocks
       text = text.replace(/```json/g, '').replace(/```/g, '').trim();
       const refinedData = JSON.parse(text);
-      console.log(`[API] AI refined ${refinedData.refinement?.length} products.`);
+      console.log(`[API] AI refined ${refinedData.refinement?.length} products from pool.`);
 
       const finalResults = refinedData.refinement.map((refinedItem: any) => {
-        const original = top8Candidates.find(c => String(c.product.id) === String(refinedItem.id));
-        if (!original) {
-          console.warn(`[API] Could not find original product for ID: ${refinedItem.id}`);
-          return null;
-        }
+        const original = shortList.find(c => String(c.product.id) === String(refinedItem.id));
+        if (!original) return null;
         return {
           ...original,
           matchStrategy: refinedItem.matchStrategy,
@@ -115,14 +134,13 @@ Output strictly valid JSON (no markdown):
       }).filter(Boolean);
 
       if (finalResults.length > 0) {
-        // 4. Final Relative Re-scaling (Ensures the top AI pick is ALWAYS 100%)
+        // Final Relative Re-scaling
         const maxScore = Math.max(...finalResults.map((r: any) => r.score || 0));
         const anchoredResults = finalResults.map((r: any) => ({
           ...r,
           score: maxScore > 0 ? Math.round(((r.score || 0) / maxScore) * 100) : 100
         }));
 
-        // Sort by score descending to ensure UI consistency
         anchoredResults.sort((a: any, b: any) => (b.score || 0) - (a.score || 0));
         return NextResponse.json({ results: anchoredResults });
       }
@@ -130,9 +148,9 @@ Output strictly valid JSON (no markdown):
       console.error('[API] AI Refinement failed:', aiError);
     }
 
-    // Final Fallback: Heuristic Top 4
+    // Final Fallback: Shortlist Top 4
     return NextResponse.json({ 
-      results: top8Candidates.slice(0, 4).map(r => ({
+      results: shortList.slice(0, 4).map(r => ({
         ...r,
         matchStrategy: "Expert Selection",
         naturalNarrative: r.product.marketingSummary
