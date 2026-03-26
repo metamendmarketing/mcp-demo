@@ -101,4 +101,36 @@
   background: #94a3b8;
 }
 
+/* Print Utilities */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Force background colors/images for important badges */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page {
+    margin: 1cm;
+    size: auto;
+  }
+}
+
+.print-only {
+  display: none;
+}
+
 /* Restoration Confirmed: 2026-03-25T12:07:00-07:00 - Restoring to stable commit cf00efa */

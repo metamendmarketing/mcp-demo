@@ -25,6 +25,7 @@ import { twMerge } from 'tailwind-merge';
 import { clsx, type ClassValue } from 'clsx';
 import { AESTHETIC_MAPPINGS, getAestheticTitle, FINISH_IMAGE_MAP } from '@/lib/brands/aesthetics';
 import FeatureExplorer from './FeatureExplorer';
+import PrintLayout from '@/components/shared/PrintLayout';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -385,6 +386,7 @@ export interface ProductDetailViewProps {
   onBack?: () => void;
   isLoading?: boolean;
   zip?: string;
+  results?: ScoredProduct[];
 }
 
 export default function ProductDetailView({ 
@@ -392,10 +394,11 @@ export default function ProductDetailView({
   mode, 
   aiNarrative, 
   reasons, 
-  preferences, 
+  preferences,
   onBack,
   isLoading = false,
-  zip 
+  zip,
+  results
 }: ProductDetailViewProps) {
 
   const getHeroImage = () => {
@@ -451,7 +454,15 @@ export default function ProductDetailView({
                <CaretLeft className="w-4 h-4" weight="bold" /> Back to Catalog
              </a>
           )}
-          <div className="flex gap-2 sm:gap-4">
+          <div className="flex gap-2 sm:gap-4 no-print items-center">
+             <button 
+               onClick={() => window.print()}
+               className="text-slate-400 hover:text-marquis-blue p-2 rounded-lg transition-colors flex items-center gap-1.5 group/print"
+               title="Download/Print Selection Pass"
+             >
+               <Plus className="w-4 h-4" weight="bold" />
+               <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Print / PDF</span>
+             </button>
              <Link 
                href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
                className="hidden sm:block bg-white text-marquis-blue border-2 border-marquis-blue px-6 py-2 rounded-xl text-sm font-black italic uppercase hover:bg-marquis-blue/5 transition-all text-center"
@@ -725,39 +736,48 @@ export default function ProductDetailView({
           </div>
        </section>
 
-        {/* GROUNDED Q&A FEATURE - Brain 2.0 */}
-        <section className="mt-12 mb-24">
-          <AskTheBrain 
-            productId={product?.id} 
-            productName={product?.modelName} 
-            preferences={preferences} 
-          />
-        </section>
+        {/* BOTTOM CALL TO ACTION */}
+        <div className="relative mt-12 mb-24 py-16 px-8 rounded-[40px] overflow-hidden text-center no-print">
+           <div className="absolute inset-0 bg-slate-900 z-0">
+              <div className="absolute inset-0 opacity-20 bg-[url('/mcp/demo/assets/therapy_premium.png')] bg-cover bg-center mix-blend-overlay" />
+              <div className="absolute inset-0 bg-gradient-to-b from-marquis-blue/20 to-slate-900/90" />
+           </div>
+           
+           <h3 className="text-3xl md:text-4xl font-black italic uppercase text-white mb-4 relative z-10 leading-none">Ready for the Next Step?</h3>
+           <p className="text-white/70 text-base md:text-lg mb-10 max-w-2xl mx-auto relative z-10 font-medium">
+             Connect with your local Marquis expert to experience these features in person and receive final local pricing.
+           </p>
+           
+           <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
+              <Link 
+                href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+                className="bg-white text-marquis-blue px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-center"
+              >
+                Find Nearest Dealer
+              </Link>
+              <Link 
+                href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+                className="bg-marquis-blue border-2 border-marquis-blue text-white px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-xl hover:bg-transparent transition-all text-center flex items-center justify-center border-white/20"
+              >
+                Get Local Pricing
+              </Link>
+           </div>
+           <div className="mt-8 flex justify-center no-print">
+             <button 
+                onClick={() => window.print()}
+                className="text-white/40 hover:text-white flex items-center gap-2 font-black text-[10px] uppercase tracking-[0.2em] transition-colors"
+             >
+               <Plus className="w-3 h-3" weight="bold" /> Download Selection Pass (PDF)
+             </button>
+           </div>
+        </div>
 
-        {/* BOTTOM CTAS */}
-       <div className="bg-slate-900 rounded-[40px] p-10 md:p-16 text-center relative overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-marquis-blue/30 to-transparent pointer-events-none" />
-          <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
-              <Star className="w-64 h-64" />
-          </div>
-          
-          <h3 className="text-3xl md:text-5xl font-black italic uppercase text-white mb-6 relative z-10 leading-none">Your Sanctuary<br/>Awaits.</h3>
-          <p className="text-slate-300 mb-10 max-w-xl mx-auto font-medium text-base md:text-lg relative z-10">Lock in your {mode === 'influenced' ? 'personalized blueprint' : 'official'} {product.modelName} spec sheet by contacting an Authorized Marquis Dealer.</p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-             <Link 
-               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
-               className="bg-white text-marquis-blue px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-center"
-             >
-               Find Nearest Dealer
-             </Link>
-             <Link 
-               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
-               className="bg-marquis-blue border-2 border-marquis-blue text-white px-10 py-5 rounded-2xl text-sm md:text-base font-black italic uppercase shadow-xl hover:bg-transparent transition-all text-center flex items-center justify-center border-white/20"
-             >
-               Get Local Pricing
-             </Link>
-          </div>
-       </div>
-    </div>
+        {/* UNIFIED PRINT PASS (Hidden in Browser) */}
+        <PrintLayout 
+           preferences={preferences} 
+           results={results || (typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('marquis_recommendations') || '[]') : [])} 
+           currentProduct={product} 
+        />
+     </div>
   );
 }

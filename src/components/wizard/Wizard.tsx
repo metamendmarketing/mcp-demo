@@ -19,11 +19,12 @@ import {
   Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
   Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin,
   Check, CaretRight, CaretLeft, Sparkle, ArrowRight, Info, NavigationArrow, CircleNotch, Target,
-  Sun, CloudSun, Flame, Tree, Crosshair
+  Sun, CloudSun, Flame, Tree, Crosshair, Plus
 } from '@phosphor-icons/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import ProductDetailView, { type Product, type ScoredProduct } from '../products/ProductDetailView';
+import PrintLayout from '../shared/PrintLayout';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -467,6 +468,9 @@ export default function Wizard() {
     await new Promise(r => setTimeout(r, 350)); 
 
     // transition
+    if (typeof window !== 'undefined' && recommendationData) {
+      localStorage.setItem('marquis_recommendations', JSON.stringify(recommendationData));
+    }
     setResults(recommendationData || []);
     setStep('results');
     setLoading(false);
@@ -528,6 +532,13 @@ export default function Wizard() {
               Get Started <CaretRight className="w-6 h-6" weight="bold" />
             </button>
          </div>
+         {/* UNIFIED PRINT PASS (Hidden in Browser) */}
+         {results && (
+           <PrintLayout 
+              preferences={preferences} 
+              results={results}
+           />
+         )}
       </div>
     );
   }
@@ -739,7 +750,20 @@ export default function Wizard() {
   if (step === 'results') {
     return (
       <div className="flex flex-col h-full bg-slate-50 animate-slick-reveal">
-        <StepHeader title="Your Personalized Selection" subtitle="Meticulously matched based on your 14 expert criteria." />
+        <div className="bg-gradient-to-r from-marquis-light-blue to-marquis-blue w-full py-6 px-6 text-center shadow-md relative overflow-hidden text-white shrink-0">
+          <div className="relative z-10 flex justify-between items-center max-w-5xl mx-auto">
+            <div className="text-left">
+              <h2 className="text-xl md:text-2xl font-black italic uppercase leading-none drop-shadow-sm">Your Personalized Selection</h2>
+              <p className="text-sm font-medium text-white/90 mt-1">Meticulously matched based on your 14 expert criteria.</p>
+            </div>
+            <button 
+              onClick={() => window.print()}
+              className="no-print bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border border-white/30 transition-all flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" /> Print / PDF
+            </button>
+          </div>
+        </div>
         <div className="p-6 md:p-10 flex-grow overflow-y-auto">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
              {results && results.slice(0, 4).map((res, i) => (
@@ -784,6 +808,7 @@ export default function Wizard() {
         aiNarrative={aiNarrative}
         reasons={selectedResult.reasons}
         preferences={preferences}
+        results={results || undefined}
         onBack={() => setStep('results')}
         isLoading={narrativeLoading}
       />
