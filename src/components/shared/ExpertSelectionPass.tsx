@@ -23,9 +23,12 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
 
   if (!mounted) return null;
 
-  // Extract variables for the template
+  // Extract variables for the template with robust fallbacks
   const zip = preferences?.zipCode || '';
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://demos.metamend.ca/mcp/demo/dealer-locator?zip=${encodeURIComponent(zip)}`;
+
+  // Safe spec extraction
+  const getSpec = (val: any, fallback: string = '--') => (val !== null && val !== undefined) ? val : fallback;
 
   const questions = [
     {
@@ -34,11 +37,11 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
     },
     {
       q: "Can we review the delivery access requirements for my backyard?",
-      reason: "Crucial for planning the installation of larger models like the " + (currentProduct?.modelName || "this one") + "."
+      reason: `Crucial for planning the installation of models like the ${currentProduct?.modelName || 'this one'}.`
     },
     {
       q: "What are the specific electrical requirements for this series?",
-      reason: "Confirms if your home is ready for the " + (currentProduct?.electricalAmps || "50") + "A connection."
+      reason: `Confirms if your home is ready for the ${getSpec(currentProduct?.electricalAmps, '50')}A connection.`
     },
     {
       q: "Can I experience the V-O-L-T™ system in a 'wet test' today?",
@@ -50,7 +53,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
     <div className="expert-pass-root fixed inset-0 z-[-1] invisible print:visible print:static print:z-[auto] bg-white text-slate-900 font-sans p-0 m-0 print:block">
       
       {/* PAGE 1: DISCOVERY & MATCHES */}
-      <div className="min-h-screen p-12 flex flex-col" style={{ pageBreakAfter: 'always' }}>
+      <div className="p-12 flex flex-col overflow-hidden" style={{ height: '10.5in', pageBreakAfter: 'always', boxSizing: 'border-box' }}>
         
         {/* HEADER */}
         <div className="flex justify-between items-start border-b-8 border-marquis-blue pb-8 mb-10">
@@ -92,7 +95,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
         </section>
 
         {/* SECTION: TOP 4 MATCH SET */}
-        <section className="flex-1">
+        <section className="flex-1 overflow-hidden">
           <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-8 border-b border-slate-100 pb-4">Personalized Match Set</h2>
           <div className="grid grid-cols-2 gap-8">
             {results.slice(0, 4).map((res, i) => {
@@ -108,7 +111,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
                    </div>
                    <div className="flex flex-col justify-center">
                       <div className="text-marquis-blue font-black uppercase italic text-xl leading-none mb-1">{res.product.modelName}</div>
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{res.product.seriesName || 'Marquis Series'}</div>
+                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{res.product.seriesName || res.product.series?.name || 'Marquis Series'}</div>
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 text-[10px] font-bold text-slate-800 uppercase italic">
                            <SealCheck className="w-3.5 h-3.5 text-marquis-green" weight="fill" />
@@ -124,13 +127,13 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
         </section>
 
         {/* FOOTER OF PAGE 1 */}
-        <div className="mt-12 pt-8 border-t border-slate-100 text-center">
-           <p className="text-[8px] text-slate-300 font-black uppercase tracking-[0.5em]">The Ultimate Hot Tub Experience® | Continued on Next Page</p>
+        <div className="mt-8 pt-8 border-t border-slate-100 text-center">
+           <p className="text-[8px] text-slate-300 font-black uppercase tracking-[0.5em]">The Ultimate Hot Tub Experience® | Page 1 of 2</p>
         </div>
       </div>
 
       {/* PAGE 2: DEEP DIVE & CONSULTATION GUIDE */}
-      <div className="min-h-screen p-12 flex flex-col justify-between">
+      <div className="p-12 flex flex-col justify-between overflow-hidden" style={{ height: '10.5in', boxSizing: 'border-box' }}>
         
         {/* CURRENT SELECTION DEEP-DIVE */}
         <div className="flex-1">
@@ -144,18 +147,24 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
                     </div>
                     <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center min-w-[120px]">
                        <div className="text-[9px] font-black uppercase text-marquis-blue tracking-widest mb-1">Seating</div>
-                       <div className="text-xl font-black italic uppercase leading-none">{currentProduct.seatsMax} Adults</div>
+                       <div className="text-xl font-black italic uppercase leading-none">{getSpec(currentProduct.seatsMax, '--')} Adults</div>
                     </div>
                  </div>
 
                  <div className="grid grid-cols-3 gap-y-12 gap-x-8 mb-12">
                     {[
-                      { icon: CornersOut, label: 'Dimensions', value: `${currentProduct.lengthIn}x${currentProduct.widthIn}x${currentProduct.depthIn}"` },
-                      { icon: Lightning, label: 'Jet Architecture', value: `${currentProduct.jetCount} Kinetic Jets` },
-                      { icon: Waves, label: 'Hydraulic Flow', value: `${currentProduct.pumpFlowGpm || 160} GPM` },
+                      { 
+                        icon: CornersOut, 
+                        label: 'Dimensions', 
+                        value: (currentProduct.lengthIn && currentProduct.widthIn) 
+                          ? `${currentProduct.lengthIn}x${currentProduct.widthIn}x${currentProduct.depthIn || '--'}"` 
+                          : (currentProduct.depthIn ? `${currentProduct.depthIn}" Depth` : '--')
+                      },
+                      { icon: Lightning, label: 'Jet Architecture', value: `${getSpec(currentProduct.jetCount)} Kinetic Jets` },
+                      { icon: Waves, label: 'Hydraulic Flow', value: `${getSpec(currentProduct.pumpFlowGpm, '160')} GPM` },
                       { icon: Thermometer, label: 'Sanitation', value: 'ConstantClean™ System' },
-                      { icon: BatteryCharging, label: 'Electrical', value: `${currentProduct.electricalAmps || 50}A Connection` },
-                      { icon: Package, label: 'Capacity', value: `${currentProduct.capacityGallons || 350} Gallons` }
+                      { icon: BatteryCharging, label: 'Electrical', value: `${getSpec(currentProduct.electricalAmps, '50')}A Connection` },
+                      { icon: Package, label: 'Capacity', value: `${getSpec(currentProduct.capacityGallons, '350')} Gallons` }
                     ].map((spec, idx) => (
                       <div key={idx} className="flex items-center gap-4">
                          <div className="bg-white/5 p-3 rounded-2xl border border-white/5"><spec.icon className="w-6 h-6 text-marquis-blue" /></div>
@@ -192,7 +201,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
              </p>
              <div className="grid grid-cols-2 gap-8">
                 {questions.map((item, idx) => (
-                  <div key={idx} className="bg-slate-50 p-6 rounded-3xl border border-slate-100 flex flex-col gap-4">
+                  <div key={idx} className="bg-slate-50 p-6 rounded-3xl border border-slate-100 flex flex-col gap-4" style={{ breakInside: 'avoid' }}>
                      <div className="flex gap-4">
                         <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0">
                            <PhosphorInfo className="w-4 h-4 text-marquis-blue" weight="bold" />
@@ -224,7 +233,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
 
         {/* FOOTER OF PAGE 2 */}
         <div className="mt-8 text-center">
-           <p className="text-[8px] text-slate-300 font-black uppercase tracking-[0.5em]">Marquis® Spas | Precision Engineering Through Discovery | 2024 Official Pass</p>
+           <p className="text-[8px] text-slate-300 font-black uppercase tracking-[0.5em]">Marquis® Spas | Precision Engineering Through Discovery | Page 2 of 2</p>
         </div>
       </div>
     </div>
