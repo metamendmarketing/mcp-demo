@@ -434,15 +434,11 @@ export default function Wizard() {
        
        setProgress(i);
        
-       // Expert Status Messages
-       if (i < 15) setLoadingMessage("Connecting to Marquis engineering hub...");
-       else if (i < 30) setLoadingMessage("Analyzing 29 model specifications...");
-       else if (i < 45) setLoadingMessage("Consulting brand mastery glossary...");
-       else if (i < 60) setLoadingMessage("Cross-referencing climate & energy data...");
-       else if (i < 75) setLoadingMessage("Simulating hydrotherapy jet synergy...");
-       else if (i < 85) setLoadingMessage("Optimizing for delivery logistics...");
-       else if (i < 95) setLoadingMessage("Applying high-fidelity AI refinement...");
-       else setLoadingMessage("Finalizing your expert selection...");
+       // User-Preferred Status Messages
+       if (i < 25) setLoadingMessage("Analyzing user preferences...");
+       else if (i < 50) setLoadingMessage("Reviewing model specifications...");
+       else if (i < 80) setLoadingMessage("Identifying suitable options...");
+       else setLoadingMessage("Finalizing matches...");
 
        let delay = 35; // Phase 1: Engagement (0-30%)
        
