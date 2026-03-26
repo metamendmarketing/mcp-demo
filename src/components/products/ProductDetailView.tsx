@@ -751,6 +751,13 @@ export default function ProductDetailView({
           </div>
        </section>
 
+        {/* ASK THE BRAIN (Grounded AI) */}
+        <AskTheBrain 
+          productId={product.id} 
+          productName={product.modelName} 
+          preferences={preferences} 
+        />
+
         {/* BOTTOM CALL TO ACTION */}
         <div className="relative mt-12 mb-24 py-16 px-8 rounded-[40px] overflow-hidden text-center no-print">
            <div className="absolute inset-0 bg-slate-900 z-0">
