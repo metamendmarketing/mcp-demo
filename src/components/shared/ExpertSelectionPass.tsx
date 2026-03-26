@@ -142,7 +142,7 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
                  <div className="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
                     <div>
                       <h2 className="text-2xl font-black italic uppercase text-white leading-none mb-1">High-Level Specs</h2>
-                      <p className="text-marquis-blue text-[9px] font-black uppercase tracking-[0.3em] font-mono">{currentProduct.modelName} Blueprint</p>
+                      <p className="text-marquis-blue text-[9px] font-black uppercase tracking-[0.3em] font-mono">{currentProduct.modelName} Profile</p>
                     </div>
                     <div className="text-right">
                        <span className="text-[8px] font-bold text-white/40 uppercase tracking-widest block mb-1">Occupancy</span>
