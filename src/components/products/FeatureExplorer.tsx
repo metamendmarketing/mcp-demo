@@ -120,10 +120,11 @@ export default function FeatureExplorer({
       {/* Magnifier Lens (Desktop Only) */}
       {showMagnifier && (
         <div 
-          className="fixed pointer-events-none z-50 w-56 h-56 rounded-full border-4 border-white shadow-[0_0_40px_rgba(0,0,0,0.4)] overflow-hidden bg-white hidden md:block"
+          className="absolute pointer-events-none z-[100] w-56 h-56 rounded-full border-4 border-white shadow-[0_0_40px_rgba(0,0,0,0.4)] overflow-hidden bg-white hidden md:block"
           style={{ 
-            left: magnifierPos.x - 112, 
-            top: magnifierPos.y - 112,
+            left: `${magnifierPos.relX}%`, 
+            top: `${magnifierPos.relY}%`,
+            transform: 'translate(-50%, -50%)',
             backgroundImage: `url(${src})`,
             backgroundPosition: `${magnifierPos.relX}% ${magnifierPos.relY}%`,
             backgroundSize: '450%', // 4.5x zoom
