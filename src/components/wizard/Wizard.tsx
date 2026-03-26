@@ -426,8 +426,10 @@ export default function Wizard() {
       }
     })();
 
-    // Simulation controls the flow
+    // Simulation controls the flow with "Excitement-Driven" logic
     for (let i = 0; i < 100; i++) {
+       if (recommendationReady && i > 60) break; // Exit loop early if data is ready to jump to 100%
+       
        setProgress(i);
        
        if (i < 25) setLoadingMessage("Analyzing user preferences...");
@@ -435,40 +437,33 @@ export default function Wizard() {
        else if (i < 80) setLoadingMessage("Identifying suitable options...");
        else setLoadingMessage("Finalizing matches...");
 
-       let delay = 25;
+       let delay = 20; // Default Fast (Excitement)
        
-       if (i >= 30 && i <= 75) {
-         // Middle - Analytical slow-down
-         delay = 140; 
-         if (recommendationReady && i > 50) delay = 50;
-       } else if (i > 75) {
-         // Final stretch - "Spread out" the wait so it doesn't just hit 99 and stop
-         if (recommendationReady) {
-           delay = 15; 
-         } else {
-           // Crawl slower (650ms per %) to soak up the API time!
-           delay = 650; 
-         }
-       } else {
-         // Early phase
-         delay = 15;
+       if (i >= 40 && i <= 85) {
+         // Phase 2: Randomly varied slowing ("Analytical Depth")
+         delay = 60 + Math.random() * 140; 
+         if (recommendationReady) delay = 30; // Speed up if data arrives during middle
+       } else if (i > 85) {
+         // Phase 3: Accelerated finish
+         delay = 30;
        }
        
        await new Promise(resolve => setTimeout(resolve, delay));
     }
 
-    // Ensure we actually HAVE the data (results) before setting 100 and transitioning
+    // Capture the moment of completion
     if (!recommendationReady) {
        setLoadingMessage("Finalizing matches...");
+       // Graceful crawl if still waiting
        while (!recommendationReady) {
-          await new Promise(r => setTimeout(r, 150));
+          await new Promise(r => setTimeout(r, 100));
        }
     }
     
-    // Subtle 150ms pause at 100% just to ensure it's visually registered before the jump
+    // Satisfaction Fulfillment: Zip to 100 and hold for a beat
     setProgress(100);
-    setLoadingMessage("Finalizing matches...");
-    await new Promise(r => setTimeout(r, 150)); 
+    setLoadingMessage("Matching Complete!");
+    await new Promise(r => setTimeout(r, 350)); 
 
     // transition
     setResults(recommendationData || []);

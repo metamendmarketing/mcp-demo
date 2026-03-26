@@ -18,10 +18,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log('[API] Received preferences:', JSON.stringify(body.preferences));
 
-    // 1. Fetch all products with series for rich context
-    const allProducts = await prisma.product.findMany({
-      include: { series: true }
-    });
+    // 1. Fetch products and brand context in parallel for performance
+    const [allProducts, marquisBrand] = await Promise.all([
+      prisma.product.findMany({ include: { series: true } }),
+      (prisma as any).brand.findFirst({
+        where: { name: { contains: 'Marquis' } },
+        include: { expertise: true, glossary: true }
+      })
+    ]);
+
     console.log(`[API] DB Sync: ${allProducts.length} products found.`);
 
     if (allProducts.length === 0) {
@@ -61,12 +66,6 @@ export async function POST(req: NextRequest) {
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
-      // Fetch Brand Context
-      const marquisBrand = await (prisma as any).brand.findFirst({
-        where: { name: { contains: 'Marquis' } },
-        include: { expertise: true, glossary: true }
-      });
 
       const knowledgeBase = {
         expertise: marquisBrand?.expertise.map((e: any) => ({ key: e.key, content: e.content })) || [],
