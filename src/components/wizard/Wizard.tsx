@@ -497,12 +497,22 @@ export default function Wizard() {
   };
 
   const getHeroImage = (product: Product) => {
+    // 1. Prioritize DB URL if it's explicitly set and NOT the generic fallback
+    if (product.heroImageUrl && 
+        !product.heroImageUrl.includes('therapy_premium.png') && 
+        !product.heroImageUrl.includes('placeholder')) {
+      return product.heroImageUrl;
+    }
+
+    // 2. Fallback to constructed path for local assets
     if (product.slug) {
       const isCrown = product.slug.includes('crown');
       const isJpgVector = product.slug.includes('v65l') || product.slug.includes('v77l');
       const ext = (isCrown || isJpgVector) ? 'jpg' : 'png';
       return `/mcp/demo/assets/products/${product.slug}/hero.${ext}`;
     }
+
+    // 3. Absolute fallback
     return product.heroImageUrl || '/mcp/demo/assets/therapy_premium.png';
   };
 
