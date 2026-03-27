@@ -595,7 +595,7 @@ export default function Wizard() {
             )}
             {q.layout === 'split' && (
               <div className={cn("grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative", q.bgImage ? "p-10 rounded-[40px] overflow-hidden shadow-2xl min-h-[550px]" : "")}>
-                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover object-center z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-slate-900/20 z-10" /></>}
+                {q.bgImage && <><img src={q.bgImage} className="absolute inset-0 w-full h-full object-cover object-center z-0" alt="" /><div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/40 to-slate-900/10 z-10" /></>}
                 <div className="lg:col-span-5 relative z-20">
                   <div className={cn("p-8 rounded-3xl border shadow-sm", q.bgImage ? "bg-white/10 backdrop-blur-md border-white/20 text-white" : "bg-white border-slate-100")}>
                     <p className="text-lg font-medium leading-relaxed italic">"{q.expertTip(preferences)}"</p>
