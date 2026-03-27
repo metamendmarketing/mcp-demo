@@ -519,20 +519,38 @@ export default function Wizard() {
   if (step === 'intro') {
     return (
       <div className="flex flex-col h-full bg-[url('/mcp/demo/assets/intro_bg.png')] bg-cover bg-center relative overflow-hidden animate-slick-reveal">
-         <div className="absolute inset-0 bg-slate-900/50" />
-         <div className="p-8 pb-16 md:p-16 flex flex-col items-center justify-center text-center relative z-10 flex-grow min-h-[500px]">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase text-white mb-6 leading-[1.1] drop-shadow-xl max-w-2xl">
-               Expertly <span className="text-marquis-blue">Matched.</span>
+         <div className="absolute inset-0 bg-slate-900/40" />
+         <div className="p-8 pb-16 md:p-16 flex flex-col items-center justify-center text-center relative z-10 flex-grow min-h-[550px]">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black italic uppercase text-white mb-6 leading-[1.1] drop-shadow-2xl max-w-4xl tracking-tight">
+               Find the Perfect <br/>
+               <span className="text-marquis-blue">Hot Tub for You.</span>
             </h1>
-            <p className="text-white/90 text-lg md:text-xl leading-relaxed max-w-2xl mb-10 font-medium drop-shadow-md">
-               Discover Marquis models thoughtfully selected to match your lifestyle, powered by your personal preferences.
+            <p className="text-white/90 text-sm md:text-lg leading-relaxed max-w-2xl mb-10 font-medium drop-shadow-md italic">
+               "Create the ultimate relaxation oasis in your own backyard with meticulous refinement and obsessive attention to detail."
             </p>
             <button 
               onClick={() => setStep('question')}
-              className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group hover:scale-105 transition-transform flex items-center gap-3"
+              className="btn-marquis-premium px-12 py-5 rounded-2xl text-xl font-black italic uppercase shadow-2xl group hover:scale-105 transition-transform flex items-center gap-3 relative overflow-hidden"
             >
-              Get Started <CaretRight className="w-6 h-6" weight="bold" />
+              <div className="absolute inset-0 bg-white/10 group-hover:bg-white/20 transition-colors" />
+              Get Started <ArrowRight className="w-6 h-6" weight="bold" />
             </button>
+         </div>
+
+         {/* Restored Priority Feature Row */}
+         <div className="relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/10 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
+            <div className="p-8 text-center flex flex-col items-center justify-center space-y-2">
+               <h4 className="text-white font-black text-xs uppercase tracking-[0.2em]">Extraordinary Quality</h4>
+               <p className="text-white/60 text-[10px] font-medium uppercase tracking-widest">Built to rigorous standards.</p>
+            </div>
+            <div className="p-8 text-center flex flex-col items-center justify-center space-y-2">
+               <h4 className="text-white font-black text-xs uppercase tracking-[0.2em]">World-Class Performance</h4>
+               <p className="text-white/60 text-[10px] font-medium uppercase tracking-widest">V-O-L-T™ hydrotherapy delivery.</p>
+            </div>
+            <div className="p-8 text-center flex flex-col items-center justify-center space-y-2">
+               <h4 className="text-white font-black text-xs uppercase tracking-[0.2em]">Meticulously Crafted</h4>
+               <p className="text-white/60 text-[10px] font-medium uppercase tracking-widest">Made in the USA.</p>
+            </div>
          </div>
       </div>
     );
