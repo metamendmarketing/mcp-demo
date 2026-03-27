@@ -521,12 +521,11 @@ export default function Wizard() {
       <div className="flex flex-col h-full bg-[url('/mcp/demo/assets/intro_bg.png')] bg-cover bg-center relative overflow-hidden animate-slick-reveal">
          <div className="absolute inset-0 bg-slate-900/40" />
          <div className="p-8 pb-16 md:p-16 flex flex-col items-center justify-center text-center relative z-10 flex-grow min-h-[550px]">
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black italic uppercase text-white mb-6 leading-[1.1] drop-shadow-2xl max-w-4xl tracking-tight">
-               Find the Perfect <br/>
-               <span className="text-marquis-blue">Hot Tub for You.</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase text-white mb-6 leading-[1.1] drop-shadow-xl max-w-2xl">
+               Expertly <span className="text-marquis-blue">Matched.</span>
             </h1>
-            <p className="text-white/90 text-sm md:text-lg leading-relaxed max-w-2xl mb-10 font-medium drop-shadow-md italic">
-               "Create the ultimate relaxation oasis in your own backyard with meticulous refinement and obsessive attention to detail."
+            <p className="text-white/90 text-lg md:text-xl leading-relaxed max-w-2xl mb-10 font-medium drop-shadow-md">
+               Discover Marquis models thoughtfully selected to match your lifestyle, powered by your personal preferences.
             </p>
             <button 
               onClick={() => setStep('question')}
