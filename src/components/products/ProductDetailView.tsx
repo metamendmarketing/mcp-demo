@@ -660,7 +660,7 @@ export default function ProductDetailView({
         <div className="flex items-center gap-3 mb-8 px-2">
           <BookOpen className="w-6 h-6 text-marquis-blue" />
           <h4 className="text-2xl font-black italic uppercase text-slate-800">
-            {mode === 'influenced' ? 'Why this is a good choice...' : 'Engineering Specifications'}
+            {mode === 'influenced' ? 'Why this is a good choice...' : 'Highlights of this model'}
           </h4>
         </div>
 
