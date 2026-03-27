@@ -429,45 +429,45 @@ export default function Wizard() {
       }
     })();
 
-    // Redistributed Timing Simulation (Paced for ~25-30s backend duration)
-    console.log("[Wizard] Multi-Phase Analytical Simulation Started (v4)");
+    // Redistributed Timing Simulation (Paced for ~32-38s actual backend duration)
+    console.log("[Wizard] Multi-Phase Analytical Simulation Started (v5 - Balanced)");
     for (let i = 0; i <= 99; i++) {
-       // If data arrives, we allow a "Fast-Forward" but keep SOME movement for satisfaction
        const shouldAccelerate = recommendationReady;
-       
        setProgress(i);
        
        // User-Preferred Status Messages
-       if (i < 25) setLoadingMessage("Analyzing user preferences...");
-       else if (i < 50) setLoadingMessage("Reviewing model specifications...");
-       else if (i < 80) setLoadingMessage("Identifying suitable options...");
+       if (i < 20) setLoadingMessage("Analyzing user preferences...");
+       else if (i < 45) setLoadingMessage("Reviewing model specifications...");
+       else if (i < 75) setLoadingMessage("Identifying suitable options...");
        else setLoadingMessage("Finalizing matches...");
 
-       let delay = 35; // Phase 1: Engagement (0-30%)
+       let delay = 60; // Phase 1: Engagement (0-15%)
        
-       if (i >= 30 && i < 85) {
-         // Phase 2: Prolonged Random Middle (30-85%)
-         // Paced to soak up ~20-25 seconds (Average 400ms per unit)
-         delay = shouldAccelerate ? 25 : (150 + Math.random() * 550);
+       if (i >= 15 && i < 85) {
+         // Phase 2: Heavy lifting - Randomized (15-85%)
+         // Paced to last ~30-32 seconds if not accelerated (avg 450ms)
+         delay = shouldAccelerate ? 30 : (200 + Math.random() * 700);
        } else if (i >= 85) {
-         // Phase 3: Accelerated Finish (85-99%)
-         delay = shouldAccelerate ? 15 : Math.max(40, 100 - (i - 85) * 4);
+         // Phase 3: Paced/Accelerated Finish (85-99%)
+         delay = shouldAccelerate ? 20 : Math.max(100, 300 - (i - 85) * 15);
        }
        
        await new Promise(resolve => setTimeout(resolve, delay));
     }
 
-    // Final check before satisfaction beat
+    // Wait for actual data if we hit 99 before it arrives
     if (!recommendationReady) {
+       setLoadingMessage("Securing final match data...");
        while (!recommendationReady) {
-          await new Promise(r => setTimeout(r, 100));
+          await new Promise(r => setTimeout(r, 200));
        }
     }
     
-    // Satisfaction Fulfillment: Zip to 100 and hold for a beat
+    // Satisfaction Fulfillment: Zip to 100 and transition
     setProgress(100);
     setLoadingMessage("Matching Complete!");
-    await new Promise(r => setTimeout(r, 350)); 
+    // Reduced hold for more instant "Finish" feel
+    await new Promise(r => setTimeout(r, 150)); 
 
     // transition
     if (typeof window !== 'undefined' && recommendationData) {
