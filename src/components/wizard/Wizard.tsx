@@ -185,6 +185,7 @@ const QUESTIONS: {
       return "If this is your 'Forever Spa', we will bias toward our Crown and Vector21 Series. If you are 'Discovering' for a short-term residence, our Celebrity series provides the famous Marquis quality at a high-value entry point.";
     },
     layout: 'split',
+    bgImage: '/mcp/demo/assets/bg_ownership_material.png',
     options: [
       { value: 'upgrade', label: 'Forever Spa Upgrade', tip: "I want the highest engineering specs and longevity (Crown/Vector).", icon: <Crown weight="duotone" className="w-8 h-8 text-amber-500" /> },
       { value: 'discovery', label: 'First Spa Discovery', tip: "I want the best value for a multi-year experience (Celebrity).", icon: <Compass weight="duotone" className="w-8 h-8 text-marquis-blue" /> }
