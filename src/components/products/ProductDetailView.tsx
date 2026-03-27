@@ -15,9 +15,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { 
+import {
   Check, CaretLeft, Lightning, Users, Heart, CornersOut, Star, BookOpen, Scales,
-  ChatCircleDots, MapPin, Waves, Palette, Gear, BatteryCharging, 
+  ChatCircleDots, MapPin, Waves, Palette, Gear, BatteryCharging,
   Package, Thermometer, Plus, Sparkle, PaperPlaneRight, CircleNotch, CheckCircle, CaretRight, Info,
   Heartbeat, ArrowRight
 } from '@phosphor-icons/react';
@@ -68,13 +68,13 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
 
   const shellColors = Array.from(new Set(Array.isArray(product.shellColors) ? (product.shellColors as string[]) : [])) as string[];
   const cabinetColors = Array.from(new Set(Array.isArray(product.cabinetColors) ? (product.cabinetColors as string[]) : [])) as string[];
-  
+
   const seriesName = product.seriesName || product.series?.name || '';
-  const seriesKey = seriesName.toLowerCase().includes('crown') ? 'crown' : 
-                   (seriesName.toLowerCase().includes('vector') ? 'vector' : 
-                   (seriesName.toLowerCase().includes('celebrity') ? 'celebrity' : 
-                   (seriesName.toLowerCase().includes('elite') ? 'elite' : null)));
-                   
+  const seriesKey = seriesName.toLowerCase().includes('crown') ? 'crown' :
+    (seriesName.toLowerCase().includes('vector') ? 'vector' :
+      (seriesName.toLowerCase().includes('celebrity') ? 'celebrity' :
+        (seriesName.toLowerCase().includes('elite') ? 'elite' : null)));
+
   const aestheticKey = (mode === 'influenced') ? preferences?.aesthetic : null;
   const suggested = seriesKey && aestheticKey ? AESTHETIC_MAPPINGS[seriesKey]?.[aestheticKey] : null;
 
@@ -99,9 +99,9 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
 
   const renderColorSwatch = (color: string, groupKey: string) => {
     const imageUrl = FINISH_IMAGE_MAP[color] || FINISH_IMAGE_MAP[color.replace('®', '')];
-    
+
     return (
-      <div 
+      <div
         key={`${groupKey}-${color}`}
         className="group relative flex flex-col items-center gap-2 transition-all duration-300"
       >
@@ -147,53 +147,53 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
 
   return (
     <div className="mt-2">
-       <div className="space-y-6">
-         {/* Suggested Section */}
-         {suggested && (
-           <div className="flex flex-col md:flex-row flex-wrap gap-10 p-6 bg-slate-50/50 rounded-3xl border border-slate-100">
-             {renderGroup("Interior - DuraShell®", suggestedShell, "s-shell")}
-             {renderGroup("Exterior - Cabinet", suggestedCabinet, "s-cab")}
-             {renderGroup("Top - Cover", suggestedCover, "s-cover")}
-           </div>
-         )}
+      <div className="space-y-6">
+        {/* Suggested Section */}
+        {suggested && (
+          <div className="flex flex-col md:flex-row flex-wrap gap-10 p-6 bg-slate-50/50 rounded-3xl border border-slate-100">
+            {renderGroup("Interior - DuraShell®", suggestedShell, "s-shell")}
+            {renderGroup("Exterior - Cabinet", suggestedCabinet, "s-cab")}
+            {renderGroup("Top - Cover", suggestedCover, "s-cover")}
+          </div>
+        )}
 
-         {/* Static Preview (when not influenced) */}
-         {!suggested && !showAllColors && (
-           <div className="flex flex-wrap gap-12">
-             {renderGroup("Interior - DuraShell®", shellColors.slice(0, 2), "p-shell")}
-             {renderGroup("Exterior - Cabinet", cabinetColors.filter((c: string) => !isCover(c)).slice(0, 1), "p-cab")}
-           </div>
-         )}
-         
-         {/* Show All Logic */}
-         {!showAllColors ? (
-           <button 
-             onClick={() => setShowAllColors(true)}
-             className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors group/link px-2"
-           >
-             {suggested ? "Explore all color options" : "Show all available finishes"} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" weight="bold" />
-           </button>
-         ) : (
-           <div className="animate-in fade-in slide-in-from-top-2 duration-500 space-y-8 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-             <div className="flex items-center justify-between mb-2">
-               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Full Collection</div>
-               <button 
-                 onClick={() => setShowAllColors(false)}
-                 className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-1"
-               >
-                 Close full gallery
-               </button>
-             </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-               {renderGroup("Interior - DuraShell®", shellColors, "all-shell")}
-               <div className="space-y-8">
-                 {renderGroup("Exterior - Cabinet", cabinetColors.filter((c: string) => !isCover(c)), "all-cab")}
-                 {renderGroup("Top - Cover", cabinetColors.filter((c: string) => isCover(c)), "all-cover")}
-               </div>
-             </div>
-           </div>
-         )}
-       </div>
+        {/* Static Preview (when not influenced) */}
+        {!suggested && !showAllColors && (
+          <div className="flex flex-wrap gap-12">
+            {renderGroup("Interior - DuraShell®", shellColors.slice(0, 2), "p-shell")}
+            {renderGroup("Exterior - Cabinet", cabinetColors.filter((c: string) => !isCover(c)).slice(0, 1), "p-cab")}
+          </div>
+        )}
+
+        {/* Show All Logic */}
+        {!showAllColors ? (
+          <button
+            onClick={() => setShowAllColors(true)}
+            className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 hover:text-marquis-blue transition-colors group/link px-2"
+          >
+            {suggested ? "Explore all color options" : "Show all available finishes"} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" weight="bold" />
+          </button>
+        ) : (
+          <div className="animate-in fade-in slide-in-from-top-2 duration-500 space-y-8 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Full Collection</div>
+              <button
+                onClick={() => setShowAllColors(false)}
+                className="text-[10px] font-black text-marquis-blue uppercase tracking-widest flex items-center gap-1"
+              >
+                Close full gallery
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              {renderGroup("Interior - DuraShell®", shellColors, "all-shell")}
+              <div className="space-y-8">
+                {renderGroup("Exterior - Cabinet", cabinetColors.filter((c: string) => !isCover(c)), "all-cab")}
+                {renderGroup("Top - Cover", cabinetColors.filter((c: string) => isCover(c)), "all-cover")}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -282,8 +282,8 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
             "What is V-O-L-T™ therapy?",
             "Maintenance requirements?"
           ].map((q, i) => (
-            <button 
-              key={i} 
+            <button
+              key={i}
               type="button"
               onClick={() => setQuestion(q)}
               className="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase transition-colors"
@@ -323,7 +323,7 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
           </div>
         )}
       </div>
-      
+
       <div className="bg-slate-50 border-t border-slate-100 p-6 flex justify-center">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Marquis Engineering | Fact-Based Precision</p>
       </div>
@@ -389,11 +389,11 @@ export interface ProductDetailViewProps {
   results?: ScoredProduct[];
 }
 
-export default function ProductDetailView({ 
-  product, 
-  mode, 
-  aiNarrative, 
-  reasons, 
+export default function ProductDetailView({
+  product,
+  mode,
+  aiNarrative,
+  reasons,
   preferences,
   onBack,
   isLoading = false,
@@ -418,9 +418,9 @@ export default function ProductDetailView({
 
   const getHeroImage = () => {
     // If we have a specific heroImageUrl that isn't the generic fallback, use it
-    if (product.heroImageUrl && 
-        !product.heroImageUrl.includes('therapy_premium.png') && 
-        !product.heroImageUrl.includes('placeholder')) {
+    if (product.heroImageUrl &&
+      !product.heroImageUrl.includes('therapy_premium.png') &&
+      !product.heroImageUrl.includes('placeholder')) {
       return product.heroImageUrl;
     }
 
@@ -436,7 +436,7 @@ export default function ProductDetailView({
 
   const heroImg = getHeroImage();
   const displayReasons = mode === 'influenced' ? (reasons || []) : (product.staticReasons ? (typeof product.staticReasons === 'string' ? JSON.parse(product.staticReasons) : product.staticReasons) : []);
-  
+
   const displayNarrative = mode === 'influenced' ? {
     heroTitle: aiNarrative?.heroTitle || product.modelName,
     hydrotherapy: aiNarrative?.hydrotherapy || "Synthesizing your personalized profile...",
@@ -452,352 +452,352 @@ export default function ProductDetailView({
     efficiency: product.staticEfficiency,
     designConsideration: product.staticDesignConsideration
   };
-  
+
   const categoryLabel = getAestheticTitle(preferences?.aesthetic) || 'Aesthetic';
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 animate-slick-reveal">
-       {/* TOP ACTIONS */}
-       <div className="flex justify-between items-center mb-6">
-          {onBack && (
-            <button onClick={onBack} className="text-slate-500 hover:text-marquis-blue flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-colors">
-              <CaretLeft className="w-4 h-4" weight="bold" /> {mode === 'influenced' ? 'Back to Selection' : 'Back'}
-            </button>
-          )}
-          {!onBack && (
-               <a href="/mcp/demo/products" className="text-slate-500 hover:text-marquis-blue flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-colors">
-               <CaretLeft className="w-4 h-4" weight="bold" /> Back to Catalog
-             </a>
-          )}
-          <div className="flex gap-2 sm:gap-4 no-print items-center">
-             <button 
-               onClick={() => window.print()}
-               className="text-slate-400 hover:text-marquis-blue p-2 rounded-lg transition-colors flex items-center gap-1.5 group/print"
-               title="Download/Print Selection Pass"
-             >
-               <Plus className="w-4 h-4" weight="bold" />
-               <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Print / PDF</span>
-             </button>
-             <Link 
-               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
-               className="hidden sm:block bg-white text-marquis-blue border-2 border-marquis-blue px-6 py-2 rounded-xl text-sm font-black italic uppercase hover:bg-marquis-blue/5 transition-all text-center"
-             >
-               Find Dealer
-             </Link>
-             <Link 
-               href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
-               className="bg-marquis-blue text-white px-6 py-2 rounded-xl text-sm font-black italic uppercase shadow-xl hover:bg-blue-700 transition-all text-center flex items-center justify-center"
-             >
-               Get Pricing
-             </Link>
-          </div>
-       </div>
-       
-       {/* HERO SECTION - COMPACT */}
-       <div className="bg-white rounded-[32px] overflow-hidden shadow-2xl border border-slate-100 mb-8 flex flex-col md:flex-row">
-          <div className="md:w-1/2 relative bg-slate-50 border-r border-slate-100">
-             <img src={heroImg} className="w-full h-full object-cover absolute inset-0" alt={product.modelName} />
-             <div className="relative z-10 p-8 min-h-[350px] flex flex-col justify-end bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent">
-                <div className="text-white/80 text-xs font-black uppercase tracking-widest mb-1 shadow-sm">
-                  {product.series?.name || product.seriesName || 'Marquis'} {product.positioningTier ? `| ${product.positioningTier.charAt(0).toUpperCase() + product.positioningTier.slice(1)}` : ''}
-                </div>
-                <h3 className="text-5xl md:text-6xl font-black italic uppercase text-white leading-none drop-shadow-lg">{product.modelName}</h3>
-             </div>
-          </div>
-          <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-             <h2 className="text-2xl md:text-3xl font-black italic uppercase text-slate-800 tracking-tight flex items-center gap-3 mb-8 border-b border-slate-100 pb-6">
-                {isLoading ? "Expert Analysis..." : displayNarrative.heroTitle} 
-                <Sparkle className="w-6 h-6 text-marquis-blue flex-shrink-0" weight="fill" />
-             </h2>
-             
-              {/* At a glance boxes */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <CornersOut className="w-6 h-6 text-marquis-blue/80" weight="bold" />
-                    <div>
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Footprint</div>
-                      <div className="text-sm font-black italic uppercase text-slate-700">{product.lengthIn}x{product.widthIn}x{product.depthIn}"</div>
-                    </div>
-                 </div>
-                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <Users className="w-6 h-6 text-marquis-blue/80" />
-                    <div>
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Capacity</div>
-                      <div className="text-sm font-black italic uppercase text-slate-700">
-                        {product.seatsMax !== null && product.seatsMax !== undefined ? (
-                          <>
-                            {product.seatsMin && product.seatsMin !== product.seatsMax ? `${product.seatsMin}-${product.seatsMax}` : product.seatsMax} Adults
-                          </>
-                        ) : (
-                          "Marquis Signature"
-                        )}
-                      </div>
-                    </div>
-                 </div>
-                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <Lightning className="w-6 h-6 text-amber-500" weight="fill" />
-                    <div>
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hydro-Flow</div>
-                      <div className="text-sm font-black italic uppercase text-slate-700">{product.pumpFlowGpm || 160} GPM</div>
-                    </div>
-                 </div>
-                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <Waves className="w-6 h-6 text-marquis-blue/80" />
-                    <div>
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Water Volume</div>
-                      <div className="text-sm font-black italic uppercase text-slate-700">{product.capacityGallons || 400} gal</div>
-                    </div>
-                 </div>
-                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <Package className="w-6 h-6 text-slate-400" weight="bold" />
-                    <div>
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Weight (Full)</div>
-                      <div className="text-sm font-black italic uppercase text-slate-700">{product.fullWeightLbs || 4500} lbs</div>
-                    </div>
-                 </div>
-                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
-                    <BatteryCharging className="w-6 h-6 text-emerald-500" />
-                    <div>
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Electrical</div>
-                      <div className="text-sm font-black italic uppercase text-slate-700">{product.electricalAmps || 50}A Config</div>
-                    </div>
-                 </div>
-              </div>
-
-             {/* Design Considerations / Trade-offs */}
-             {displayNarrative.designConsideration && (
-                <div className="mb-8 bg-amber-50/30 p-6 rounded-2xl border border-amber-100/50">
-                   <div className="text-[10px] font-black text-amber-700 uppercase tracking-widest mb-2 flex items-center gap-2">
-                     <Info className="w-3 h-3" />
-                     {mode === 'influenced' ? 'Design Consideration' : 'Engineering Tip'}
-                   </div>
-                   <p className="text-sm text-slate-700 font-medium leading-relaxed italic">
-                     {displayNarrative.designConsideration}
-                   </p>
-                </div>
-             )}
-          </div>
-       </div>
-
-        {/* NEW INTERACTION ROW - DECOUPLED COLUMN HEIGHTS - COMPACT */}
-        <div className="flex flex-col lg:flex-row gap-6 mb-10 items-start">
-            
-            {/* LEFT: THERAPY OBJECTIVE & EXPERT REASONING */}
-            <div className="lg:w-1/2 bg-blue-50/40 p-8 rounded-[32px] border border-blue-100/50 shadow-sm flex flex-col">
-               <div className="flex items-center gap-3 mb-6">
-                 <Heart className="w-5 h-5 text-marquis-blue" />
-                 <h4 className="text-xl font-black italic uppercase text-slate-800">Therapy Objective</h4>
-               </div>
-               
-               <p className="text-sm md:text-base text-slate-600 font-semibold leading-relaxed italic mb-8">
-                 "{product.therapySummary || (
-                   product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
-                   product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
-                   product.series?.name === 'Marquis Elite' ? 'High-performance hydrotherapy combined with exceptional durability for a professional-grade home spa experience.' :
-                   'A balanced, engineering-focused hydrotherapy experience designed for daily wellness and relaxation.'
-                 )}"
-               </p>
-               
-               <div className="mt-auto pt-6 border-t border-blue-100">
-                  <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-4">
-                    {mode === 'influenced' ? 'Expert Reasoning' : 'Key Engineering Features'}
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {displayReasons.slice(0, 4).map((r: string, i: number) => (
-                      <div key={i} className="flex gap-2 items-start">
-                        <div className="bg-marquis-blue text-white rounded-full p-0.5 mt-0.5 flex-shrink-0"><Check className="w-2.5 h-2.5" /></div>
-                        <p className="text-xs text-slate-700 font-semibold leading-snug">{r}</p>
-                      </div>
-                    ))}
-                  </div>
-               </div>
-            </div>
-
-            {/* RIGHT: INTERIOR & EXTERIOR FINISHES (DYNAMIC HEADER) */}
-            <div className="lg:w-1/2 bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex flex-col">
-               <div className="flex items-center gap-3 mb-8">
-                 <Palette className="w-5 h-5 text-marquis-blue" />
-                 <h4 className="text-xl font-black italic uppercase text-slate-800">Finishes for a {categoryLabel.toLowerCase()} feel</h4>
-               </div>
-               <ColorExplorer product={product} preferences={preferences} mode={mode} />
-            </div>
-
+      {/* TOP ACTIONS */}
+      <div className="flex justify-between items-center mb-6">
+        {onBack && (
+          <button onClick={onBack} className="text-slate-500 hover:text-marquis-blue flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-colors">
+            <CaretLeft className="w-4 h-4" weight="bold" /> {mode === 'influenced' ? 'Back to Selection' : 'Back'}
+          </button>
+        )}
+        {!onBack && (
+          <a href="/mcp/demo/products" className="text-slate-500 hover:text-marquis-blue flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-colors">
+            <CaretLeft className="w-4 h-4" weight="bold" /> Back to Catalog
+          </a>
+        )}
+        <div className="flex gap-2 sm:gap-4 no-print items-center">
+          <button
+            onClick={() => window.print()}
+            className="text-slate-400 hover:text-marquis-blue p-2 rounded-lg transition-colors flex items-center gap-1.5 group/print"
+            title="Download/Print Selection Pass"
+          >
+            <Plus className="w-4 h-4" weight="bold" />
+            <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Print / PDF</span>
+          </button>
+          <Link
+            href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+            className="hidden sm:block bg-white text-marquis-blue border-2 border-marquis-blue px-6 py-2 rounded-xl text-sm font-black italic uppercase hover:bg-marquis-blue/5 transition-all text-center"
+          >
+            Find Dealer
+          </Link>
+          <Link
+            href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+            className="bg-marquis-blue text-white px-6 py-2 rounded-xl text-sm font-black italic uppercase shadow-xl hover:bg-blue-700 transition-all text-center flex items-center justify-center"
+          >
+            Get Pricing
+          </Link>
         </div>
-
-
-        {/* INTERACTIVE HOTSPOTS - FULL WIDTH */}
-        {product.overheadImageUrl && (
-          <section className="mb-12">
-             <div className="flex items-center gap-3 mb-6 px-2">
-               <Gear className="w-6 h-6 text-marquis-blue" weight="bold" />
-               <h4 className="text-2xl font-black italic uppercase text-slate-800">Interactive Feature Explorer</h4>
-             </div>
-             <FeatureExplorer 
-                src={product.overheadImageUrl && !product.overheadImageUrl.includes('default') 
-                  ? product.overheadImageUrl 
-                  : `/mcp/demo/assets/products/${product.slug}/overhead.jpg`
-                }
-                alt="Feature Explorer"
-                hotspots={(typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : (product.hotspots || [])).map((spot: any, idx: number) => ({
-                  id: `spot-${idx}`,
-                  x: spot.x,
-                  y: spot.y,
-                  title: spot.label,
-                  caption: spot.description,
-                  imageUrl: spot.imageUrl,
-                  direction: spot.direction // Supports legacy or new directional overrides
-                }))}
-                aspectRatio="aspect-square md:aspect-video"
-                className="rounded-[32px] shadow-xl border border-slate-100"
-             />
-             <p className="text-center text-xs text-slate-400 mt-4 font-bold uppercase tracking-widest italic animate-pulse">Use the magnifier to inspect jets or hover over hotspots for therapy details</p>
-           </section>
-         )}
-  
-
-        {/* HORIZONTAL AI STACK */}
-        <section className="mb-12">
-           <div className="flex items-center gap-3 mb-8 px-2">
-             <BookOpen className="w-6 h-6 text-marquis-blue" />
-             <h4 className="text-2xl font-black italic uppercase text-slate-800">
-               {mode === 'influenced' ? 'AI Synthesized Blueprint' : 'Engineering Specifications'}
-             </h4>
-           </div>
-           
-           <div className="space-y-4">
-             {[
-               { id: 'hydrotherapy', title: 'Hydrotherapy & Wellness', bg: 'bg-indigo-50/30', border: 'border-indigo-100', iconBg: 'bg-indigo-100 text-indigo-600', icon: <Heartbeat className="w-6 h-6" weight="bold" /> },
-               { id: 'climate', title: 'Climate & Surroundings', bg: 'bg-sky-50/30', border: 'border-sky-100', iconBg: 'bg-sky-100 text-sky-600', icon: <Thermometer className="w-6 h-6" weight="bold" /> },
-               { id: 'design', title: 'Design & Capacity', bg: 'bg-amber-50/30', border: 'border-amber-100', iconBg: 'bg-amber-100 text-amber-600', icon: <Users className="w-6 h-6" weight="bold" /> },
-               { id: 'efficiency', title: 'Power & Maintenance', bg: 'bg-emerald-50/30', border: 'border-emerald-100', iconBg: 'bg-emerald-100 text-emerald-600', icon: <Lightning className="w-6 h-6" weight="fill" /> }
-             ].map((mod, i) => (
-               <div key={i} className={`flex flex-col md:flex-row gap-6 p-6 md:p-8 rounded-[32px] border shadow-sm transition-all hover:shadow-md ${mod.bg} ${mod.border}`}>
-                 <div className="md:w-1/3 flex items-start gap-5 border-b md:border-b-0 md:border-r border-slate-200/50 pb-4 md:pb-0 md:pr-6">
-                    <div className={`p-4 rounded-2xl shadow-sm flex-shrink-0 ${mod.iconBg}`}>{mod.icon}</div>
-                    <div className="pt-1">
-                      <h3 className="text-xl font-black italic uppercase text-slate-900 leading-none">{mod.title}</h3>
-                    </div>
-                 </div>
-                 <div className="md:w-2/3 md:pl-2">
-                   {mode === 'influenced' && isLoading ? (
-                     <div className="space-y-3 animate-pulse pt-1">
-                       <div className="h-3 bg-slate-200/60 rounded w-full"></div>
-                       <div className="h-3 bg-slate-200/60 rounded w-5/6"></div>
-                       <div className="h-3 bg-slate-200/60 rounded w-4/6"></div>
-                     </div>
-                   ) : (mode === 'influenced' && (aiNarrative as any)?.error) ? (
-                     <div className="text-red-500 text-sm font-medium">Generation Failed: {(aiNarrative as any).error}</div>
-                   ) : (
-                     <div 
-                       className="text-sm md:text-base text-slate-600 leading-relaxed font-semibold prose prose-slate" 
-                       dangerouslySetInnerHTML={{ 
-                         __html: (displayNarrative as any)?.[mod.id] || (mode === 'static' ? "Technical specifications currently being updated." : "Synthesizing your personalized profile...")
-                       }} 
-                     />
-                   )}
-                 </div>
-               </div>
-             ))}
-           </div>
-        </section>
-
-        {/* COMPARISON TABLE */}
-       <section className="mb-14">
-          <div className="flex items-center gap-3 mb-6 px-2">
-            <Scales className="w-6 h-6 text-marquis-blue" weight="bold" />
-            <h4 className="text-2xl font-black italic uppercase text-slate-800">Competitive Edge</h4>
-          </div>
-          
-          <div className="bg-white rounded-[32px] overflow-hidden shadow-xl border border-slate-100">
-             <div className="grid grid-cols-4 bg-slate-50 border-b border-slate-200">
-               <div className="col-span-2 p-5 md:p-8 font-black text-xs uppercase tracking-widest text-slate-400 flex items-end">Core Technology</div>
-               <div className="col-span-1 p-5 md:p-8 font-black italic text-lg md:text-2xl uppercase text-slate-900 border-l border-slate-200 bg-white">
-                   {product.modelName}
-                   <div className="text-[10px] sm:text-xs text-marquis-blue font-bold tracking-widest not-italic mt-1">
-                      {product.series?.name || product.seriesName || 'Marquis'}
-                   </div>
-               </div>
-               <div className="col-span-1 p-5 md:p-8 font-black italic text-lg md:text-2xl uppercase text-slate-400 border-l border-slate-200">
-                   Industry<br className="hidden md:block"/> Standard
-                   <div className="text-[10px] sm:text-xs text-slate-400 font-bold tracking-widest not-italic mt-1">Comparable</div>
-               </div>
-             </div>
-             
-             {[
-               { feature: "Market Positioning", desc: "Engineering & Performance Tier", marquis: `${product.series?.name?.toUpperCase() || 'MARQUIS'} | ${product.positioningTier?.toUpperCase() || 'ELITE'}`, comp: "Entry / Mid-Range" },
-               { feature: "Therapy Performance", desc: "Hydro-Kinetic Precision", marquis: "Professional Grade", comp: "Consumer Standard" },
-               { feature: "Hydraulic Efficiency", desc: "Total system flow rate (GPM)", marquis: `${product.pumpFlowGpm || 480} GPM (Velocity-Optimized)`, comp: "Standard 160-220 GPM" },
-               { feature: "Jet Architecture", desc: "Proprietary laminar flow tech", marquis: `${product.jetCount} Velocity-Treated Jets`, comp: "Standard Multi-Stage Jets" },
-               { feature: "Sanitation Logic", desc: "Advanced water care automation", marquis: "ConstantClean+™ System", comp: "Basic Filtration Cycles" },
-               { feature: "Thermal Matrix", desc: "Insulation and shell durability", marquis: "MaximizR™ Full-Foam / DuraShell®", comp: "Partial Spray / Standard Acrylic" },
-               { feature: "Load Capacity", desc: "Engineering weight tolerance", marquis: `${product.fullWeightLbs || 5020} lbs (Heavy Duty)`, comp: "~4,200 lbs (Standard Build)" }
-             ].map((row, i) => (
-               <div key={i} className="grid grid-cols-4 border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors">
-                 <div className="col-span-2 p-5 md:p-8 flex flex-col justify-center">
-                    <div className="text-sm md:text-base font-black uppercase text-slate-700">{row.feature}</div>
-                    <div className="text-xs text-slate-400 font-medium mt-1">{row.desc}</div>
-                 </div>
-                 <div className="col-span-1 p-5 md:p-8 text-xs md:text-sm font-black text-marquis-blue flex flex-col justify-center border-l border-slate-100 bg-blue-50/10">
-                    <div className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-marquis-blue flex-shrink-0 mt-0.5 hidden md:block" />
-                      <span className="leading-snug">{row.marquis}</span>
-                    </div>
-                 </div>
-                 <div className="col-span-1 p-5 md:p-8 text-xs md:text-sm font-bold text-slate-400 flex flex-col justify-center border-l border-slate-100">
-                    <span className="leading-snug">{row.comp}</span>
-                 </div>
-               </div>
-             ))}
-          </div>
-       </section>
-
-        {/* ASK THE BRAIN (Grounded AI) */}
-        <AskTheBrain 
-          productId={product.id} 
-          productName={product.modelName} 
-          preferences={preferences} 
-        />
-
-        {/* BOTTOM CALL TO ACTION */}
-        <div className="relative mt-12 mb-24 py-16 px-8 rounded-[40px] overflow-hidden text-center no-print">
-           <div className="absolute inset-0 bg-slate-900 z-0">
-              <div className="absolute inset-0 opacity-20 bg-[url('/mcp/demo/assets/therapy_premium.png')] bg-cover bg-center mix-blend-overlay" />
-              <div className="absolute inset-0 bg-gradient-to-b from-marquis-blue/20 to-slate-900/90" />
-           </div>
-           
-           <h3 className="text-3xl md:text-4xl font-black italic uppercase text-white mb-4 relative z-10 leading-none">Ready for the Next Step?</h3>
-           <p className="text-white/70 text-base md:text-lg mb-10 max-w-2xl mx-auto relative z-10 font-medium text-center">
-             Download your personalized selection pass and connect with your local Marquis Spas expert to learn more about these features in person.
-           </p>
-           
-            <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10 items-center">
-               <button 
-                 onClick={() => window.print()}
-                 className="bg-marquis-blue text-white px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-lg hover:scale-105 transition-all text-center flex items-center justify-center gap-2"
-               >
-                 <Plus className="w-4 h-4" weight="bold" /> Print/Download PDF
-               </button>
-               <Link 
-                 href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
-                 className="bg-white text-marquis-blue px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-center"
-               >
-                 Find Nearest Dealer
-               </Link>
-               <Link 
-                 href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
-                 className="bg-marquis-blue border-2 border-marquis-blue text-white px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-xl hover:bg-transparent transition-all text-center flex items-center justify-center border-white/20"
-               >
-                 Get Local Pricing
-               </Link>
-           </div>
-        </div>
-
-         {/* UNIFIED PRINT PASS (Hidden in Browser) */}
-         <ExpertSelectionPass 
-            preferences={preferences} 
-            results={recommendations} 
-            currentProduct={{ ...product, reasons }} 
-         />
       </div>
-   );
+
+      {/* HERO SECTION - COMPACT */}
+      <div className="bg-white rounded-[32px] overflow-hidden shadow-2xl border border-slate-100 mb-8 flex flex-col md:flex-row">
+        <div className="md:w-1/2 relative bg-slate-50 border-r border-slate-100">
+          <img src={heroImg} className="w-full h-full object-cover absolute inset-0" alt={product.modelName} />
+          <div className="relative z-10 p-8 min-h-[350px] flex flex-col justify-end bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent">
+            <div className="text-white/80 text-xs font-black uppercase tracking-widest mb-1 shadow-sm">
+              {product.series?.name || product.seriesName || 'Marquis'} {product.positioningTier ? `| ${product.positioningTier.charAt(0).toUpperCase() + product.positioningTier.slice(1)}` : ''}
+            </div>
+            <h3 className="text-5xl md:text-6xl font-black italic uppercase text-white leading-none drop-shadow-lg">{product.modelName}</h3>
+          </div>
+        </div>
+        <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+          <h2 className="text-2xl md:text-3xl font-black italic uppercase text-slate-800 tracking-tight flex items-center gap-3 mb-8 border-b border-slate-100 pb-6">
+            {isLoading ? "Expert Analysis..." : displayNarrative.heroTitle}
+            <Sparkle className="w-6 h-6 text-marquis-blue flex-shrink-0" weight="fill" />
+          </h2>
+
+          {/* At a glance boxes */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+              <CornersOut className="w-6 h-6 text-marquis-blue/80" weight="bold" />
+              <div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Footprint</div>
+                <div className="text-sm font-black italic uppercase text-slate-700">{product.lengthIn}x{product.widthIn}x{product.depthIn}"</div>
+              </div>
+            </div>
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+              <Users className="w-6 h-6 text-marquis-blue/80" />
+              <div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Capacity</div>
+                <div className="text-sm font-black italic uppercase text-slate-700">
+                  {product.seatsMax !== null && product.seatsMax !== undefined ? (
+                    <>
+                      {product.seatsMin && product.seatsMin !== product.seatsMax ? `${product.seatsMin}-${product.seatsMax}` : product.seatsMax} Adults
+                    </>
+                  ) : (
+                    "Marquis Signature"
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+              <Lightning className="w-6 h-6 text-amber-500" weight="fill" />
+              <div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hydro-Flow</div>
+                <div className="text-sm font-black italic uppercase text-slate-700">{product.pumpFlowGpm || 160} GPM</div>
+              </div>
+            </div>
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+              <Waves className="w-6 h-6 text-marquis-blue/80" />
+              <div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Water Volume</div>
+                <div className="text-sm font-black italic uppercase text-slate-700">{product.capacityGallons || 400} gal</div>
+              </div>
+            </div>
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+              <Package className="w-6 h-6 text-slate-400" weight="bold" />
+              <div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Weight (Full)</div>
+                <div className="text-sm font-black italic uppercase text-slate-700">{product.fullWeightLbs || 4500} lbs</div>
+              </div>
+            </div>
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center gap-3">
+              <BatteryCharging className="w-6 h-6 text-emerald-500" />
+              <div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Electrical</div>
+                <div className="text-sm font-black italic uppercase text-slate-700">{product.electricalAmps || 50}A Config</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Design Considerations / Trade-offs */}
+          {displayNarrative.designConsideration && (
+            <div className="mb-8 bg-amber-50/30 p-6 rounded-2xl border border-amber-100/50">
+              <div className="text-[10px] font-black text-amber-700 uppercase tracking-widest mb-2 flex items-center gap-2">
+                <Info className="w-3 h-3" />
+                {mode === 'influenced' ? 'Design Consideration' : 'Engineering Tip'}
+              </div>
+              <p className="text-sm text-slate-700 font-medium leading-relaxed italic">
+                {displayNarrative.designConsideration}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* NEW INTERACTION ROW - DECOUPLED COLUMN HEIGHTS - COMPACT */}
+      <div className="flex flex-col lg:flex-row gap-6 mb-10 items-start">
+
+        {/* LEFT: THERAPY OBJECTIVE & EXPERT REASONING */}
+        <div className="lg:w-1/2 bg-blue-50/40 p-8 rounded-[32px] border border-blue-100/50 shadow-sm flex flex-col">
+          <div className="flex items-center gap-3 mb-6">
+            <Heart className="w-5 h-5 text-marquis-blue" />
+            <h4 className="text-xl font-black italic uppercase text-slate-800">Therapy Objective</h4>
+          </div>
+
+          <p className="text-sm md:text-base text-slate-600 font-semibold leading-relaxed italic mb-8">
+            "{product.therapySummary || (
+              product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
+                product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
+                  product.series?.name === 'Marquis Elite' ? 'High-performance hydrotherapy combined with exceptional durability for a professional-grade home spa experience.' :
+                    'A balanced, engineering-focused hydrotherapy experience designed for daily wellness and relaxation.'
+            )}"
+          </p>
+
+          <div className="mt-auto pt-6 border-t border-blue-100">
+            <div className="text-xs font-black text-marquis-blue uppercase tracking-widest mb-4">
+              {mode === 'influenced' ? 'Expert Reasoning' : 'Key Engineering Features'}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {displayReasons.slice(0, 4).map((r: string, i: number) => (
+                <div key={i} className="flex gap-2 items-start">
+                  <div className="bg-marquis-blue text-white rounded-full p-0.5 mt-0.5 flex-shrink-0"><Check className="w-2.5 h-2.5" /></div>
+                  <p className="text-xs text-slate-700 font-semibold leading-snug">{r}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: INTERIOR & EXTERIOR FINISHES (DYNAMIC HEADER) */}
+        <div className="lg:w-1/2 bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex flex-col">
+          <div className="flex items-center gap-3 mb-8">
+            <Palette className="w-5 h-5 text-marquis-blue" />
+            <h4 className="text-xl font-black italic uppercase text-slate-800">Finishes for a {categoryLabel.toLowerCase()} feel</h4>
+          </div>
+          <ColorExplorer product={product} preferences={preferences} mode={mode} />
+        </div>
+
+      </div>
+
+
+      {/* INTERACTIVE HOTSPOTS - FULL WIDTH */}
+      {product.overheadImageUrl && (
+        <section className="mb-12">
+          <div className="flex items-center gap-3 mb-6 px-2">
+            <Gear className="w-6 h-6 text-marquis-blue" weight="bold" />
+            <h4 className="text-2xl font-black italic uppercase text-slate-800">Interactive Feature Explorer</h4>
+          </div>
+          <FeatureExplorer
+            src={product.overheadImageUrl && !product.overheadImageUrl.includes('default')
+              ? product.overheadImageUrl
+              : `/mcp/demo/assets/products/${product.slug}/overhead.jpg`
+            }
+            alt="Feature Explorer"
+            hotspots={(typeof product.hotspots === 'string' ? JSON.parse(product.hotspots) : (product.hotspots || [])).map((spot: any, idx: number) => ({
+              id: `spot-${idx}`,
+              x: spot.x,
+              y: spot.y,
+              title: spot.label,
+              caption: spot.description,
+              imageUrl: spot.imageUrl,
+              direction: spot.direction // Supports legacy or new directional overrides
+            }))}
+            aspectRatio="aspect-square md:aspect-video"
+            className="rounded-[32px] shadow-xl border border-slate-100"
+          />
+          <p className="text-center text-xs text-slate-400 mt-4 font-bold uppercase tracking-widest italic animate-pulse">Use the magnifier to inspect jets or hover over hotspots for details</p>
+        </section>
+      )}
+
+
+      {/* HORIZONTAL AI STACK */}
+      <section className="mb-12">
+        <div className="flex items-center gap-3 mb-8 px-2">
+          <BookOpen className="w-6 h-6 text-marquis-blue" />
+          <h4 className="text-2xl font-black italic uppercase text-slate-800">
+            {mode === 'influenced' ? 'Why this is a good choice...' : 'Engineering Specifications'}
+          </h4>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            { id: 'hydrotherapy', title: 'Hydrotherapy & Wellness', bg: 'bg-indigo-50/30', border: 'border-indigo-100', iconBg: 'bg-indigo-100 text-indigo-600', icon: <Heartbeat className="w-6 h-6" weight="bold" /> },
+            { id: 'climate', title: 'Climate & Surroundings', bg: 'bg-sky-50/30', border: 'border-sky-100', iconBg: 'bg-sky-100 text-sky-600', icon: <Thermometer className="w-6 h-6" weight="bold" /> },
+            { id: 'design', title: 'Design & Capacity', bg: 'bg-amber-50/30', border: 'border-amber-100', iconBg: 'bg-amber-100 text-amber-600', icon: <Users className="w-6 h-6" weight="bold" /> },
+            { id: 'efficiency', title: 'Power & Maintenance', bg: 'bg-emerald-50/30', border: 'border-emerald-100', iconBg: 'bg-emerald-100 text-emerald-600', icon: <Lightning className="w-6 h-6" weight="fill" /> }
+          ].map((mod, i) => (
+            <div key={i} className={`flex flex-col md:flex-row gap-6 p-6 md:p-8 rounded-[32px] border shadow-sm transition-all hover:shadow-md ${mod.bg} ${mod.border}`}>
+              <div className="md:w-1/3 flex items-start gap-5 border-b md:border-b-0 md:border-r border-slate-200/50 pb-4 md:pb-0 md:pr-6">
+                <div className={`p-4 rounded-2xl shadow-sm flex-shrink-0 ${mod.iconBg}`}>{mod.icon}</div>
+                <div className="pt-1">
+                  <h3 className="text-xl font-black italic uppercase text-slate-900 leading-none">{mod.title}</h3>
+                </div>
+              </div>
+              <div className="md:w-2/3 md:pl-2">
+                {mode === 'influenced' && isLoading ? (
+                  <div className="space-y-3 animate-pulse pt-1">
+                    <div className="h-3 bg-slate-200/60 rounded w-full"></div>
+                    <div className="h-3 bg-slate-200/60 rounded w-5/6"></div>
+                    <div className="h-3 bg-slate-200/60 rounded w-4/6"></div>
+                  </div>
+                ) : (mode === 'influenced' && (aiNarrative as any)?.error) ? (
+                  <div className="text-red-500 text-sm font-medium">Generation Failed: {(aiNarrative as any).error}</div>
+                ) : (
+                  <div
+                    className="text-sm md:text-base text-slate-600 leading-relaxed font-semibold prose prose-slate"
+                    dangerouslySetInnerHTML={{
+                      __html: (displayNarrative as any)?.[mod.id] || (mode === 'static' ? "Technical specifications currently being updated." : "Synthesizing your personalized profile...")
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* COMPARISON TABLE */}
+      <section className="mb-14">
+        <div className="flex items-center gap-3 mb-6 px-2">
+          <Scales className="w-6 h-6 text-marquis-blue" weight="bold" />
+          <h4 className="text-2xl font-black italic uppercase text-slate-800">Competitive Edge</h4>
+        </div>
+
+        <div className="bg-white rounded-[32px] overflow-hidden shadow-xl border border-slate-100">
+          <div className="grid grid-cols-4 bg-slate-50 border-b border-slate-200">
+            <div className="col-span-2 p-5 md:p-8 font-black text-xs uppercase tracking-widest text-slate-400 flex items-end">Core Technology</div>
+            <div className="col-span-1 p-5 md:p-8 font-black italic text-lg md:text-2xl uppercase text-slate-900 border-l border-slate-200 bg-white">
+              {product.modelName}
+              <div className="text-[10px] sm:text-xs text-marquis-blue font-bold tracking-widest not-italic mt-1">
+                {product.series?.name || product.seriesName || 'Marquis'}
+              </div>
+            </div>
+            <div className="col-span-1 p-5 md:p-8 font-black italic text-lg md:text-2xl uppercase text-slate-400 border-l border-slate-200">
+              Industry<br className="hidden md:block" /> Standard
+              <div className="text-[10px] sm:text-xs text-slate-400 font-bold tracking-widest not-italic mt-1">Comparable</div>
+            </div>
+          </div>
+
+          {[
+            { feature: "Market Positioning", desc: "Engineering & Performance Tier", marquis: `${product.series?.name?.toUpperCase() || 'MARQUIS'} | ${product.positioningTier?.toUpperCase() || 'ELITE'}`, comp: "Entry / Mid-Range" },
+            { feature: "Therapy Performance", desc: "Hydro-Kinetic Precision", marquis: "Professional Grade", comp: "Consumer Standard" },
+            { feature: "Hydraulic Efficiency", desc: "Total system flow rate (GPM)", marquis: `${product.pumpFlowGpm || 480} GPM (Velocity-Optimized)`, comp: "Standard 160-220 GPM" },
+            { feature: "Jet Architecture", desc: "Proprietary laminar flow tech", marquis: `${product.jetCount} Velocity-Treated Jets`, comp: "Standard Multi-Stage Jets" },
+            { feature: "Sanitation Logic", desc: "Advanced water care automation", marquis: "ConstantClean+™ System", comp: "Basic Filtration Cycles" },
+            { feature: "Thermal Matrix", desc: "Insulation and shell durability", marquis: "MaximizR™ Full-Foam / DuraShell®", comp: "Partial Spray / Standard Acrylic" },
+            { feature: "Load Capacity", desc: "Engineering weight tolerance", marquis: `${product.fullWeightLbs || 5020} lbs (Heavy Duty)`, comp: "~4,200 lbs (Standard Build)" }
+          ].map((row, i) => (
+            <div key={i} className="grid grid-cols-4 border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors">
+              <div className="col-span-2 p-5 md:p-8 flex flex-col justify-center">
+                <div className="text-sm md:text-base font-black uppercase text-slate-700">{row.feature}</div>
+                <div className="text-xs text-slate-400 font-medium mt-1">{row.desc}</div>
+              </div>
+              <div className="col-span-1 p-5 md:p-8 text-xs md:text-sm font-black text-marquis-blue flex flex-col justify-center border-l border-slate-100 bg-blue-50/10">
+                <div className="flex items-start gap-2">
+                  <Check className="w-5 h-5 text-marquis-blue flex-shrink-0 mt-0.5 hidden md:block" />
+                  <span className="leading-snug">{row.marquis}</span>
+                </div>
+              </div>
+              <div className="col-span-1 p-5 md:p-8 text-xs md:text-sm font-bold text-slate-400 flex flex-col justify-center border-l border-slate-100">
+                <span className="leading-snug">{row.comp}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ASK THE BRAIN (Grounded AI) */}
+      <AskTheBrain
+        productId={product.id}
+        productName={product.modelName}
+        preferences={preferences}
+      />
+
+      {/* BOTTOM CALL TO ACTION */}
+      <div className="relative mt-12 mb-24 py-16 px-8 rounded-[40px] overflow-hidden text-center no-print">
+        <div className="absolute inset-0 bg-slate-900 z-0">
+          <div className="absolute inset-0 opacity-20 bg-[url('/mcp/demo/assets/therapy_premium.png')] bg-cover bg-center mix-blend-overlay" />
+          <div className="absolute inset-0 bg-gradient-to-b from-marquis-blue/20 to-slate-900/90" />
+        </div>
+
+        <h3 className="text-3xl md:text-4xl font-black italic uppercase text-white mb-4 relative z-10 leading-none">Ready for the Next Step?</h3>
+        <p className="text-white/70 text-base md:text-lg mb-10 max-w-2xl mx-auto relative z-10 font-medium text-center">
+          Download your personalized matches and connect with your local Marquis Spas expert to learn more about our products.
+        </p>
+
+        <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10 items-center">
+          <button
+            onClick={() => window.print()}
+            className="bg-marquis-blue text-white px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-lg hover:scale-105 transition-all text-center flex items-center justify-center gap-2"
+          >
+            <Plus className="w-4 h-4" weight="bold" /> Print/Download PDF
+          </button>
+          <Link
+            href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+            className="bg-white text-marquis-blue px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-center"
+          >
+            Find Nearest Dealer
+          </Link>
+          <Link
+            href={zip ? `/dealer-locator?zip=${zip}` : '/dealer-locator'}
+            className="bg-marquis-blue border-2 border-marquis-blue text-white px-8 py-4 rounded-2xl text-sm font-black italic uppercase shadow-xl hover:bg-transparent transition-all text-center flex items-center justify-center border-white/20"
+          >
+            Get Local Pricing
+          </Link>
+        </div>
+      </div>
+
+      {/* UNIFIED PRINT PASS (Hidden in Browser) */}
+      <ExpertSelectionPass
+        preferences={preferences}
+        results={recommendations}
+        currentProduct={{ ...product, reasons }}
+      />
+    </div>
+  );
 }
