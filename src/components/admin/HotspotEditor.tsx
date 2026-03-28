@@ -195,11 +195,11 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                   onUploadBegin={() => setIsUploading(true)}
                   onClientUploadComplete={(res) => onUploadComplete(res, 'hero')}
                   onUploadError={(error: Error) => {
-                    setMessage({ type: 'error', text: `Upload Error: ${error.message}` });
+                    alert(`Upload Error: ${error.message}`);
                     setIsUploading(false);
                   }}
                   appearance={{
-                    button: "text-[10px] font-bold text-marquis-blue hover:text-marquis-light-blue bg-transparent border-none p-0 h-auto",
+                    button: "ut-uploading:cursor-not-allowed rounded-md bg-marquis-blue px-3 py-1 text-[10px] font-bold text-white",
                     allowedContent: "hidden"
                   }}
                   content={{
@@ -229,11 +229,11 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                   onUploadBegin={() => setIsUploading(true)}
                   onClientUploadComplete={(res) => onUploadComplete(res, 'overhead')}
                   onUploadError={(error: Error) => {
-                    setMessage({ type: 'error', text: `Upload Error: ${error.message}` });
+                    alert(`Upload Error: ${error.message}`);
                     setIsUploading(false);
                   }}
                   appearance={{
-                    button: "text-[10px] font-bold text-marquis-blue hover:text-marquis-light-blue bg-transparent border-none p-0 h-auto",
+                    button: "ut-uploading:cursor-not-allowed rounded-md bg-marquis-blue px-3 py-1 text-[10px] font-bold text-white",
                     allowedContent: "hidden"
                   }}
                   content={{
@@ -407,11 +407,11 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                       onUploadBegin={() => setIsUploading(true)}
                       onClientUploadComplete={(res) => onUploadComplete(res, 'hotspot', selectedHotspot.id)}
                       onUploadError={(error: Error) => {
-                        setMessage({ type: 'error', text: `Upload Error: ${error.message}` });
+                        alert(`Upload Error: ${error.message}`);
                         setIsUploading(false);
                       }}
                       appearance={{
-                        button: "text-[9px] font-black text-marquis-blue hover:text-marquis-light-blue bg-transparent border-none p-0 h-auto uppercase tracking-widest",
+                        button: "ut-uploading:cursor-not-allowed rounded-md bg-marquis-blue px-2 py-0.5 text-[9px] font-black text-white uppercase tracking-widest",
                         allowedContent: "hidden"
                       }}
                       content={{

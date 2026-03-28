@@ -29,7 +29,9 @@ export default async function HotspotPage({ params }: PageProps) {
   let initialHotspots = [];
   try {
     if (product.hotspots) {
-      const parsed = JSON.parse(product.hotspots as string);
+      const parsed = typeof product.hotspots === 'string' 
+        ? JSON.parse(product.hotspots) 
+        : product.hotspots;
       // Add temporary IDs for the editor's state management
       initialHotspots = parsed.map((h: any, i: number) => ({
         ...h,
