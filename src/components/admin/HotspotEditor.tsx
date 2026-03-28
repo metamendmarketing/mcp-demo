@@ -406,24 +406,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                         className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-xs font-bold text-slate-800 focus:border-marquis-blue outline-none transition-all resize-none"
                         placeholder="Explain this engineering feature..."
                       />
-                   </div>
-
-                   <div className="p-5 rounded-3xl border border-slate-100 bg-[#F8FAFC]">
-                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Close-up Detail Media</label>
-                      <div className="flex gap-5 items-center">
-                         <div className="w-24 h-24 rounded-2xl bg-white border border-slate-200 overflow-hidden relative shadow-sm group cursor-pointer flex-shrink-0">
-                            <img src={selectedHotspot.imageUrl || '/mcp/demo/assets/placeholder.png'} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" />
-                            <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
-                               <Plus className="text-white w-5 h-5" />
-                               <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hotspot', selectedHotspot.id)} />
-                            </div>
-                         </div>
-                         <div className="flex flex-col">
-                            <span className="text-[10px] font-black text-slate-600 uppercase tracking-tight">Feature Close-up</span>
-                            <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-1 leading-relaxed">
-                              CLICK IMAGE TO<br/>UPLOAD TO CLOUD
-                            </p>
-                         </div>
                       </div>
                    </div>
 
