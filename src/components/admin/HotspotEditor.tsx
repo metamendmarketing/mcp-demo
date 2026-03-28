@@ -31,30 +31,35 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const pendingUpload = useRef<{ type: 'hero' | 'overhead' | 'hotspot', id?: string } | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   const { startUpload } = useUploadThing("imageUploader", {
+    onClientUploadComplete: (res: any) => {
+      if (pendingUpload.current) {
+         onUploadComplete(res, pendingUpload.current.type, pendingUpload.current.id);
+         pendingUpload.current = null;
+      }
+    },
     onUploadError: (e: Error) => {
       console.error("UploadThing Error:", e);
       alert(`Upload Error: ${e.message}`);
       setIsUploading(false);
+      pendingUpload.current = null;
     },
   });
 
   const handleCustomUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
     setIsUploading(true);
     setMessage(null);
+    pendingUpload.current = { type, id: hotspotId };
     try {
-      const res = await startUpload([file]);
-      if (res && res[0]) {
-        onUploadComplete(res, type, hotspotId);
-      } else {
-        throw new Error("No response from cloud provider.");
-      }
+      startUpload([file]);
     } catch (e: any) {
-      console.error("Upload failed", e);
+      console.error("Upload initiation failed", e);
       setMessage({ type: 'error', text: `Upload failed: ${e.message || 'Unknown error'}` });
       setIsUploading(false);
+      pendingUpload.current = null;
     }
   };
   
