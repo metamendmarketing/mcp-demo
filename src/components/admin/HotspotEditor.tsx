@@ -45,12 +45,17 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
 
   const handleCustomUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
     setIsUploading(true);
+    setMessage(null);
     try {
       const res = await startUpload([file]);
       if (res && res[0]) {
         onUploadComplete(res, type, hotspotId);
+      } else {
+        throw new Error("No response from cloud provider.");
       }
-    } catch (e) {
+    } catch (e: any) {
+      console.error("Upload failed", e);
+      setMessage({ type: 'error', text: `Upload failed: ${e.message || 'Unknown error'}` });
       setIsUploading(false);
     }
   };
@@ -161,12 +166,12 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
   };
 
   const deleteHotspot = (id: string) => {
-    setHotspots(hotspots.filter(h => h.id !== id));
+    setHotspots(prev => prev.filter(h => h.id !== id));
     if (selectedId === id) setSelectedId(null);
   };
 
   const updateHotspot = (id: string, updates: Partial<Hotspot>) => {
-    setHotspots(hotspots.map(h => h.id === id ? { ...h, ...updates } : h));
+    setHotspots(prev => prev.map(h => h.id === id ? { ...h, ...updates } : h));
   };
 
   const onSave = async () => {
