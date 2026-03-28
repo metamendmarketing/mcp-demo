@@ -7,7 +7,7 @@ import {
   Info, CheckCircle, Warning, CircleNotch, X
 } from '@phosphor-icons/react';
 import { saveProductConfig } from '@/app/admin/actions';
-import { UploadButton } from '@/lib/uploadthing';
+import { useUploadThing } from '@/lib/uploadthing';
 
 interface Hotspot {
   id: string;
@@ -32,6 +32,28 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+
+  const { startUpload } = useUploadThing("imageUploader", {
+    onClientUploadComplete: (res: any) => {
+      // res is handled in the specialized caller
+    },
+    onUploadError: (e: any) => {
+      alert(`Upload Error: ${e.message}`);
+      setIsUploading(false);
+    },
+  });
+
+  const handleCustomUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
+    setIsUploading(true);
+    try {
+      const res = await startUpload([file]);
+      if (res && res[0]) {
+        onUploadComplete(res, type, hotspotId);
+      }
+    } catch (e) {
+      setIsUploading(false);
+    }
+  };
   
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
