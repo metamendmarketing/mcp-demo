@@ -220,10 +220,10 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     <div className="flex h-full overflow-hidden bg-[#F8FAFC]">
       
       {/* LEFT: INTERACTIVE CANVAS AREA */}
-      <div className="flex-grow relative flex flex-col min-w-0 h-full bg-slate-900 overflow-hidden shadow-2xl">
+      <div className="flex-grow relative flex items-center justify-center p-12 bg-slate-900 overflow-hidden shadow-2xl">
         <div 
           ref={containerRef}
-          className="flex-grow relative cursor-crosshair group"
+          className="w-full max-w-6xl aspect-video bg-black relative shadow-[0_0_100px_rgba(0,0,0,0.5)] rounded-2xl overflow-hidden cursor-crosshair group"
           onClick={handleImageClick}
           onMouseMove={onDrag}
           onMouseUp={stopDrag}
@@ -231,6 +231,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
           onTouchMove={onDrag}
           onTouchEnd={stopDrag}
         >
+
           {/* Base Product Image */}
           <img 
             ref={imgRef}
