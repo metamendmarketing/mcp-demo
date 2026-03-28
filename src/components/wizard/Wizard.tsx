@@ -252,7 +252,7 @@ const QUESTIONS: {
   }
 ];
 
-export default function Wizard() {
+function Wizard() {
   const [step, setStep] = useState<'intro' | 'question' | 'blueprint' | 'results' | 'details'>('intro');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [preferences, setPreferences] = useState<UserPreferences>({
@@ -519,8 +519,6 @@ export default function Wizard() {
       <div className="absolute bottom-0 left-0 h-1 bg-marquis-green transition-all duration-500 ease-out" style={{ width: `${((currentQuestionIndex + 1) / QUESTIONS.length) * 100}%` }} />
     </div>
   );
-
-export default memo(Wizard);
 
   if (step === 'intro') {
     return (

@@ -96,6 +96,6 @@ export interface NarrativeResponse {
   climate: string;
   design: string;
   efficiency: string;
-  designConsideration?: string;
+  designConsiderations?: string;
   error?: string;
 }
