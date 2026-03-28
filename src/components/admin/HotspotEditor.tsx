@@ -3,8 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Plus, Trash, FloppyDisk, ArrowsOut, ArrowUUpLeft, 
-  CaretRight, CaretLeft, CaretUp, CaretDown, Image, 
-  Info, CheckCircle, Warning, CircleNotch, X
+  Image, CheckCircle, Warning, CircleNotch
 } from '@phosphor-icons/react';
 import { saveProductConfig } from '@/app/admin/actions';
 import { useUploadThing } from '@/lib/uploadthing';
@@ -36,7 +35,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
 
   const { startUpload } = useUploadThing("imageUploader", {
     onClientUploadComplete: (res: any) => {
-      alert(`Debug: Upload Compete! Files: ${res?.length}`);
       if (pendingUpload.current) {
          onUploadComplete(res, pendingUpload.current.type, pendingUpload.current.id);
          pendingUpload.current = null;
@@ -52,14 +50,13 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
 
   const handleCustomUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
     setIsUploading(true);
-    setMessage({ type: 'success', text: `Starting cloud upload for ${file.name}...` });
+    setMessage(null);
     pendingUpload.current = { type, id: hotspotId };
-    
     try {
       startUpload([file]);
     } catch (e: any) {
       console.error("Upload initiation failed", e);
-      setMessage({ type: 'error', text: `Upload Initiation Error: ${e.message || 'Unknown error'}` });
+      setMessage({ type: 'error', text: 'Upload failed to start.' });
       setIsUploading(false);
       pendingUpload.current = null;
     }
@@ -71,17 +68,12 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
 
   const updateImgLayout = () => {
     if (!imgRef.current || !containerRef.current) return;
-    
     const container = containerRef.current.getBoundingClientRect();
     const { naturalWidth, naturalHeight } = imgRef.current;
-    
     if (!naturalWidth || !naturalHeight) return;
-    
     const containerAspect = container.width / container.height;
     const imgAspect = naturalWidth / naturalHeight;
-    
     let renderW, renderH, offX, offY;
-    
     if (imgAspect > containerAspect) {
       renderW = container.width;
       renderH = renderW / imgAspect;
@@ -93,7 +85,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
       offY = 0;
       offX = (container.width - renderW) / 2;
     }
-    
     setImgLayout({ width: renderW, height: renderH, offX, offY });
   };
 
@@ -109,21 +100,16 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
 
   const handleImageClick = (e: React.MouseEvent) => {
     if (!containerRef.current || isDragging.current) return;
-
     const rect = containerRef.current.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
-
     if (imgLayout.width === 0 || imgLayout.height === 0) {
        updateImgLayout();
        return;
     }
-
     const x = ((mouseX - imgLayout.offX) / imgLayout.width) * 100;
     const y = ((mouseY - imgLayout.offY) / imgLayout.height) * 100;
-
     if (x < 0 || x > 100 || y < 0 || y > 100) return;
-
     const newHotspot: Hotspot = {
       id: `new-${Date.now()}`,
       x: Math.round(x * 100) / 100,
@@ -132,7 +118,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
       description: 'Enter a detailed description of this feature...',
       direction: 'top'
     };
-
     setHotspots([...hotspots, newHotspot]);
     setSelectedId(newHotspot.id);
   };
@@ -149,17 +134,11 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
 
   const onDrag = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging.current || !dragTargetId.current || !containerRef.current) return;
-
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    
     const rect = containerRef.current.getBoundingClientRect();
-    const mouseX = clientX - rect.left;
-    const mouseY = clientY - rect.top;
-
-    const x = Math.max(0, Math.min(100, ((mouseX - imgLayout.offX) / imgLayout.width) * 100));
-    const y = Math.max(0, Math.min(100, ((mouseY - imgLayout.offY) / imgLayout.height) * 100));
-
+    const x = Math.max(0, Math.min(100, ((clientX - rect.left - imgLayout.offX) / imgLayout.width) * 100));
+    const y = Math.max(0, Math.min(100, ((clientY - rect.top - imgLayout.offY) / imgLayout.height) * 100));
     setHotspots(prev => prev.map(h => 
       h.id === dragTargetId.current ? { ...h, x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 } : h
     ));
@@ -189,7 +168,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
         heroImageUrl: heroImageUrl,
         overheadImageUrl: overheadImageUrl
       });
-      
       if (result.success) {
         setMessage({ type: 'success', text: result.message || 'Changes saved successfully!' });
       } else {
@@ -230,7 +208,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
           onTouchMove={onDrag}
           onTouchEnd={stopDrag}
         >
-          {/* Base Product Image */}
           <img 
             ref={imgRef}
             src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`}
@@ -242,7 +219,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
             }}
           />
 
-          {/* Rendered Hotspots */}
           {hotspots.map((h) => (
             <div 
               key={h.id}
@@ -261,22 +237,15 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
               }`}>
                 <Plus className={`w-4 h-4 ${selectedId === h.id ? 'text-white' : 'text-marquis-blue'}`} weight="bold" />
               </div>
-              
               <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 {h.label || "Unnamed Feature"}
               </div>
             </div>
           ))}
 
-          {/* Active Area Indicator */}
           <div 
             className="absolute border-2 border-white/5 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-500"
-            style={{ 
-              width: imgLayout.width, 
-              height: imgLayout.height, 
-              left: imgLayout.offX, 
-              top: imgLayout.offY 
-            }}
+            style={{ width: imgLayout.width, height: imgLayout.height, left: imgLayout.offX, top: imgLayout.offY }}
           />
         </div>
 
@@ -321,25 +290,12 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
 
       {/* RIGHT: PROPERTY SIDEBAR */}
       <aside className="w-[450px] bg-white border-l border-slate-200 flex flex-col h-full shadow-2xl z-50">
-        
-        {/* SIDEBAR HEADER */}
-        <div className="p-8 border-b border-slate-100 flex-shrink-0">
-           <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm text-slate-400">
-                 <Image className="w-5 h-5" weight="duotone" />
-              </div>
-              <div>
-                 <h3 className="text-xl font-black italic uppercase text-slate-800 leading-none">{product.modelName}</h3>
-                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Marquis Buying Assistant</p>
-              </div>
-           </div>
+        <div className="p-8 border-b border-slate-100 flex-shrink-0 text-center">
+            <h3 className="text-xl font-black italic uppercase text-slate-800 leading-none">{product.modelName}</h3>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Marquis Buying Assistant</p>
         </div>
 
-        {/* SIDEBAR CONTENT */}
         <div className="flex-grow overflow-y-auto p-8 custom-scrollbar space-y-10 pb-12">
-           
-           {/* CLEAN VERSION FOOTER (AT BOTTOM) */}
-           {/* Section 1: Global Media */}
            <section>
               <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[.3em] mb-6 flex items-center gap-3">
                  Product Global Media <div className="h-px bg-slate-100 flex-grow" />
@@ -359,13 +315,11 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                        <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center z-20">
                           <Plus className="text-white w-6 h-6" />
                        </div>
-                       
                        {isUploading && (
                           <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-30">
                              <CircleNotch className="w-5 h-5 animate-spin text-marquis-blue" />
                           </div>
                        )}
-
                        <input 
                          type="file" 
                          className="absolute inset-0 opacity-0 cursor-pointer z-[100]" 
@@ -392,13 +346,11 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                        <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center z-20">
                           <Plus className="text-white w-6 h-6" />
                        </div>
-
                        {isUploading && (
                           <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-30">
                              <CircleNotch className="w-5 h-5 animate-spin text-marquis-blue" />
                           </div>
                        )}
-
                        <input 
                          type="file" 
                          className="absolute inset-0 opacity-0 cursor-pointer z-[100]" 
@@ -413,12 +365,10 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
               </div>
            </section>
 
-           {/* Section 2: Hotspot Properties */}
            <section className="animate-in fade-in duration-500">
               <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[.3em] mb-6 flex items-center gap-3">
                  Hotspot Properties <div className="h-px bg-slate-100 flex-grow" />
               </h4>
-
               {selectedHotspot ? (
                 <div className="space-y-6">
                    <div>
@@ -431,7 +381,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                         placeholder="e.g. Dual-Speed Pump"
                       />
                    </div>
-
                    <div>
                       <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block ml-1">Narrative Description</label>
                       <textarea 
@@ -442,7 +391,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                         placeholder="Explain this engineering feature..."
                       />
                    </div>
-
                    <div className="p-5 rounded-3xl border border-slate-100 bg-[#F8FAFC]">
                       <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Close-up Detail Media</label>
                       <div className="flex gap-5 items-center">
@@ -455,54 +403,42 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                                   <span className="text-[7px] font-black uppercase">No Media</span>
                                </div>
                             )}
-
-                            {/* Overlays */}
                             <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center z-20">
                                <Plus className="text-white w-5 h-5" />
                             </div>
-
                             {isUploading && (
                                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-30">
                                   <CircleNotch className="w-6 h-6 animate-spin text-marquis-blue" />
                                </div>
                             )}
-
-                            {/* The Trigger - Highest Z-Index */}
                             <input 
                               type="file" 
                               className="absolute inset-0 opacity-0 cursor-pointer z-[100]" 
-                              onChange={(e) => {
-                                 console.log("Input onChange fired");
-                                 const file = e.target.files?.[0];
-                                 if (file) handleCustomUpload(file, 'hotspot', selectedHotspot.id);
-                              }} 
+                              onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hotspot', selectedHotspot.id)} 
                             />
                          </div>
                          <div className="flex flex-col">
                             <span className="text-[10px] font-black text-slate-600 uppercase tracking-tight">Feature Close-up</span>
-                            <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-1 leading-relaxed">
-                              CLICK IMAGE TO<br/>UPLOAD TO CLOUD
+                            <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-1 leading-relaxed text-slate-400 italic">
+                              Click image to upload
                             </p>
                          </div>
                       </div>
                    </div>
-
-                   <div className="flex gap-2">
-                     <button 
-                        onClick={() => deleteHotspot(selectedHotspot.id)}
-                        className="flex-grow p-4 rounded-2xl bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all shadow-sm"
-                     >
-                        Delete Hotspot
-                     </button>
-                   </div>
+                   <button 
+                      onClick={() => deleteHotspot(selectedHotspot.id)}
+                      className="w-full p-4 rounded-2xl bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                   >
+                      Delete Hotspot
+                   </button>
                 </div>
               ) : (
                 <div className="py-12 px-6 rounded-3xl border-2 border-dashed border-slate-100 text-center">
-                   <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-slate-100 text-slate-300">
+                   <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-300">
                       <Plus className="w-5 h-5" />
                    </div>
                    <h5 className="text-xs font-black italic uppercase text-slate-400 tracking-tight">No Hotspot Selected</h5>
-                   <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-2 leading-relaxed">Select a marker on the map to<br/>configure its properties</p>
+                   <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-2">Select a marker on the map to configure</p>
                 </div>
               )}
            </section>
