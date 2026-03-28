@@ -344,6 +344,14 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
         {/* SIDEBAR CONTENT */}
         <div className="flex-grow overflow-y-auto p-8 custom-scrollbar space-y-10 pb-12">
            
+           {/* VERIFICATION BUTTON */}
+           <div 
+             className="p-4 bg-yellow-400 text-black font-black text-center cursor-pointer rounded-2xl mb-8 shadow-xl hover:scale-105 active:scale-95 transition-all animate-bounce"
+             onClick={() => alert(`VERIFICATION SUCCESS: Admin Version v12.1 is LIVE (Time: ${new Date().toLocaleTimeString()})`)}
+           >
+             CLICK TO VERIFY VERSION
+           </div>
+           
            {/* Section 1: Global Media */}
            <section>
               <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[.3em] mb-6 flex items-center gap-3">
