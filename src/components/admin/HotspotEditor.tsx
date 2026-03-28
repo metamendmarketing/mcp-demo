@@ -237,7 +237,12 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
               }`}>
                 <Plus className={`w-4 h-4 ${selectedId === h.id ? 'text-white' : 'text-marquis-blue'}`} weight="bold" />
               </div>
-              <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div className={`absolute whitespace-nowrap bg-slate-800 text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg pointer-events-none transition-all ${
+                h.direction === 'bottom' ? 'top-10 left-1/2 -translate-x-1/2' :
+                h.direction === 'left' ? 'right-10 top-1/2 -translate-y-1/2' :
+                h.direction === 'right' ? 'left-10 top-1/2 -translate-y-1/2' :
+                'bottom-10 left-1/2 -translate-x-1/2' // default top
+              }`}>
                 {h.label || "Unnamed Feature"}
               </div>
             </div>
@@ -390,6 +395,25 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                         className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-xs font-bold text-slate-800 focus:border-marquis-blue outline-none transition-all resize-none"
                         placeholder="Explain this engineering feature..."
                       />
+                   </div>
+
+                   <div>
+                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 block ml-1">Caption Position</label>
+                      <div className="grid grid-cols-4 gap-2">
+                        {['top', 'bottom', 'left', 'right'].map((dir) => (
+                          <button
+                            key={dir}
+                            onClick={() => updateHotspot(selectedHotspot.id, { direction: dir as any })}
+                            className={`p-3 rounded-xl border-2 text-[10px] font-black uppercase transition-all ${
+                              selectedHotspot.direction === dir 
+                                ? 'bg-marquis-blue border-marquis-blue text-white shadow-lg' 
+                                : 'bg-slate-50 border-slate-100 text-slate-400 hover:border-slate-200'
+                            }`}
+                          >
+                            {dir}
+                          </button>
+                        ))}
+                      </div>
                    </div>
                    <div className="p-5 rounded-3xl border border-slate-100 bg-[#F8FAFC]">
                       <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Close-up Detail Media</label>
