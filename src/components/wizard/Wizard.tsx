@@ -304,7 +304,10 @@ export default function Wizard() {
   const [results, setResults] = useState<ScoredProduct[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedResult, setSelectedResult] = useState<ScoredProduct | null>(null);
-  const [aiNarrative, setAiNarrative] = useState<any>(null);
+  
+  // Registry of narratives keyed by product slug to enable zero-latency exploration
+  const [aiNarrativeRegistry, setAiNarrativeRegistry] = useState<Record<string, any>>({});
+  
   const [narrativeLoading, setNarrativeLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState("");
@@ -412,17 +415,26 @@ export default function Wizard() {
         }));
         
         recommendationReady = true;
-
-        // Start pre-fetch of narrative in the background, but DON'T block the transition based on it
+        
+        // OPTIMIZATION: Parallel Background Pre-fetch for the entire Top 4 result set
+        // This ensures that 'Explore' clicks are instant for all high-probability matches.
         if (recommendationData && recommendationData.length > 0) {
-          fetch('/mcp/demo/api/narrative', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ preferences, product: recommendationData[0].product }),
-          }).then(n => n.json()).then(data => {
-            narrativeData = data;
-            setAiNarrative({ ...data, productSlug: recommendationData[0].product.slug });
-          }).catch(e => console.error('Background narrative failed', e));
+          const top4 = recommendationData.slice(0, 4);
+          
+          top4.forEach((res: any) => {
+            fetch('/mcp/demo/api/narrative', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ preferences, product: res.product }),
+            })
+            .then(n => n.json())
+            .then(data => {
+              if (data && !data.error) {
+                setAiNarrativeRegistry(prev => ({ ...prev, [res.product.slug]: data }));
+              }
+            })
+            .catch(e => console.warn(`Background narrative failed for ${res.product.slug}`, e));
+          });
         }
       } catch (err) {
         console.error('Recommendation failed', err);
@@ -483,7 +495,9 @@ export default function Wizard() {
     setSelectedResult(res);
     setStep('details');
     window.scrollTo(0, 0);
-    if (!aiNarrative || aiNarrative.productSlug !== res.product.slug) {
+    
+    // Check registry for pre-fetched content
+    if (!aiNarrativeRegistry[res.product.slug]) {
       setNarrativeLoading(true);
       fetch('/mcp/demo/api/narrative', {
         method: 'POST',
@@ -491,7 +505,11 @@ export default function Wizard() {
         body: JSON.stringify({ preferences, product: res.product }),
       })
         .then(n => n.json())
-        .then(data => setAiNarrative({ ...data, productSlug: res.product.slug }))
+        .then(data => {
+           if (data && !data.error) {
+             setAiNarrativeRegistry(prev => ({ ...prev, [res.product.slug]: data }));
+           }
+        })
         .finally(() => setNarrativeLoading(false));
     }
   };
@@ -815,9 +833,11 @@ export default function Wizard() {
                           <div className="text-marquis-blue text-[10px] font-bold uppercase tracking-widest mb-4">
                              {res.product.seriesName || res.product.series?.name || 'Marquis'} | {res.product.positioningTier?.toUpperCase() || 'ELITE'}
                           </div>
-                          <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed text-sm font-medium">{res.naturalNarrative || res.product.marketingSummary}</p>
-                          <div className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20 text-center">Explore this option</div>
-                    </div>
+                           <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed text-sm font-medium">
+                             {aiNarrativeRegistry[res.product.slug]?.naturalNarrative || res.naturalNarrative || res.product.marketingSummary}
+                           </p>
+                           <div className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20 text-center">Explore this option</div>
+                     </div>
                   </div>
              ))}
            </div>
@@ -837,12 +857,12 @@ export default function Wizard() {
       <ProductDetailView 
         product={selectedResult.product}
         mode="influenced"
-        aiNarrative={aiNarrative}
+        aiNarrative={aiNarrativeRegistry[selectedResult.product.slug]}
         reasons={selectedResult.reasons}
         preferences={preferences}
         results={results || undefined}
         onBack={() => setStep('results')}
-        isLoading={narrativeLoading}
+        isLoading={narrativeLoading || !aiNarrativeRegistry[selectedResult.product.slug]}
         zip={preferences.zipCode || undefined}
       />
     );

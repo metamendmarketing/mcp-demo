@@ -5,11 +5,10 @@ import { Product } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
+    const startTime = performance.now();
     const body = await request.json() as { preferences: UserPreferences; product: Product };
     
-    if (!body.preferences || !body.product) {
-      return NextResponse.json({ error: 'Missing preferences or product data' }, { status: 400 });
-    }
+    console.log(`[API] Narrative Gen Started for: ${body.product?.modelName}`);
 
     // 1. Fetch Brand Knowledge Base
     const { prisma } = await import('@/lib/prisma');
@@ -111,6 +110,9 @@ Do not return markdown. Return raw JSON.
       console.error("Failed to parse Gemini JSON:", cleanJson);
       throw new Error("Invalid JSON returned from AI");
     }
+
+    const endTime = performance.now();
+    console.log(`[API] Narrative Gen Complete: ${body.product?.modelName} in ${Math.round(endTime - startTime)}ms`);
 
     return NextResponse.json(parsedData);
 
