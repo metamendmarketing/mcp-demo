@@ -60,7 +60,7 @@ export async function saveProductConfig(productId: string, data: { hotspots: any
     const updated = await prisma.product.update({
       where: { id: productId },
       data: {
-        hotspots: JSON.stringify(data.hotspots),
+        hotspots: data.hotspots,
         ...(data.heroImageUrl && { heroImageUrl: data.heroImageUrl }),
         ...(data.overheadImageUrl && { overheadImageUrl: data.overheadImageUrl }),
       },

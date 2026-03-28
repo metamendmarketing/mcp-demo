@@ -7,6 +7,7 @@ import {
   Info, CheckCircle, Warning, CircleNotch, X
 } from '@phosphor-icons/react';
 import { saveProductConfig } from '@/app/admin/actions';
+import { UploadButton } from '@/lib/uploadthing';
 
 interface Hotspot {
   id: string;
@@ -165,33 +166,15 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     }
   };
 
-  const handleFileUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      const res = await fetch('/mcp/demo/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      
-      if (data.url) {
-        if (type === 'hero') setHeroImageUrl(data.url);
-        else if (type === 'overhead') setOverheadImageUrl(data.url);
-        else if (type === 'hotspot' && hotspotId) {
-          updateHotspot(hotspotId, { imageUrl: data.url });
-        }
-        setMessage({ type: 'success', text: 'Image uploaded successfully.' });
-      } else {
-        setMessage({ type: 'error', text: data.error || 'Upload failed.' });
-      }
-    } catch (e) {
-      setMessage({ type: 'error', text: 'Upload error.' });
-    } finally {
-      setIsUploading(false);
+  const onUploadComplete = (res: any, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
+    const url = res[0].url;
+    if (type === 'hero') setHeroImageUrl(url);
+    else if (type === 'overhead') setOverheadImageUrl(url);
+    else if (type === 'hotspot' && hotspotId) {
+      updateHotspot(hotspotId, { imageUrl: url });
     }
+    setMessage({ type: 'success', text: 'Image uploaded to cloud.' });
+    setIsUploading(false);
   };
 
   const selectedHotspot = hotspots.find(h => h.id === selectedId);
@@ -207,19 +190,22 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
           <div className="space-y-4">
              <div className="flex items-center justify-between">
                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Product Hero (PDP Hero)</label>
-                <div className="flex items-center gap-2">
-                   {isUploading && <CircleNotch className="w-3 h-3 animate-spin text-marquis-blue" />}
-                   <input 
-                      type="file" 
-                      id="hero-upload" 
-                      className="hidden" 
-                      accept="image/*"
-                      onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'hero')}
-                   />
-                   <label htmlFor="hero-upload" className="text-[10px] font-bold text-marquis-blue hover:text-marquis-light-blue cursor-pointer flex items-center gap-1">
-                      <Plus className="w-3 h-3" /> Upload New
-                   </label>
-                </div>
+                <UploadButton
+                  endpoint="imageUploader"
+                  onUploadBegin={() => setIsUploading(true)}
+                  onClientUploadComplete={(res) => onUploadComplete(res, 'hero')}
+                  onUploadError={(error: Error) => {
+                    setMessage({ type: 'error', text: `Upload Error: ${error.message}` });
+                    setIsUploading(false);
+                  }}
+                  appearance={{
+                    button: "text-[10px] font-bold text-marquis-blue hover:text-marquis-light-blue bg-transparent border-none p-0 h-auto",
+                    allowedContent: "hidden"
+                  }}
+                  content={{
+                    button: <span className="flex items-center gap-1"><Plus className="w-3 h-3" /> Upload New</span>
+                  }}
+                />
              </div>
              <div className="flex gap-4">
                <div className="w-20 h-20 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex-shrink-0">
@@ -238,18 +224,22 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
           <div className="space-y-4">
              <div className="flex items-center justify-between">
                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Interactive Image (Explorer)</label>
-                <div className="flex items-center gap-2">
-                   <input 
-                      type="file" 
-                      id="overhead-upload" 
-                      className="hidden" 
-                      accept="image/*"
-                      onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'overhead')}
-                   />
-                   <label htmlFor="overhead-upload" className="text-[10px] font-bold text-marquis-blue hover:text-marquis-light-blue cursor-pointer flex items-center gap-1">
-                      <Plus className="w-3 h-3" /> Upload New
-                   </label>
-                </div>
+                <UploadButton
+                  endpoint="imageUploader"
+                  onUploadBegin={() => setIsUploading(true)}
+                  onClientUploadComplete={(res) => onUploadComplete(res, 'overhead')}
+                  onUploadError={(error: Error) => {
+                    setMessage({ type: 'error', text: `Upload Error: ${error.message}` });
+                    setIsUploading(false);
+                  }}
+                  appearance={{
+                    button: "text-[10px] font-bold text-marquis-blue hover:text-marquis-light-blue bg-transparent border-none p-0 h-auto",
+                    allowedContent: "hidden"
+                  }}
+                  content={{
+                    button: <span className="flex items-center gap-1"><Plus className="w-3 h-3" /> Upload New</span>
+                  }}
+                />
              </div>
              <div className="flex gap-4">
                <div className="w-20 h-20 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex-shrink-0">
@@ -412,16 +402,22 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Deep Feature Image URL (Optional)</label>
-                    <input 
-                      type="file" 
-                      id={`hotspot-upload-${selectedHotspot.id}`} 
-                      className="hidden" 
-                      accept="image/*"
-                      onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'hotspot', selectedHotspot.id)}
+                    <UploadButton
+                      endpoint="imageUploader"
+                      onUploadBegin={() => setIsUploading(true)}
+                      onClientUploadComplete={(res) => onUploadComplete(res, 'hotspot', selectedHotspot.id)}
+                      onUploadError={(error: Error) => {
+                        setMessage({ type: 'error', text: `Upload Error: ${error.message}` });
+                        setIsUploading(false);
+                      }}
+                      appearance={{
+                        button: "text-[9px] font-black text-marquis-blue hover:text-marquis-light-blue bg-transparent border-none p-0 h-auto uppercase tracking-widest",
+                        allowedContent: "hidden"
+                      }}
+                      content={{
+                        button: "Upload"
+                      }}
                     />
-                    <label htmlFor={`hotspot-upload-${selectedHotspot.id}`} className="text-[9px] font-black text-marquis-blue hover:text-marquis-light-blue cursor-pointer uppercase tracking-widest">
-                      Upload
-                    </label>
                   </div>
                   <div className="flex gap-2">
                     <div className="relative flex-grow">
