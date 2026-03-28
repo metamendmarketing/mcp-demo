@@ -1,4 +1,6 @@
 import React from 'react';
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { CaretRight, House, Users, Lightning, CornersOut } from '@/components/icons';
