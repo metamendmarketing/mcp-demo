@@ -7,6 +7,7 @@ import {
 } from '@phosphor-icons/react';
 import { saveProductConfig } from '@/app/admin/actions';
 import { useUploadThing } from '@/lib/uploadthing';
+import type { Hotspot, Product } from '@/lib/types';
 
 interface Hotspot {
   id: string;
@@ -19,11 +20,17 @@ interface Hotspot {
 }
 
 interface HotspotEditorProps {
-  product: any;
+  product: Product;
   initialHotspots: Hotspot[];
 }
 
-export default function HotspotEditor({ product, initialHotspots }: HotspotEditorProps) {
+/**
+ * HotspotEditor Component
+ * 
+ * A high-fidelity administrative tool for mapping interactive hotspots onto a product image.
+ * Features a Sidebar-First property management system and real-time cloud media synchronization.
+ */
+const HotspotEditor: React.FC<HotspotEditorProps> = ({ product, initialHotspots }) => {
   const [hotspots, setHotspots] = useState<Hotspot[]>(initialHotspots);
   const [heroImageUrl, setHeroImageUrl] = useState(product.heroImageUrl || '');
   const [overheadImageUrl, setOverheadImageUrl] = useState(product.overheadImageUrl || '');
@@ -180,7 +187,11 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     }
   };
 
-  const onUploadComplete = (res: any, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
+  /**
+   * Completes the cloud upload process by updating the local state with the new URL.
+   * Leverages the 'pendingUpload' ref to identify the target (hero, overhead, or specific hotspot).
+   */
+  const onUploadComplete = (res: { url: string }[], type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
     const url = res[0].url;
     if (type === 'hero') setHeroImageUrl(url);
     else if (type === 'overhead') setOverheadImageUrl(url);
@@ -471,3 +482,5 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     </div>
   );
 }
+
+export default React.memo(HotspotEditor);

@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
+import type { Hotspot, Product } from '@/lib/types';
 
 const COOKIE_NAME = 'marquis_admin_session';
 
@@ -44,7 +45,11 @@ export async function isAuthenticated() {
   return session?.value === 'authenticated';
 }
 
-export async function saveProductConfig(productId: string, data: { hotspots: any[], heroImageUrl?: string, overheadImageUrl?: string }) {
+/**
+ * Persists product configuration changes (hotspots, hero image, overhead image) to Supabase.
+ * Includes security checks and multi-region cache revalidation.
+ */
+export async function saveProductConfig(productId: string, data: { hotspots: Hotspot[], heroImageUrl?: string, overheadImageUrl?: string }) {
   console.log(`[Admin] Attempting save for Product: ${productId}`, { 
     hotspotCount: data.hotspots?.length,
     hasHero: !!data.heroImageUrl,
