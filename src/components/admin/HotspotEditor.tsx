@@ -36,6 +36,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
 
   const { startUpload } = useUploadThing("imageUploader", {
     onClientUploadComplete: (res: any) => {
+      alert(`Debug: Upload Compete! Files: ${res?.length}`);
       if (pendingUpload.current) {
          onUploadComplete(res, pendingUpload.current.type, pendingUpload.current.id);
          pendingUpload.current = null;
@@ -43,20 +44,23 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     },
     onUploadError: (e: Error) => {
       console.error("UploadThing Error:", e);
-      alert(`Upload Error: ${e.message}`);
+      alert(`Debug: UploadThing Error: ${e.message}`);
       setIsUploading(false);
       pendingUpload.current = null;
     },
   });
 
   const handleCustomUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
+    alert(`Debug: Selection detected. Starting upload for ${type}...`);
     setIsUploading(true);
     setMessage(null);
     pendingUpload.current = { type, id: hotspotId };
     try {
       startUpload([file]);
+      alert("Debug: startUpload([file]) called successfully.");
     } catch (e: any) {
       console.error("Upload initiation failed", e);
+      alert(`Debug: Initiation Error: ${e.message}`);
       setMessage({ type: 'error', text: `Upload failed: ${e.message || 'Unknown error'}` });
       setIsUploading(false);
       pendingUpload.current = null;
