@@ -189,69 +189,67 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
         <div className="bg-white rounded-3xl p-6 mb-8 border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <div className="space-y-4">
              <div className="flex items-center justify-between">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Product Hero (PDP Hero)</label>
-                <UploadButton
-                  endpoint="imageUploader"
-                  onUploadBegin={() => setIsUploading(true)}
-                  onClientUploadComplete={(res) => onUploadComplete(res, 'hero')}
-                  onUploadError={(error: Error) => {
-                    alert(`Upload Error: ${error.message}`);
-                    setIsUploading(false);
-                  }}
-                  appearance={{
-                    button: "ut-uploading:cursor-not-allowed rounded-md bg-marquis-blue px-3 py-1 text-[10px] font-bold text-white",
-                    allowedContent: "hidden"
-                  }}
-                  content={{
-                    button: <span className="flex items-center gap-1"><Plus className="w-3 h-3" /> Upload New</span>
-                  }}
-                />
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Product Media Management</label>
              </div>
-             <div className="flex gap-4">
-               <div className="w-20 h-20 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex-shrink-0">
+             <div className="flex gap-4 items-center">
+               <div className="w-24 h-24 rounded-2xl bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group">
                   <img src={heroImageUrl || `/mcp/demo/assets/products/${product.slug}/hero.png`} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <UploadButton
+                      endpoint="imageUploader"
+                      onUploadBegin={() => setIsUploading(true)}
+                      onClientUploadComplete={(res) => onUploadComplete(res, 'hero')}
+                      onUploadError={(error: Error) => {
+                        alert(`Upload Error: ${error.message}`);
+                        setIsUploading(false);
+                      }}
+                      appearance={{
+                        button: "bg-white text-marquis-blue text-[10px] font-black px-3 py-1.5 rounded-lg shadow-xl hover:scale-105 transition-transform",
+                        allowedContent: "hidden"
+                      }}
+                      content={{
+                        button: "CHANGE"
+                      }}
+                    />
+                  </div>
                </div>
-               <input 
-                 type="text" 
-                 value={heroImageUrl}
-                 onChange={(e) => setHeroImageUrl(e.target.value)}
-                 className="flex-grow bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-xs font-bold text-slate-500 self-center h-12 outline-none focus:border-marquis-blue"
-                 placeholder="Hero Image URL..."
-               />
+               <div className="flex flex-col">
+                  <span className="text-xs font-bold text-slate-800 uppercase tracking-tight">Product Hero</span>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Visible on main product page</span>
+               </div>
              </div>
           </div>
 
           <div className="space-y-4">
-             <div className="flex items-center justify-between">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Interactive Image (Explorer)</label>
-                <UploadButton
-                  endpoint="imageUploader"
-                  onUploadBegin={() => setIsUploading(true)}
-                  onClientUploadComplete={(res) => onUploadComplete(res, 'overhead')}
-                  onUploadError={(error: Error) => {
-                    alert(`Upload Error: ${error.message}`);
-                    setIsUploading(false);
-                  }}
-                  appearance={{
-                    button: "ut-uploading:cursor-not-allowed rounded-md bg-marquis-blue px-3 py-1 text-[10px] font-bold text-white",
-                    allowedContent: "hidden"
-                  }}
-                  content={{
-                    button: <span className="flex items-center gap-1"><Plus className="w-3 h-3" /> Upload New</span>
-                  }}
-                />
+             <div className="hidden">
+                {/* Obsolete overhead label space */}
              </div>
-             <div className="flex gap-4">
-               <div className="w-20 h-20 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex-shrink-0">
+             <div className="flex gap-4 items-center">
+               <div className="w-24 h-24 rounded-2xl bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group">
                   <img src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <UploadButton
+                      endpoint="imageUploader"
+                      onUploadBegin={() => setIsUploading(true)}
+                      onClientUploadComplete={(res) => onUploadComplete(res, 'overhead')}
+                      onUploadError={(error: Error) => {
+                        alert(`Upload Error: ${error.message}`);
+                        setIsUploading(false);
+                      }}
+                      appearance={{
+                        button: "bg-white text-marquis-blue text-[10px] font-black px-3 py-1.5 rounded-lg shadow-xl hover:scale-105 transition-transform",
+                        allowedContent: "hidden"
+                      }}
+                      content={{
+                        button: "CHANGE"
+                      }}
+                    />
+                  </div>
                </div>
-               <input 
-                 type="text" 
-                 value={overheadImageUrl}
-                 onChange={(e) => setOverheadImageUrl(e.target.value)}
-                 className="flex-grow bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-xs font-bold text-slate-500 self-center h-12 outline-none focus:border-marquis-blue"
-                 placeholder="Overhead Image URL..."
-               />
+               <div className="flex flex-col">
+                  <span className="text-xs font-bold text-slate-800 uppercase tracking-tight">Interactive Background</span>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Used for hotspot map</span>
+               </div>
              </div>
           </div>
         </div>
@@ -399,39 +397,36 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                   </div>
                 </div>
 
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Deep Feature Image URL (Optional)</label>
-                    <UploadButton
-                      endpoint="imageUploader"
-                      onUploadBegin={() => setIsUploading(true)}
-                      onClientUploadComplete={(res) => onUploadComplete(res, 'hotspot', selectedHotspot.id)}
-                      onUploadError={(error: Error) => {
-                        alert(`Upload Error: ${error.message}`);
-                        setIsUploading(false);
-                      }}
-                      appearance={{
-                        button: "ut-uploading:cursor-not-allowed rounded-md bg-marquis-blue px-2 py-0.5 text-[9px] font-black text-white uppercase tracking-widest",
-                        allowedContent: "hidden"
-                      }}
-                      content={{
-                        button: "Upload"
-                      }}
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="relative flex-grow">
-                      <Image className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
-                      <input 
-                        type="text"
-                        placeholder="/assets/features/example.png"
-                        value={selectedHotspot.imageUrl || ''}
-                        onChange={(e) => updateHotspot(selectedHotspot.id, { imageUrl: e.target.value })}
-                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl py-3 pl-10 pr-3 text-xs font-bold text-slate-800 focus:border-marquis-blue outline-none"
-                      />
+                  <div className="pt-4 border-t border-slate-50">
+                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Feature Detail Image</label>
+                    <div className="flex gap-4 items-center">
+                       <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden relative group flex-shrink-0">
+                          <img src={selectedHotspot.imageUrl || '/mcp/demo/assets/placeholder.png'} className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <UploadButton
+                              endpoint="imageUploader"
+                              onUploadBegin={() => setIsUploading(true)}
+                              onClientUploadComplete={(res) => onUploadComplete(res, 'hotspot', selectedHotspot.id)}
+                              onUploadError={(error: Error) => {
+                                alert(`Upload Error: ${error.message}`);
+                                setIsUploading(false);
+                              }}
+                              appearance={{
+                                button: "bg-white text-marquis-blue text-[8px] font-black px-2 py-1 rounded shadow-lg",
+                                allowedContent: "hidden"
+                              }}
+                              content={{
+                                button: "CHANGE"
+                              }}
+                            />
+                          </div>
+                       </div>
+                       <div className="flex flex-col">
+                          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-tight">Detail Image</span>
+                          <span className="text-[8px] font-bold text-slate-300 uppercase mt-0.5">Shows in explorer detail</span>
+                       </div>
                     </div>
                   </div>
-                </div>
               </div>
 
               {/* Coordinates Display (Read-only for info) */}
