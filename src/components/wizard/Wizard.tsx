@@ -58,11 +58,10 @@ const QUESTIONS: {
     },
     layout: 'grid',
     options: [
-      { value: 'therapy', label: 'Deep Hydrotherapy', tip: "Focused relief for chronic pain and targeted muscle tension.", image: '/mcp/demo/assets/therapy_premium.png', icon: <FirstAidKit weight="duotone" className="w-8 h-8 text-indigo-500" /> },
+      { value: 'therapy', label: 'Therapy & Wellness', tip: "Focused relief for chronic pain, stress relief, and skeletal-system recovery.", image: '/mcp/demo/assets/therapy_premium.png', icon: <FirstAidKit weight="duotone" className="w-8 h-8 text-indigo-500" /> },
       { value: 'recreational', label: 'Social & Entertainment', tip: "Open seating, vibrant lighting, and space for family connection.", image: '/mcp/demo/assets/recreation_premium.png', icon: <UsersThree weight="duotone" className="w-8 h-8 text-sky-500" /> },
-      { value: 'exercise', label: 'Exercise & Fitness', tip: "Professional swim resistance and low-impact aquatic conditioning.", image: '/mcp/demo/assets/v150_beauty.jpg', icon: <Waves weight="duotone" className="w-8 h-8 text-blue-500" /> },
-      { value: 'athletes', label: 'Athletic Recovery', tip: "High-volume flow for lactic acid breakdown and performance reset.", image: '/mcp/demo/assets/hydro_full_body.png', icon: <Target weight="duotone" className="w-8 h-8 text-red-500" /> },
-      { value: 'relaxation', label: 'Stress Relief & Sleep', tip: "Gentle bubbling, quiet operation, and ergonomic lounging for mental reset.", image: '/mcp/demo/assets/fitness_premium.png', icon: <Wind weight="duotone" className="w-8 h-8 text-teal-400" /> }
+      { value: 'exercise', label: 'Exercise & Fitness', tip: "Professional swim resistance and low-impact aquatic conditioning.", image: '/mcp/demo/assets/fitness_premium.png', icon: <Waves weight="duotone" className="w-8 h-8 text-blue-500" /> },
+      { value: 'athletes', label: 'Athletic Recovery', tip: "High-volume flow for lactic acid breakdown and performance reset.", image: '/mcp/demo/assets/hydro_full_body.png', icon: <Target weight="duotone" className="w-8 h-8 text-red-500" /> }
     ]
   },
   {

@@ -24,9 +24,7 @@
   },
   "purposes": {
     "recreational": ["social", "family", "recreational"],
-    "therapy": ["hydrotherapy", "recovery", "therapy"],
-    "wellness": ["relaxation", "wellness", "soft"],
-    "solo": ["relaxation", "soft", "solo", "intimate", "small"],
+    "therapy": ["hydrotherapy", "recovery", "therapy", "relaxation", "wellness", "soft", "solo", "intimate", "small"],
     "exercise": ["exercise", "fitness", "swim", "performance"],
     "athletes": ["recovery", "performance", "firm", "deep"]
   },
