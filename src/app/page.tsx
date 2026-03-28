@@ -22,7 +22,6 @@ export default function Home() {
             <span className="hover:text-marquis-green cursor-pointer transition-colors leading-tight text-center">Swim<br/>Spas</span>
             <span className="hover:text-marquis-green cursor-pointer transition-colors leading-tight text-center">Options &<br/>Accessories</span>
             <span className="hover:text-marquis-green cursor-pointer transition-colors tracking-[0.2em] ml-8">Dealers</span>
-            <Link href="/admin" className="text-marquis-blue hover:text-white transition-colors tracking-[0.2em] border border-marquis-blue/30 px-4 py-1 rounded-full">Login</Link>
             <span className="hover:text-marquis-green cursor-pointer transition-colors flex items-center gap-2">Menu <span className="text-lg leading-none">☰</span></span>
           </nav>
 

@@ -490,12 +490,6 @@ export default function ProductDetailView({
           >
             Get Pricing
           </Link>
-          <Link
-            href="/admin"
-            className="text-marquis-blue hover:text-slate-800 text-[10px] font-black uppercase tracking-widest transition-colors flex items-center gap-1.5 border border-marquis-blue/20 px-4 py-2 rounded-xl"
-          >
-            <Gear className="w-4 h-4" weight="bold" /> Login
-          </Link>
         </div>
       </div>
 
