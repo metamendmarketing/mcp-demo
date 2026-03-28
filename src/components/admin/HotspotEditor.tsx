@@ -51,16 +51,20 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
   });
 
   const handleCustomUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
-    alert(`Debug: Selection detected. Starting upload for ${type}...`);
+    // IMMEDIATE FEEDBACK
+    alert(`[DIAGNOSTIC] File selected: ${file.name} (${file.size} bytes). Target: ${type}`);
+    
     setIsUploading(true);
     setMessage(null);
     pendingUpload.current = { type, id: hotspotId };
+    
     try {
+      alert(`[DIAGNOSTIC] Initiating startUpload for ${type}...`);
       startUpload([file]);
-      alert("Debug: startUpload([file]) called successfully.");
+      alert("[DIAGNOSTIC] startUpload call sent to UploadThing hook.");
     } catch (e: any) {
       console.error("Upload initiation failed", e);
-      alert(`Debug: Initiation Error: ${e.message}`);
+      alert(`[DIAGNOSTIC] Initiation FATAL Error: ${e.message}`);
       setMessage({ type: 'error', text: `Upload failed: ${e.message || 'Unknown error'}` });
       setIsUploading(false);
       pendingUpload.current = null;
@@ -347,7 +351,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
               </h4>
               <div className="space-y-6">
                  {/* Item: Hero */}
-                 <div className="flex items-center gap-5 p-4 rounded-3xl bg-slate-50 border border-slate-100 hover:border-marquis-blue/30 transition-all group">
+                 <div className="flex items-center gap-5 p-4 rounded-3xl bg-slate-50 border border-slate-100 hover:border-marquis-blue/30 transition-all group relative">
                     <div className="w-20 h-20 rounded-2xl bg-white border border-slate-200 overflow-hidden relative shadow-sm flex-shrink-0">
                        {heroImageUrl ? (
                           <img src={heroImageUrl} className="w-full h-full object-cover" />
@@ -357,10 +361,21 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                              <span className="text-[7px] font-black uppercase">No Hero</span>
                           </div>
                        )}
-                       <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center cursor-pointer">
+                       <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center z-20">
                           <Plus className="text-white w-6 h-6" />
-                          <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hero')} />
                        </div>
+                       
+                       {isUploading && (
+                          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-30">
+                             <CircleNotch className="w-5 h-5 animate-spin text-marquis-blue" />
+                          </div>
+                       )}
+
+                       <input 
+                         type="file" 
+                         className="absolute inset-0 opacity-0 cursor-pointer z-[100]" 
+                         onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hero')} 
+                       />
                     </div>
                     <div>
                        <span className="text-[11px] font-black text-slate-700 uppercase tracking-tight">Product Hero</span>
@@ -369,7 +384,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                  </div>
 
                  {/* Item: Interactive BG */}
-                 <div className="flex items-center gap-5 p-4 rounded-3xl bg-slate-50 border border-slate-100 hover:border-marquis-blue/30 transition-all group">
+                 <div className="flex items-center gap-5 p-4 rounded-3xl bg-slate-50 border border-slate-100 hover:border-marquis-blue/30 transition-all group relative">
                     <div className="w-20 h-20 rounded-2xl bg-white border border-slate-200 overflow-hidden relative shadow-sm flex-shrink-0">
                        {overheadImageUrl ? (
                           <img src={overheadImageUrl} className="w-full h-full object-cover" />
@@ -379,10 +394,21 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                              <span className="text-[7px] font-black uppercase">No Map</span>
                           </div>
                        )}
-                       <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center cursor-pointer">
+                       <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center z-20">
                           <Plus className="text-white w-6 h-6" />
-                          <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'overhead')} />
                        </div>
+
+                       {isUploading && (
+                          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-30">
+                             <CircleNotch className="w-5 h-5 animate-spin text-marquis-blue" />
+                          </div>
+                       )}
+
+                       <input 
+                         type="file" 
+                         className="absolute inset-0 opacity-0 cursor-pointer z-[100]" 
+                         onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'overhead')} 
+                       />
                     </div>
                     <div>
                        <span className="text-[11px] font-black text-slate-700 uppercase tracking-tight">Interactive Map</span>
@@ -434,10 +460,28 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                                   <span className="text-[7px] font-black uppercase">No Media</span>
                                </div>
                             )}
-                            <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
+
+                            {/* Overlays */}
+                            <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center z-20">
                                <Plus className="text-white w-5 h-5" />
-                               <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hotspot', selectedHotspot.id)} />
                             </div>
+
+                            {isUploading && (
+                               <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-30">
+                                  <CircleNotch className="w-6 h-6 animate-spin text-marquis-blue" />
+                               </div>
+                            )}
+
+                            {/* The Trigger - Highest Z-Index */}
+                            <input 
+                              type="file" 
+                              className="absolute inset-0 opacity-0 cursor-pointer z-[100]" 
+                              onChange={(e) => {
+                                 console.log("Input onChange fired");
+                                 const file = e.target.files?.[0];
+                                 if (file) handleCustomUpload(file, 'hotspot', selectedHotspot.id);
+                              }} 
+                            />
                          </div>
                          <div className="flex flex-col">
                             <span className="text-[10px] font-black text-slate-600 uppercase tracking-tight">Feature Close-up</span>
