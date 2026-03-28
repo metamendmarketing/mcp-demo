@@ -167,8 +167,12 @@ Output strictly valid JSON:
       }))
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('[API] Fatal Error:', error);
-    return NextResponse.json({ results: [], error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ 
+      results: [], 
+      error: error.message || 'Internal Server Error',
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined 
+    }, { status: 500 });
   }
 }
