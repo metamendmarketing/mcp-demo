@@ -11,5 +11,5 @@ import {
   
   export const { useUploadThing, uploadFiles } =
     generateReactHelpers<OurFileRouter>({
-      url: "/mcp/demo/api/uploadthing",
+      url: "/api/uploadthing",
     });
