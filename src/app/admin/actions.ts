@@ -32,7 +32,8 @@ export async function login(formData: FormData) {
  */
 export async function logout() {
   (await cookies()).delete(COOKIE_NAME);
-  redirect('/admin/login');
+  // Redirect back to the main consumer site
+  redirect('/');
 }
 
 /**
