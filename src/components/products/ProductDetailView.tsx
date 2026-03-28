@@ -384,6 +384,8 @@ export interface Product {
   staticReasons?: string[] | string;
 }
 
+// Global Types imported from @/lib/types where applicable.
+
 export interface ScoredProduct {
   product: Product;
   score: number;
@@ -405,13 +407,7 @@ export interface ProductDetailViewProps {
   results?: ScoredProduct[];
 }
 
-const safeParse = (data: any) => {
-  if (Array.isArray(data)) return data;
-  if (typeof data === 'string') {
-    try { return JSON.parse(data); } catch { return []; }
-  }
-  return [];
-};
+// safeParse is defined at the top of this file
 
 /**
  * ProductDetailView Component
