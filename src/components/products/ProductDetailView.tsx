@@ -31,6 +31,16 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Safely parses JSON data from the database, handling both string and object formats.
+ */
+const safeParse = (data: any, fallback: any = []) => {
+  if (typeof data === 'string') {
+    try { return JSON.parse(data); } catch (e) { return fallback; }
+  }
+  return data || fallback;
+};
+
 // --- SUB-COMPONENTS ---
 
 interface ColorExplorerProps {
@@ -39,6 +49,12 @@ interface ColorExplorerProps {
   mode?: 'static' | 'influenced';
 }
 
+/**
+ * ColorExplorer Sub-component
+ * 
+ * Renders the available shell and cabinet colors for a model.
+ * In 'influenced' mode, it highlights colors that match the user's aesthetic profile.
+ */
 function ColorExplorer({ product, preferences: initialPreferences, mode = 'static' }: ColorExplorerProps) {
   const [showAllColors, setShowAllColors] = useState(false);
   const [persistedPreferences, setPersistedPreferences] = useState<any>(null);
@@ -66,8 +82,8 @@ function ColorExplorer({ product, preferences: initialPreferences, mode = 'stati
 
   if (!product.shellColors && !product.cabinetColors) return null;
 
-  const shellColors = Array.from(new Set(Array.isArray(product.shellColors) ? (product.shellColors as string[]) : [])) as string[];
-  const cabinetColors = Array.from(new Set(Array.isArray(product.cabinetColors) ? (product.cabinetColors as string[]) : [])) as string[];
+  const shellColors = safeParse(product.shellColors);
+  const cabinetColors = safeParse(product.cabinetColors);
 
   const seriesName = product.seriesName || product.series?.name || '';
   const seriesKey = seriesName.toLowerCase().includes('crown') ? 'crown' :
@@ -389,6 +405,20 @@ export interface ProductDetailViewProps {
   results?: ScoredProduct[];
 }
 
+const safeParse = (data: any) => {
+  if (Array.isArray(data)) return data;
+  if (typeof data === 'string') {
+    try { return JSON.parse(data); } catch { return []; }
+  }
+  return [];
+};
+
+/**
+ * ProductDetailView Component
+ * 
+ * The primary high-fidelity display for individual Marquis models.
+ * Integrates AI narratives, interactive hotspots, and localized climate data.
+ */
 export default function ProductDetailView({
   product,
   mode,
@@ -401,6 +431,10 @@ export default function ProductDetailView({
   results: initialResults
 }: ProductDetailViewProps) {
   const [recommendations, setRecommendations] = useState<ScoredProduct[]>(initialResults || []);
+  const hotspotsData = safeParse(product.hotspots);
+  const usageTagsData = safeParse(product.usageTags);
+  const shellColorsData = safeParse(product.shellColors);
+  const cabinetColorsData = safeParse(product.cabinetColors);
 
   // Safe load of recommendations from localStorage if not provided via props
   React.useEffect(() => {
