@@ -847,3 +847,5 @@ function Wizard() {
 
   return null;
 }
+
+export default memo(Wizard);

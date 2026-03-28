@@ -76,7 +76,7 @@ export default async function HotspotPage({ params }: PageProps) {
 
       {/* The Visual Editor Component */}
       <div className="flex-grow overflow-hidden">
-        <HotspotEditor product={product} initialHotspots={initialHotspots} />
+        <HotspotEditor product={product as any} initialHotspots={initialHotspots} />
       </div>
     </div>
   );
