@@ -26,6 +26,9 @@ export const Header: React.FC<HeaderProps> = ({ brand }) => {
           <Link href={`/${brand.id}/dealer`} className="text-sm font-medium hover:text-brand-accent transition-colors">
             Find a Dealer
           </Link>
+          <Link href="/admin" className="text-sm font-bold text-marquis-blue hover:text-brand-accent transition-colors border border-marquis-blue/20 px-3 py-1 rounded-full">
+            Login
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <button className="bg-brand-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
