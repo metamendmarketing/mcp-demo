@@ -1,6 +1,5 @@
 import React from 'react';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { House, SignOut, Gear } from '@phosphor-icons/react/dist/ssr';
 import { logout } from './actions';
@@ -13,15 +12,9 @@ export default async function AdminLayout({
   const session = (await cookies()).get('marquis_admin_session');
   const isAuthenticated = session?.value === 'authenticated';
 
-  // Allow access to login page only
-  if (!isAuthenticated && !children?.toString().includes('Login')) {
-     // This is a bit brittle, we'll check for the segment instead in a real app, 
-     // but for this flat structure, let's just use the segment logic if possible.
-  }
-
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      {/* Admin Header */}
+      {/* Admin Header - Only visible when authenticated */}
       {isAuthenticated && (
         <header className="bg-slate-900 text-white py-4 px-8 flex justify-between items-center shadow-lg shrink-0">
           <div className="flex items-center gap-4">
@@ -47,7 +40,7 @@ export default async function AdminLayout({
         </header>
       )}
 
-      <main className="flex-grow flex flex-col">
+      <main className="flex-grow flex flex-col overflow-hidden">
         {children}
       </main>
     </div>
