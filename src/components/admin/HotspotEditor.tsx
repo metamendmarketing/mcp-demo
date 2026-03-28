@@ -346,8 +346,11 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
            
            {/* VERIFICATION BUTTON */}
            <div 
-             className="p-4 bg-yellow-400 text-black font-black text-center cursor-pointer rounded-2xl mb-8 shadow-xl hover:scale-105 active:scale-95 transition-all animate-bounce"
-             onClick={() => alert(`VERIFICATION SUCCESS: Admin Version v12.1 is LIVE (Time: ${new Date().toLocaleTimeString()})`)}
+             className="p-4 bg-yellow-400 text-black font-black text-center cursor-pointer rounded-2xl mb-8 shadow-xl hover:scale-105 active:scale-95 transition-all"
+             onClick={() => {
+                console.log("Verification Button Clicked");
+                alert("VERIFICATION SUCCESS: Admin Version v12.2 is LIVE");
+             }}
            >
              CLICK TO VERIFY VERSION
            </div>
