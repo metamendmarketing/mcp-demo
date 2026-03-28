@@ -9,15 +9,7 @@ import { saveProductConfig } from '@/app/admin/actions';
 import { useUploadThing } from '@/lib/uploadthing';
 import type { Hotspot, Product } from '@/lib/types';
 
-interface Hotspot {
-  id: string;
-  x: number;
-  y: number;
-  label: string;
-  description: string;
-  imageUrl?: string;
-  direction?: 'top' | 'bottom' | 'left' | 'right';
-}
+// types.ts handles the Hotspot interface
 
 interface HotspotEditorProps {
   product: Product;
@@ -169,9 +161,9 @@ const HotspotEditor: React.FC<HotspotEditorProps> = ({ product, initialHotspots 
     setIsSaving(true);
     setMessage(null);
     try {
-      const dataToSave = hotspots.map(({ id, ...rest }) => rest);
+      // Map hotspots for storage while preserving structure for the DB
       const result = await saveProductConfig(product.id, { 
-        hotspots: dataToSave,
+        hotspots: hotspots,
         heroImageUrl: heroImageUrl,
         overheadImageUrl: overheadImageUrl
       });
