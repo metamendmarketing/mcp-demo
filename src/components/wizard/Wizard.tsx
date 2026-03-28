@@ -809,9 +809,11 @@ function Wizard() {
                              {res.product.seriesName || res.product.series?.name || 'Marquis'} | {res.product.positioningTier?.toUpperCase() || 'ELITE'}
                           </div>
                            <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed text-sm font-medium">
-                             {aiNarrativeRegistry[res.product.slug]?.naturalNarrative || res.naturalNarrative || res.product.marketingSummary}
+                             {aiNarrativeRegistry[res.product.slug]?.hydrotherapy || res.naturalNarrative || res.product.marketingSummary}
                            </p>
-                           <div className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20 text-center">Explore this option</div>
+                           <div className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20 text-center">
+                             {loading ? "Loading..." : "Explore this option"}
+                           </div>
                      </div>
                   </div>
              ))}
@@ -830,12 +832,12 @@ function Wizard() {
   if (step === 'details' && selectedResult) {
     return (
       <ProductDetailView 
-        product={selectedResult.product}
+        product={selectedResult.product as any}
         mode="influenced"
-        aiNarrative={aiNarrativeRegistry[selectedResult.product.slug]}
+        aiNarrative={aiNarrativeRegistry[selectedResult.product.slug] as any}
         reasons={selectedResult.reasons}
         preferences={preferences}
-        results={results || undefined}
+        results={results as any || undefined}
         onBack={() => setStep('results')}
         isLoading={narrativeLoading || !aiNarrativeRegistry[selectedResult.product.slug]}
         zip={preferences.zipCode || undefined}
