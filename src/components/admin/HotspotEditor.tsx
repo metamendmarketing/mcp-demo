@@ -25,8 +25,11 @@ interface HotspotEditorProps {
 
 export default function HotspotEditor({ product, initialHotspots }: HotspotEditorProps) {
   const [hotspots, setHotspots] = useState<Hotspot[]>(initialHotspots);
+  const [heroImageUrl, setHeroImageUrl] = useState(product.heroImageUrl || '');
+  const [overheadImageUrl, setOverheadImageUrl] = useState(product.overheadImageUrl || '');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   
   const containerRef = useRef<HTMLDivElement>(null);
@@ -143,16 +146,51 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     setIsSaving(true);
     setMessage(null);
     try {
-      // Remove local IDs before saving to match DB expectations if needed
-      // Actually, FeatureExplorer constructs IDs dynamically from index, 
-      // so we just save the properties.
       const dataToSave = hotspots.map(({ id, ...rest }) => rest);
-      await saveProductConfig(product.id, { hotspots: dataToSave });
-      setMessage({ type: 'success', text: 'Changes saved successfully!' });
+      const result = await saveProductConfig(product.id, { 
+        hotspots: dataToSave,
+        heroImageUrl: heroImageUrl,
+        overheadImageUrl: overheadImageUrl
+      });
+      
+      if (result.success) {
+        setMessage({ type: 'success', text: result.message || 'Changes saved successfully!' });
+      } else {
+        setMessage({ type: 'error', text: result.error || 'Failed to save.' });
+      }
     } catch (e) {
-      setMessage({ type: 'error', text: 'Failed to save changes.' });
+      setMessage({ type: 'error', text: 'Fatal error during save.' });
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleFileUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/mcp/demo/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      
+      if (data.url) {
+        if (type === 'hero') setHeroImageUrl(data.url);
+        else if (type === 'overhead') setOverheadImageUrl(data.url);
+        else if (type === 'hotspot' && hotspotId) {
+          updateHotspot(hotspotId, { imageUrl: data.url });
+        }
+        setMessage({ type: 'success', text: 'Image uploaded successfully.' });
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Upload failed.' });
+      }
+    } catch (e) {
+      setMessage({ type: 'error', text: 'Upload error.' });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -162,11 +200,76 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     <div className="flex flex-col lg:flex-row h-full overflow-hidden bg-slate-100">
       
       {/* CANVAS AREA */}
-      <div className="flex-grow flex flex-col p-6 min-h-[500px]">
+      <div className="flex-grow flex flex-col p-6 min-h-[500px] overflow-y-auto">
+        
+        {/* MEDIA MANAGEMENT BAR */}
+        <div className="bg-white rounded-3xl p-6 mb-8 border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <div className="space-y-4">
+             <div className="flex items-center justify-between">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Product Hero (PDP Hero)</label>
+                <div className="flex items-center gap-2">
+                   {isUploading && <CircleNotch className="w-3 h-3 animate-spin text-marquis-blue" />}
+                   <input 
+                      type="file" 
+                      id="hero-upload" 
+                      className="hidden" 
+                      accept="image/*"
+                      onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'hero')}
+                   />
+                   <label htmlFor="hero-upload" className="text-[10px] font-bold text-marquis-blue hover:text-marquis-light-blue cursor-pointer flex items-center gap-1">
+                      <Plus className="w-3 h-3" /> Upload New
+                   </label>
+                </div>
+             </div>
+             <div className="flex gap-4">
+               <div className="w-20 h-20 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex-shrink-0">
+                  <img src={heroImageUrl || `/mcp/demo/assets/products/${product.slug}/hero.png`} className="w-full h-full object-cover" />
+               </div>
+               <input 
+                 type="text" 
+                 value={heroImageUrl}
+                 onChange={(e) => setHeroImageUrl(e.target.value)}
+                 className="flex-grow bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-xs font-bold text-slate-500 self-center h-12 outline-none focus:border-marquis-blue"
+                 placeholder="Hero Image URL..."
+               />
+             </div>
+          </div>
+
+          <div className="space-y-4">
+             <div className="flex items-center justify-between">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Interactive Image (Explorer)</label>
+                <div className="flex items-center gap-2">
+                   <input 
+                      type="file" 
+                      id="overhead-upload" 
+                      className="hidden" 
+                      accept="image/*"
+                      onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'overhead')}
+                   />
+                   <label htmlFor="overhead-upload" className="text-[10px] font-bold text-marquis-blue hover:text-marquis-light-blue cursor-pointer flex items-center gap-1">
+                      <Plus className="w-3 h-3" /> Upload New
+                   </label>
+                </div>
+             </div>
+             <div className="flex gap-4">
+               <div className="w-20 h-20 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex-shrink-0">
+                  <img src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`} className="w-full h-full object-cover" />
+               </div>
+               <input 
+                 type="text" 
+                 value={overheadImageUrl}
+                 onChange={(e) => setOverheadImageUrl(e.target.value)}
+                 className="flex-grow bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-xs font-bold text-slate-500 self-center h-12 outline-none focus:border-marquis-blue"
+                 placeholder="Overhead Image URL..."
+               />
+             </div>
+          </div>
+        </div>
+
         <div className="mb-6 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-black italic uppercase text-slate-800 leading-none">{product.modelName}</h3>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Interactive Image Editor</p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Interactive Hotspot Editor</p>
           </div>
           <div className="flex items-center gap-4">
              {message && (
@@ -199,7 +302,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
           {/* Base Product Image */}
           <img 
             ref={imgRef}
-            src={product.overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`}
+            src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`}
             alt={product.modelName}
             className="w-full h-full object-contain pointer-events-none select-none"
             onLoad={updateImgLayout}
@@ -307,7 +410,19 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Deep Feature Image URL (Optional)</label>
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Deep Feature Image URL (Optional)</label>
+                    <input 
+                      type="file" 
+                      id={`hotspot-upload-${selectedHotspot.id}`} 
+                      className="hidden" 
+                      accept="image/*"
+                      onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'hotspot', selectedHotspot.id)}
+                    />
+                    <label htmlFor={`hotspot-upload-${selectedHotspot.id}`} className="text-[9px] font-black text-marquis-blue hover:text-marquis-light-blue cursor-pointer uppercase tracking-widest">
+                      Upload
+                    </label>
+                  </div>
                   <div className="flex gap-2">
                     <div className="relative flex-grow">
                       <Image className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />

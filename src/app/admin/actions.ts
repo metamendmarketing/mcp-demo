@@ -43,24 +43,39 @@ export async function isAuthenticated() {
   return session?.value === 'authenticated';
 }
 
-/**
- * Saves the hotspot configuration for a product.
- */
 export async function saveProductConfig(productId: string, data: { hotspots: any[], heroImageUrl?: string, overheadImageUrl?: string }) {
-  if (!(await isAuthenticated())) {
-    throw new Error('Not authorized');
-  }
-
-  await prisma.product.update({
-    where: { id: productId },
-    data: {
-      hotspots: JSON.stringify(data.hotspots),
-      ...(data.heroImageUrl && { heroImageUrl: data.heroImageUrl }),
-      ...(data.overheadImageUrl && { overheadImageUrl: data.overheadImageUrl }),
-    },
+  console.log(`[Admin] Attempting save for Product: ${productId}`, { 
+    hotspotCount: data.hotspots?.length,
+    hasHero: !!data.heroImageUrl,
+    hasOverhead: !!data.overheadImageUrl
   });
 
-  revalidatePath(`/admin/hotspots/${productId}`);
-  revalidatePath('/mcp/demo'); // Revalidate frontend path if matching
-  return { success: true };
+  try {
+    const auth = await isAuthenticated();
+    if (!auth) {
+      console.warn("[Admin] Save blocked: Not Authenticated");
+      throw new Error('Not authorized');
+    }
+
+    const updated = await prisma.product.update({
+      where: { id: productId },
+      data: {
+        hotspots: JSON.stringify(data.hotspots),
+        ...(data.heroImageUrl && { heroImageUrl: data.heroImageUrl }),
+        ...(data.overheadImageUrl && { overheadImageUrl: data.overheadImageUrl }),
+      },
+    });
+
+    console.log(`[Admin] Save SUCCESS for Product: ${productId} (${updated.modelName})`);
+
+    revalidatePath(`/admin/hotspots/${productId}`);
+    revalidatePath('/admin');
+    revalidatePath('/mcp/demo'); 
+    
+    return { success: true, message: 'Configuration saved successfully.' };
+  } catch (error: any) {
+    console.error(`[Admin] Save FATAL for Product: ${productId}:`, error.message);
+    return { success: false, error: error.message || 'Database update failed.' };
+  }
 }
+
