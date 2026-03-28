@@ -217,94 +217,13 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
   const selectedHotspot = hotspots.find(h => h.id === selectedId);
 
   return (
-    <div className="flex flex-col lg:flex-row h-full overflow-hidden bg-slate-100">
+    <div className="flex h-full overflow-hidden bg-[#F8FAFC]">
       
-      {/* CANVAS AREA */}
-      <div className="flex-grow flex flex-col p-6 h-full overflow-hidden">
-        
-        {/* MEDIA MANAGEMENT BAR */}
-        <div className="bg-white rounded-[32px] p-8 mb-8 border border-slate-200 shadow-sm flex flex-col gap-6">
-          <div className="flex items-center justify-between border-b border-slate-50 pb-4">
-             <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em]">Cloud Media Management</label>
-             <div className="flex items-center gap-2">
-                {isUploading && (
-                  <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 text-marquis-blue rounded-full border border-blue-100">
-                    <CircleNotch className="w-3 h-3 animate-spin" />
-                    <span className="text-[9px] font-black uppercase">Syncing to Cloud...</span>
-                  </div>
-                )}
-             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-             {/* LEFT: Product Hero */}
-             <div className="flex items-center gap-6">
-                <div className="w-24 h-24 rounded-[20px] bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group cursor-pointer">
-                   <img src={heroImageUrl || `/mcp/demo/assets/products/${product.slug}/hero.png`} className="w-full h-full object-cover" />
-                   <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center p-2 text-center backdrop-blur-[2px]">
-                      <Plus className="text-white w-6 h-6 mb-1" />
-                      <span className="text-white text-[9px] font-black tracking-widest uppercase">Change Hero</span>
-                   </div>
-                   <input 
-                      type="file" 
-                      className="absolute inset-0 opacity-0 cursor-pointer z-10" 
-                      onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hero')}
-                   />
-                </div>
-                <div className="flex flex-col">
-                   <h5 className="text-[13px] font-black italic uppercase text-slate-800 tracking-tight">Main Product Hero</h5>
-                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 leading-relaxed">Featured on the product page.<br/>Transparency recommended.</p>
-                </div>
-             </div>
-
-             {/* RIGHT: Interactive Image */}
-             <div className="flex items-center gap-6">
-                <div className="w-24 h-24 rounded-[20px] bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group cursor-pointer">
-                   <img src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`} className="w-full h-full object-cover" />
-                   <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center p-2 text-center backdrop-blur-[2px]">
-                      <Plus className="text-white w-6 h-6 mb-1" />
-                      <span className="text-white text-[9px] font-black tracking-widest uppercase">Change Map</span>
-                   </div>
-                   <input 
-                      type="file" 
-                      className="absolute inset-0 opacity-0 cursor-pointer z-10" 
-                      onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'overhead')}
-                   />
-                </div>
-                <div className="flex flex-col">
-                   <h5 className="text-[13px] font-black italic uppercase text-slate-800 tracking-tight">Interactive Map Image</h5>
-                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 leading-relaxed">Background for hotspots.<br/>High detail recommended.</p>
-                </div>
-             </div>
-          </div>
-        </div>
-
-        <div className="mb-6 flex justify-between items-center">
-          <div>
-            <h3 className="text-2xl font-black italic uppercase text-slate-800 leading-none">{product.modelName}</h3>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Interactive Hotspot Editor</p>
-          </div>
-          <div className="flex items-center gap-4">
-             {message && (
-               <div className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 animate-bounce-in ${message.type === 'success' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
-                 {message.type === 'success' ? <CheckCircle weight="fill" /> : <Warning weight="fill" />}
-                 {message.text}
-               </div>
-             )}
-             <button 
-               onClick={onSave}
-               disabled={isSaving}
-               className="btn-marquis-premium px-6 py-3 rounded-xl text-sm font-black italic uppercase shadow-lg flex items-center gap-2 disabled:opacity-50"
-             >
-               {isSaving ? <CircleNotch className="w-4 h-4 animate-spin" /> : <FloppyDisk className="w-4 h-4" />}
-               Save Config
-             </button>
-          </div>
-        </div>
-
+      {/* LEFT: INTERACTIVE CANVAS AREA */}
+      <div className="flex-grow relative flex flex-col min-w-0 h-full bg-slate-900 overflow-hidden shadow-2xl">
         <div 
           ref={containerRef}
-          className="flex-grow relative bg-slate-900 rounded-[32px] overflow-hidden shadow-inner cursor-crosshair group"
+          className="flex-grow relative cursor-crosshair group"
           onClick={handleImageClick}
           onMouseMove={onDrag}
           onMouseUp={stopDrag}
@@ -317,10 +236,10 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
             ref={imgRef}
             src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`}
             alt={product.modelName}
-            className="w-full h-full object-contain pointer-events-none select-none"
+            className="w-full h-full object-contain pointer-events-none select-none transition-opacity duration-700"
             onLoad={() => {
                updateImgLayout();
-               setTimeout(updateImgLayout, 100);
+               setTimeout(updateImgLayout, 200);
             }}
           />
 
@@ -338,22 +257,21 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
             >
               <div className={`w-8 h-8 rounded-full border-4 flex items-center justify-center transition-all ${
                 selectedId === h.id 
-                  ? 'bg-marquis-blue border-white ring-4 ring-marquis-blue/20 scale-125' 
-                  : 'bg-white border-marquis-blue shadow-md group-hover:scale-110'
+                  ? 'bg-marquis-blue border-white ring-8 ring-marquis-blue/20 scale-125' 
+                  : 'bg-white border-marquis-blue shadow-lg group-hover:scale-110'
               }`}>
                 <Plus className={`w-4 h-4 ${selectedId === h.id ? 'text-white' : 'text-marquis-blue'}`} weight="bold" />
               </div>
               
-              {/* Optional ID tag while editing */}
               <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                {h.label || "Unnamed"}
+                {h.label || "Unnamed Feature"}
               </div>
             </div>
           ))}
 
-          {/* Calibration Overlay (Optional indicator of active area) */}
+          {/* Active Area Indicator */}
           <div 
-            className="absolute border-2 border-white/10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute border-2 border-white/5 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-500"
             style={{ 
               width: imgLayout.width, 
               height: imgLayout.height, 
@@ -363,124 +281,170 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
           />
         </div>
 
-        <div className="mt-4 flex items-center gap-6 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-white/50 p-4 rounded-2xl border border-slate-200/50">
-           <div className="flex items-center gap-1.5"><ArrowsOut weight="bold" className="text-marquis-blue" /> Click center to add</div>
-           <div className="flex items-center gap-1.5"><ArrowUUpLeft weight="bold" className="text-marquis-blue" /> Drag to move</div>
-           <div className="flex items-center gap-1.5"><Plus weight="bold" className="text-marquis-blue" /> Select to edit info</div>
+        {/* BOTTOM DASHBOARD (Legend & Status) */}
+        <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center pointer-events-none animate-slide-up">
+           <div className="flex gap-4 p-4 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/10 pointer-events-auto shadow-2xl">
+              <div className="flex items-center gap-2 text-[10px] font-black text-white/50 uppercase tracking-widest whitespace-nowrap">
+                 <ArrowsOut className="w-4 h-4 text-marquis-blue" /> Click to map
+              </div>
+              <div className="w-px h-4 bg-white/10" />
+              <div className="flex items-center gap-2 text-[10px] font-black text-white/50 uppercase tracking-widest whitespace-nowrap">
+                 <ArrowUUpLeft className="w-4 h-4 text-marquis-blue" /> Drag to position
+              </div>
+              {isUploading && (
+                  <>
+                    <div className="w-px h-4 bg-white/10" />
+                    <div className="flex items-center gap-2 text-[10px] font-black text-marquis-blue animate-pulse uppercase tracking-widest">
+                       <CircleNotch className="w-3 h-3 animate-spin" /> Syncing Cloud...
+                    </div>
+                  </>
+              )}
+           </div>
+           
+           <div className="flex items-center gap-3 pointer-events-auto">
+              {message && (
+                <div className={`px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-2xl animate-bounce-in ${message.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+                  {message.type === 'success' ? <CheckCircle weight="bold" /> : <Warning weight="bold" />}
+                  {message.text}
+                </div>
+              )}
+              <button 
+                onClick={onSave}
+                disabled={isSaving}
+                className="bg-white hover:bg-slate-50 text-slate-900 px-8 py-4 rounded-[20px] text-xs font-black uppercase tracking-[0.2em] shadow-2xl flex items-center gap-3 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+              >
+                {isSaving ? <CircleNotch className="w-4 h-4 animate-spin text-marquis-blue" /> : <FloppyDisk className="w-4 h-4 text-marquis-blue" />}
+                Save Product
+              </button>
+           </div>
         </div>
       </div>
 
-      {/* INSPECTOR SIDEBAR */}
-      <aside className="w-full lg:w-96 bg-white border-l border-slate-200 shadow-2xl flex flex-col h-full overflow-hidden animate-slide-in-right">
-        <div className="p-8 border-b border-slate-100 bg-slate-50/50">
-          <h4 className="text-lg font-black italic uppercase text-slate-800 tracking-tight">Hotspot Inspector</h4>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Configure metadata & visual cues</p>
-        </div>
-
-        <div className="flex-grow overflow-y-auto p-8 space-y-8">
-          {selectedHotspot ? (
-            <>
-              {/* Basic Metadata */}
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Feature Name (Title)</label>
-                  <input 
-                    type="text"
-                    value={selectedHotspot.label}
-                    onChange={(e) => updateHotspot(selectedHotspot.id, { label: e.target.value })}
-                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold text-slate-800 focus:border-marquis-blue outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Technical Description</label>
-                  <textarea 
-                    rows={4}
-                    value={selectedHotspot.description}
-                    onChange={(e) => updateHotspot(selectedHotspot.id, { description: e.target.value })}
-                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold text-slate-800 focus:border-marquis-blue outline-none resize-none"
-                  />
-                </div>
-              </div>
-
-              {/* Visual Config */}
-              <div className="space-y-6 pt-8 border-t border-slate-100">
-                <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Explainer Direction (Tooltip Position)</label>
-                  <div className="grid grid-cols-4 gap-2">
-                    {[
-                      { icon: <CaretUp />, key: 'top' },
-                      { icon: <CaretDown />, key: 'bottom' },
-                      { icon: <CaretLeft />, key: 'left' },
-                      { icon: <CaretRight />, key: 'right' }
-                    ].map(dir => (
-                      <button 
-                        key={dir.key}
-                        onClick={() => updateHotspot(selectedHotspot.id, { direction: dir.key as any })}
-                        className={`p-3 rounded-xl border-2 transition-all flex items-center justify-center ${selectedHotspot.direction === dir.key ? 'border-marquis-blue bg-blue-50 text-marquis-blue' : 'border-slate-50 bg-slate-50 text-slate-400 hover:border-slate-200'}`}
-                      >
-                        {dir.icon}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                  <div className="pt-4 border-t border-slate-50">
-                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Feature Detail Image</label>
-                    <div className="flex gap-4 items-center">
-                       <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden relative group flex-shrink-0 cursor-pointer">
-                          <img src={selectedHotspot.imageUrl || '/mcp/demo/assets/placeholder.png'} className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[1px]">
-                             <Plus className="text-white w-4 h-4" />
-                          </div>
-                          <input 
-                            type="file" 
-                            className="absolute inset-0 opacity-0 cursor-pointer z-10" 
-                            onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hotspot', selectedHotspot.id)}
-                          />
-                       </div>
-                       <div className="flex flex-col">
-                          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-tight">Detail Image</span>
-                          <span className="text-[8px] font-bold text-slate-300 uppercase mt-0.5 hover:text-marquis-blue cursor-pointer transition-colors">Click Image to Upload</span>
-                       </div>
-                    </div>
-                  </div>
-              </div>
-
-              {/* Coordinates Display (Read-only for info) */}
-              <div className="pt-8 flex justify-between gap-4">
-                 <div className="flex-grow p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">POS X</span>
-                    <span className="text-xs font-black text-slate-800">{selectedHotspot.x}%</span>
-                 </div>
-                 <div className="flex-grow p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">POS Y</span>
-                    <span className="text-xs font-black text-slate-800">{selectedHotspot.y}%</span>
-                 </div>
-              </div>
-
-              <div className="pb-8">
-                <button 
-                  onClick={() => deleteHotspot(selectedHotspot.id)}
-                  className="w-full p-4 rounded-2xl border-2 border-red-50 bg-red-50/50 text-red-500 text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-red-50 hover:border-red-100 transition-all"
-                >
-                  <Trash className="w-4 h-4" /> Delete Hotspot
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full text-center space-y-4 py-20 px-4">
-              <div className="w-16 h-16 bg-slate-50 rounded-3xl flex items-center justify-center">
-                 <Info className="w-8 h-8 text-slate-200" weight="duotone" />
+      {/* RIGHT: PROPERTY SIDEBAR */}
+      <aside className="w-[450px] bg-white border-l border-slate-200 flex flex-col h-full shadow-2xl z-50">
+        
+        {/* SIDEBAR HEADER */}
+        <div className="p-8 border-b border-slate-100 flex-shrink-0">
+           <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm text-slate-400">
+                 <Image className="w-5 h-5" weight="duotone" />
               </div>
               <div>
-                <h5 className="text-sm font-black italic uppercase text-slate-400 tracking-tight">No Selection</h5>
-                <p className="text-[10px] font-bold text-slate-300 uppercase leading-relaxed mt-2">
-                  Click an existing hotspot marker on the canvas or click anywhere on the image to add a new one.
-                </p>
+                 <h3 className="text-xl font-black italic uppercase text-slate-800 leading-none">{product.modelName}</h3>
+                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Marquis Buying Assistant</p>
               </div>
-            </div>
-          )}
+           </div>
+        </div>
+
+        {/* SIDEBAR CONTENT */}
+        <div className="flex-grow overflow-y-auto p-8 custom-scrollbar space-y-10 pb-12">
+           
+           {/* Section 1: Global Media */}
+           <section>
+              <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[.3em] mb-6 flex items-center gap-3">
+                 Product Global Media <div className="h-px bg-slate-100 flex-grow" />
+              </h4>
+              <div className="space-y-6">
+                 {/* Item: Hero */}
+                 <div className="flex items-center gap-5 p-4 rounded-3xl bg-slate-50 border border-slate-100 hover:border-marquis-blue/30 transition-all group">
+                    <div className="w-20 h-20 rounded-2xl bg-white border border-slate-200 overflow-hidden relative shadow-sm flex-shrink-0">
+                       <img src={heroImageUrl || `/mcp/demo/assets/products/${product.slug}/hero.png`} className="w-full h-full object-cover" />
+                       <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center cursor-pointer">
+                          <Plus className="text-white w-6 h-6" />
+                          <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hero')} />
+                       </div>
+                    </div>
+                    <div>
+                       <span className="text-[11px] font-black text-slate-700 uppercase tracking-tight">Product Hero</span>
+                       <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Used on main PDP</p>
+                    </div>
+                 </div>
+
+                 {/* Item: Interactive BG */}
+                 <div className="flex items-center gap-5 p-4 rounded-3xl bg-slate-50 border border-slate-100 hover:border-marquis-blue/30 transition-all group">
+                    <div className="w-20 h-20 rounded-2xl bg-white border border-slate-200 overflow-hidden relative shadow-sm flex-shrink-0">
+                       <img src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`} className="w-full h-full object-cover" />
+                       <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center cursor-pointer">
+                          <Plus className="text-white w-6 h-6" />
+                          <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'overhead')} />
+                       </div>
+                    </div>
+                    <div>
+                       <span className="text-[11px] font-black text-slate-700 uppercase tracking-tight">Interactive Map</span>
+                       <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Background for hotspots</p>
+                    </div>
+                 </div>
+              </div>
+           </section>
+
+           {/* Section 2: Hotspot Properties */}
+           <section className="animate-in fade-in duration-500">
+              <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[.3em] mb-6 flex items-center gap-3">
+                 Hotspot Properties <div className="h-px bg-slate-100 flex-grow" />
+              </h4>
+
+              {selectedHotspot ? (
+                <div className="space-y-6">
+                   <div>
+                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block ml-1">Feature Label</label>
+                      <input 
+                        type="text"
+                        value={selectedHotspot.label}
+                        onChange={(e) => updateHotspot(selectedHotspot.id, { label: e.target.value })}
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-xs font-bold text-slate-800 focus:border-marquis-blue outline-none transition-all"
+                        placeholder="e.g. Dual-Speed Pump"
+                      />
+                   </div>
+
+                   <div>
+                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block ml-1">Narrative Description</label>
+                      <textarea 
+                        value={selectedHotspot.description}
+                        onChange={(e) => updateHotspot(selectedHotspot.id, { description: e.target.value })}
+                        rows={4}
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-xs font-bold text-slate-800 focus:border-marquis-blue outline-none transition-all resize-none"
+                        placeholder="Explain this engineering feature..."
+                      />
+                   </div>
+
+                   <div className="p-5 rounded-3xl border border-slate-100 bg-[#F8FAFC]">
+                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Close-up Detail Media</label>
+                      <div className="flex gap-5 items-center">
+                         <div className="w-24 h-24 rounded-2xl bg-white border border-slate-200 overflow-hidden relative shadow-sm group cursor-pointer flex-shrink-0">
+                            <img src={selectedHotspot.imageUrl || '/mcp/demo/assets/placeholder.png'} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" />
+                            <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
+                               <Plus className="text-white w-5 h-5" />
+                               <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hotspot', selectedHotspot.id)} />
+                            </div>
+                         </div>
+                         <div className="flex flex-col">
+                            <span className="text-[10px] font-black text-slate-600 uppercase tracking-tight">Feature Close-up</span>
+                            <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-1 leading-relaxed">
+                              CLICK IMAGE TO<br/>UPLOAD TO CLOUD
+                            </p>
+                         </div>
+                      </div>
+                   </div>
+
+                   <div className="flex gap-2">
+                     <button 
+                        onClick={() => deleteHotspot(selectedHotspot.id)}
+                        className="flex-grow p-4 rounded-2xl bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                     >
+                        Delete Hotspot
+                     </button>
+                   </div>
+                </div>
+              ) : (
+                <div className="py-12 px-6 rounded-3xl border-2 border-dashed border-slate-100 text-center">
+                   <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-slate-100 text-slate-300">
+                      <Plus className="w-5 h-5" />
+                   </div>
+                   <h5 className="text-xs font-black italic uppercase text-slate-400 tracking-tight">No Hotspot Selected</h5>
+                   <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-2 leading-relaxed">Select a marker on the map to<br/>configure its properties</p>
+                </div>
+              )}
+           </section>
         </div>
       </aside>
     </div>
