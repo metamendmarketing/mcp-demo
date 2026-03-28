@@ -43,9 +43,15 @@ export default function AdminDashboard({ products }: AdminDashboardProps) {
                     className="group bg-white rounded-3xl border-2 border-slate-100 hover:border-marquis-blue p-6 transition-all hover:shadow-xl flex flex-col h-full relative overflow-hidden"
                   >
                     <div className="flex justify-between items-start mb-4">
-                      <div className="w-12 h-12 bg-slate-50 group-hover:bg-blue-50 rounded-2xl flex items-center justify-center transition-colors">
-                        <CirclesFour className="w-6 h-6 text-slate-400 group-hover:text-marquis-blue" weight="duotone" />
-                      </div>
+                      {product.heroImageUrl ? (
+                        <div className="w-12 h-12 rounded-2xl overflow-hidden border-2 border-slate-50 shadow-sm">
+                           <img src={product.heroImageUrl} className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="w-12 h-12 bg-slate-50 group-hover:bg-blue-50 rounded-2xl flex items-center justify-center transition-colors">
+                          <CirclesFour className="w-6 h-6 text-slate-400 group-hover:text-marquis-blue" weight="duotone" />
+                        </div>
+                      )}
                       <div className="bg-slate-100 px-3 py-1 rounded-full text-[10px] font-black uppercase text-slate-500 tracking-tighter">
                          {product.category?.replace('_', ' ')}
                       </div>
@@ -57,7 +63,9 @@ export default function AdminDashboard({ products }: AdminDashboardProps) {
                     <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
                           <PlusCircle weight="fill" className="w-3.5 h-3.5" /> 
-                          {typeof product.hotspots === 'string' ? JSON.parse(product.hotspots).length : 0} Hotspots
+                          {Array.isArray(product.hotspots) 
+                            ? product.hotspots.length 
+                            : (typeof product.hotspots === 'string' ? JSON.parse(product.hotspots || '[]').length : 0)} Hotspots
                        </span>
                        <div className="flex items-center gap-1 text-marquis-blue font-black italic uppercase text-xs opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
                           Edit Tool <CaretRight weight="bold" />

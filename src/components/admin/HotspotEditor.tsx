@@ -186,7 +186,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
       <div className="flex-grow flex flex-col p-6 min-h-[500px] overflow-y-auto">
         
         {/* MEDIA MANAGEMENT BAR */}
-        <div className="bg-white rounded-3xl p-6 mb-8 border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div className="bg-white rounded-3xl p-6 mb-8 border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
           <div className="space-y-4">
              <div className="flex items-center justify-between">
                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Product Media Management</label>
@@ -194,7 +194,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
              <div className="flex gap-4 items-center">
                <div className="w-24 h-24 rounded-2xl bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group">
                   <img src={heroImageUrl || `/mcp/demo/assets/products/${product.slug}/hero.png`} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center overflow-hidden">
                     <UploadButton
                       endpoint="imageUploader"
                       onUploadBegin={() => setIsUploading(true)}
@@ -204,7 +204,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                         setIsUploading(false);
                       }}
                       appearance={{
-                        button: "bg-white text-marquis-blue text-[10px] font-black px-3 py-1.5 rounded-lg shadow-xl hover:scale-105 transition-transform",
+                        button: "bg-white text-marquis-blue text-[10px] font-black px-3 py-1.5 rounded-lg shadow-xl hover:scale-105 transition-transform m-0",
                         allowedContent: "hidden"
                       }}
                       content={{
