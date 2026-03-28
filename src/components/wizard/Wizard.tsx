@@ -13,57 +13,19 @@
  */
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import ExpertSelectionPass from '../shared/ExpertSelectionPass';
-import { 
-  FirstAidKit, UsersThree, Wind, CornersOut, Users, ArrowsInCardinal, 
-  Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
-  Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin,
-  Check, CaretRight, CaretLeft, Sparkle, ArrowRight, Info, NavigationArrow, CircleNotch, Target,
-  Sun, CloudSun, Flame, Tree, Crosshair, Plus, Printer, House, Waves, Package, Thermometer, 
   BatteryCharging
 } from '@phosphor-icons/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import ProductDetailView, { type Product, type ScoredProduct } from '../products/ProductDetailView';
+import ProductDetailView from '../products/ProductDetailView';
+import type { Product, ScoredProduct, UserPreferences, PreferenceKey, NarrativeResponse } from '@/lib/types';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export type PreferenceKey = 
-  | 'primaryPurpose' 
-  | 'capacity' 
-  | 'lounge' 
-  | 'electrical' 
-  | 'zipCode' 
-  | 'sunExposure' 
-  | 'placement' 
-  | 'focus' 
-  | 'aesthetic' 
-  | 'maintenance' 
-  | 'intensity' 
-  | 'budget' 
-  | 'delivery'
-  | 'ownership';
-
-export interface UserPreferences {
-  primaryPurpose: string | null;
-  capacity: string | null;
-  lounge: string | null;
-  electrical: string | null;
-  zipCode: string | null;
-  sunExposure: string | null;
-  placement: string | null;
-  focus: string | null;
-  aesthetic: string | null;
-  maintenance: string | null;
-  intensity: string | null;
-  budget: string | null;
-  delivery: string | null;
-  ownership: string | null;
-}
+// PreferenceKey moved to types.ts
+// UserPreferences moved to types.ts
 
 const QUESTIONS: {
   id: PreferenceKey;
@@ -305,8 +267,12 @@ export default function Wizard() {
   const [loading, setLoading] = useState(false);
   const [selectedResult, setSelectedResult] = useState<ScoredProduct | null>(null);
   
-  // Registry of narratives keyed by product slug to enable zero-latency exploration
-  const [aiNarrativeRegistry, setAiNarrativeRegistry] = useState<Record<string, any>>({});
+  /**
+   * AI Narrative Registry
+   * Keyed by product slug to enable zero-latency exploration.
+   * Background pre-fetching ensures high-probability matches are ready before the user clicks.
+   */
+  const [aiNarrativeRegistry, setAiNarrativeRegistry] = useState<Record<string, NarrativeResponse>>({});
   
   const [narrativeLoading, setNarrativeLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -421,14 +387,14 @@ export default function Wizard() {
         if (recommendationData && recommendationData.length > 0) {
           const top4 = recommendationData.slice(0, 4);
           
-          top4.forEach((res: any) => {
+          top4.forEach((res: ScoredProduct) => {
             fetch('/mcp/demo/api/narrative', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ preferences, product: res.product }),
             })
             .then(n => n.json())
-            .then(data => {
+            .then((data: NarrativeResponse) => {
               if (data && !data.error) {
                 setAiNarrativeRegistry(prev => ({ ...prev, [res.product.slug]: data }));
               }
@@ -544,6 +510,8 @@ export default function Wizard() {
       <div className="absolute bottom-0 left-0 h-1 bg-marquis-green transition-all duration-500 ease-out" style={{ width: `${((currentQuestionIndex + 1) / QUESTIONS.length) * 100}%` }} />
     </div>
   );
+
+export default memo(Wizard);
 
   if (step === 'intro') {
     return (
