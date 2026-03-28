@@ -1,3 +1,19 @@
+export type PreferenceKey = 
+  | 'primaryPurpose' 
+  | 'capacity' 
+  | 'lounge' 
+  | 'electrical' 
+  | 'zipCode' 
+  | 'sunExposure' 
+  | 'placement' 
+  | 'focus' 
+  | 'aesthetic' 
+  | 'maintenance' 
+  | 'intensity' 
+  | 'budget' 
+  | 'delivery'
+  | 'ownership';
+
 /**
  * Global Type Definitions for Marquis Buying Assistant
  */

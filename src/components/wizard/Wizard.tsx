@@ -13,6 +13,15 @@
  */
 'use client';
 
+import React, { useState, memo } from 'react';
+import Link from 'next/link';
+import ExpertSelectionPass from '../shared/ExpertSelectionPass';
+import { 
+  FirstAidKit, UsersThree, Wind, CornersOut, Users, ArrowsInCardinal, 
+  Feather, Waveform, Speedometer, Robot, Wrench, Crown, Compass, 
+  Plug, Lightning, Question, Wallet, Bank, Star, Diamond, Truck, Hammer, MapPin,
+  Check, CaretRight, CaretLeft, Sparkle, ArrowRight, Info, NavigationArrow, CircleNotch, Target,
+  Sun, CloudSun, Flame, Tree, Crosshair, Plus, Printer, House, Waves, Package, Thermometer, 
   BatteryCharging
 } from '@phosphor-icons/react';
 import { clsx, type ClassValue } from 'clsx';
