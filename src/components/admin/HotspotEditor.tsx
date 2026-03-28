@@ -186,70 +186,58 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
       <div className="flex-grow flex flex-col p-6 min-h-[500px] overflow-y-auto">
         
         {/* MEDIA MANAGEMENT BAR */}
-        <div className="bg-white rounded-3xl p-6 mb-8 border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-          <div className="space-y-4">
-             <div className="flex items-center justify-between">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Product Media Management</label>
-             </div>
-             <div className="flex gap-4 items-center">
-               <div className="w-24 h-24 rounded-2xl bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group">
-                  <img src={heroImageUrl || `/mcp/demo/assets/products/${product.slug}/hero.png`} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center overflow-hidden">
-                    <UploadButton
-                      endpoint="imageUploader"
-                      onUploadBegin={() => setIsUploading(true)}
-                      onClientUploadComplete={(res) => onUploadComplete(res, 'hero')}
-                      onUploadError={(error: Error) => {
-                        alert(`Upload Error: ${error.message}`);
-                        setIsUploading(false);
-                      }}
-                      appearance={{
-                        button: "bg-white text-marquis-blue text-[10px] font-black px-3 py-1.5 rounded-lg shadow-xl hover:scale-105 transition-transform m-0",
-                        allowedContent: "hidden"
-                      }}
-                      content={{
-                        button: "CHANGE"
-                      }}
-                    />
+        <div className="bg-white rounded-[32px] p-8 mb-8 border border-slate-200 shadow-sm flex flex-col gap-6">
+          <div className="flex items-center justify-between border-b border-slate-50 pb-4">
+             <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em]">Cloud Media Management</label>
+             <div className="flex items-center gap-2">
+                {isUploading && (
+                  <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 text-marquis-blue rounded-full border border-blue-100">
+                    <CircleNotch className="w-3 h-3 animate-spin" />
+                    <span className="text-[9px] font-black uppercase">Syncing to Cloud...</span>
                   </div>
-               </div>
-               <div className="flex flex-col">
-                  <span className="text-xs font-bold text-slate-800 uppercase tracking-tight">Product Hero</span>
-                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Visible on main product page</span>
-               </div>
+                )}
              </div>
           </div>
 
-          <div className="space-y-4">
-             <div className="hidden">
-                {/* Obsolete overhead label space */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+             {/* LEFT: Product Hero */}
+             <div className="flex items-center gap-6">
+                <div className="w-24 h-24 rounded-[20px] bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group cursor-pointer">
+                   <img src={heroImageUrl || `/mcp/demo/assets/products/${product.slug}/hero.png`} className="w-full h-full object-cover" />
+                   <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center p-2 text-center backdrop-blur-[2px]">
+                      <Plus className="text-white w-6 h-6 mb-1" />
+                      <span className="text-white text-[9px] font-black tracking-widest uppercase">Change Hero</span>
+                   </div>
+                   <input 
+                      type="file" 
+                      className="absolute inset-0 opacity-0 cursor-pointer z-10" 
+                      onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hero')}
+                   />
+                </div>
+                <div className="flex flex-col">
+                   <h5 className="text-[13px] font-black italic uppercase text-slate-800 tracking-tight">Main Product Hero</h5>
+                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 leading-relaxed">Featured on the product page.<br/>Transparency recommended.</p>
+                </div>
              </div>
-             <div className="flex gap-4 items-center">
-               <div className="w-24 h-24 rounded-2xl bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group">
-                  <img src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <UploadButton
-                      endpoint="imageUploader"
-                      onUploadBegin={() => setIsUploading(true)}
-                      onClientUploadComplete={(res) => onUploadComplete(res, 'overhead')}
-                      onUploadError={(error: Error) => {
-                        alert(`Upload Error: ${error.message}`);
-                        setIsUploading(false);
-                      }}
-                      appearance={{
-                        button: "bg-white text-marquis-blue text-[10px] font-black px-3 py-1.5 rounded-lg shadow-xl hover:scale-105 transition-transform",
-                        allowedContent: "hidden"
-                      }}
-                      content={{
-                        button: "CHANGE"
-                      }}
-                    />
-                  </div>
-               </div>
-               <div className="flex flex-col">
-                  <span className="text-xs font-bold text-slate-800 uppercase tracking-tight">Interactive Background</span>
-                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Used for hotspot map</span>
-               </div>
+
+             {/* RIGHT: Interactive Image */}
+             <div className="flex items-center gap-6">
+                <div className="w-24 h-24 rounded-[20px] bg-slate-50 border-2 border-slate-100 overflow-hidden flex-shrink-0 shadow-sm relative group cursor-pointer">
+                   <img src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`} className="w-full h-full object-cover" />
+                   <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center p-2 text-center backdrop-blur-[2px]">
+                      <Plus className="text-white w-6 h-6 mb-1" />
+                      <span className="text-white text-[9px] font-black tracking-widest uppercase">Change Map</span>
+                   </div>
+                   <input 
+                      type="file" 
+                      className="absolute inset-0 opacity-0 cursor-pointer z-10" 
+                      onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'overhead')}
+                   />
+                </div>
+                <div className="flex flex-col">
+                   <h5 className="text-[13px] font-black italic uppercase text-slate-800 tracking-tight">Interactive Map Image</h5>
+                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 leading-relaxed">Background for hotspots.<br/>High detail recommended.</p>
+                </div>
              </div>
           </div>
         </div>
@@ -400,30 +388,20 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
                   <div className="pt-4 border-t border-slate-50">
                     <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Feature Detail Image</label>
                     <div className="flex gap-4 items-center">
-                       <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden relative group flex-shrink-0">
+                       <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden relative group flex-shrink-0 cursor-pointer">
                           <img src={selectedHotspot.imageUrl || '/mcp/demo/assets/placeholder.png'} className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <UploadButton
-                              endpoint="imageUploader"
-                              onUploadBegin={() => setIsUploading(true)}
-                              onClientUploadComplete={(res) => onUploadComplete(res, 'hotspot', selectedHotspot.id)}
-                              onUploadError={(error: Error) => {
-                                alert(`Upload Error: ${error.message}`);
-                                setIsUploading(false);
-                              }}
-                              appearance={{
-                                button: "bg-white text-marquis-blue text-[8px] font-black px-2 py-1 rounded shadow-lg",
-                                allowedContent: "hidden"
-                              }}
-                              content={{
-                                button: "CHANGE"
-                              }}
-                            />
+                          <div className="absolute inset-0 bg-marquis-blue/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[1px]">
+                             <Plus className="text-white w-4 h-4" />
                           </div>
+                          <input 
+                            type="file" 
+                            className="absolute inset-0 opacity-0 cursor-pointer z-10" 
+                            onChange={(e) => e.target.files?.[0] && handleCustomUpload(e.target.files[0], 'hotspot', selectedHotspot.id)}
+                          />
                        </div>
                        <div className="flex flex-col">
                           <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-tight">Detail Image</span>
-                          <span className="text-[8px] font-bold text-slate-300 uppercase mt-0.5">Shows in explorer detail</span>
+                          <span className="text-[8px] font-bold text-slate-300 uppercase mt-0.5 hover:text-marquis-blue cursor-pointer transition-colors">Click Image to Upload</span>
                        </div>
                     </div>
                   </div>
