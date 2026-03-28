@@ -5,6 +5,7 @@ const nextConfig = {
   assetPrefix: '/mcp/demo',
   env: {
     NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+    NEXT_PUBLIC_UPLOADTHING_URL: 'https://demos.metamend.ca/mcp/demo',
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

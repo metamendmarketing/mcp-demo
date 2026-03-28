@@ -34,7 +34,6 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   const { startUpload } = useUploadThing("imageUploader", {
-    url: "/mcp/demo/api/uploadthing",
     onUploadError: (e: Error) => {
       console.error("UploadThing Error:", e);
       alert(`Upload Error: ${e.message}`);
