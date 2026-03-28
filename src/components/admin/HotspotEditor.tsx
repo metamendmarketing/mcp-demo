@@ -91,10 +91,16 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     setImgLayout({ width: renderW, height: renderH, offX, offY });
   };
 
+  // Recalculate layout on mount, resize, and image change
   useEffect(() => {
+    updateImgLayout();
+    const timer = setTimeout(updateImgLayout, 500); // Guard for late layout shifts
     window.addEventListener('resize', updateImgLayout);
-    return () => window.removeEventListener('resize', updateImgLayout);
-  }, []);
+    return () => {
+      window.removeEventListener('resize', updateImgLayout);
+      clearTimeout(timer);
+    };
+  }, [overheadImageUrl]);
 
   const handleImageClick = (e: React.MouseEvent) => {
     if (!containerRef.current || isDragging.current) return;
@@ -104,11 +110,20 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     const mouseY = e.clientY - rect.top;
 
     // Normalize coordinates 0-100 based on the RENDERED IMAGE rectangle
+    if (imgLayout.width === 0 || imgLayout.height === 0) {
+       console.warn("Canvas layout not ready", imgLayout);
+       updateImgLayout();
+       return;
+    }
+
     const x = ((mouseX - imgLayout.offX) / imgLayout.width) * 100;
     const y = ((mouseY - imgLayout.offY) / imgLayout.height) * 100;
 
     // Check if click is inside the actual image (out of black bars)
-    if (x < 0 || x > 100 || y < 0 || y > 100) return;
+    if (x < 0 || x > 100 || y < 0 || y > 100) {
+       console.log("Click outside active area", { x, y });
+       return;
+    }
 
     const newHotspot: Hotspot = {
       id: `new-${Date.now()}`,
@@ -205,7 +220,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     <div className="flex flex-col lg:flex-row h-full overflow-hidden bg-slate-100">
       
       {/* CANVAS AREA */}
-      <div className="flex-grow flex flex-col p-6 min-h-[500px] overflow-y-auto">
+      <div className="flex-grow flex flex-col p-6 h-full overflow-hidden">
         
         {/* MEDIA MANAGEMENT BAR */}
         <div className="bg-white rounded-[32px] p-8 mb-8 border border-slate-200 shadow-sm flex flex-col gap-6">
@@ -303,7 +318,10 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
             src={overheadImageUrl || `/mcp/demo/assets/products/${product.slug}/overhead.jpg`}
             alt={product.modelName}
             className="w-full h-full object-contain pointer-events-none select-none"
-            onLoad={updateImgLayout}
+            onLoad={() => {
+               updateImgLayout();
+               setTimeout(updateImgLayout, 100);
+            }}
           />
 
           {/* Rendered Hotspots */}
