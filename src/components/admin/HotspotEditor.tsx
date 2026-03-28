@@ -44,28 +44,22 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
     },
     onUploadError: (e: Error) => {
       console.error("UploadThing Error:", e);
-      alert(`Debug: UploadThing Error: ${e.message}`);
+      setMessage({ type: 'error', text: `Upload failed: ${e.message}` });
       setIsUploading(false);
       pendingUpload.current = null;
     },
   });
 
   const handleCustomUpload = async (file: File, type: 'hero' | 'overhead' | 'hotspot', hotspotId?: string) => {
-    // IMMEDIATE FEEDBACK
-    alert(`[DIAGNOSTIC] File selected: ${file.name} (${file.size} bytes). Target: ${type}`);
-    
     setIsUploading(true);
-    setMessage(null);
+    setMessage({ type: 'success', text: `Starting cloud upload for ${file.name}...` });
     pendingUpload.current = { type, id: hotspotId };
     
     try {
-      alert(`[DIAGNOSTIC] Initiating startUpload for ${type}...`);
       startUpload([file]);
-      alert("[DIAGNOSTIC] startUpload call sent to UploadThing hook.");
     } catch (e: any) {
       console.error("Upload initiation failed", e);
-      alert(`[DIAGNOSTIC] Initiation FATAL Error: ${e.message}`);
-      setMessage({ type: 'error', text: `Upload failed: ${e.message || 'Unknown error'}` });
+      setMessage({ type: 'error', text: `Upload Initiation Error: ${e.message || 'Unknown error'}` });
       setIsUploading(false);
       pendingUpload.current = null;
     }
@@ -344,17 +338,7 @@ export default function HotspotEditor({ product, initialHotspots }: HotspotEdito
         {/* SIDEBAR CONTENT */}
         <div className="flex-grow overflow-y-auto p-8 custom-scrollbar space-y-10 pb-12">
            
-           {/* VERIFICATION BUTTON */}
-           <div 
-             className="p-4 bg-yellow-400 text-black font-black text-center cursor-pointer rounded-2xl mb-8 shadow-xl hover:scale-105 active:scale-95 transition-all"
-             onClick={() => {
-                console.log("Verification Button Clicked");
-                alert("VERIFICATION SUCCESS: Admin Version v12.2 is LIVE");
-             }}
-           >
-             CLICK TO VERIFY VERSION
-           </div>
-           
+           {/* CLEAN VERSION FOOTER (AT BOTTOM) */}
            {/* Section 1: Global Media */}
            <section>
               <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[.3em] mb-6 flex items-center gap-3">
