@@ -10,4 +10,6 @@ import {
   export const UploadDropzone = generateUploadDropzone<OurFileRouter>();
   
   export const { useUploadThing, uploadFiles } =
-    generateReactHelpers<OurFileRouter>();
+    generateReactHelpers<OurFileRouter>({
+      url: "/mcp/demo/api/uploadthing",
+    });
