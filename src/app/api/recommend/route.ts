@@ -79,34 +79,23 @@ export async function POST(req: NextRequest) {
       };
 
       const rules = require('@/lib/recommendation/scoring-rules.json');
-      const prompt = `
+      // 3. Fetch System Prompt from DB
+      const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'recommend' } });
+      const promptTemplate = systemPrompt?.content || `
 You are a Marquis Hot Tub Advisor. We have a pool of candidates filtered by our engineering engine.
 Your job: Be the FINAL DECISION MAKER. Select the TOP 4 that best fit their lifestyle and provide a technical "Match Strategy" and a "Natural Narrative".
 
 ENGINEERING CONSTRAINTS & RULES:
-${JSON.stringify(rules)}
+{{ENGINEERING_CONSTRAINTS}}
 
 BRAND KNOWLEDGE:
-${JSON.stringify(knowledgeBase)}
+{{BRAND_KNOWLEDGE}}
 
 User Preferences:
-${JSON.stringify(body.preferences)}
+{{USER_PREFERENCES}}
 
 Candidate Pool (JSON with deep specs):
-${JSON.stringify(shortList.map(c => ({
-        id: String(c.product.id),
-        name: c.product.modelName,
-        series: c.product.series?.name,
-        category: c.product.category,
-        tier: c.product.positioningTier,
-        score: c.score,
-        gpm: c.product.pumpFlowGpm,
-        jets: c.product.jetCount,
-        dims: `${c.product.lengthIn}x${c.product.widthIn}x${c.product.depthIn}`,
-        hotspots: typeof c.product.hotspots === 'string' ? JSON.parse(c.product.hotspots) : (c.product.hotspots || []),
-        features: typeof c.product.standardFeatures === 'string' ? JSON.parse(c.product.standardFeatures) : (c.product.standardFeatures || []),
-        summary: c.product.marketingSummary
-      })))}
+{{CANDIDATE_POOL}}
 
 INSTRUCTIONS:
 1. ELIMINATION: Use the ENGINEERING CONSTRAINTS (JSON) above to eliminate models that technically clash with preferences. For example, if the zip code prefix is in the "cold_prefixes" list, you MUST prioritize models with the "insulation_keyword" in their specs.
@@ -123,6 +112,25 @@ Output strictly valid JSON:
   ]
 }
 `;
+
+      const prompt = promptTemplate
+        .replace('{{ENGINEERING_CONSTRAINTS}}', JSON.stringify(rules))
+        .replace('{{BRAND_KNOWLEDGE}}', JSON.stringify(knowledgeBase))
+        .replace('{{USER_PREFERENCES}}', JSON.stringify(body.preferences))
+        .replace('{{CANDIDATE_POOL}}', JSON.stringify(shortList.map(c => ({
+          id: String(c.product.id),
+          name: c.product.modelName,
+          series: c.product.series?.name,
+          category: c.product.category,
+          tier: c.product.positioningTier,
+          score: c.score,
+          gpm: c.product.pumpFlowGpm,
+          jets: c.product.jetCount,
+          dims: `${c.product.lengthIn}x${c.product.widthIn}x${c.product.depthIn}`,
+          hotspots: typeof c.product.hotspots === 'string' ? JSON.parse(c.product.hotspots) : (c.product.hotspots || []),
+          features: typeof c.product.standardFeatures === 'string' ? JSON.parse(c.product.standardFeatures) : (c.product.standardFeatures || []),
+          summary: c.product.marketingSummary
+        }))));
 
       const result = await model.generateContent(prompt);
       const response = await result.response;

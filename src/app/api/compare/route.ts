@@ -74,12 +74,14 @@ export async function POST(req: NextRequest) {
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-        const prompt = `
-You are a Marquis Hot Tub expert. Compare these ${products.length} models side-by-side.
-${preferences ? `The customer's preferences: ${JSON.stringify(preferences)}` : ''}
+        // 2. Fetch System Prompt from DB
+        const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'compare' } });
+        const promptTemplate = systemPrompt?.content || `
+You are a Marquis Hot Tub expert. Compare these {{MODEL_COUNT}} models side-by-side.
+{{PREFERENCES_CONTEXT}}
 
 Models:
-${JSON.stringify(comparisonGrid, null, 2)}
+{{COMPARISON_GRID}}
 
 Write a brief, helpful comparison. For each model, explain in 1-2 sentences who it's best for.
 Then provide one overall recommendation sentence.
@@ -92,6 +94,12 @@ Output strictly valid JSON:
   "overallRecommendation": "One sentence picking the best overall fit."
 }
 `;
+
+        const prompt = promptTemplate
+          .replace('{{MODEL_COUNT}}', String(products.length))
+          .replace('{{PREFERENCES_CONTEXT}}', preferences ? `The customer's preferences: ${JSON.stringify(preferences)}` : '')
+          .replace('{{COMPARISON_GRID}}', JSON.stringify(comparisonGrid, null, 2));
+
 
         const result = await model.generateContent(prompt);
         const text = result.response.text().replace(/```json/g, '').replace(/```/g, '').trim();

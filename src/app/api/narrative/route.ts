@@ -57,19 +57,21 @@ export async function POST(request: Request) {
       ['3', '7'].includes(zipPrefix) ? "Hot / Arid South" : 
       "Standard Variable North";
 
-    const prompt = `
+    // 2. Fetch System Prompt from DB
+    let systemPrompt: any = await prisma.systemPrompt.findUnique({ where: { key: 'narrative' } });
+    let promptTemplate = systemPrompt?.content || `
 You are a Lead Engineering Consultant for Marquis Spas. You have 40 years of brand heritage at your fingertips.
-The user has just completed a **14-Step Precision Consultation**. Your goal is to provide a "Laser-Focused" engineering justification for why the **${body.product.modelName || 'Marquis Spa'}** is their perfect match.
+The user has just completed a **14-Step Precision Consultation**. Your goal is to provide a "Laser-Focused" engineering justification for why the **{{MODEL_NAME}}** is their perfect match.
 
 KNOWLEDGE BASE:
-${JSON.stringify(knowledgeBase || {}, null, 2)}
+{{KNOWLEDGE_BASE}}
 
 PRODUCT DATA:
-${JSON.stringify(sanitizedProduct, null, 2)}
+{{PRODUCT_DATA}}
 
 USER PROFILE (High-Resolution Data):
-- **14-Step Consultation Answers**: ${JSON.stringify(body.preferences, null, 2)}
-- **Derived Climate Zone**: ${climateZone} (Based on Zip: ${body.preferences.zipCode})
+- **14-Step Consultation Answers**: {{USER_PREFERENCES}}
+- **Derived Climate Zone**: {{CLIMATE_ZONE}}
 
 TASK: Write the definitive Engineering Narrative.
 
@@ -92,6 +94,14 @@ Output strictly valid JSON matching this schema:
 }
 Do not return markdown. Return raw JSON.
 `;
+
+    const prompt = promptTemplate
+      .replace('{{MODEL_NAME}}', body.product.modelName || 'Marquis Spa')
+      .replace('{{KNOWLEDGE_BASE}}', JSON.stringify(knowledgeBase || {}, null, 2))
+      .replace('{{PRODUCT_DATA}}', JSON.stringify(sanitizedProduct, null, 2))
+      .replace('{{USER_PREFERENCES}}', JSON.stringify(body.preferences, null, 2))
+      .replace('{{CLIMATE_ZONE}}', `${climateZone} (Based on Zip: ${body.preferences.zipCode})`);
+
 
     const result = await model.generateContent(prompt);
     const responseText = result.response.text();

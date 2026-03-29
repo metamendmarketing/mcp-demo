@@ -86,7 +86,9 @@ export async function POST(request: Request) {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-    const prompt = `
+    // 2. Fetch System Prompt from DB
+    const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'ask' } });
+    const promptTemplate = systemPrompt?.content || `
 You have access to the full Marquis product catalog in the knowledge base (under "catalog"), including all models across the Crown, Vector21, Elite, and Celebrity series with their technical specifications. 
 
 Use this data to:
@@ -102,13 +104,13 @@ Your goal is to answer their question like a professional store expert:
 - Avoid being overly "markety" or "salesy"—focus on the facts and the benefits to the customer.
 
 KNOWLEDGE BASE:
-${JSON.stringify(knowledgeBase, null, 2)}
+{{KNOWLEDGE_BASE}}
 
 CUSTOMER PREFERENCES:
-${JSON.stringify(preferences || {}, null, 2)}
+{{CUSTOMER_PREFERENCES}}
 
 USER QUESTION:
-"${question}"
+"{{USER_QUESTION}}"
 
 INSTRUCTIONS:
 1. FACT-BASED ONLY: Only answer based on the provided Knowledge Base. If asked about something not documented, politely explain that you'll have to check on that or that you only have technical data for the Marquis brand.
@@ -122,6 +124,12 @@ Output strictly valid JSON:
   "citedFeatures": ["Feature Name 1", "Benefit 2"]
 }
 `;
+
+    const prompt = promptTemplate
+      .replace('{{KNOWLEDGE_BASE}}', JSON.stringify(knowledgeBase, null, 2))
+      .replace('{{CUSTOMER_PREFERENCES}}', JSON.stringify(preferences || {}, null, 2))
+      .replace('{{USER_QUESTION}}', question);
+
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
