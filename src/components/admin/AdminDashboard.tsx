@@ -43,7 +43,7 @@ export default function AdminDashboard({ products }: AdminDashboardProps) {
                 : 'text-slate-400 hover:text-slate-600'
             }`}
           >
-            <Package weight="fill" className="w-4 h-4" />
+            <Package weight="duotone" className={`w-4 h-4 ${activeTab === 'products' ? 'text-blue-500' : ''}`} />
             Inventory
           </button>
           <button 
@@ -54,7 +54,7 @@ export default function AdminDashboard({ products }: AdminDashboardProps) {
                 : 'text-slate-400 hover:text-slate-600'
             }`}
           >
-            <ChatCenteredText weight="fill" className="w-4 h-4" />
+            <ChatCenteredText weight="duotone" className={`w-4 h-4 ${activeTab === 'prompts' ? 'text-purple-600' : ''}`} />
             AI Prompts
           </button>
         </div>

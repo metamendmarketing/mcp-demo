@@ -29,7 +29,12 @@ export default function PromptEditor() {
       const res = await fetch('/mcp/demo/api/admin/prompts');
       if (!res.ok) throw new Error('Failed to fetch prompts');
       const data = await res.json();
-      setPrompts(data);
+      
+      // Sort by fixed order: recommend, narrative, ask, compare
+      const order = ['recommend', 'narrative', 'ask', 'compare'];
+      const sortedData = (data as Prompt[]).sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
+      
+      setPrompts(sortedData);
     } catch (err: any) {
       setError(err.message);
     } finally {
