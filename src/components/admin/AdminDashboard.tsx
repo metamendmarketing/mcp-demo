@@ -11,7 +11,14 @@ interface AdminDashboardProps {
 
 export default function AdminDashboard({ products }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = React.useState<'products' | 'prompts'>('products');
-  const seriesNames = Array.from(new Set(products.map(p => p.series?.name || 'Unknown')));
+  const [searchTerm, setSearchTerm] = React.useState('');
+  
+  const filteredProducts = products.filter(p => 
+    p.modelName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (p.series?.name || '').toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const seriesNames = Array.from(new Set(filteredProducts.map(p => p.series?.name || 'Unknown')));
 
   return (
     <div className="p-8 max-w-7xl mx-auto w-full animate-slick-reveal">
@@ -57,12 +64,18 @@ export default function AdminDashboard({ products }: AdminDashboardProps) {
         <>
           <div className="mb-10 hidden md:flex bg-white border-2 border-slate-100 rounded-2xl px-6 py-3 items-center gap-3 shadow-sm focus-within:border-marquis-blue transition-all">
             <MagnifyingGlass className="w-5 h-5 text-slate-400" />
-            <input type="text" placeholder="Search models..." className="bg-transparent border-none outline-none text-slate-700 font-bold placeholder:text-slate-300 w-64" />
+            <input 
+              type="text" 
+              placeholder="Search models..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="bg-transparent border-none outline-none text-slate-700 font-bold placeholder:text-slate-300 w-64" 
+            />
           </div>
 
           <div className="space-y-12">
-            {seriesNames.map(series => {
-              const seriesProducts = products.filter(p => (p.series?.name || 'Unknown') === series);
+            {seriesNames.length > 0 ? seriesNames.map(series => {
+              const seriesProducts = filteredProducts.filter(p => (p.series?.name || 'Unknown') === series);
               return (
                 <section key={series}>
                   <div className="flex items-center gap-3 mb-6">
@@ -112,7 +125,12 @@ export default function AdminDashboard({ products }: AdminDashboardProps) {
                   </div>
                 </section>
               );
-            })}
+            }) : (
+              <div className="flex flex-col items-center justify-center py-20 text-slate-400">
+                <CirclesFour className="w-12 h-12 mb-4 opacity-20" weight="duotone" />
+                <p className="text-sm font-black italic uppercase tracking-widest">No models match your search</p>
+              </div>
+            )}
           </div>
         </>
       ) : (
