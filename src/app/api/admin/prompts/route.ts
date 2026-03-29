@@ -9,9 +9,6 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // 2. Fetch System Prompt from DB
-    let systemPrompt: any = await (prisma as any).systemPrompt.findUnique({ where: { key: 'narrative' } });
-
     const prompts = await (prisma as any).systemPrompt.findMany({
       orderBy: { title: 'asc' }
     });

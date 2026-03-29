@@ -26,7 +26,7 @@ export default function PromptEditor() {
   const fetchPrompts = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/admin/prompts');
+      const res = await fetch('/mcp/demo/api/admin/prompts');
       if (!res.ok) throw new Error('Failed to fetch prompts');
       const data = await res.json();
       setPrompts(data);
@@ -42,7 +42,7 @@ export default function PromptEditor() {
       setSavingKey(key);
       setSaveStatus({ ...saveStatus, [key]: null });
       
-      const res = await fetch('/api/admin/prompts', {
+      const res = await fetch('/mcp/demo/api/admin/prompts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ key, content }),
