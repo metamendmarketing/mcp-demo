@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     };
 
     // Initialize Gemini
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
     if (!apiKey) {
       console.warn("GEMINI_API_KEY is missing. Returning fallback narrative.");
       return NextResponse.json({ 
@@ -36,7 +36,10 @@ export async function POST(request: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = genAI.getGenerativeModel({ 
+      model: 'gemini-2.5-flash',
+      generationConfig: { responseMimeType: "application/json" }
+    });
     
     // Sanitize product data
     const sanitizedProduct = JSON.parse(
@@ -58,7 +61,7 @@ export async function POST(request: Request) {
       "Standard Variable North";
 
     // 2. Fetch System Prompt from DB
-    let systemPrompt: any = await prisma.systemPrompt.findUnique({ where: { key: 'narrative' } });
+    let systemPrompt: any = await (prisma as any).systemPrompt.findUnique({ where: { key: 'narrative' } });
     let promptTemplate = systemPrompt?.content || `
 You are a Lead Engineering Consultant for Marquis Spas. You have 40 years of brand heritage at your fingertips.
 The user has just completed a **14-Step Precision Consultation**. Your goal is to provide a "Laser-Focused" engineering justification for why the **{{MODEL_NAME}}** is their perfect match.

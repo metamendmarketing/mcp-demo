@@ -76,15 +76,14 @@ export async function POST(request: Request) {
     };
 
     // 2. Initialize Gemini
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ 
-        answer: "I'm sorry, I need an API key to access my full engineering knowledge. Please contact support." 
-      });
-    }
-
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+    if (!apiKey) throw new Error('GEMINI_API_KEY is not defined');
+    
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = genAI.getGenerativeModel({ 
+      model: 'gemini-2.5-flash',
+      generationConfig: { responseMimeType: "application/json" }
+    });
 
     // 2. Fetch System Prompt from DB
     const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'ask' } });

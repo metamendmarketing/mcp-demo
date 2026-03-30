@@ -67,12 +67,15 @@ export async function POST(req: NextRequest) {
 
     // AI-generated comparison summary (optional, falls back gracefully)
     let aiSummary = null;
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 
     if (apiKey) {
       try {
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        const model = genAI.getGenerativeModel({ 
+          model: 'gemini-2.5-flash',
+          generationConfig: { responseMimeType: "application/json" }
+        });
 
         // 2. Fetch System Prompt from DB
         const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'compare' } });
