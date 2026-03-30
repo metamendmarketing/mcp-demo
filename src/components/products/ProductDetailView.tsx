@@ -242,11 +242,15 @@ function AskTheBrain({ productId, productName, preferences }: AskTheBrainProps) 
         body: JSON.stringify({ question, productId, preferences }),
       });
 
-      if (!res.ok) throw new Error('Failed to get answer');
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.details || errData.error || 'Failed to connect to AI service');
+      }
+      
       const data = await res.json();
       setResponse(data);
     } catch (err: any) {
-      setError("I'm having trouble connecting to my knowledge base right now. Please try again in a moment.");
+      setError(err.message || "I'm having trouble connecting to my knowledge base right now. Please try again in a moment.");
     } finally {
       setLoading(false);
     }
