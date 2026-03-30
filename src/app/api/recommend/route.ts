@@ -16,6 +16,9 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    if (!body || !body.preferences) {
+      return NextResponse.json({ error: 'Preferences are required' }, { status: 400 });
+    }
     console.log('[API] Received preferences:', JSON.stringify(body.preferences));
 
     // 1. Fetch products and brand context in parallel for performance
