@@ -55,7 +55,7 @@ const LocatorContent = () => {
           postalCode: query,
           lat: searchCoords?.lat,
           lng: searchCoords?.lng,
-          radius: 200
+          radius: 100
         })
       });
 
@@ -223,7 +223,7 @@ const LocatorContent = () => {
                   </div>
                   <h3 className="text-sm font-black uppercase text-slate-900 mb-2">Distance Gap</h3>
                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    No authorized dealers found within 200 miles. Try expanding your search or look in a neighboring city.
+                    No authorized dealers found within 100 miles. Try expanding your search or look in a neighboring city.
                   </p>
                 </div>
               ) : (

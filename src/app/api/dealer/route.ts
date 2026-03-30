@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
 
     console.log(`[DEALER_SEARCH] Total dealers in DB for brand: ${dealers.length}`);
 
-    let results = dealers.map(dealer => {
+    let results = dealers.map((dealer: any) => {
       let distanceMiles: number | null = null;
       if (lat && lng && dealer.lat && dealer.lng) {
         distanceMiles = calculateDistance(lat, lng, dealer.lat, dealer.lng);
@@ -60,31 +60,24 @@ export async function POST(req: NextRequest) {
     if (lat && lng) {
       console.log(`[DEALER_SEARCH] Filtering by radius: ${radius} miles around (${lat}, ${lng})`);
       results = results
-        .filter(d => d.distanceMiles !== null && d.distanceMiles <= Number(radius))
-        .sort((a, b) => (a.distanceMiles || 0) - (b.distanceMiles || 0));
+        .filter((d: any) => d.distanceMiles !== null && d.distanceMiles <= Number(radius))
+        .sort((a: any, b: any) => (a.distanceMiles || 0) - (b.distanceMiles || 0));
       
       console.log(`[DEALER_SEARCH] Found ${results.length} results within radius.`);
     } else if (postalCode) {
       // Fallback to postal code prefix matching OR city matching
       console.log(`[DEALER_SEARCH] Falling back to text search for: ${postalCode}`);
       const query = postalCode.toUpperCase();
-      results = results.filter(d => 
+      results = results.filter((d: any) => 
         d.postalCode.toUpperCase().startsWith(query.substring(0, 3)) || 
         d.city.toUpperCase().includes(query) ||
         query.includes(d.city.toUpperCase())
       );
-      results.sort((a, b) => a.dealerName.localeCompare(b.dealerName));
+      results.sort((a: any, b: any) => a.dealerName.localeCompare(b.dealerName));
       console.log(`[DEALER_SEARCH] Found ${results.length} results via text search.`);
     }
 
-    // FINAL FALLBACK: If still empty but brand exists, return the 5 closest dealers regardless of radius (during demo/debug)
-    if (results.length === 0 && dealers.length > 0 && lat && lng) {
-       console.log(`[DEALER_SEARCH] No results within ${radius} miles. Returning 5 closest dealers instead.`);
-       results = dealers
-         .map(d => ({ ...d, distanceMiles: calculateDistance(lat, lng, d.lat!, d.lng!) }))
-         .sort((a, b) => (a.distanceMiles || 0) - (b.distanceMiles || 0))
-         .slice(0, 5);
-    }
+    // We strictly respect the radius limit, so we don't fall back to returning far-away dealers.
 
     return NextResponse.json({
       dealers: results,

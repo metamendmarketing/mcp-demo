@@ -54,10 +54,11 @@ export const DealerCard: React.FC<DealerCardProps> = ({ dealer, isSelected, onSe
           href={googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-3 bg-slate-900 text-white rounded-full hover:bg-slate-800 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-slate-800 transition-colors shrink-0"
           onClick={(e) => e.stopPropagation()}
         >
-          <NavigationArrow className="w-5 h-5" weight="fill" />
+          <NavigationArrow className="w-4 h-4" weight="fill" />
+          Get Directions
         </a>
       </div>
 
