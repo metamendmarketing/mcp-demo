@@ -29,9 +29,13 @@ const MapController: React.FC<{ center?: { lat: number; lng: number }; selectedD
   useEffect(() => {
     if (!map) return;
     if (selectedDealer?.lat && selectedDealer?.lng) {
+      map.setMapTypeId('hybrid');
+      map.setTilt(45);
       map.panTo({ lat: selectedDealer.lat, lng: selectedDealer.lng });
-      map.setZoom(12);
+      map.setZoom(19);
     } else if (center) {
+      map.setMapTypeId('roadmap');
+      map.setTilt(0);
       map.panTo(center);
       // If we have a center but it's the US center, keep zoom low, otherwise zoom in
       map.setZoom(center.lat === 39.8283 ? 4 : 10);

@@ -25,6 +25,7 @@ const LocatorContent = () => {
   const performSearch = async (query?: string, coords?: { lat: number, lng: number }) => {
     setLoading(true);
     setError(null);
+    setSelectedId(null);
     let searchCoords = coords;
 
     try {
