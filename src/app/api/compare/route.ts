@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
         dimensions: `${p.lengthIn}" x ${p.widthIn}" x ${p.depthIn}"`,
         dryWeight: p.dryWeightLbs,
         fullWeight: p.fullWeightLbs,
-        electrical: `${p.electricalAmps || 50}A`,
+        electrical: (typeof p.voltageOptions === 'string' ? p.voltageOptions : JSON.stringify(p.voltageOptions || [])).match(/110|120/) ? '110V/15A or 240V/50A' : '240V/50A',
         insulation: p.insulationType,
       },
       heroImageUrl: p.heroImageUrl,

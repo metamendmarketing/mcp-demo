@@ -229,7 +229,11 @@ export default function ExpertSelectionPass({ preferences, results, currentProdu
                       { icon: Lightning, label: 'Jet System', value: `${getSpec(currentProduct.jetCount)} Jets` },
                       { icon: Waves, label: 'Pump Flow', value: `${getSpec(currentProduct.pumpFlowGpm, '160')} GPM` },
                       { icon: Thermometer, label: 'Sanitation', value: 'ConstantClean™' },
-                      { icon: BatteryCharging, label: 'Electrical', value: `${getSpec(currentProduct.electricalAmps, '50')}A Connection` }
+                      { 
+                        icon: BatteryCharging, 
+                        label: 'Electrical', 
+                        value: (typeof currentProduct?.voltageOptions === 'string' ? currentProduct.voltageOptions : JSON.stringify(currentProduct?.voltageOptions || [])).match(/110|120/) ? '110V/15A or 240V/50A' : '240V/50A' 
+                      }
                     ].map((spec, idx) => (
                       <div key={idx} className="flex gap-3">
                          <div className="bg-white/10 p-2 rounded-lg h-fit shrink-0"><spec.icon className="w-4 h-4 text-marquis-blue" /></div>

@@ -368,6 +368,7 @@ export interface Product {
   fullWeightLbs?: number;
   pumpFlowGpm?: number;
   electricalAmps?: number;
+  voltageOptions?: string[] | string;
   usageTags: string[] | string;
   heroImageUrl?: string;
   overheadImageUrl?: string;
@@ -435,6 +436,9 @@ export default function ProductDetailView({
   const usageTagsData = safeParse(product.usageTags);
   const shellColorsData = safeParse(product.shellColors);
   const cabinetColorsData = safeParse(product.cabinetColors);
+  const parsedVolts = safeParse(product.voltageOptions);
+  const isConvertible = Array.isArray(parsedVolts) ? parsedVolts.some(v => String(v).includes('110') || String(v).includes('120')) : false;
+  const electricalDisplay = isConvertible ? "110V/15A or 240V/50A" : "240V/50A";
 
   // Safe load of recommendations from localStorage if not provided via props
   React.useEffect(() => {
@@ -593,7 +597,7 @@ export default function ProductDetailView({
               <BatteryCharging className="w-6 h-6 text-emerald-500" />
               <div>
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Electrical</div>
-                <div className="text-sm font-black italic uppercase text-slate-700">{product.electricalAmps || 50}A Config</div>
+                <div className="text-sm font-black italic uppercase text-slate-700">{electricalDisplay}</div>
               </div>
             </div>
           </div>
