@@ -86,16 +86,17 @@ export interface ScoredProduct {
   score: number;
   reasons: string[];
   matchStrategy?: string;
-  naturalNarrative?: string;
-  designConsiderations?: string;
+  preferenceSummary?: string;
+  designConsideration?: string;
 }
 
 export interface NarrativeResponse {
   heroTitle: string;
+  preferenceSummary: string;
   hydrotherapy: string;
   climate: string;
   design: string;
   efficiency: string;
-  designConsiderations?: string;
+  designConsideration?: string;
   error?: string;
 }

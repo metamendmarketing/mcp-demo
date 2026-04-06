@@ -396,8 +396,8 @@ export interface ScoredProduct {
   score: number;
   reasons: string[];
   matchStrategy?: string;
-  naturalNarrative?: string;
-  designConsiderations?: string;
+  preferenceSummary?: string;
+  designConsideration?: string;
 }
 
 export interface ProductDetailViewProps {
