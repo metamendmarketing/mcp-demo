@@ -84,6 +84,7 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
       score += 15;
       reasons.push(`A generous ${seats}-seater that balances your high-capacity needs with efficient engineering.`);
     } else if (diff >= 3) {
+      // Keep safety penalty for extreme mismatches (preventing 5-seats in a 10-person search)
       score -= (diff * 10);
     }
 
