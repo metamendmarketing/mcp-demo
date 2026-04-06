@@ -135,8 +135,8 @@ Output strictly valid JSON:
           return {
             ...original,
             matchStrategy: refinedItem.matchStrategy,
-            naturalNarrative: refinedItem.naturalNarrative,
-            designConsiderations: refinedItem.designConsiderations
+            preferenceSummary: refinedItem.preferenceSummary,
+            designConsideration: refinedItem.designConsideration
           };
         }).filter(Boolean);
 
