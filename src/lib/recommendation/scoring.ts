@@ -71,12 +71,20 @@ export function scoreProducts(products: any[], preferences: UserPreferences): Sc
     if (diff === 0) {
       score += 45;
       reasons.push(`Precision-matched for your target occupancy of ${targetCapacity} guests.`);
-    } else if (diff <= 1) {
+    } else if (diff === 1) {
       score += 35;
-      reasons.push(`Highly optimized ${seats}-seat configuration aligns with your ${targetCapacity}-person capacity goal.`);
-    } else if (seats > targetCapacity && seats <= targetCapacity + 2) {
+      reasons.push(`Highly optimized ${seats}-seat configuration closely aligns with your ${targetCapacity}-person capacity goal.`);
+    } else if (targetCapacity >= 8 && seats >= 7) {
+      score += 30;
+      reasons.push(`Maximizes available space with a flagship ${seats}-seat capacity to best accommodate large groups.`);
+    } else if (seats > targetCapacity && diff === 2) {
       score += 25;
       reasons.push(`Spacious ${seats}-seat blueprint offers additional seating margin for social versatility.`);
+    } else if (targetCapacity > seats && diff === 2) {
+      score += 15;
+      reasons.push(`A generous ${seats}-seater that balances your high-capacity needs with efficient engineering.`);
+    } else if (diff >= 3) {
+      score -= (diff * 10);
     }
 
     // 2. Budget / Ownership Intent (Max 50 points)
