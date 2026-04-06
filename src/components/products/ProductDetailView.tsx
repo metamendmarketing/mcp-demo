@@ -486,10 +486,21 @@ export default function ProductDetailView({
   // Layered Narrative Fallback:
   // 1. Full AI Narrative (Detailed background fetch)
   // 2. Search Result Narrative (Immediate data from the Wizard results)
-  // 3. Static Marketing Summary (DB record)
-  // 4. Default Generic Fallback
-  const currentMatch = recommendations.find(r => String(r.product.id) === String(product.id));
-  const effectiveSummary = aiNarrative?.preferenceSummary || currentMatch?.preferenceSummary || product.marketingSummary || "We chose this model based on your specific hydrotherapy and capacity requirements.";
+  // 3. Legacy Field Support (Handling localStorage migrations)
+  // 4. Static Marketing Summary (DB record)
+  // 5. Hardcoded Fallback
+  const currentMatch = recommendations.find(r => 
+    String(r.product.id) === String(product.id) || 
+    String(r.product.slug) === String(product.slug)
+  );
+
+  const effectiveSummary = 
+    aiNarrative?.preferenceSummary || 
+    currentMatch?.preferenceSummary || 
+    (currentMatch as any)?.naturalNarrative || 
+    product.marketingSummary || 
+    product.therapySummary ||
+    "We chose this model based on your specific hydrotherapy and capacity requirements.";
 
   const displayNarrative = mode === 'influenced' ? {
     heroTitle: aiNarrative?.heroTitle || product.modelName,
@@ -498,7 +509,7 @@ export default function ProductDetailView({
     climate: aiNarrative?.climate || "Synthesizing your personalized profile...",
     design: aiNarrative?.design || "Synthesizing your personalized profile...",
     efficiency: aiNarrative?.efficiency || "Synthesizing your personalized profile...",
-    designConsideration: aiNarrative?.designConsideration || currentMatch?.designConsideration
+    designConsideration: aiNarrative?.designConsideration || currentMatch?.designConsideration || (currentMatch as any)?.designConsiderations
   } : {
     heroTitle: product.staticHeroTitle || product.modelName,
     preferenceSummary: product.therapySummary,
