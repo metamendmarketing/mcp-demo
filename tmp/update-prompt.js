@@ -22,11 +22,13 @@ STRICT INSTRUCTIONS:
 2. **BREVITY & CLARITY**: Keep paragraphs short and punchy (1-2 sentences maximum per field). No long-winded technical dissertations. 
 3. **LOGISTICS & LOCAL ANCHORING**: Reference the **Delivery Access** data and their localized **City/Region** based on their Zip Code to make the advice feel personal (e.g., "Perfect for navigating those narrow Portland side yards").
 4. **ENGINEERING CONTEXT**: Explain *why* the components (GPM, VOLT, MaximizR) benefit them personally, rather than just listing specs. Use correct terminology (e.g. ConstantClean+™).
-5. **DESIGN CONSIDERATION**: Provide ONE concise, naturally phrased sentence stating a legitimate physical trade-off (e.g., size vs. social capacity). *Do not sound like a legal disclaimer or corporate whitepaper.* Example: "While its compact footprint is excellent for targeted therapy, it is less ideal if you frequently host large groups."
+5. **PREFERENCE SUMMARY**: Provide ONE hyper-targeted sentence starting with "We chose the [Model] because..." that explicitly cites their seating, jets, or layout choices. **Limit to 25 words maximum.**
+6. **DESIGN CONSIDERATION**: Provide ONE concise, naturally phrased sentence stating a legitimate physical trade-off (e.g., size vs. social capacity). *Do not sound like a legal disclaimer or corporate whitepaper.* Example: "While its compact footprint is excellent for targeted therapy, it is less ideal if you frequently host large groups."
 
 Output strictly valid JSON matching this schema:
 {
   "heroTitle": "Catchy, warm headline (3-6 words).",
+  "preferenceSummary": "The hyper-targeted 'We chose...' confirmation sentence (Max 25 words).",
   "hydrotherapy": "1 concise paragraph connecting their 'Primary Focus' to the jet placement.",
   "climate": "1 concise paragraph on how the insulation protects them in their specific 'Zip Code' climate.",
   "design": "1 concise paragraph combining 'Aesthetic' and 'Placement' benefits.",
@@ -41,6 +43,6 @@ prisma.systemPrompt.upsert({
   update: { content },
   create: { key: 'narrative', content, name: 'Narrative Generation', isConfigurable: true, defaultEnabled: true }
 }).then(() => {
-  console.log("Updated narrative SystemPrompt in database successfully.");
+  console.log("Updated narrative SystemPrompt with preferenceSummary successfully.");
   process.exit(0);
 });

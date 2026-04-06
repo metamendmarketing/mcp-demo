@@ -403,7 +403,15 @@ export interface ScoredProduct {
 export interface ProductDetailViewProps {
   product: Product;
   mode: 'static' | 'influenced';
-  aiNarrative?: any;
+  aiNarrative?: {
+    heroTitle?: string;
+    preferenceSummary?: string;
+    hydrotherapy?: string;
+    climate?: string;
+    design?: string;
+    efficiency?: string;
+    designConsideration?: string;
+  };
   reasons?: string[];
   preferences?: any;
   onBack?: () => void;
@@ -477,6 +485,7 @@ export default function ProductDetailView({
 
   const displayNarrative = mode === 'influenced' ? {
     heroTitle: aiNarrative?.heroTitle || product.modelName,
+    preferenceSummary: aiNarrative?.preferenceSummary || "We chose this model based on your specific hydrotherapy and capacity requirements.",
     hydrotherapy: aiNarrative?.hydrotherapy || "Synthesizing your personalized profile...",
     climate: aiNarrative?.climate || "Synthesizing your personalized profile...",
     design: aiNarrative?.design || "Synthesizing your personalized profile...",
@@ -484,6 +493,7 @@ export default function ProductDetailView({
     designConsideration: aiNarrative?.designConsideration
   } : {
     heroTitle: product.staticHeroTitle || product.modelName,
+    preferenceSummary: product.therapySummary,
     hydrotherapy: product.staticHydrotherapy,
     climate: product.staticClimate,
     design: product.staticDesign,
@@ -624,11 +634,13 @@ export default function ProductDetailView({
         <div className="lg:w-1/2 bg-blue-50/40 p-8 rounded-[32px] border border-blue-100/50 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6">
             <Heart className="w-5 h-5 text-marquis-blue" />
-            <h4 className="text-xl font-black italic uppercase text-slate-800">Therapy Objective</h4>
+            <h4 className="text-xl font-black italic uppercase text-slate-800">
+              {mode === 'influenced' ? 'Your Selection' : 'Therapy Objective'}
+            </h4>
           </div>
 
           <p className="text-sm md:text-base text-slate-600 font-semibold leading-relaxed italic mb-8">
-            "{product.therapySummary || (
+            "{displayNarrative.preferenceSummary || (
               product.series?.name === 'Crown' ? 'The ultimate in hydrotherapy and wellness engineering, designed for complete physical and mental rejuvenation.' :
                 product.series?.name?.includes('Vector') ? 'Velocity-optimized hydrotherapy focused on precise control and high-volume flow for targeted recovery.' :
                   product.series?.name === 'Marquis Elite' ? 'High-performance hydrotherapy combined with exceptional durability for a professional-grade home spa experience.' :
