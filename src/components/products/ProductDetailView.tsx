@@ -498,8 +498,6 @@ export default function ProductDetailView({
     aiNarrative?.preferenceSummary || 
     currentMatch?.preferenceSummary || 
     (currentMatch as any)?.naturalNarrative || 
-    product.marketingSummary || 
-    product.therapySummary ||
     "We chose this model based on your specific hydrotherapy and capacity requirements.";
 
   const displayNarrative = mode === 'influenced' ? {
