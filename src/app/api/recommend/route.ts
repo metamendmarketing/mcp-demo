@@ -126,10 +126,18 @@ Output strictly valid JSON:
         const result = await model.generateContent(prompt);
         const text = result.response.text();
 
-        const refinedData = JSON.parse(text);
-        console.log(`[API] AI refined ${refinedData.refinement?.length} products from pool.`);
+        // Robust JSON extraction
+        let cleanJson = text;
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          cleanJson = jsonMatch[0];
+        }
 
-        const finalResults = refinedData.refinement.map((refinedItem: any) => {
+        const refinedData = JSON.parse(cleanJson);
+        const refinedList = refinedData.refinement || [];
+        console.log(`[API] AI refined ${refinedList.length} products from pool.`);
+
+        const finalResults = refinedList.map((refinedItem: any) => {
           const original = shortList.find(c => String(c.product.id) === String(refinedItem.id));
           if (!original) return null;
           return {
