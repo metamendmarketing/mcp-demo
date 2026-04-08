@@ -815,7 +815,7 @@ function Wizard() {
                              {res.product.seriesName || res.product.series?.name || 'Marquis'} | {res.product.positioningTier?.toUpperCase() || 'ELITE'}
                           </div>
                            <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed text-sm font-medium">
-                             {aiNarrativeRegistry[res.product.slug]?.preferenceSummary || (res as any).preferenceSummary || (res as any).naturalNarrative || res.product.marketingSummary}
+                             {res.product.marketingSummary}
                            </p>
                            <div className="btn-marquis-premium w-full py-4 text-sm rounded-xl font-black italic uppercase shadow-lg shadow-marquis-blue/20 text-center">
                              {loading ? "Loading..." : "Explore this option"}
