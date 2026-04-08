@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { scoreProducts, UserPreferences } from '@/lib/recommendation/scoring';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { generateContentWithRetry } from '@/lib/geminiClient';
 
 /**
  * POST /api/recommend
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
       try {
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ 
-          model: 'gemini-2.5-flash-lite',
+          model: 'gemini-2.5-flash',
           generationConfig: { responseMimeType: "application/json" }
         });
 
