@@ -1,0 +1,10 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+www.marquisspas.com	TRUE	/	FALSE	1999999999	ASP.NET_SessionId	yas5ochojahhg35y5naotjlc
+www.marquisspas.com	TRUE	/	FALSE	1999999999	SameSite	Lax
+www.asam.org	TRUE	/	FALSE	1999999999	sf-data-intell-subject	1774143026719-e1770d1b-c1ec-499b-adc0-5f326fbc8345-sf
+www.asam.org	TRUE	/	FALSE	1999999999	sf-ins-ssid	1774143026750-98c12fc4-6414-4d4d-97d8-3b5b24c01dea-sf
+www.asam.org	TRUE	/	FALSE	1999999999	SameSite	None
+.cdc.gov	TRUE	/	FALSE	1999999999	akamai_visit_id	77951eb843027335a8b5
+www.cdc.gov	TRUE	/	FALSE	1999999999	SameSite	None
+
