@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getVertexModel } from '@/lib/vertexClient';
 
 /**
  * POST /api/compare
@@ -67,16 +67,8 @@ export async function POST(req: NextRequest) {
 
     // AI-generated comparison summary (optional, falls back gracefully)
     let aiSummary = null;
-    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-
-    if (apiKey) {
-      try {
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ 
-          model: 'gemini-2.5-flash',
-          generationConfig: { responseMimeType: "application/json" }
-        });
-
+    try {
+      const model = getVertexModel('gemini-2.5-flash');
         // 2. Fetch System Prompt from DB
         const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'compare' } });
         const promptTemplate = systemPrompt?.content || `
@@ -105,13 +97,12 @@ Output strictly valid JSON:
 
 
         const result = await model.generateContent(prompt);
-        const text = result.response.text().replace(/```json/g, '').replace(/```/g, '').trim();
+        const text = (result.response.candidates?.[0]?.content?.parts?.[0]?.text || '{}').replace(/```json/g, '').replace(/```/g, '').trim();
         aiSummary = JSON.parse(text);
       } catch (aiError) {
         console.error('[COMPARE_AI_ERROR]', aiError);
         // Graceful fallback — comparison still works without AI summary
       }
-    }
 
     return NextResponse.json({
       products: comparisonGrid,

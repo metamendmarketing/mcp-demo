@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getVertexModel } from '@/lib/vertexClient';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: Request) {
@@ -75,19 +75,12 @@ export async function POST(request: Request) {
       catalog: catalogSummary
     };
 
-    // 2. Initialize Gemini
-    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-    if (!apiKey) throw new Error('GEMINI_API_KEY is not defined');
-    
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-2.5-flash',
-      generationConfig: { responseMimeType: "application/json" }
-    });
+    try {
+      const model = getVertexModel('gemini-2.5-flash');
 
-    // 2. Fetch System Prompt from DB
-    const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'ask' } });
-    const promptTemplate = systemPrompt?.content || `
+      // 2. Fetch System Prompt from DB
+      const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'ask' } });
+      const promptTemplate = systemPrompt?.content || `
 You have access to the full Marquis product catalog in the knowledge base (under "catalog"), including all models across the Crown, Vector21, Elite, and Celebrity series with their technical specifications. 
 
 Use this data to:
@@ -124,20 +117,25 @@ Output strictly valid JSON:
 }
 `;
 
-    const prompt = promptTemplate
-      .replace('{{KNOWLEDGE_BASE}}', JSON.stringify(knowledgeBase, null, 2))
-      .replace('{{CUSTOMER_PREFERENCES}}', JSON.stringify(preferences || {}, null, 2))
-      .replace('{{USER_QUESTION}}', question);
+      const prompt = promptTemplate
+        .replace('{{KNOWLEDGE_BASE}}', JSON.stringify(knowledgeBase, null, 2))
+        .replace('{{CUSTOMER_PREFERENCES}}', JSON.stringify(preferences || {}, null, 2))
+        .replace('{{USER_QUESTION}}', question);
 
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-    
-    // Extract JSON
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : `{"answer": "${text.replace(/"/g, "'")}"}`);
+      const result = await model.generateContent(prompt);
+      const text = result.response.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+      
+      // Extract JSON
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : `{"answer": "${text.replace(/"/g, "'")}"}`);
 
-    return NextResponse.json(parsed);
+      return NextResponse.json(parsed);
+
+    } catch (aiError: any) {
+      console.error('[ASK_AI_ERROR]', aiError);
+      throw aiError;
+    }
 
   } catch (error: any) {
     console.error('[ASK_API_ERROR]', error);

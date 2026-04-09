@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getVertexModel } from '@/lib/vertexClient';
 import { UserPreferences } from '@/lib/recommendation/scoring';
 import { Product } from '@prisma/client';
 
@@ -22,25 +22,8 @@ export async function POST(request: Request) {
       glossary: marquisBrand?.glossary.map((g: any) => ({ term: g.term, explanation: g.consumerExplanation })) || []
     };
 
-    // Initialize Gemini
-    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-    if (!apiKey) {
-      console.warn("GEMINI_API_KEY is missing. Returning fallback narrative.");
-      return NextResponse.json({ 
-        heroTitle: "Your Perfect Marquis Spa",
-        hydrotherapy: "We have calculated that this Marquis spa is the perfect fit for your lifestyle.",
-        climate: "Your specific location requires specialized consideration.",
-        design: "This spa is aesthetically matched to your home.",
-        efficiency: "Built for peak efficiency."
-      });
-    }
+    const model = getVertexModel('gemini-2.5-flash');
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-2.5-flash',
-      generationConfig: { responseMimeType: "application/json" }
-    });
-    
     // Sanitize product data
     const sanitizedProduct = JSON.parse(
       JSON.stringify(body.product)
@@ -108,7 +91,7 @@ Do not return markdown. Return raw JSON.
 
 
     const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    const responseText = result.response.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     
     // Aggressively extract JSON from the text
     let cleanJson = responseText;

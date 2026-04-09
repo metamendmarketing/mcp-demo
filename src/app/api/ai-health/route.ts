@@ -1,33 +1,26 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getVertexModel } from '@/lib/vertexClient';
 
 export async function GET() {
   try {
-    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+    const model = getVertexModel('gemini-2.5-flash');
     
-    if (!apiKey) {
-        return NextResponse.json({ ok: false, error: "NO_API_KEY_FOUND_IN_ENV" }, { status: 500 });
-    }
-
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-    
+    // Test the enterprise SLA connection
     const result = await model.generateContent("Reply with exactly: OK");
-    const text = result.response.text();
+    const text = result.response.candidates?.[0]?.content?.parts?.[0]?.text || 'FAIL';
 
     return NextResponse.json({
       ok: true,
       text: text.trim(),
-      keySuffix: apiKey.slice(-4),
-      model: "gemini-2.5-flash-lite",
-      environment: process.env.NODE_ENV
+      model: "gemini-2.5-flash (Vertex Enterprise)",
+      environment: process.env.NODE_ENV,
+      authMethod: process.env.VERTEX_CREDENTIALS_JSON ? 'Vercel Env' : 'Local JSON'
     });
   } catch (err: any) {
     return NextResponse.json({
       ok: false,
-      status: err?.status,
       message: err?.message || err.toString(),
-      keySuffix: (process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY)?.slice(-4) || 'NONE'
+      stack: err.stack
     }, { status: 500 });
   }
 }

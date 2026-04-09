@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { scoreProducts, UserPreferences } from '@/lib/recommendation/scoring';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { generateContentWithRetry } from '@/lib/geminiClient';
+import { getVertexModel } from '@/lib/vertexClient';
 
 /**
  * POST /api/recommend
@@ -54,27 +53,20 @@ export async function POST(req: NextRequest) {
 
     console.log(`[API] Candidate Pool: ${shortList.map(c => c.product.modelName).join(', ')}`);
 
-    // 3. AI Refinement (Gemini)
-    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-    
-    if (apiKey) {
-      try {
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ 
-          model: 'gemini-2.5-flash',
-          generationConfig: { responseMimeType: "application/json" }
-        });
+    // 3. AI Refinement (Vertex Enterprise)
+    try {
+      const model = getVertexModel('gemini-2.5-flash');
 
-        const knowledgeBase = {
-          expertise: marquisBrand?.expertise.map((e: any) => ({ key: e.key, content: e.content })) || [],
-          glossary: marquisBrand?.glossary.map((g: any) => ({ term: g.term, explanation: g.consumerExplanation })) || []
-        };
+      const knowledgeBase = {
+        expertise: marquisBrand?.expertise.map((e: any) => ({ key: e.key, content: e.content })) || [],
+        glossary: marquisBrand?.glossary.map((g: any) => ({ term: g.term, explanation: g.consumerExplanation })) || []
+      };
 
-        const rules = require('@/lib/recommendation/scoring-rules.json');
-        
-        // 3. Fetch System Prompt from DB
-        const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'recommend' } });
-        const promptTemplate = systemPrompt?.content || `
+      const rules = require('@/lib/recommendation/scoring-rules.json');
+      
+      // 3. Fetch System Prompt from DB
+      const systemPrompt = await (prisma as any).systemPrompt.findUnique({ where: { key: 'recommend' } });
+      const promptTemplate = systemPrompt?.content || `
 You are a Marquis Hot Tub Advisor. We have a pool of candidates filtered by our engineering engine.
 Your job: Be the FINAL DECISION MAKER. Select the TOP 4 that best fit their lifestyle and provide a technical "Match Strategy" and a "Natural Narrative".
 
@@ -105,66 +97,63 @@ Output strictly valid JSON:
 }
 `;
 
-        const prompt = promptTemplate
-          .replace('{{ENGINEERING_CONSTRAINTS}}', JSON.stringify(rules))
-          .replace('{{BRAND_KNOWLEDGE}}', JSON.stringify(knowledgeBase))
-          .replace('{{USER_PREFERENCES}}', JSON.stringify(body.preferences))
-          .replace('{{CANDIDATE_POOL}}', JSON.stringify(shortList.map(c => ({
-            id: String(c.product.id),
-            name: c.product.modelName,
-            series: c.product.series?.name,
-            category: c.product.category,
-            tier: c.product.positioningTier,
-            score: c.score,
-            gpm: c.product.pumpFlowGpm,
-            jets: c.product.jetCount,
-            dims: `${c.product.lengthIn}x${c.product.widthIn}x${c.product.depthIn}`,
-            hotspots: typeof c.product.hotspots === 'string' ? JSON.parse(c.product.hotspots) : (c.product.hotspots || []),
-            features: typeof c.product.standardFeatures === 'string' ? JSON.parse(c.product.standardFeatures) : (c.product.standardFeatures || []),
-            summary: c.product.marketingSummary
-          }))));
+      const prompt = promptTemplate
+        .replace('{{ENGINEERING_CONSTRAINTS}}', JSON.stringify(rules))
+        .replace('{{BRAND_KNOWLEDGE}}', JSON.stringify(knowledgeBase))
+        .replace('{{USER_PREFERENCES}}', JSON.stringify(body.preferences))
+        .replace('{{CANDIDATE_POOL}}', JSON.stringify(shortList.map(c => ({
+          id: String(c.product.id),
+          name: c.product.modelName,
+          series: c.product.series?.name,
+          category: c.product.category,
+          tier: c.product.positioningTier,
+          score: c.score,
+          gpm: c.product.pumpFlowGpm,
+          jets: c.product.jetCount,
+          dims: `${c.product.lengthIn}x${c.product.widthIn}x${c.product.depthIn}`,
+          hotspots: typeof c.product.hotspots === 'string' ? JSON.parse(c.product.hotspots) : (c.product.hotspots || []),
+          features: typeof c.product.standardFeatures === 'string' ? JSON.parse(c.product.standardFeatures) : (c.product.standardFeatures || []),
+          summary: c.product.marketingSummary
+        }))));
 
-        const result = await model.generateContent(prompt);
-        const text = result.response.text();
+      const result = await model.generateContent(prompt);
+      const text = result.response.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
 
-        // Robust JSON extraction
-        let cleanJson = text;
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          cleanJson = jsonMatch[0];
-        }
-
-        const refinedData = JSON.parse(cleanJson);
-        const refinedList = refinedData.refinement || [];
-        console.log(`[API] AI refined ${refinedList.length} products from pool.`);
-
-        const finalResults = refinedList.map((refinedItem: any) => {
-          const original = shortList.find(c => String(c.product.id) === String(refinedItem.id));
-          if (!original) return null;
-          return {
-            ...original,
-            matchStrategy: refinedItem.matchStrategy,
-            preferenceSummary: refinedItem.preferenceSummary,
-            designConsideration: refinedItem.designConsideration
-          };
-        }).filter(Boolean);
-
-        if (finalResults.length > 0) {
-          // Final Relative Re-scaling
-          const maxScore = Math.max(...finalResults.map((r: any) => r.score || 0));
-          const anchoredResults = finalResults.map((r: any) => ({
-            ...r,
-            score: maxScore > 0 ? Math.round(((r.score || 0) / maxScore) * 100) : 100
-          }));
-
-          anchoredResults.sort((a: any, b: any) => (b.score || 0) - (a.score || 0));
-          return NextResponse.json({ results: anchoredResults });
-        }
-      } catch (aiError: any) {
-        console.error('[API] AI Refinement failed:', aiError);
+      // Robust JSON extraction
+      let cleanJson = text;
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        cleanJson = jsonMatch[0];
       }
-    } else {
-      console.warn("[API] GEMINI_API_KEY missing. Falling back to heuristic Top 4.");
+
+      const refinedData = JSON.parse(cleanJson);
+      const refinedList = refinedData.refinement || [];
+      console.log(`[API] AI refined ${refinedList.length} products from pool.`);
+
+      const finalResults = refinedList.map((refinedItem: any) => {
+        const original = shortList.find(c => String(c.product.id) === String(refinedItem.id));
+        if (!original) return null;
+        return {
+          ...original,
+          matchStrategy: refinedItem.matchStrategy,
+          preferenceSummary: refinedItem.preferenceSummary,
+          designConsideration: refinedItem.designConsideration
+        };
+      }).filter(Boolean);
+
+      if (finalResults.length > 0) {
+        // Final Relative Re-scaling
+        const maxScore = Math.max(...finalResults.map((r: any) => r.score || 0));
+        const anchoredResults = finalResults.map((r: any) => ({
+          ...r,
+          score: maxScore > 0 ? Math.round(((r.score || 0) / maxScore) * 100) : 100
+        }));
+
+        anchoredResults.sort((a: any, b: any) => (b.score || 0) - (a.score || 0));
+        return NextResponse.json({ results: anchoredResults });
+      }
+    } catch (aiError: any) {
+      console.error('[API] AI Refinement failed:', aiError);
     }
 
     // Final Fallback: Shortlist Top 4
