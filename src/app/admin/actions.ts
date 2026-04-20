@@ -20,7 +20,7 @@ export async function login(formData: FormData) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 60 * 24, // 1 day
-      path: '/',
+      path: '/mcp/demo',
     });
     redirect('/admin');
   }

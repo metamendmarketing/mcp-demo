@@ -52,6 +52,11 @@ const nextConfig = {
       },
     ];
   },
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['demos.metamend.ca'],
+    },
+  },
 };
 
 export default nextConfig;

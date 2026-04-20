@@ -45,3 +45,4 @@ next-env.d.ts
 backups/
 /tmp/
 vertex-key.json
+.env*.local
